@@ -106,7 +106,7 @@ if (require(multcomp)) {
          teststat = "maxtype",
          xtrafo = function(data)
              trafo(data, factor_trafo = function(x)
-                 model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))
+                 model.matrix(~ x - 1) \%*\% t(contrMat(table(x), "Tukey"))
              ),
          ytrafo = function(data)
              trafo(data, numeric_trafo = rank, block = RoundingTimes$block)
