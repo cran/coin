@@ -1,0 +1,67 @@
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.1  (2004-11-15), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### Regression tests for the correlation problem, i.e.,
+> ### testing the independence of two numeric variables 
+> ### `x' and `y' (possibly blocked)
+> 
+> set.seed(290875)
+> library(coin)
+Loading required package: survival 
+Loading required package: splines 
+Loading required package: mvtnorm 
+> isequal <- coin:::isequal
+> 
+> ### generate data
+> dat <- data.frame(x = rnorm(100), y = rnorm(100), block = gl(10, 10))
+> 
+> ### not really the same, T = (rank(x) - rank(y))^2 is used here
+> cor.test(~ x + y, data = dat, method = "spearman")$p.value
+[1] 0.84738
+> cor.test(~ x + y, data = dat, alternative = "less", method = "spearman")$p.value
+[1] 0.5763332
+> cor.test(~ x + y, data = dat, alternative = "greater", method = "spearman")$p.value
+[1] 0.42369
+> 
+> ### without blocks
+> pvalue(spearman_test(y ~ x, data = dat))
+[1] 0.846517
+> pvalue(spearman_test(x ~ y, data = dat))
+[1] 0.846517
+> pvalue(spearman_test( ~ y + x, data = dat))
+[1] 0.846517
+> pvalue(spearman_test( ~ x + y, data = dat))
+[1] 0.846517
+> 
+> ### with blocks
+> pvalue(spearman_test(y ~ x | block, data = dat))
+[1] 0.8901013
+> pvalue(spearman_test(x ~ y | block, data = dat))
+[1] 0.8901013
+> pvalue(spearman_test( ~ y + x | block, data = dat))
+[1] 0.8901013
+> pvalue(spearman_test( ~ x + y | block, data = dat))
+[1] 0.8901013
+> 
+> ### sanity checks, those should be errors
+> dat <- data.frame(x = gl(2, 50), y = rnorm(100), block = rnorm(100))
+> try(spearman_test(y ~ x, data = dat))
+Error in check(itp) : 'object' does not represent a univariate correlation problem
+> try(spearman_test(y ~ x | block, data = dat))
+Error in checkSlotAssignment(object, name, value) : 
+	Assignment of an object of class "numeric" is not valid for slot "block" in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+> 

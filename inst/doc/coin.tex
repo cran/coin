@@ -1,0 +1,487 @@
+
+\documentclass[letter]{article}
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+
+%%\VignetteIndexEntry{coin: A Computational Framework for Conditional Inference}
+
+\input{head}
+
+\hypersetup{%
+  pdftitle = {coin: A Computational Framework for Conditional Inference},
+  pdfsubject = {Manuscript},
+  pdfauthor = {Torsten Hothorn, Kurt Hornik, 
+               Mark van de Wiel and Achim Zeileis},
+%% change colorlinks to false for pretty printing
+  colorlinks = {true},
+  linkcolor = {blue},
+  citecolor = {blue},
+  urlcolor = {red},
+  hyperindex = {true},
+  linktocpage = {true},
+}
+
+
+\usepackage{/usr/local/lib/R/share/texmf/Sweave}
+\begin{document}
+
+\title{\texttt{coin}: A Computational Framework for Conditional Inference}
+\author{Torsten Hothorn$^1$, Kurt Hornik$^2$, Mark van de Wiel$^3$ \\
+        and Achim Zeileis$^2$}
+\date{}
+\maketitle
+
+\noindent$^1$Institut f\"ur Medizininformatik, Biometrie und Epidemiologie\\
+     Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg\\
+     Waldstra{\ss}e 6, D-91054 Erlangen, Germany \\
+     \texttt{Torsten.Hothorn@R-project.org}
+\newline
+
+\noindent$^2$Institut f\"ur Statistik und Mathematik,
+             Wirtschaftsuniversit\"at Wien \\
+       Augasse 2-6, A-1090 Wien, Austria \\
+       \texttt{Kurt.Hornik@R-project.org} \\
+       \texttt{Achim.Zeileis@R-project.org} 
+\newline
+
+\noindent$^3$ Department of Mathematics and Computer Science \\
+              Eindhoven University of Technology \\
+              HG 9.25, P.O. Box 513 \\
+              5600 MB Eindhoven, The Netherlands \\
+              \texttt{markvdw@win.tue.nl}
+\newline
+
+
+\section{Introduction}
+
+The \texttt{coin} package implements a unified approach for conditional
+inference procedures commonly known as \textit{permutation tests}.
+The theoretical basis of design and implementation is the unified 
+framework for permutation tests given by \cite{StrasserWeber1999}. For a
+very flexible formulation of multivariate linear statistics,
+\cite{StrasserWeber1999} derived the conditional expectation and covariance
+of the conditional (permutation) distribution as well as the multivariate 
+limiting distribution. 
+
+
+Conditional counterparts of a large amount of classical (unconditional) 
+test procedures for 
+continuous, categorical and censored data are part of this framework, for
+example the Cochran-Mantel-Haenszel test for independence in general
+contingency tables, linear association tests for ordered categorical 
+data, linear rank tests and multivariate permutation tests.
+
+The conceptual framework of permutation tests by \cite{StrasserWeber1999}
+for arbitrary problems is available via the generic
+\texttt{independence\_test}. Because convenience functions for the most
+prominent problems are available, users will not have to use this
+extremely flexible procedure. Currently, the conditional variants of the 
+following test procedures are available: 
+\begin{center}
+\begin{tabular}{ll}
+\texttt{oneway\_test} & two- and $K$-sample permutation test \\
+\texttt{wilcox\_test} & Wilcoxon-Mann-Whitney rank sum test \\
+\texttt{normal\_test} & van der Waerden normal quantile test \\
+\texttt{median\_test} & Median test \\
+\texttt{kruskal\_test} & Kruskal-Wallis test \\
+\texttt{ansari\_test} & Ansari-Bradley test \\
+\texttt{fligner\_test} & Fligner-Killeen test \\
+\texttt{chisq\_test} & Pearson's $\chi^2$ test \\
+\texttt{cmh\_test} & Cochran-Mantel-Haenszel test \\
+\texttt{lbl\_test} & linear-by-linear association test \\
+\texttt{surv\_test} & two- and $K$-sample logrank test \\
+\texttt{maxstat\_test} & maximally selected statistics) \\
+\texttt{spearman\_test} & Spearman's test \\
+\texttt{friedman\_test} & Friedman test \\
+\texttt{wilcoxsign\_test} & Wilcoxon-Signed-Rank test \\
+\texttt{mh\_test} &  marginal homogeneity test. \\
+\end{tabular}
+\end{center}
+
+Those convenience functions essentially perform a certain transformation of
+the data, e.g., a rank transformation, and call \texttt{independence\_test}
+for the computation of linear statistics, expectation and covariance and the
+test statistic as well as 
+their null distribution. The exact null distribution can
+be approximated either by the asymptotic distribution or via conditional
+Monte-Carlo for all test procedures, the exact null distribution is
+available for special cases. Moreover, all test procedures allow for the
+specification of blocks for stratification.
+
+\section{Permutation Tests}
+
+In the following we assume that we are provided with $n$ observations 
+\begin{eqnarray*}
+(\Y_i, \X_i, w_i, b_i), \quad i = 1, \dots, n.
+\end{eqnarray*}
+The variables $\Y$ and $\X$ from sample spaces $\mathcal{Y}$ and
+$\mathcal{X}$ may
+be measured at arbitrary scales and may be multivariate as well. In addition
+to those measurements, case weights $w$ and a factor $b$ coding blocks may
+be available. For the sake of simplicity, we assume $w_i = 1$ and $b_i = 0$
+for all observations $i = 1, \dots, n$ for the moment. 
+
+We are interested in testing the null hypothesis of independence of $\Y$ and
+$\X$
+\begin{eqnarray*}
+H_0: D(\Y | \X) = D(\Y)
+\end{eqnarray*}
+against arbitrary alternatives. \cite{StrasserWeber1999} suggest to derive
+scalar test statistics for testing $H_0$ from multivariate linear statistics
+of the form 
+\begin{eqnarray} \label{linstat}
+\T = \vec\left(\sum_{i = 1}^n w_i g(\X_i) h(\Y_i, (\Y_1, \dots, \Y_n))^\top\right)
+\in \R^{pq}.
+\end{eqnarray}
+Here, $g: \mathcal{X} \rightarrow \R^{p}$ is a transformation of
+the $\X$ measurements and the \emph{influence function}
+$h: \mathcal{Y} \times \mathcal{Y}^n \rightarrow
+\R^q$ depends on the responses $(\Y_1, \dots, \Y_n)$ in a permutation
+symmetric way. We will give specific examples how to choose $g$ and $h$
+later on.
+
+The distribution of $\T$  depends on the joint
+distribution of $\Y$ and $\X$, which is unknown under almost all practical
+circumstances. At least under the null hypothesis one can dispose of this
+dependency by fixing $\X_1, \dots, \X_n$ and conditioning on all possible
+permutations $S$ of the responses $\Y_1, \dots, \Y_n$. 
+This principle leads to test procedures known
+as \textsl{permutation tests}. 
+
+The conditional expectation $\mu \in \R^{pq}$ and covariance 
+$\Sigma \in \R^{pq \times pq}$ 
+of $\T$ under $H_0$ given
+all permutations $\sigma \in S$ of the responses are derived by
+\cite{StrasserWeber1999}:
+\begin{eqnarray}
+\mu & = & \E(\T | S) = \vec \left( \left( \sum_{i = 1}^n w_i g(\X_i) \right) \E(h | S)^\top
+\right), \nonumber \\
+\Sigma & = & \V(\T | S) \nonumber \\
+& = &
+    \frac{\ws}{\ws - 1}  \V(h | S) \otimes
+        \left(\sum_i w_i  g(\X_i) \otimes w_i  g(\X_i)^\top \right)
+\label{expectcovar}
+\\
+& - & \frac{1}{\ws - 1}  \V(h | S)  \otimes \left(
+        \sum_i w_i g(\X_i) \right)
+\otimes \left( \sum_i w_i g(\X_i)\right)^\top
+\nonumber
+\end{eqnarray}
+where $\ws = \sum_{i = 1}^n w_i$ denotes the sum of the case weights,
+and $\otimes$ is the Kronecker product. The conditional expectation of the
+influence function is
+\begin{eqnarray*}
+\E(h | S) = \ws^{-1} \sum_i w_i h(\Y_i, (\Y_1, \dots, \Y_n)) \in
+\R^q
+\end{eqnarray*}
+with corresponding $q \times q$ covariance matrix
+\begin{eqnarray*}
+\V(h | S) = \ws^{-1} \sum_i w_i \left(h(\Y_i, (\Y_1, \dots, \Y_n))
+- \E(h | S)
+\right) \\
+\left(h(\Y_i, (\Y_1, \dots, \Y_n)) - \E(h | S)\right)^\top.
+\end{eqnarray*}
+
+Having the conditional expectation and covariance at hand we are able to
+standardize a linear statistic $\T \in \R^{pq}$ of the form
+(\ref{linstat}). Univariate test statistics~$c$ mapping an observed linear
+statistic $\t \in
+\R^{pq}$ into the real line can be of arbitrary form.  An obvious choice is
+the maximum of the absolute values of the standardized linear statistic
+\begin{eqnarray*}
+c_\text{max}(\t, \mu, \Sigma)  = \max \left| \frac{\t -
+\mu}{\text{diag}(\Sigma)^{1/2}} \right|
+\end{eqnarray*}
+utilizing the conditional expectation $\mu$ and covariance matrix
+$\Sigma$. The application of a quadratic form $c_\text{quad}(\t, \mu,
+\Sigma)  =
+(\t - \mu) \Sigma^+ (\t - \mu)^\top$ is one alternative, although
+computationally more expensive because the Moore-Penrose 
+inverse $\Sigma^+$ of $\Sigma$ is involved.
+
+The conditional distribution and thus the $P$-value
+of the statistics $c(\t, \mu, \Sigma)$ can be
+computed in several different ways. For some special forms of the
+linear statistic, the exact distribution of the test statistic is trackable.
+For two-sample problems, the shift-algorithm by \cite{axact-dist:1986} 
+and \cite{exakte-ver:1987} and the split-up algorithm by 
+\cite{vdWiel2001} are implemented as part of the package.
+Conditional Monte-Carlo procedures can be used to approximate the exact
+distribution. \cite{StrasserWeber1999} proved (Theorem 2.3) that the   
+conditional distribution of linear statistics $\T$ with conditional    
+expectation $\mu$ and covariance $\Sigma$ tends to a multivariate normal
+distribution with parameters $\mu$ and $\Sigma$ as $n, s \rightarrow
+\infty$. Thus, the asymptotic conditional distribution of test statistics of
+the
+form $c_\text{max}$ is normal and
+can be computed directly in the univariate case ($pq = 1$)
+or approximated by means of quasi-randomized Monte-Carlo  
+procedures in the multivariate setting \citep{numerical-:1992}. For
+quadratic forms
+$c_\text{quad}$ which follow a $\chi^2$ distribution with degrees of freedom 
+given by the rank of $\Sigma$ \citep[Theorem 6.20, ][]{Rasch1995}, exact
+probabilities can be computed efficiently.
+
+\section{Illustrations and Applications}
+
+The main workhorse \texttt{independence\_test} essentially allows for the
+specification of $\Y, \X$ and $b$ through a formula interface of the form
+\verb/y ~ x | b/, weights can be defined by a formula with one variable on
+the right hand side only. Four additional arguments are available for the
+specification of the transformation $g$ (\texttt{xtrans}), the influence 
+function $h$ (\texttt{ytrans}), the form of the test statistic $c$ 
+(\texttt{teststat}) and the null distribution (\texttt{distribution}).
+
+\paragraph{Independent $K$-Sample Problems.}
+
+When we want to compare the distribution of an univariate qualitative response 
+$\Y$ in $K$ groups given by a factor $\X$ at $K$ levels, the transformation 
+$g$ is the dummy matrix coding the groups and $h$ is either the identity
+transformation or a some form of rank transformation.
+
+For example, the Kruskal-Wallis test may be computed as follows
+\citep[example taken from][Table 6.3, page 200]{HollanderWolfe1999}:
+
+\begin{Schunk}
+\begin{Sinput}
+> library(coin)
+\end{Sinput}
+\begin{Soutput}
+Loading required package: survival 
+Loading required package: splines 
+Loading required package: mvtnorm 
+\end{Soutput}
+\begin{Sinput}
+> YOY <- data.frame(length = c(46, 28, 46, 37, 32, 
++     41, 42, 45, 38, 44, 42, 60, 32, 42, 45, 58, 27, 
++     51, 42, 52, 38, 33, 26, 25, 28, 28, 26, 27, 27, 
++     27, 31, 30, 27, 29, 30, 25, 25, 24, 27, 30), 
++     site = factor(c(rep("I", 10), rep("II", 10), 
++         rep("III", 10), rep("IV", 10))))
+> it <- independence_test(length ~ site, data = YOY, 
++     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
++     teststat = "quadtype")
+> it
+\end{Sinput}
+\begin{Soutput}
+	Asymptotical General Independence Test
+
+data:  length by groups I, II, III, IV 
+T = 22.8524, df = 3, p-value = 4.335e-05
+\end{Soutput}
+\end{Schunk}
+The linear statistic $\T$ is the sum of the ranks in each group and 
+can be extracted via
+\begin{Schunk}
+\begin{Sinput}
+> statistic(it, "linear")
+\end{Sinput}
+\begin{Soutput}
+    [,1]
+I    278
+II   307
+III  119
+IV   116
+\end{Soutput}
+\end{Schunk}
+Note that \texttt{statistic(..., "linear")} currently returns the linear
+statistic in matrix form, i.e.
+\begin{eqnarray*}
+\sum_{i = 1}^n w_i g(\X_i) h(\Y_i, (\Y_1, \dots, \Y_n))^\top \in \R^{p
+\times q}.
+\end{eqnarray*}
+The conditional expectation and covariance are available from
+\begin{Schunk}
+\begin{Sinput}
+> expectation(it)
+\end{Sinput}
+\begin{Soutput}
+    [,1]
+I    205
+II   205
+III  205
+IV   205
+\end{Soutput}
+\begin{Sinput}
+> covariance(it)
+\end{Sinput}
+\begin{Soutput}
+          [,1]      [,2]      [,3]      [,4]
+[1,] 1019.0385 -339.6795 -339.6795 -339.6795
+[2,] -339.6795 1019.0385 -339.6795 -339.6795
+[3,] -339.6795 -339.6795 1019.0385 -339.6795
+[4,] -339.6795 -339.6795 -339.6795 1019.0385
+\end{Soutput}
+\end{Schunk}
+and the standardized linear statistic $(\T - \mu)\text{diag}(\Sigma)^{-1/2}$
+is
+\begin{Schunk}
+\begin{Sinput}
+> statistic(it, "standardized")
+\end{Sinput}
+\begin{Soutput}
+         [,1]
+I    2.286797
+II   3.195250
+III -2.694035
+IV  -2.788013
+\end{Soutput}
+\end{Schunk}
+Since a quadratic form of the test statistic was requested via
+\texttt{teststat = "quadtype"}, the test statistic is 
+\begin{Schunk}
+\begin{Sinput}
+> statistic(it)
+\end{Sinput}
+\begin{Soutput}
+[1] 22.85242
+\end{Soutput}
+\end{Schunk}
+By default, the asymptotic distribution of the test statistic is computed,
+the $p$-value is
+\begin{Schunk}
+\begin{Sinput}
+> pvalue(it)
+\end{Sinput}
+\begin{Soutput}
+[1] 4.334659e-05
+\end{Soutput}
+\end{Schunk}
+
+Life is much simpler with convenience functions very similar to those
+available in package \texttt{stats} for a long time. The exact
+null distribution of the Kruskal-Wallis test can be approximated by $9999$
+Monte-Carlo replications via
+\begin{Schunk}
+\begin{Sinput}
+> kw <- kruskal_test(length ~ site, data = YOY, distribution = "approx", 
++     B = 9999)
+> kw
+\end{Sinput}
+\begin{Soutput}
+	Approximative Kruskal-Wallis Test
+
+data:  length by groups I, II, III, IV 
+T = 22.8524, p-value < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+with $p$-value (and $99\%$ confidence interval) of 
+\begin{Schunk}
+\begin{Sinput}
+> pvalue(kw)
+\end{Sinput}
+\begin{Soutput}
+[1] 0
+99 percent confidence interval:
+ 0.0000000000 0.0005297444 
+\end{Soutput}
+\end{Schunk}
+Of course it is possible to choose a $c_\text{max}$ type test statistic
+instead of a quadratic form.
+
+\paragraph{Independence in Contingency Tables.}
+
+Independence in general two- or three-dimensional contingency tables can be
+tested by the Cochran-Mantel-Haenszel test. Here, both $g$ and $h$ are dummy
+matrices \citep[example data from][Table 7.8, page 288]{Agresti2002}:
+
+\begin{Schunk}
+\begin{Sinput}
+> data(jobsatisfaction, package = "coin")
+> it <- cmh_test(jobsatisfaction)
+> it
+\end{Sinput}
+\begin{Soutput}
+	Asymptotical Generalised Cochran-Mantel-Haenszel Test
+
+data:  Job.Satisfaction by
+	 groups <5000, 5000-15000, 15000-25000, >25000 
+	 stratified by Gender 
+T = 10.2001, df = 9, p-value = 0.3345
+\end{Soutput}
+\end{Schunk}
+
+The standardized contingency table allowing for an inspection of the
+deviation from the null hypothesis of independence of income and
+jobsatisfaction (stratified by gender) is 
+\begin{Schunk}
+\begin{Sinput}
+> statistic(it, "standardized")
+\end{Sinput}
+\begin{Soutput}
+            Very Dissatisfied A Little Dissatisfied
+<5000               1.3112789            0.69201053
+5000-15000          0.6481783            0.83462550
+15000-25000        -1.0958361           -1.50130926
+>25000             -1.0377629           -0.08983052
+            Moderately Satisfied Very Satisfied
+<5000                 -0.2478705     -0.9293458
+5000-15000             0.5175755     -1.6257547
+15000-25000            0.2361231      1.4614123
+>25000                -0.5946119      1.2031648
+\end{Soutput}
+\end{Schunk}
+
+\paragraph{Ordered Alternatives.}
+
+Of course, both job satisfaction and income are ordered variables. 
+When $\Y$ is measured at $J$ levels and $\X$ at $K$ levels, 
+$\Y$ and $\X$ are associated with score vectors $\xi \in
+\R^J$ and $\gamma \in \R^K$, respectively. The linear statistic is now a linear
+combination of the linear statistic $\T$ of the form
+\begin{eqnarray*}
+\M \T & = & \vec \left( \sum_{i=1}^n w_i \gamma^\top g(\X_i)
+            \left(\xi^\top h(\Y_i, (\Y_1, \dots, \Y_n)\right)^\top \right)
+\in \R \text{ with } \M = \xi \otimes \gamma.
+\end{eqnarray*}
+By default, scores are $\xi = 1, \dots, J$ and $\gamma = 1, \dots, K$.
+\begin{Schunk}
+\begin{Sinput}
+> lbl_test(jobsatisfaction)
+\end{Sinput}
+\begin{Soutput}
+	Asymptotical Linear-by-Linear Association Test
+
+data:  Job.Satisfaction (ordered) by
+	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
+	 stratified by Gender 
+T = 6.6235, df = 1, p-value = 0.01006
+\end{Soutput}
+\end{Schunk}
+The scores $\xi$ and $\gamma$ can be specified to the linear-by-linear
+association test via a list those names correspond to the variable names
+\begin{Schunk}
+\begin{Sinput}
+> lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 
++     3, 4, 5), Income = c(3, 10, 20, 35)))
+\end{Sinput}
+\begin{Soutput}
+	Asymptotical Linear-by-Linear Association Test
+
+data:  Job.Satisfaction (ordered) by
+	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
+	 stratified by Gender 
+T = 6.1563, df = 1, p-value = 0.01309
+\end{Soutput}
+\end{Schunk}
+
+\section{Quality Assurance}
+
+The test procedures implemented in package \texttt{coin} are continuously checked
+against results obtained by the corresponding implementations in package
+\texttt{stats} (where available). In addition, the test statistics and 
+exact, approximative and asymptotic $p$-values for data examples given in the 
+\texttt{StatXact-6} 
+user manual \citep{StatXact6} are compared with the results reported in the
+\texttt{StatXact-6} manual. For details on the test procedures we refer to
+the \textsf{R}-transcript files in directory \texttt{coin/tests}.
+
+
+\bibliographystyle{plainnat}
+\bibliography{coinrefs}
+
+\end{document}
+

@@ -1,0 +1,83 @@
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.1  (2004-11-15), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### Regression tests for the K sample problem, i.e.,
+> ### testing the independence of a numeric variable
+> ### `y' and a factor `x' (possibly blocked)
+> 
+> set.seed(290875)
+> library(coin)
+Loading required package: survival 
+Loading required package: splines 
+Loading required package: mvtnorm 
+> isequal <- coin:::isequal
+> 
+> ### generate data
+> dat <- data.frame(x = gl(4, 25), y = rnorm(100), block = gl(5, 20))[sample(1:100, 50),]
+> 
+> ### Kruskal-Wallis Test
+> 
+> ### asymptotic distribution
+> ptwo <- kruskal.test(y ~ x, data = dat)$p.value
+> 
+> stopifnot(isequal(pvalue(kruskal_test(y ~ x, data = dat)), ptwo))
+> 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
++                                    teststat = "quadtype",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
+> 
+> ### approximated distribution
+> rtwo <- pvalue(kruskal_test(y ~ x, data = dat, distribution = "approx")) / ptwo
+> stopifnot(all(rtwo > 0.9 & 
++               rtwo < 1.1))
+> 
+> ### <FIXME> add block examples </FIXME>
+> 
+> ### sanify checks
+> try(kruskal_test(x ~ y, data = dat))
+Error in check(itp) : 'object' does not represent a K sample problem
+> try(kruskal_test(x ~ y | y, data = dat))
+Error in checkSlotAssignment(object, name, value) : 
+	Assignment of an object of class "numeric" is not valid for slot "block" in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+> 
+> ### Fligner Test 
+> 
+> ### asymptotic distribution
+> ptwo <- fligner.test(y ~ x, data = dat)$p.value                       
+> 
+> stopifnot(isequal(pvalue(fligner_test(y ~ x, data = dat)), ptwo))
+> 
+> dat$yy <- dat$y - tapply(dat$y, dat$x, median)[dat$x]
+> stopifnot(isequal(pvalue(oneway_test(yy ~ x, data = dat, distribution = "asympt", 
++                                    teststat = "quadtype",
++     ytrafo = function(data) trafo(data, numeric_trafo = fligner_trafo))), ptwo))
+> 
+> ### approximated distribution
+> rtwo <- pvalue(fligner_test(y ~ x, data = dat, distribution = "approx")) / ptwo
+> stopifnot(all(rtwo > 0.9 &                     
++               rtwo < 1.1))                     
+> 
+> ### <FIXME> add block examples </FIXME>
+> 
+> ### sanify checks
+> try(fligner_test(x ~ y, data = dat)) 
+Error in FUN(X[[1]], ...) : need numeric data
+> try(fligner_test(x ~ y | y, data = dat))
+Error in checkSlotAssignment(object, name, value) : 
+	Assignment of an object of class "numeric" is not valid for slot "block" in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+> 
+> 

@@ -1,0 +1,120 @@
+\name{ContingencyTests}
+\alias{chisq_test}
+\alias{chisq_test.formula}
+\alias{chisq_test.table}
+\alias{chisq_test.IndependenceProblem}
+\alias{cmh_test.formula}
+\alias{cmh_test.table}
+\alias{cmh_test.IndependenceProblem}
+\alias{cmh_test}
+\alias{lbl_test.formula}
+\alias{lbl_test.table}
+\alias{lbl_test.IndependenceProblem}
+\alias{lbl_test}
+\title{ Independence in Three-Way Contingency Tables }
+\description{
+    Testing the independence of two possibly ordered factors, eventually
+    stratified by a third factor.
+}
+\usage{
+
+\method{cmh_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{cmh_test}{table}(object, distribution = c("asympt", "approx"), ...)
+\method{cmh_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+
+\method{chisq_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{chisq_test}{table}(object, distribution = c("asympt", "approx"), ...)
+\method{chisq_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+
+\method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{lbl_test}{table}(object, distribution = c("asympt", "approx"), ...)
+\method{lbl_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+
+}
+\arguments{
+  \item{formula}{a formula of the form \code{y ~ x | block} where \code{y}
+    and \code{x} are factors (possibly ordered) and \code{block} is an
+    optional factor for stratification.}
+  \item{data}{an optional data frame containing the variables in the
+    model formula.}
+  \item{subset}{an optional vector specifying a subset of observations
+    to be used.}
+  \item{weights}{an optional formula of the form \code{~ w} defining
+    integer valued weights for the observations.}
+  \item{object}{an object inheriting from class \code{"IndependenceProblem"} or an
+    object of class \code{table}.}
+  \item{distribution}{a character, the null distribution of the test statistic
+    can be approximated by its asymptotic distribution (\code{"asympt"}) 
+    or via Monte-Carlo resampling (\code{"approx"}).}
+  \item{\dots}{further arguments to be passed to or from methods.}
+}
+\details{
+
+  The null hypothesis of the independence of \code{y} and \code{x} is
+  tested, \code{block} defines an optional factor for stratification. 
+  \code{chisq_test} implements Pearson's chi-squared test, 
+   \code{cmh_test} the Cochran-Mantel-Haenzsel
+  test and \code{lbl_test} the linear-by-linear association test for ordered
+  data.
+
+  In case either \code{x} or \code{y} are ordered factors, the
+  corresponding linear-by-linear association test is performed by all the
+  procedures.
+  \code{lbl_test} coerces factors to class \code{ordered} under any
+  circumstances. The default scores are \code{1:nlevels(x)} and 
+  \code{1:nlevels(y)}, respectively. The default scores can be changed 
+  via the \code{scores} argument (see \code{\link{independence_test}}), 
+  for example
+  \code{scores = list(y = 1:3, x = c(1, 4, 6))} first triggers a coercion
+  to class \code{ordered} of both variables and attaches the list elements
+  as scores to the corresponding factors. The length of a score vector needs 
+  to be equal the number of levels of the factor of interest.
+
+  The authoritative source for details on the documented test procedures
+  is Agresti (2002).
+
+}
+\value{
+
+  An object inheriting from class \code{\link{IndependenceTest-class}} with
+  methods \code{\link{show}}, \code{\link{statistic}}, \code{\link{expectation}}, 
+  \code{\link{covariance}} and \code{\link{pvalue}}. The null distribution 
+  can be inspected by \code{\link{pperm}}, \code{\link{dperm}},
+  \code{\link{qperm}} and \code{\link{support}} methods.
+
+}
+\references{
+
+    Alan Agresti (2002), \emph{Categorical Data Analysis}. Hoboken, New
+    Jersey: John Wiley & Sons.
+
+}
+\examples{
+
+\dontshow{
+    set.seed(290875)
+}
+
+data(jobsatisfaction, package = "coin")
+
+### for females only
+chisq_test(as.table(jobsatisfaction[,,"Female"]), 
+    distribution = "approx", B = 9999)
+
+### both Income and Job.Satisfaction unordered
+cmh_test(jobsatisfaction)
+
+### both Income and Job.Satisfaction ordered, default scores
+lbl_test(jobsatisfaction)
+
+### both Income and Job.Satisfaction ordered, alternative scores
+lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
+                                        Income = c(3, 10, 20, 35)))
+
+### the same, null distribution approximated
+cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
+                                        Income = c(3, 10, 20, 35)),
+         distribution = "approx", B = 10000)
+
+}
+\keyword{htest}

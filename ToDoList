@@ -1,0 +1,43 @@
+
+o	check spearman_test vs. cor.test
+
+o	formula interface + NA's and weights
+
+o	definition of two-sided p-values in ansari.test contradicts the one
+        used here in some cases (-> regtest_2samples.R)
+
+o	confint() after contrast_test:	how to check if ranks were used???
+	labels of `contrMat' and direction of differences don't match
+
+o	check storage.mode of all vars going into C code (MC)
+
+o	add wilcoxon-gehan scores, check logrank scores!
+
+o	check if trend test for clustered data are part of the framework
+
+o	maximally selected McNemar statistics -> Betensky, Biometrics, 2000
+
+o	visualize deviations from H_0 for all problems (in a way
+	motivated by shaded mosaicplots)
+
+o	mh_test with weights
+
+o	free W1 and W2 in `vandeWiel.c' in case of an error
+
+o	enable confidence intervals in the presence of blocks or weights
+
+o	check whats happening here
+
+	d <- data.frame(y = rnorm(20), x = gl(2, 10))
+	d$y[d$x == "1"] <- d$y[d$x == "1"] * 2
+
+	wt <- ansari_test(y ~ x, data = d, di = "ex", conf.int = TRUE)
+	pvalue(wt)
+
+	confint(wt, level = 1 - pvalue(wt))  
+
+o	Kurt: distribution argument may be character, function or object
+	(including parameters such as B or maxabs)
+
+o	Kurt: trafo as family of transformations (see glm(..., family,...)
+
