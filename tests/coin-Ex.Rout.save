@@ -1,10 +1,12 @@
 
-R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.1  (2004-11-15), ISBN 3-900051-07-0
+R : Copyright 2005, The R Foundation for Statistical Computing
+Version 2.1.0 Under development (unstable) (2005-03-11), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
@@ -29,10 +31,6 @@ Type 'q()' to quit R.
 +            RNGkind("default", "default")
 + 	   set.seed(1)
 +    	   options(warn = 1)
-+ 	   assign("T", delay(stop("T used instead of TRUE")),
-+ 		  pos = .CheckExEnv)
-+ 	   assign("F", delay(stop("F used instead of FALSE")),
-+ 		  pos = .CheckExEnv)
 + 	   sch <- search()
 + 	   newitems <- sch[! sch %in% .oldSearch]
 + 	   for(item in rev(newitems))
@@ -49,9 +47,9 @@ Type 'q()' to quit R.
 > assign("par.postscript", graphics::par(no.readonly = TRUE), env = .CheckExEnv)
 > options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
 > library('coin')
-Loading required package: survival 
-Loading required package: splines 
-Loading required package: mvtnorm 
+Loading required package: survival
+Loading required package: splines
+Loading required package: mvtnorm
 > 
 > assign(".oldSearch", search(), env = .CheckExEnv)
 > assign(".oldNS", loadedNamespaces(), env = .CheckExEnv)
@@ -349,7 +347,7 @@ T = 22.8524, p-value < 2.2e-16
 +     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
 +     print(pvalue(NDWD, adjusted = TRUE))
 + }
-Loading required package: multcomp 
+Loading required package: multcomp
 [1] 0.0004888889
 99 percent confidence interval:
  0.0003199269 0.0007126921 
@@ -727,7 +725,7 @@ T = 11.1429, df = 2, p-value = 0.003805
 +     ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
 +     print(pvalue(rtt, adjusted = TRUE))
 + }
-Loading required package: multcomp 
+Loading required package: multcomp
 [1] 0.00387132
  percent confidence interval:
  0.003609045 0.004133595 
@@ -1393,7 +1391,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  20.67 0.15 20.99 0 0 
+Time elapsed:  24.76 0.13 25.28 0 0 
 > grDevices::dev.off()
 null device 
           1 

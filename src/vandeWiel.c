@@ -9,7 +9,7 @@
       
     *\file $RCSfile: vandeWiel.c,v $
     *\author $Author: hothorn $
-    *\date $Date: 2005/02/23 13:06:31 $
+    *\date $Date: 2005/03/14 11:42:30 $
 */
                     
 #include <R.h>
@@ -156,12 +156,12 @@ void plus(celW **W, celW *tempie, int a, int b) {
     tempie[0].length += k;
 }
 
-void mergesort(celW temptw, long tijd)
+void mymergesort(celW temptw, long tijd)
 {
 
     /*
     
-    mergesort composes one sorted list (increasing exponents of 
+    mymergesort composes one sorted list (increasing exponents of 
     the polynomial) from two separately sorted lists. c1*x^3 + c2*x^5 
     and  c3*x^4 + c4*x^7  becomes  c1*x^3 + c3*x^4 + c2*x^5 + c4*x^7.
 
@@ -240,7 +240,7 @@ void fillcell(celW **W, int i1, int j1, int r, double *rs) {
         mult(&temp2, i1 - 1, j1 - 1, r, rs);                        
         tijd = temp2.length;                                
         plus(W, &temp2, i1, j1);                            
-        mergesort(temp2, tijd);                              
+        mymergesort(temp2, tijd);                              
     }
 
     W[i1][j1].length = temp2.length;

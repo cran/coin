@@ -13,10 +13,6 @@ assign("cleanEx",
            RNGkind("default", "default")
 	   set.seed(1)
    	   options(warn = 1)
-	   assign("T", delay(stop("T used instead of TRUE")),
-		  pos = .CheckExEnv)
-	   assign("F", delay(stop("F used instead of FALSE")),
-		  pos = .CheckExEnv)
 	   sch <- search()
 	   newitems <- sch[! sch %in% .oldSearch]
 	   for(item in rev(newitems))

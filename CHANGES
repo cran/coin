@@ -1,0 +1,8 @@
+
+
+		CHANGES IN `coin' VERSION 0.2-9
+
+    o	`mergesort' is already defined in `/usr/include/stdlib.h:270' on
+	some platforms.
+
+    o	`delay' is deprecated in R 2.1.0
