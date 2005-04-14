@@ -36,6 +36,35 @@ for f in ./inst/doc/*~; do
     rm -f $f
 done
 
+for f in ./inst/doc/coin.tex; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.log; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.out; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.bbl; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.blg; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.brf; do
+    rm -f $f
+done
+
+for f in ./inst/doc/*.aux; do
+    rm -f $f
+done
+
+
 find . -name "DEADJOE" -exec rm -f {} \;
 
 exit 0

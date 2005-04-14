@@ -106,6 +106,7 @@ setMethod(f = "ExactNullDistribution",
 
               if (is_2sample(object)) 
                   return(SR_shift_2sample(object))
+              error(sQuote("object"), " is not a two sample problem")
 
           }
 )

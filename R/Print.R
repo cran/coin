@@ -48,7 +48,7 @@ setMethod(f = "show", signature = "QuadTypeIndependenceTest",
         cld <- class(dist)
         attributes(cld) <- NULL
         distname <- switch(cld,
-            "AsymptNullDistribution" = "Asymptotical",
+            "AsymptNullDistribution" = "Asymptotic",
             "ApproxNullDistribution" = "Approximative",
             "ExactNullDistribution" = "Exact") 
 
@@ -80,7 +80,7 @@ setMethod(f = "show", signature = "MaxTypeIndependenceTest",
         cld <- class(dist)
         attributes(cld) <- NULL
         distname <- switch(cld,
-            "AsymptNullDistribution" = "Asymptotical",
+            "AsymptNullDistribution" = "Asymptotic",
             "ApproxNullDistribution" = "Approximative",
             "ExactNullDistribution" = "Exact")
 
@@ -110,7 +110,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTest",
         cld <- class(dist)
         attributes(cld) <- NULL
         distname <- switch(cld,
-            "AsymptNullDistribution" = "Asymptotical",
+            "AsymptNullDistribution" = "Asymptotic",
             "ApproxNullDistribution" = "Approximative",
             "ExactNullDistribution" = "Exact")
 
@@ -138,7 +138,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTestConfint",
         cld <- class(dist)
         attributes(cld) <- NULL
         distname <- switch(cld,
-            "AsymptNullDistribution" = "Asymptotical",
+            "AsymptNullDistribution" = "Asymptotic",
             "ApproxNullDistribution" = "Approximative",
             "ExactNullDistribution" = "Exact")
 

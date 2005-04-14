@@ -57,7 +57,9 @@ setMethod(f = "initialize",
         q <- ncol(.Object@ytrans)
         .Object@scores <- diag(p * q)
 
-        if ((ncol(x) > 1 || ncol(y) > 1) && any(xfact || yfact)) {
+        if (((ncol(x) > 1 && ncol(tr$xtrafo) > 1) || 
+             (ncol(y) > 1 && ncol(tr$ytrafo) > 1)) && 
+             any(xfact || yfact)) {
             colnames(.Object@xtrans) <- paste(
                 rep(colnames(x), table(attr(.Object@xtrans, "assign"))), 
                     colnames(.Object@xtrans), sep = ".")

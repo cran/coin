@@ -95,7 +95,7 @@ following test procedures are available:
 \texttt{cmh\_test} & Cochran-Mantel-Haenszel test \\
 \texttt{lbl\_test} & linear-by-linear association test \\
 \texttt{surv\_test} & two- and $K$-sample logrank test \\
-\texttt{maxstat\_test} & maximally selected statistics) \\
+\texttt{maxstat\_test} & maximally selected statistics \\
 \texttt{spearman\_test} & Spearman's test \\
 \texttt{friedman\_test} & Friedman test \\
 \texttt{wilcoxsign\_test} & Wilcoxon-Signed-Rank test \\
@@ -190,22 +190,22 @@ with corresponding $q \times q$ covariance matrix
 Having the conditional expectation and covariance at hand we are able to
 standardize a linear statistic $\T \in \R^{pq}$ of the form
 (\ref{linstat}). Univariate test statistics~$c$ mapping an observed linear
-statistic $\t \in
+statistic $\mathbf{t} \in
 \R^{pq}$ into the real line can be of arbitrary form.  An obvious choice is
 the maximum of the absolute values of the standardized linear statistic
 \begin{eqnarray*}
-c_\text{max}(\t, \mu, \Sigma)  = \max \left| \frac{\t -
+c_\text{max}(\mathbf{t}, \mu, \Sigma)  = \max \left| \frac{\mathbf{t} -
 \mu}{\text{diag}(\Sigma)^{1/2}} \right|
 \end{eqnarray*}
 utilizing the conditional expectation $\mu$ and covariance matrix
-$\Sigma$. The application of a quadratic form $c_\text{quad}(\t, \mu,
+$\Sigma$. The application of a quadratic form $c_\text{quad}(\mathbf{t}, \mu,
 \Sigma)  =
-(\t - \mu) \Sigma^+ (\t - \mu)^\top$ is one alternative, although
+(\mathbf{t} - \mu) \Sigma^+ (\mathbf{t} - \mu)^\top$ is one alternative, although
 computationally more expensive because the Moore-Penrose 
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
 The conditional distribution and thus the $P$-value
-of the statistics $c(\t, \mu, \Sigma)$ can be
+of the statistics $c(\mathbf{t}, \mu, \Sigma)$ can be
 computed in several different ways. For some special forms of the
 linear statistic, the exact distribution of the test statistic is trackable.
 For two-sample problems, the shift-algorithm by \cite{axact-dist:1986} 

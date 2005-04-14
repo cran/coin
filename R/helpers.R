@@ -208,13 +208,15 @@ is_2sample <- function(object) {
     groups <- ((ncol(object@x) == 1 && is.factor(object@x[[1]])) && 
                 nlevels(object@x[[1]]) == 2)
     groups <- groups && ncol(object@xtrans) == 1
-    values <- (ncol(object@y) == 1 && ncol(object@ytrans) == 1)
+#    values <- (ncol(object@y) == 1 && ncol(object@ytrans) == 1)
+    values <- ncol(object@ytrans) == 1
     return(groups && values)
 }
 
 is_Ksample <- function(object) {
     groups <- (ncol(object@x) == 1 && is.factor(object@x[[1]]))
-    values <- (ncol(object@y) == 1 && ncol(object@ytrans) == 1)
+#    values <- (ncol(object@y) == 1 && ncol(object@ytrans) == 1)
+    values <- ncol(object@ytrans) == 1
     return(groups && values)
 }
 

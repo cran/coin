@@ -1,12 +1,10 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.0 Under development (unstable) (2005-03-11), ISBN 3-900051-07-0
+Version 2.1.0  (2005-04-18), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
@@ -216,7 +214,7 @@ Error in checkSlotAssignment(object, name, value) :
 > 
 > oneway_test(y ~ x, dat = dat)
 
-	Asymptotical 2-Sample Permutation Test
+	Asymptotic 2-Sample Permutation Test
 
 data:  y by groups 1, 2 
 T = -0.7774, p-value = 0.4369
@@ -224,7 +222,7 @@ alternative hypothesis: true mu is not equal to 0
 
 > oneway_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotical 2-Sample Permutation Test
+	Asymptotic 2-Sample Permutation Test
 
 data:  y by groups 1, 2 
 T = -0.7774, p-value = 0.2185
@@ -232,7 +230,7 @@ alternative hypothesis: true mu is less than 0
 
 > oneway_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotical 2-Sample Permutation Test
+	Asymptotic 2-Sample Permutation Test
 
 data:  y by groups 1, 2 
 T = -0.7774, p-value = 0.7815
@@ -241,7 +239,7 @@ alternative hypothesis: true mu is greater than 0
 > 
 > normal_test(y ~ x, dat = dat)
 
-	Asymptotical Normal Quantile (van der Waerden) Test
+	Asymptotic Normal Quantile (van der Waerden) Test
 
 data:  y by groups 1, 2 
 T = -0.8596, p-value = 0.39
@@ -249,7 +247,7 @@ alternative hypothesis: true mu is not equal to 0
 
 > normal_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotical Normal Quantile (van der Waerden) Test
+	Asymptotic Normal Quantile (van der Waerden) Test
 
 data:  y by groups 1, 2 
 T = -0.8596, p-value = 0.195
@@ -257,7 +255,7 @@ alternative hypothesis: true mu is less than 0
 
 > normal_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotical Normal Quantile (van der Waerden) Test
+	Asymptotic Normal Quantile (van der Waerden) Test
 
 data:  y by groups 1, 2 
 T = -0.8596, p-value = 0.805
@@ -266,7 +264,7 @@ alternative hypothesis: true mu is greater than 0
 > 
 > median_test(y ~ x, dat = dat)
 
-	Asymptotical Median Test
+	Asymptotic Median Test
 
 data:  y by groups 1, 2 
 T = 0.8015, p-value = 0.4228
@@ -274,7 +272,7 @@ alternative hypothesis: true mu is not equal to 0
 
 > median_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotical Median Test
+	Asymptotic Median Test
 
 data:  y by groups 1, 2 
 T = 0.8015, p-value = 0.7886
@@ -282,7 +280,7 @@ alternative hypothesis: true mu is less than 0
 
 > median_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotical Median Test
+	Asymptotic Median Test
 
 data:  y by groups 1, 2 
 T = 0.8015, p-value = 0.2114

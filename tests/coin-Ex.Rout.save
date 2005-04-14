@@ -1,12 +1,10 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.0 Under development (unstable) (2005-03-11), ISBN 3-900051-07-0
+Version 2.1.0  (2005-04-18), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
@@ -90,7 +88,7 @@ T = 6.8203, p-value = 0.6891
 > ### both Income and Job.Satisfaction unordered
 > cmh_test(jobsatisfaction)
 
-	Asymptotical Generalised Cochran-Mantel-Haenszel Test
+	Asymptotic Generalised Cochran-Mantel-Haenszel Test
 
 data:  Job.Satisfaction by
 	 groups <5000, 5000-15000, 15000-25000, >25000 
@@ -101,7 +99,7 @@ T = 10.2001, df = 9, p-value = 0.3345
 > ### both Income and Job.Satisfaction ordered, default scores
 > lbl_test(jobsatisfaction)
 
-	Asymptotical Linear-by-Linear Association Test
+	Asymptotic Linear-by-Linear Association Test
 
 data:  Job.Satisfaction (ordered) by
 	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
@@ -113,7 +111,7 @@ T = 6.6235, df = 1, p-value = 0.01006
 > lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
 +                                         Income = c(3, 10, 20, 35)))
 
-	Asymptotical Linear-by-Linear Association Test
+	Asymptotic Linear-by-Linear Association Test
 
 data:  Job.Satisfaction (ordered) by
 	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
@@ -277,7 +275,7 @@ difference in location
 > ### Permutation test, asymptotic p-value
 > oneway_test(pd ~ age, data = water_transfer)
 
-	Asymptotical 2-Sample Permutation Test
+	Asymptotic 2-Sample Permutation Test
 
 data:  pd by groups 12-26 Weeks, At term 
 T = -1.5225, p-value = 0.1279
@@ -391,7 +389,7 @@ IV-III 0.9998777778
 > ### treating response as nominal
 > mh_test(PreExSex)
 
-	Asymptotical Marginal-Homogenity Test
+	Asymptotic Marginal-Homogenity Test
 
 data:  response by
 	 groups ExtramaritalSex, PremaritalSex 
@@ -402,7 +400,7 @@ T = 271.9222, df = 3, p-value < 2.2e-16
 > ### and as ordinal
 > mh_test(PreExSex, scores = list(response = 1:length(opinions)))
 
-	Asymptotical Marginal-Homogenity Test for Ordered Data
+	Asymptotic Marginal-Homogenity Test for Ordered Data
 
 data:  response (ordered) by
 	 groups ExtramaritalSex, PremaritalSex 
@@ -432,7 +430,7 @@ T = 270.7402, df = 1, p-value < 2.2e-16
 > 
 > maxstat_test(counts ~ coverstorey, data = treepipit)
 
-	Asymptotical Maxstat Test
+	Asymptotic Maxstat Test
 
 data:  counts by coverstorey 
 T = 4.3139, p-value = 0.0001951
@@ -521,7 +519,7 @@ cutpoint in  coverstorey
 > ### Ansari-Bradley test, asymptotical p-value
 > ansari_test(serum ~ method, data = sid)
 
-	Asymptotical Ansari-Bradley Test
+	Asymptotic Ansari-Bradley Test
 
 data:  serum by groups Ramsay, Jung-Parekh 
 T = -1.3363, p-value = 0.1815
@@ -600,7 +598,7 @@ Control 0.00250025 0.5948595
 > 
 > spearman_test(CONT ~ INTG, data = USJudgeRatings)
 
-	Asymptotical Spearman Correlation Test
+	Asymptotic Spearman Correlation Test
 
 data:  CONT by INTG 
 T = -1.1437, p-value = 0.2527
@@ -687,7 +685,7 @@ alternative hypothesis: two.sided
 > ### classical global test
 > friedman_test(times ~ methods | block, data = RoundingTimes)
 
-	Asymptotical Friedman Test
+	Asymptotic Friedman Test
 
 data:  times by
 	 groups Narrow Angle, Round Out, Wide Angle 
@@ -746,7 +744,7 @@ xWide Angle   0.003811824
 > ft <- friedman_test(strength ~ potash | block, data = sc)
 > ft
 
-	Asymptotical Page Test
+	Asymptotic Page Test
 
 data:  strength by
 	 groups 36 < 54 < 72 < 108 < 144 
@@ -1086,7 +1084,7 @@ alternative hypothesis: two.sided
 > # Generalized Cochran-Mantel-Haenzel test
 > cmh_test(jobsatisfaction)
 
-	Asymptotical Generalised Cochran-Mantel-Haenszel Test
+	Asymptotic Generalised Cochran-Mantel-Haenszel Test
 
 data:  Job.Satisfaction by
 	 groups <5000, 5000-15000, 15000-25000, >25000 
@@ -1257,7 +1255,7 @@ alternative hypothesis: true mu is not equal to 0
 > ### two-sided asymptotical (0.0147)
 > wilcox_test(time ~ group, data = rotarod)
 
-	Asymptotical Wilcoxon Mann-Whitney Rank Sum Test
+	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  time by groups control, treatment 
 T = 2.4389, p-value = 0.01473
@@ -1285,7 +1283,7 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
 
-	Asymptotical Maxstat Test
+	Asymptotic Maxstat Test
 
 data:  y by SPF 
 T = 2.4033, p-value = 0.1559
@@ -1375,7 +1373,7 @@ cutpoint in  SPF
 +                       coniferous + deadtree + cbpiles + ivytree,
 +              data = treepipit)
 
-	Asymptotical Maxstat Test
+	Asymptotic Maxstat Test
 
 data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree 
@@ -1391,7 +1389,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  24.76 0.13 25.28 0 0 
+Time elapsed:  23.63 0.1 23.81 0 0 
 > grDevices::dev.off()
 null device 
           1 
