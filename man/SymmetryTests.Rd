@@ -13,10 +13,10 @@
 \usage{
 
 \method{friedman_test}{formula}(formula, data, subset = NULL, \dots)
-\method{friedman_test}{SymmetryProblem}(object, distribution = c("asympt", "approx"), ...) 
+\method{friedman_test}{SymmetryProblem}(object, distribution = c("asymptotic", "approximate"), ...) 
 
 \method{wilcoxsign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{wilcoxsign_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...) 
+\method{wilcoxsign_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate"), ...) 
 
 }
 \arguments{
@@ -32,7 +32,11 @@
   \item{object}{an object inheriting from class \code{SymmetryProblem}.}
   \item{distribution}{a character, the null distribution of the test statistic
     can be approximated by its asymptotic distribution (\code{asympt}) 
-    or via Monte-Carlo resampling (\code{approx}).}
+    or via Monte-Carlo resampling (\code{approx}).
+    Alternatively, the functions 
+    \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -136,7 +140,7 @@ ft
 
 ### approximate null distribution via Monte-Carlo
 pvalue(friedman_test(strength ~ potash | block, data = sc, 
-                     distribution = "approx", B = 9999))
+                     distribution = approximate(B = 9999)))
 
 }
 \keyword{htest}

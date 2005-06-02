@@ -30,17 +30,18 @@ setMethod(f = "AsymptNullDistribution",
           signature = "MaxTypeIndependenceTestStatistic", 
           definition = function(object, ...) {
 
-              corr <- cov2cor(object@covariance)
+              corr <- cov2cor(covariance(object))
+              pq <- length(expectation(object))
               RET <- new("AsymptNullDistribution")
               RET@p <- function(q) {
 
                   if (length(corr) > 1) 
                       p <- pmvnorm(lower = -abs(q), upper = abs(q), 
-                              mean = rep(0, length(object@expectation)), 
+                              mean = rep(0, pq), 
                               corr = corr, ...)
                   else
                       p <- pmvnorm(lower = -abs(q), upper = abs(q),
-                              mean = rep(0, length(object@expectation)),
+                              mean = rep(0, pq),
                               sigma = 1, ...)
 
                   error <- attr(p, "error")
@@ -51,10 +52,10 @@ setMethod(f = "AsymptNullDistribution",
               }
               RET@q <- function(p) {
                   if (length(corr) > 1) 
-                      q <- qmvnorm(p, mean = rep(0, length(object@expectation)), 
+                      q <- qmvnorm(p, mean = rep(0, pq), 
                               corr = corr, tail = "both.tails", ...)$quantile
                   else
-                      q <- qmvnorm(p, mean = rep(0, length(object@expectation)),
+                      q <- qmvnorm(p, mean = rep(0, pq),
                               sigma = 1, tail = "both.tails", ...)$quantile   
 
                   attributes(q) <- NULL
@@ -102,10 +103,15 @@ setGeneric("ExactNullDistribution", function(object, ...)
 
 setMethod(f = "ExactNullDistribution",
           signature = "ScalarIndependenceTestStatistic",
-          definition = function(object, ...) {
+          definition = function(object, algorithm = c("shift", "split-up"), 
+                                ...) {
 
-              if (is_2sample(object)) 
-                  return(SR_shift_2sample(object))
+              if (is_2sample(object)) {
+                  if (algorithm == "shift")
+                      return(SR_shift_2sample(object, ...))
+                  if (algorithm == "split-up")
+                      return(vdW_split_up_2sample(object))
+              }
               error(sQuote("object"), " is not a two sample problem")
 
           }
@@ -127,8 +133,8 @@ setMethod(f = "ApproxNullDistribution",
                   PACKAGE = "coin")
 
               ### <FIXME> can transform p, q, x instead of those </FIXME>
-              pls <- sort(round((unlist(pls) - object@expectation) / 
-                          drop(sqrt(object@covariance)), 10))
+              pls <- sort(round((unlist(pls) - expectation(object)) / 
+                         sqrt(variance(object)), 10))
 
               RET <- new("ApproxNullDistribution")
 
@@ -179,8 +185,8 @@ setMethod(f = "ApproxNullDistribution",
                   pls <- lapply(pls, function(x) S %*% x)     
               } 
 
-              dcov <- sqrt(diag(object@covariance))
-              expect <- object@expectation
+              dcov <- sqrt(variance(object))
+              expect <- expectation(object)
               pls <- lapply(pls, function(x) 
                          max(abs(x - expect) / dcov)
                      )
@@ -228,7 +234,7 @@ setMethod(f = "ApproxNullDistribution",
               }
 
               dcov <- object@covarianceplus
-              expect <- object@expectation
+              expect <- expectation(object)
               pls <- lapply(pls, function(x) {
                                 a <- x - expect
                                 drop(a %*% dcov %*% a)

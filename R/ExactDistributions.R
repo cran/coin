@@ -1,6 +1,6 @@
 
 ### Streitberg-Roehmel algorithm for independent two samples
-SR_shift_2sample <- function(object) {
+SR_shift_2sample <- function(object, fact = NULL) {
 
     if (!extends(class(object), "ScalarIndependenceTestStatistic"))
         stop("Argument ", sQuote("object"), " is not of class ",
@@ -33,7 +33,7 @@ SR_shift_2sample <- function(object) {
         if (m == length(scores))
             dens <- list(T = sum(scores), Prob = 1)
         if (m < length(scores))
-            dens <- cSR_shift_2sample(scores, m)
+            dens <- cSR_shift_2sample(scores, m, fact = fact)
 
         ### update distribution of statistic over all blocks
         T <- as.vector(outer(dens$T, T, "+"))
@@ -41,7 +41,7 @@ SR_shift_2sample <- function(object) {
 
     }
 
-    T <- (T - object@expectation)/sqrt(object@covariance)
+    T <- (T - expectation(object)) / sqrt(variance(object))
 
     RET@p <- function(q) sum(Prob[T <= q])
     RET@q <- function(p) {
@@ -66,7 +66,7 @@ SR_shift_2sample <- function(object) {
     return(RET)
 }
 
-cSR_shift_2sample <- function(scores, m) {
+cSR_shift_2sample <- function(scores, m, fact = NULL) {
 
     if (m < 1 || m == length(scores))
         stop("not a two sample problem")
@@ -74,11 +74,13 @@ cSR_shift_2sample <- function(scores, m) {
     ones <- rep(1, n)
 
     ### search for equivalent integer scores with sum(scores) minimal
-    fact <- c(1, 2, 10, 100, 1000)
-    f <- is_integer(scores, fact = fact)
-    if (!any(f))
-        stop("cannot compute exact distribution with real valued scores")
-    fact <- min(fact[f])
+    if (is.null(fact)) {
+        fact <- c(1, 2, 10, 100, 1000)
+        f <- is_integer(scores, fact = fact)
+        if (!any(f))
+            stop("cannot compute exact distribution with real valued scores")
+        fact <- min(fact[f])
+    }
 
     scores <- scores * fact
     add <- min(scores - 1)
@@ -123,7 +125,7 @@ vdW_split_up_2sample <- function(object) {
     storage.mode(m) <- "integer"
 
     RET@p <- function(q) {
-        obs <- q*sqrt(object@covariance) + object@expectation
+        obs <- q * sqrt(variance(object)) + expectation(object)
         .Call("R_split_up_2sample", scores, m, obs, PACKAGE = "coin")
     }
 

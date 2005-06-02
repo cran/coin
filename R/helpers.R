@@ -1,4 +1,24 @@
 
+
+asymptotic <- function(maxpts = 25000, abseps = 0.001, releps = 0) {
+    RET <- list(maxpts = maxpts, abseps = abseps, releps = releps)
+    class(RET) <- "asymptotic"
+    RET
+}
+
+approximate <- function(B = 1000) {
+    RET <- list(B = B)
+    class(RET) <- "approximate"
+    RET
+}
+
+exact <- function(algorithm = c("shift", "split-up"), fact = NULL) {
+    algorithm <- match.arg(algorithm)
+    RET <- list(algorithm = algorithm, fact = fact)
+    class(RET) <- "exact"
+    RET
+}
+
 LinearStatistic <- function(x, y, weights) {
     storage.mode(x) <- "double"
     storage.mode(y) <- "double"
@@ -14,13 +34,32 @@ ExpectCovarInfluence <- function(y, weights) {
           PACKAGE = "coin")
 }
 
-ExpectCovarLinearStatistic <- function(x, y, weights) {
-    storage.mode(x) <- "double"
-    storage.mode(y) <- "double"
-    storage.mode(weights) <- "double"
-    expcovinf <- ExpectCovarInfluence(y, weights)
-    .Call("R_ExpectCovarLinearStatistic", x, y, weights, expcovinf,
-          PACKAGE = "coin")
+ExpectCovarLinearStatistic <- function(x, y, weights, varonly = FALSE) {
+    if (varonly) {
+        indx <- rep(1:nrow(x), weights)
+        x <- x[indx,,drop = FALSE]
+        y <- y[indx,,drop = FALSE]
+        n <- nrow(x)
+        Ey <- colMeans(y)
+        Vy <- rowMeans((t(y) - Ey)^2)
+
+        rSx <- colSums(x)
+        rSx2 <- colSums(x^2)
+        E <- rSx * Ey
+        V <- n / (n - 1) * kronecker(Vy, rSx2)
+        V <- V - 1 / (n - 1) * kronecker(Vy, rSx^2) 
+        RET <- new("ExpectCovar")
+        RET@expectation <- drop(E)
+        RET@covariance <- matrix(V, nrow = 1)
+        return(RET)
+    } else {
+        storage.mode(x) <- "double"
+        storage.mode(y) <- "double"
+        storage.mode(weights) <- "double"
+        expcovinf <- ExpectCovarInfluence(y, weights)
+        .Call("R_ExpectCovarLinearStatistic", x, y, weights, expcovinf,
+               PACKAGE = "coin")
+    }
 }
 
 ### copied from package MASS
@@ -55,14 +94,27 @@ copyslots <- function(source, target) {
 
 formula2data <- function(formula, data, subset, ...) {
 
-    dat <- ModelEnvFormula(formula = formula, data = data,
-                           subset = subset, ...)
+    ### in case `data' is an exprSet object 
+    if (extends(class(data), "exprSet")) {
+        dat <- ModelEnvFormula(formula = formula, 
+                               data = pData(phenoData(data)),
+                               subset = subset, ...)
 
-    ### rhs of formula
-    if (has(dat, "input"))
-        x <- dat@get("input")
-    else 
-        stop("missing right hand side of formula")
+        ### x are _all_ expression levels, always
+        x <- as.data.frame(t(exprs(data)))
+
+    } else {
+
+        dat <- ModelEnvFormula(formula = formula, 
+                               data = data,
+                               subset = subset, ...)
+
+        ### rhs of formula
+        if (has(dat, "input"))
+            x <- dat@get("input")
+        else 
+            stop("missing right hand side of formula")
+    }
 
     ### ~ x + y is allowed
     if (has(dat, "response"))
@@ -110,6 +162,8 @@ formula2weights <- function(weights, data, subset, ...) {
 
     if (class(weights) != "formula") 
         stop(sQuote("weights"), " is not a formula object")
+
+    if (extends(class(data), "exprSet")) data <- pData(phenoData(data))
 
     dat <- ModelEnvFormula(formula = weights, data = data,
                            subset = subset, ...)
@@ -280,4 +334,17 @@ isequal <- function(a, b) {
     } else {
         return(TRUE)
     }
+}
+
+check_distribution_arg <- function(distribution, 
+    values = c("asymptotic", "approximate", "exact")) {
+    if (is.character(distribution)) {
+        distribution <- match.arg(distribution[1], values)
+        distribution <- eval(parse(text = 
+                                   paste(distribution, "()", sep = "")))
+    }
+    if (!any(class(distribution) %in% values))
+       stop(sQuote("distribution"), " is not of classes ",
+       paste(values, collapse = ", "))
+    distribution
 }

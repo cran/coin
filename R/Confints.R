@@ -75,10 +75,10 @@ confint_location <- function(object, nulldistr, level = 0.95,
             ###   STATISTIC <  qlower OR
             ###   STATISTIC >= qupper
             ###
-            qlower <- drop(qperm(nulldistr, alpha/2) * sqrt(object@covariance) +
-                           object@expectation)
+            qlower <- drop(qperm(nulldistr, alpha/2) * sqrt(variance(object)) +
+                           expectation(object))
             qupper <- drop(qperm(nulldistr, 1 - alpha/2) * 
-                           sqrt(object@covariance) + object@expectation)
+                           sqrt(variance(object)) + expectation(object))
 
             ## Check if the statistic exceeds both quantiles first.
             if (qlower < min(jumps) || qupper > max(jumps)) {
@@ -121,7 +121,7 @@ confint_location <- function(object, nulldistr, level = 0.95,
         attr(cint, "conf.level") <- level    
 
         ### was: median(steps) which will not work for blocks etc.
-        u <- jumps - object@expectation
+        u <- jumps - expectation(object)
         sgr <- ifelse(decreasing, min(steps[u <= 0]), max(steps[u <= 0]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
@@ -140,7 +140,7 @@ confint_location <- function(object, nulldistr, level = 0.95,
 
         fs <- function(d, zq) {
            STAT <- sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
-           (STAT - object@expectation)/sqrt(object@covariance) - zq
+           (STAT - expectation(object)) / sqrt(variance(object)) - zq
         }
 
         mumin <- min(x) - max(y)
@@ -267,10 +267,10 @@ confint_scale <- function(object, nulldistr, level = 0.95,
             ###   STATISTIC <  qlower OR
             ###   STATISTIC >= qupper
             ###
-            qlower <- drop(qperm(nulldistr, alpha/2) * sqrt(object@covariance) +
-                           object@expectation)
+            qlower <- drop(qperm(nulldistr, alpha/2) * sqrt(variance(object)) +
+                           expectation(object))
             qupper <- drop(qperm(nulldistr, 1 - alpha/2) * 
-                           sqrt(object@covariance) + object@expectation)
+                           sqrt(variance(object)) + expectation(object))
 
             ## Check if the statistic exceeds both quantiles first.
             if (qlower < min(jumps) || qupper > max(jumps)) {
@@ -311,7 +311,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                      "less"      = c(0, cci(alpha*2)[2])
                  )
         attr(cint, "conf.level") <- level    
-        u <- jumps - object@expectation
+        u <- jumps - expectation(object)
         sgr <- ifelse(decreasing, min(steps[u <= 0]), max(steps[u <= 0]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
@@ -330,7 +330,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
 
         fs <- function(d, zq) {
            STAT <- sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
-           (STAT - object@expectation)/sqrt(object@covariance) - zq
+           (STAT - expectation(object)) / sqrt(variance(object)) - zq
         }
 
         srangepos <- NULL

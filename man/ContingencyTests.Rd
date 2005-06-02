@@ -19,16 +19,16 @@
 \usage{
 
 \method{cmh_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{cmh_test}{table}(object, distribution = c("asympt", "approx"), ...)
-\method{cmh_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+\method{cmh_test}{table}(object, distribution = c("asymptotic", "approximate"), ...)
+\method{cmh_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate"), ...)
 
 \method{chisq_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{chisq_test}{table}(object, distribution = c("asympt", "approx"), ...)
-\method{chisq_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+\method{chisq_test}{table}(object, distribution = c("asymptotic", "approximate"), ...)
+\method{chisq_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate"), ...)
 
 \method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{lbl_test}{table}(object, distribution = c("asympt", "approx"), ...)
-\method{lbl_test}{IndependenceProblem}(object, distribution = c("asympt", "approx"), ...)
+\method{lbl_test}{table}(object, distribution = c("asymptotic", "approximate"), ...)
+\method{lbl_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate"), ...)
 
 }
 \arguments{
@@ -44,8 +44,12 @@
   \item{object}{an object inheriting from class \code{"IndependenceProblem"} or an
     object of class \code{table}.}
   \item{distribution}{a character, the null distribution of the test statistic
-    can be approximated by its asymptotic distribution (\code{"asympt"}) 
-    or via Monte-Carlo resampling (\code{"approx"}).}
+    can be approximated by its asymptotic distribution (\code{"asymptotic"}) 
+    or via Monte-Carlo resampling (\code{"approximate"}).
+    Alternatively, the functions 
+    \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -99,7 +103,7 @@ data(jobsatisfaction, package = "coin")
 
 ### for females only
 chisq_test(as.table(jobsatisfaction[,,"Female"]), 
-    distribution = "approx", B = 9999)
+    distribution = approximate(B = 9999))
 
 ### both Income and Job.Satisfaction unordered
 cmh_test(jobsatisfaction)
@@ -114,7 +118,7 @@ lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
 ### the same, null distribution approximated
 cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
                                         Income = c(3, 10, 20, 35)),
-         distribution = "approx", B = 10000)
+         distribution = approximate(B = 10000))
 
 }
 \keyword{htest}

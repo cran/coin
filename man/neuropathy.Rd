@@ -35,9 +35,10 @@ oneway_test(pain ~ group, data = neuropathy, alternative = "less",
 wilcox_test(pain ~ group, data = neuropathy, alternative = "less", 
             distribution = "exact")
 
-oneway_test(pain ~ group, data = neuropathy, distribution = "approx",
+oneway_test(pain ~ group, data = neuropathy, 
+            distribution = approximate(B = 10000),
             alternative = "less", ytrafo = function(data) trafo(data,
-            numeric_trafo = consal_trafo), B = 10000)
+            numeric_trafo = consal_trafo))
 
 }
 \keyword{datasets}

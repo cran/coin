@@ -47,6 +47,20 @@ setAs(from = "IndependenceTestProblem", to = "IndependenceProblem",
               block = from@block)
 )
 
+###
+setClass(Class = "CovarianceMatrix",
+    representation = representation(
+        covariance = "matrix"
+    )
+)
+
+setClass(Class = "Variance",
+    representation = representation(
+        variance = "numeric"
+    )
+)
+
+setClassUnion("VarCovar", c("CovarianceMatrix", "Variance"))
 
 ### Linear statistic, expectation and covariance according to 
 ### Strasser & Weber (1999)
@@ -54,7 +68,7 @@ setClass(Class = "IndependenceTestStatistic",
     representation = representation(
         linearstatistic = "numeric",
         expectation     = "numeric",
-        covariance      = "matrix",
+        covariance      = "VarCovar",
         estimates       = "list"
     ),
     contains = "IndependenceTestProblem"

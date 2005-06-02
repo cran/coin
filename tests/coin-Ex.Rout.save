@@ -76,7 +76,7 @@ Loading required package: mvtnorm
 > 
 > ### for females only
 > chisq_test(as.table(jobsatisfaction[,,"Female"]), 
-+     distribution = "approx", B = 9999)
++     distribution = approximate(B = 9999))
 
 	Approximative Pearson's Chi-Squared Test
 
@@ -122,7 +122,7 @@ T = 6.1563, df = 1, p-value = 0.01309
 > ### the same, null distribution approximated
 > cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
 +                                         Income = c(3, 10, 20, 35)),
-+          distribution = "approx", B = 10000)
++          distribution = approximate(B = 10000))
 
 	Approximative Linear-by-Linear Association Test
 
@@ -284,7 +284,7 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > ### approximate p-value (with 99% confidence interval)
 > pvalue(oneway_test(pd ~ age, data = water_transfer, 
-+                  distribution = "approx", B = 9999))
++                  distribution = approximate(B = 9999)))
 [1] 0.1311131
 99 percent confidence interval:
  0.1225462 0.1400337 
@@ -314,7 +314,7 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > ### Kruskal-Wallis test, approximate exact p-value
 > kw <- kruskal_test(length ~ site, data = YOY, 
-+              distribution = "approx", B = 9999)
++              distribution = approximate(B = 9999))
 > kw
 
 	Approximative Kruskal-Wallis Test
@@ -337,7 +337,7 @@ T = 22.8524, p-value < 2.2e-16
 +         ytrafo = function(data) trafo(data, numeric_trafo = rank),
 +         xtrafo = function(data) trafo(data, factor_trafo = function(x)
 +             model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
-+         teststat = "maxtype", distribution = "approx", B = 90000)
++         teststat = "maxtype", distribution = approximate(B = 90000))
 + 
 +     ### global p-value
 +     print(pvalue(NDWD))
@@ -547,7 +547,7 @@ alternative hypothesis: true mu is not equal to 1
 > lt <- independence_test(counts ~ treatment, data = platalet_counts,
 +     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
 +         cbind(rank(x), ansari_trafo(x))),
-+     teststat = "quadtype", distribution = "approx", B = 9999)
++     teststat = "quadtype", distribution = approximate(B = 9999))
 > 
 > lt
 
@@ -563,12 +563,12 @@ T = 9.3384, p-value = 0.0042
 +     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
 +         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
 +                dimnames = list(1:length(x), c("Location", "Scale")))),
-+     teststat = "maxtype", distribution = "approx", B = 9999)
++     teststat = "maxtype")
 > 
 > ### points to a difference in location
 > pvalue(ltmax, adjusted = TRUE)
-          Location     Scale
-Control 0.00250025 0.5948595
+         Location     Scale
+Control 0.0067991 0.6189816
 > 
 > ### Funny: We could have used a simple Bonferroni procedure
 > ### since the correlation between the Wilcoxon and Ansari-Bradley 
@@ -622,19 +622,50 @@ alternative hypothesis: true mu is not equal to 0
 > ### ** Examples
 > 
 > 
+> ### asymptotic tests for carcinoma data
 > data(ocarcinoma, package = "coin")
+> surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
+
+	Asymptotic Logrank Test
+
+data:  y by groups II, IIA 
+T = -2.3373, p-value = 0.01942
+alternative hypothesis: two.sided 
+
+> survdiff(Surv(time, event) ~ stadium, data = ocarcinoma) 
+Call:
+survdiff(formula = Surv(time, event) ~ stadium, data = ocarcinoma)
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+stadium=II  15        6     11.3      2.51      5.57
+stadium=IIA 20       16     10.7      2.67      5.57
+
+ Chisq= 5.6  on 1 degrees of freedom, p= 0.0183 
 > 
-> surv_test(Surv(time, event) ~ stadium, data = ocarcinoma, 
-+              distribution = "exact")
+> ### example data given in Callaert (2003)
+> exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
++                      event = rep(TRUE, 15),
++                      group = factor(c(rep(0, 7), rep(1, 8))))
+> ### p = 0.0523
+> survdiff(Surv(time, event) ~ group, data = exdata)
+Call:
+survdiff(formula = Surv(time, event) ~ group, data = exdata)
+
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+group=0 7        7     9.84      0.82      3.76
+group=1 8        8     5.16      1.56      3.76
+
+ Chisq= 3.8  on 1 degrees of freedom, p= 0.0523 
+> ### p = 0.0505
+> surv_test(Surv(time, event) ~ group, data = exdata, 
++           distribution = exact())
 
 	Exact Logrank Test
 
-data:  y by groups II, IIA 
-T = -2.3341, p-value = 0.01837
+data:  y by groups 0, 1 
+T = -1.9201, p-value = 0.0505
 alternative hypothesis: two.sided 
 
-> 
-> 
 > 
 > 
 > cleanEx(); ..nameEx <- "SymmetryTests"
@@ -758,7 +789,7 @@ T = 7.0533, df = 1, p-value = 0.007912
 > 
 > ### approximate null distribution via Monte-Carlo
 > pvalue(friedman_test(strength ~ potash | block, data = sc, 
-+                      distribution = "approx", B = 9999))
++                      distribution = approximate(B = 9999)))
 [1] 0.00470047
 99 percent confidence interval:
  0.003124471 0.006765311 
@@ -942,10 +973,8 @@ attr(,"conf.level")
 > ### expectation
 > El <- expectation(ct)
 > El
-          1         2         3
-1 0.6666667 0.6666667 0.6666667
-2 0.6666667 0.6666667 0.6666667
-3 0.6666667 0.6666667 0.6666667
+[1] 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667
+[8] 0.6666667 0.6666667
 > 
 > ### covariance
 > Vl <- covariance(ct)
@@ -972,7 +1001,7 @@ attr(,"conf.level")
  [9,] -0.17777778 -0.17777778  0.35555556
 > 
 > ### the standardized contingency table (hard way)
-> (l - El) / matrix(sqrt(diag(Vl)), ncol = nrow(El))
+> (l - El) / sqrt(variance(ct))
           1         2         3
 1  0.559017 -1.118034  0.559017
 2 -1.118034  2.236068 -1.118034
@@ -1044,20 +1073,20 @@ alternative hypothesis: two.sided
 	Exact Logrank Test
 
 data:  y by groups Control, RIT 
-T = 3.2444, p-value = 0.0001429
+T = 3.2215, p-value = 0.0001588
 alternative hypothesis: two.sided 
 
 > 
 > ### stratified logrank test
 > surv_test(Surv(time, event) ~ group | histology, data = glioma,
-+              distribution = "approx", B = 10000)
++              distribution = approximate(B = 10000))
 
 	Approximative Logrank Test
 
 data:  y by
 	 groups Control, RIT 
 	 stratified by histology 
-T = 3.6818, p-value < 2.2e-16
+T = 3.6704, p-value < 2.2e-16
 alternative hypothesis: two.sided 
 
 > 
@@ -1132,9 +1161,10 @@ T = -0.9817, p-value = 0.1654
 alternative hypothesis: true mu is less than 0 
 
 > 
-> oneway_test(pain ~ group, data = neuropathy, distribution = "approx",
+> oneway_test(pain ~ group, data = neuropathy, 
++             distribution = approximate(B = 10000),
 +             alternative = "less", ytrafo = function(data) trafo(data,
-+             numeric_trafo = consal_trafo), B = 10000)
++             numeric_trafo = consal_trafo))
 
 	Approximative 2-Sample Permutation Test
 
@@ -1168,11 +1198,11 @@ alternative hypothesis: true mu is less than 0
 > 
 > ### the test statistic
 > statistic(lrt)
-[1] -2.334131
+[1] -2.337284
 > 
 > ### p-value
 > pvalue(lrt)
-[1] 0.01836702
+[1] 0.01819756
 > 
 > 
 > 
@@ -1286,7 +1316,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Maxstat Test
 
 data:  y by SPF 
-T = 2.4033, p-value = 0.1559
+T = 2.3966, p-value = 0.1582
 sample estimates:
 cutpoint in  SPF 
              107 
@@ -1389,7 +1419,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  23.63 0.1 23.81 0 0 
+Time elapsed:  27.54 0.1 27.68 0 0 
 > grDevices::dev.off()
 null device 
           1 

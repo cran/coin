@@ -71,7 +71,7 @@ surv_test(Surv(time, event) ~ group, data = gbm,
 
 ### stratified logrank test
 surv_test(Surv(time, event) ~ group | histology, data = glioma,
-             distribution = "approx", B = 10000)
+             distribution = approximate(B = 10000))
 
 }
 \keyword{datasets}

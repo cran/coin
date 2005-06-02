@@ -24,30 +24,30 @@
 \method{oneway_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{oneway_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"), ...)
+    distribution = c("asymptotic", "approximate", "exact"), ...)
 
 \method{wilcox_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{wilcox_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"),
+    distribution = c("asymptotic", "approximate", "exact"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{normal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{normal_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"),
+    distribution = c("asymptotic", "approximate", "exact"),
     ties.method = c("mid-ranks", "average-scores"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{median_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{median_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"),
+    distribution = c("asymptotic", "approximate", "exact"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{kruskal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{kruskal_test}{IndependenceProblem}(object, 
-    distribution = c("asympt", "approx"), ...)
+    distribution = c("asymptotic", "approximate"), ...)
 
 }
 \arguments{
@@ -67,8 +67,12 @@
     \code{"less"}.  You can specify just the initial letter.}
   \item{distribution}{a character, the null distribution of the test statistic
     can be computed \code{exact}ly or can be approximated by its
-    asymptotic distribution (\code{asympt})
-    or via Monte-Carlo resampling (\code{approx}).}
+    asymptotic distribution (\code{asymptotic})
+    or via Monte-Carlo resampling (\code{approximate}).
+    Alternatively, the functions 
+    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{ties.method}{a character, two methods are available to adjust scores for ties,
       either the score generating function is applied to \code{mid-ranks}
       or the scores computed based on random ranks are averaged for all tied
@@ -193,7 +197,7 @@ oneway_test(pd ~ age, data = water_transfer)
 
 ### approximate p-value (with 99\% confidence interval)
 pvalue(oneway_test(pd ~ age, data = water_transfer, 
-                 distribution = "approx", B = 9999))
+                 distribution = approximate(B = 9999)))
 ### exact p-value
 pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
 pvalue(pt)
@@ -219,7 +223,7 @@ YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44,
 
 ### Kruskal-Wallis test, approximate exact p-value
 kw <- kruskal_test(length ~ site, data = YOY, 
-             distribution = "approx", B = 9999)
+             distribution = approximate(B = 9999))
 kw
 pvalue(kw)
 
@@ -232,7 +236,7 @@ if (require(multcomp)) {
         ytrafo = function(data) trafo(data, numeric_trafo = rank),
         xtrafo = function(data) trafo(data, factor_trafo = function(x)
             model.matrix(~x - 1) \%*\% t(contrMat(table(x), "Tukey"))),
-        teststat = "maxtype", distribution = "approx", B = 90000)
+        teststat = "maxtype", distribution = approximate(B = 90000))
 
     ### global p-value
     print(pvalue(NDWD))

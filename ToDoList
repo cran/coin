@@ -15,7 +15,7 @@ o	check storage.mode of all vars going into C code (MC)
 
 o	add wilcoxon-gehan scores, check logrank scores!
 
-o	check if trend test for clustered data are part of the framework
+o	check if trend tests for clustered data are part of the framework
 
 o	maximally selected McNemar statistics -> Betensky, Biometrics, 2000
 
@@ -38,58 +38,6 @@ o	check whats happening here
 
 	confint(wt, level = 1 - pvalue(wt))  
 
-o	Kurt: distribution argument may be character, function or object
-	(including parameters such as B or maxabs)
-
 o	Kurt: trafo as family of transformations (see glm(..., family,...)
 
-o       add poset example
-
-        ### Rosenbaum (1994), Table 1
-rb <- data.frame(group = factor(c(rep("0", 16), rep("1", 23))),
-                 mercury = c(5.3, 15, 11, 5.8, 17, 7, 8.5, 9.4, 7.8, 12,
-                             8.7, 4, 3, 12.2, 6.1, 10.2, 100, 70, 196, 69,
-                             370, 270, 150, 60, 330, 1100, 40, 100, 70, 150,
-                             200, 304, 236, 178, 41, 120, 330, 62, 12.8),
-                 abnormal = c(8.6, 5, 8.4, 1, 13, 5, 1, 2.3, 2, 6.4, 7, 1.7,
-                              4, 1.8, 2.8, 4.7, 6.4, 9.2, 3.6, 3.7, 14.2, 7,
-                              13.5, 21.5, 9, 11, 8, 9.2, 8, 14, 11.9, 10,
-                              6.6, 13, 0, 6, 13.1, 0, 5.3),
-                 ccells = c(2.7, .5, 0, 0, 5, 0, 0, 1.3, 0, 1.8, 0, 0, 1,
-                            1.8, 0, 3.1, 0.7, 4.6, 0, 1.7, 5.2, 0, 5, 9.5,
-                            2, 3, 1, 3.5, 2, 5, 5.5, 2, 3, 4, 0, 2, 2.2, 0,
-2))
-
-### coherence function
-cfun <- function(data) {
-    x <- as.matrix(data)
-    apply(x, 1, function(y)
-        sum(colSums(t(x) < y) == ncol(x)) -
-        sum(colSums(t(x) > y) == ncol(x)))
-}
-
-### scores, cf. Table 1
-scores <- cfun(rb[,names(rb) != "group"])
-scores
-
-### POSET-test
-library(coin)
-poset <- independence_test(scores ~ group, data = rb)
-
-### linear statistic (T, in Rosenbaum, 1994)
-statistic(poset, "linear")
-
-### expectation
-expectation(poset)
-
-### variance (Rosenbaum uses the unconditional approach)
-covariance(poset)
-
-### the standardized statistic
-statistic(poset)
-
-### and asymptotic p-value
-pvalue(poset)
-
-### the exact p-value
-independence_test(scores ~ group, data = rb, distribution = "exact")
+o	should be have `distribution = "none"'?

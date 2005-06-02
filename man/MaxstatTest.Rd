@@ -10,7 +10,7 @@
 \usage{
 \method{maxstat_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{maxstat_test}{IndependenceProblem}(object, 
-    distribution = c("asympt", "approx"), 
+    distribution = c("asymptotic", "approximate"), 
     teststat = c("maxtype", "quadtype"),
     minprob = 0.1, maxprob = 0.9, ...)
 }
@@ -27,8 +27,12 @@
     integer valued weights for the observations.}   
   \item{object}{an object inheriting from class \code{IndependenceProblem}.}
   \item{distribution}{a character, the null distribution of the test statistic
-    can be approximated by its asymptotic distribution (\code{asympt}) 
-    or via Monte-Carlo resampling (\code{approx}).}
+    can be approximated by its asymptotic distribution (\code{asymptotic}) 
+    or via Monte-Carlo resampling (\code{approximate}).
+    Alternatively, the functions 
+    \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{teststat}{a character, the type of test statistic to be applied: a
     maximum type statistic (\code{maxtype}) or a quadratic form
     (\code{quadform}).}

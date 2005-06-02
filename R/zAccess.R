@@ -276,8 +276,8 @@ setMethod(f = "statistic",
                                                       colnames(object@ytrans)))
                            },
                            "standardized" = {
-                               matrix((object@linearstatistic - object@expectation) /
-                                     sqrt(diag(object@covariance)), 
+                               matrix((object@linearstatistic - expectation(object)) /
+                                     sqrt(variance(object)), 
                                      nrow = ncol(object@xtrans),
                                      ncol = ncol(object@ytrans),
                                      dimnames = list(colnames(object@xtrans),
@@ -299,6 +299,13 @@ setMethod(f = "expectation",
 )
 
 setMethod(f = "expectation",
+          signature = "IndependenceTestStatistic",
+          definition = function(object, ...) 
+              object@expectation
+)
+
+
+setMethod(f = "expectation",
           signature = "ScalarIndependenceTestStatistic",
           definition = function(object, ...) 
               object@expectation
@@ -308,11 +315,12 @@ setMethod(f = "expectation",
           signature = "MaxTypeIndependenceTestStatistic",
           definition = function(object, ...) {
 
-              x <- object@expectation
-              matrix(x, nrow = ncol(object@xtrans),
-                        ncol = ncol(object@ytrans),
-                        dimnames = list(colnames(object@xtrans), 
-                                        colnames(object@ytrans)))
+#              x <- object@expectation
+#              matrix(x, nrow = ncol(object@xtrans),
+#                        ncol = ncol(object@ytrans),
+#                        dimnames = list(colnames(object@xtrans), 
+#                                        colnames(object@ytrans)))
+               object@expectation
           }
 )
 
@@ -320,11 +328,12 @@ setMethod(f = "expectation",
           signature = "QuadTypeIndependenceTestStatistic",
           definition = function(object, ...) {
 
-              x <- object@expectation
-              matrix(x, nrow = ncol(object@xtrans),
-                        ncol = ncol(object@ytrans),
-                        dimnames = list(colnames(object@xtrans), 
-                                        colnames(object@ytrans)))
+#              x <- object@expectation
+#              matrix(x, nrow = ncol(object@xtrans),
+#                        ncol = ncol(object@ytrans),
+#                        dimnames = list(colnames(object@xtrans), 
+#                                        colnames(object@ytrans)))
+              object@expectation
           }
 )
 
@@ -334,26 +343,86 @@ setGeneric("covariance", function(object, ...)
 )
 
 setMethod(f = "covariance",
+          signature = "CovarianceMatrix",
+          definition = function(object, ...) 
+              object@covariance
+)
+
+setMethod(f = "covariance",
           signature = "IndependenceTest",
           definition = function(object, ...) 
               covariance(object@statistic, ...)
 )
 
 setMethod(f = "covariance",
+          signature = "IndependenceTestStatistic",
+          definition = function(object, ...) 
+              covariance(object@covariance)
+)
+
+setMethod(f = "covariance",
           signature = "ScalarIndependenceTestStatistic",
           definition = function(object, ...) 
-              object@covariance
+              covariance(object@covariance)
 )
 
 setMethod(f = "covariance",
           signature = "MaxTypeIndependenceTestStatistic",
           definition = function(object, ...)
-              object@covariance
+              covariance(object@covariance)
 )
 
 setMethod(f = "covariance",
           signature = "QuadTypeIndependenceTestStatistic",
           definition = function(object, ...)
-              object@covariance
+              covariance(object@covariance)
+)
+
+### generic method for extracting the variances 
+setGeneric("variance", function(object, ...) 
+    standardGeneric("variance")
+)
+
+setMethod(f = "variance",
+          signature = "Variance",
+          definition = function(object, ...) 
+              object@variance
+)
+
+setMethod(f = "variance",
+          signature = "CovarianceMatrix",
+          definition = function(object, ...) 
+              diag(object@covariance)
+)
+
+
+setMethod(f = "variance",
+          signature = "IndependenceTest",
+          definition = function(object, ...) 
+              variance(object@statistic, ...)
+)
+
+setMethod(f = "variance",
+          signature = "IndependenceTestStatistic",
+          definition = function(object, ...) 
+              variance(object@covariance)
+)
+
+setMethod(f = "variance",
+          signature = "ScalarIndependenceTestStatistic",
+          definition = function(object, ...) 
+              variance(object@covariance)
+)
+
+setMethod(f = "variance",
+          signature = "MaxTypeIndependenceTestStatistic",
+          definition = function(object, ...)
+              variance(object@covariance)
+)
+
+setMethod(f = "variance",
+          signature = "QuadTypeIndependenceTestStatistic",
+          definition = function(object, ...)
+              variance(object@covariance)
 )
 

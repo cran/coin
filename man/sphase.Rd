@@ -43,8 +43,12 @@
 \examples{
 
 data(sphase, package = "coin")
-
 maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
+
+### reproduce the test statistic reported in Hothorn & Lausen (2003)
+maxstat_test(Surv(RFS, event) ~ SPF, data = sphase, 
+    ytrafo = function(data) trafo(data, surv_trafo = function(x) 
+        logrank_trafo(x, ties.method = "HL")))
 
 }
 \keyword{datasets}

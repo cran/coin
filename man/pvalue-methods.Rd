@@ -20,7 +20,8 @@ pvalue(object, ...)
 \arguments{
   \item{object}{an object inheriting from class
     \code{\link{IndependenceTest-class}}.}
-  \item{\dots}{further arguments (currently ignored).}
+  \item{\dots}{further arguments, for example \code{adjusted = TRUE}
+               for computing adjusted p-values.}
 }
 \section{Methods}{
   \describe{

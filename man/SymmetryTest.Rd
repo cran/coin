@@ -12,7 +12,7 @@
 \method{symmetry_test}{formula}(formula, data, subset = NULL, \dots)
 \method{symmetry_test}{SymmetryProblem}(object, 
     teststat = c("maxtype", "quadtype", "scalar"),
-    distribution = c("asympt", "approx", "exact"),
+    distribution = c("asymptotic", "approximate", "exact"),
     alternative = c("two.sided", "less", "greater"),
     xtrafo = trafo, ytrafo = trafo, scores = NULL, 
     check = NULL, ...)
@@ -38,8 +38,12 @@
     \code{"less"}.  You can specify just the initial letter.}   
   \item{distribution}{a character, the null distribution of the test statistic
     can be computed \code{exact}ly or can be approximated by its
-    asymptotic distribution (\code{asympt})
-    or via Monte-Carlo resampling (\code{approx}).}
+    asymptotic distribution (\code{asymptotic})
+    or via Monte-Carlo resampling (\code{approximate}).
+    Alternatively, the functions 
+    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{xtrafo}{a function of transformations (see \code{\link{trafo}})
     to be applied to the variables on the right hand side of
     \code{formula}, see below.}

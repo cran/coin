@@ -46,7 +46,7 @@
 }
 \references{
 
-  Joerg Mueller and Torsten Hothorn (2004). Maximally Selected Two-Sample 
+  J{\"o}rg M{\"u}ller and Torsten Hothorn (2004). Maximally Selected Two-Sample 
   Statistics as a new Tool for the Identification and Assessment of Habitat 
   Factors with an Application to Breeding Bird Communities in Oak Forests. 
   \emph{Journal of Forest Research}, \bold{123}, 219--228.
@@ -59,7 +59,6 @@ data(treepipit, package = "coin")
 maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
                       coniferous + deadtree + cbpiles + ivytree,
              data = treepipit)
-
 
 }
 \keyword{datasets}

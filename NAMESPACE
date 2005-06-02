@@ -28,7 +28,8 @@ export(independence_test,
        consal_trafo,
        maxstat_trafo,
        logrank_trafo,
-       f_trafo)       
+       f_trafo,
+       asymptotic, exact, approximate)       
 
 exportClasses("IndependenceProblem", "IndependenceTest", 
               "SymmetryProblem", "ExpectCovarInfluence", "ExpectCovar",
@@ -37,7 +38,7 @@ exportClasses("IndependenceProblem", "IndependenceTest",
 
 exportMethods("initialize", "show", "pvalue", "statistic", 
               "pperm", "dperm", "qperm", "support", "expectation", 
-              "covariance")
+              "covariance", "variance")
 
 S3method(independence_test, formula)
 S3method(independence_test, IndependenceProblem)

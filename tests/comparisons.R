@@ -21,7 +21,7 @@ stopifnot(isequal(round(sqrt(statistic(bta)), 3), 1.342))
 stopifnot(isequal(round(pvalue(bta), 4), 0.1797))
 
 # exact p-value, page 306
-btMC <- mh_test(presidents, distribution = "approx", B = 10000)
+btMC <- mh_test(presidents, distribution = approximate(B = 10000))
 pci <- attr(pvalue(btMC), "conf.int")
 stopifnot(pci[1] < 0.2632 & pci[2] > 0.2632)
 
@@ -63,7 +63,7 @@ stopifnot(isequal(round(pvalue(bta), 4), 0.2492))
 
 # exact p-value, page 313
 btMC <- mh_test(pathologists, scores = list(response = 1:5), 
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(btMC), "conf.int")
 stopifnot(pci[1] < 0.3073 & pci[2] > 0.3073)
 
@@ -94,14 +94,14 @@ stopifnot(isequal(round(pvalue(wtel), 4), 0.0542))
 
 # two-sided approximated p-value
 wtMC <- wilcox_test(bp ~ group, data = bloodp, 
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(wtMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(wte) & pci[2] > pvalue(wte))
 
 # one-sided approximated p-value
 wtMC <- wilcox_test(bp ~ group, data = bloodp, alternative = "greater",
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(wtMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(wtel) & pci[2] > pvalue(wtel))
@@ -129,14 +129,14 @@ stopifnot(isequal(round(pvalue(ntel), 4), 0.0462))
 
 # two-sided approximated p-value
 ntMC <- normal_test(bp ~ group, data = bloodp, ties.method = "average",
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(ntMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(nte) & pci[2] > pvalue(nte))
 
 # one-sided approximated p-value
 ntMC <- normal_test(bp ~ group, data = bloodp, alternative = "greater",
-                    distribution = "approx", B = 10000, 
+                    distribution = approximate(B = 10000), 
                     ties.method = "average")
 pci <- attr(pvalue(ntMC), "conf.int")
 
@@ -163,14 +163,14 @@ stopifnot(isequal(round(pvalue(ptel), 4), 0.0564))
 
 # two-sided approximated p-value
 ptMC <- oneway_test(bp ~ group, data = bloodp, 
-                  distribution = "approx", B = 10000)
+                  distribution = approximate(B = 10000))
 pci <- attr(pvalue(ptMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(pte) & pci[2] > pvalue(pte))
 
 # one-sided approximated p-value
 ptMC <- oneway_test(bp ~ group, data = bloodp, alternative = "greater",
-                  distribution = "approx", B = 10000)
+                  distribution = approximate(B = 10000))
 pci <- attr(pvalue(ptMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(ptel) & pci[2] > pvalue(ptel))
@@ -201,15 +201,15 @@ stopifnot(isequal(round(pvalue(wtel), 4), 0.04))
 
 # two-sided approximated p-value
 wtMC <- wilcox_test(Salary ~ Gender | Year, data = employment, 
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(wtMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(wte) & pci[2] > pvalue(wte))
 
 # one-sided approximated p-value
 wtMC <- wilcox_test(Salary ~ Gender | Year, data = employment, 
-                    alternative = "less", distribution = "approx", 
-                    B = 10000)
+                    alternative = "less", 
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(wtMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(wtel) & pci[2] > pvalue(wtel))
@@ -238,15 +238,15 @@ stopifnot(isequal(round(pvalue(nta), 4), 0.0716))
 
 # two-sided approximated p-value
 ntMC <- normal_test(Salary ~ Gender | Year, data = employment, 
-    ties.method = "average", distribution = "approx", B = 10000)
+    ties.method = "average", distribution = approximate(B = 10000))
 pci <- attr(pvalue(ntMC), "conf.int")
 
 stopifnot(pci[1] < 0.04 & pci[2] > 0.04)
 
 # one-sided approximated p-value
 ntMC <- normal_test(Salary ~ Gender | Year, data = employment, 
-                    alternative = "less", distribution = "approx", 
-                    B = 10000, ties.method = "average")
+                    alternative = "less", distribution = approximate(B = 10000),
+                    ties.method = "average")
 pci <- attr(pvalue(ntMC), "conf.int")
 
 stopifnot(pci[1] < 0.04 & pci[2] > 0.04)
@@ -273,15 +273,15 @@ stopifnot(isequal(round(pvalue(ptel), 4), 0.04))
 
 # two-sided approximated p-value
 ptMC <- oneway_test(Salary ~ Gender | Year, data = employment, 
-                  distribution = "approx", B = 10000)
+                  distribution = approximate(B = 10000))
 pci <- attr(pvalue(ptMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(pte) & pci[2] > pvalue(pte))
 
 # one-sided approximated p-value
 ptMC <- oneway_test(Salary ~ Gender | Year, data = employment, 
-                    alternative = "less", distribution = "approx", 
-                    B = 10000)
+                    alternative = "less", 
+                    distribution = approximate(B = 10000))
 pci <- attr(pvalue(ptMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(ptel) & pci[2] > pvalue(ptel))
@@ -309,7 +309,7 @@ stopifnot(isequal(round(pvalue(ate), 4), 0.0581))
 
 # two-sided approximated p-value
 atMC <- ansari_test(cereal ~ machine, data = machines, 
-    ties.method = "average", distribution = "approx", B = 10000)
+    ties.method = "average", distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(atMC), "conf.int")
 
@@ -325,13 +325,16 @@ stopifnot(isequal(round(pvalue(atel), 4), 0.0253))
 # one-sided approximated p-value
 atMC <- ansari_test(cereal ~ machine, data = machines,
     ties.method = "average",
-    distribution = "approx", B = 10000, alternative = "less")
+    distribution = approximate(B = 10000), alternative = "less")
 pci <- attr(pvalue(atMC), "conf.int")
 pvalue(atMC)
 stopifnot(pci[1] < pvalue(atel) & pci[2] > pvalue(atel))
 
 ### StatXact 6 manual, 413
 load("lungcancer.rda")
+
+### NOTE: StatXact uses another tie handling method, see Callaert (2003)
+### and the examples below (at the end of this file)
 
 lta <- surv_test(Surv(time, cens) ~ group, data = lungcancer)
 
@@ -357,15 +360,15 @@ stopifnot(isequal(round(pvalue(ltel), 4), 0.0010))
 
 # two-sided approximated p-value
 ltMC <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-                     distribution = "approx", B = 10000)
+                     distribution = approximate(B = 10000))
 pci <- attr(pvalue(ltMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(lte) & pci[2] > pvalue(lte))
 
 # one-sided approximated p-value
 ltMC <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-                     alternative = "less", distribution = "approx", 
-                     B = 10000)
+                     alternative = "less", 
+                     distribution = approximate(B = 10000))
 pci <- attr(pvalue(ltMC), "conf.int")
 
 stopifnot(pci[1] < pvalue(ltel) & pci[2] > pvalue(ltel))
@@ -382,7 +385,7 @@ srv <- data.frame(time = c(3, 5, 7, 8, 18, 12, 19, 20, 20, 33),
 surv_test(Surv(time, event) ~ treatment | gender, data = srv)
 
 pvalue(surv_test(Surv(time, event) ~ treatment | gender, data = srv, 
-              distribution = "approx", B = 10000))
+              distribution = approximate(B = 10000)))
 # </CHECK>
 
 
@@ -406,7 +409,7 @@ stopifnot(isequal(round(pvalue(fta), 4), 0.0574))
 # two-sided approximated p-value
 
 ftMC <- friedman_test(skin ~  treatment | subject, data = hypnosis,
-                      distribution = "approx", B = 10000)
+                      distribution = approximate(B = 10000))
 pci <- attr(pvalue(ftMC), "conf.int")
 
 stopifnot(pci[1] < 0.0268 & pci[2] > 0.0268)
@@ -437,7 +440,7 @@ stopifnot(isequal(round(pvalue(bta), 3), 0.02))
 
 # approximative p-value
 btMC <- mh_test(response ~  treatment | subject, 
-    data = analgesic_eff, distribution = "approx", B = 10000)
+    data = analgesic_eff, distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(btMC), "conf.int")
 stopifnot(pci[1] < 0.026 & pci[2] > 0.026)
@@ -460,7 +463,7 @@ stopifnot(isequal(round(pvalue(fta), 4), 0.0079))
 
 # approximate p-value
 ftMC <- friedman_test(strength ~ potash | block, data = cotton,
-                      distribution = "approx", B = 10000)
+                      distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ftMC), "conf.int")
 stopifnot(pci[1] < 0.005 & pci[2] > 0.005)
@@ -469,7 +472,7 @@ class(cotton$potash) <- "factor"
 
 # approximate p-value
 ftMC <- friedman_test(strength ~ potash | block, data = cotton,
-                      distribution = "approx", B = 10000)
+                      distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ftMC), "conf.int")
 stopifnot(pci[1] < 0.0376 & pci[2] > 0.0376)
@@ -507,7 +510,7 @@ mtMC <- independence_test(response ~ drug, data = tox,
                           ytrafo = function(data) 
                               trafo(data, numeric_trafo = median_trafo),
                           teststat = "quadtype",
-                          distribution = "approx", B = 10000)
+                          distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(mtMC), "conf.int")
 pvalue(mtMC)
@@ -599,12 +602,12 @@ stopifnot(isequal(round(statistic(cta), 2), 3.81))
 # asymptotic p-value, page 673
 stopifnot(isequal(round(pvalue(cta), 3), 0.051))
 
-ctMC <- chisq_test(a, distribution = "approx", B = 10000)
+ctMC <- chisq_test(a, distribution = approximate(B = 10000))
 pci <- attr(pvalue(ctMC), "conf.int")
 
 stopifnot(pci[1] < 0.1409 & pci[2] > 0.1409)
 
-ctMC <- cmh_test(a, distribution = "approx", B = 10000)
+ctMC <- cmh_test(a, distribution = approximate(B = 10000))
 pci <- attr(pvalue(ctMC), "conf.int")
 
 stopifnot(pci[1] < 0.1409 & pci[2] > 0.1409)
@@ -625,7 +628,7 @@ stopifnot(isequal(round(pvalue(lta), 4), 0.1764))
 stopifnot(isequal(round(pvalue(lbl_test(csom)), 4),
                   round(prop.trend.test(csom[2,], colSums(csom))$p.value, 4)))
 
-ltMC <- lbl_test(csom, distribution = "approx", B = 100)
+ltMC <- lbl_test(csom, distribution = approximate(B = 100))
 
 pci <- attr(pvalue(ltMC), "conf.int")
 stopifnot(pci[1] < 0.179 & pci[2] > 0.179)
@@ -654,7 +657,7 @@ stopifnot(isequal(round(sqrt(statistic(lta)), 3), 4.335))
 # asymptotic p-value, page 799
 stopifnot(isequal(round(pvalue(lta), 4), 0))
 
-ltMC <- lbl_test(oral_contraceptives, distribution = "approx", B = 10000)
+ltMC <- lbl_test(oral_contraceptives, distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ltMC), "conf.int")
 stopifnot(pci[1] < 0.0000045 & pci[2] > 0.0000045)
@@ -692,7 +695,7 @@ stopifnot(isequal(round(pvalue(lta), 3), 0.082))
 
 ltMC <- lbl_test(xtabs(number ~ dose + tumor + stratum, data = tumor), 
                  scores = list(dose = c(0, 1, 5, 50)), 
-                 distribution = "approx", B = 10000)
+                 distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ltMC), "conf.int")
 stopifnot(pci[1] < 0.0769 & pci[2] > 0.0769)
@@ -714,7 +717,7 @@ stopifnot(isequal(round(pvalue(bta), 6), 0.000188))
 
 # <CHECK>
 btMC <- mh_test(endo, scores = list(response = c(0, 0.2, 0.512, 0.7)),
-                    distribution = "approx", B = 10000)
+                    distribution = approximate(B = 10000))
 
 print(pvalue(btMC))
 pci <- attr(pvalue(ltMC), "conf.int")
@@ -736,14 +739,14 @@ stopifnot(isequal(round(statistic(cta), 1), 22.1))
 # asymptotic p-value, page 947
 stopifnot(isequal(round(pvalue(cta), 2), 0.14))
 
-ctMC <- chisq_test(oral_lesions, distribution = "approx", B = 10000)
+ctMC <- chisq_test(oral_lesions, distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ctMC), "conf.int")
 stopifnot(pci[1] < 0.0269 & pci[2] > 0.0269)
 
 
 # approximate p-value, page 947
-ctMC <- cmh_test(oral_lesions, distribution = "approx", B = 10000)
+ctMC <- cmh_test(oral_lesions, distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ctMC), "conf.int")
 stopifnot(pci[1] < 0.0269 & pci[2] > 0.0269)
@@ -761,7 +764,7 @@ stopifnot(isequal(round(sqrt(statistic(lta)), 3), 1.807))
 # asymptotical p-value, page 993
 stopifnot(isequal(round(pvalue(lta), 4), 0.0708))
 
-ltMC <- lbl_test(dr, distribution = "approx", B = 10000)
+ltMC <- lbl_test(dr, distribution = approximate(B = 10000))
 pci <- attr(pvalue(ltMC), "conf.int")
 
 stopifnot(pci[1] < 0.0792 & pci[2] > 0.0792)
@@ -776,7 +779,7 @@ stopifnot(isequal(round(sqrt(statistic(lta)), 3), 1.734))
 stopifnot(isequal(round(pvalue(lta), 4), 0.0828))
 
 ltMC <- lbl_test(dr, scores = list(tox = c(1, 3, 9, 27)), 
-                 distribution = "approx", B = 10000)
+                 distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(ltMC), "conf.int")
 stopifnot(pci[1] < 0.078 & pci[2] > 0.078)
@@ -842,3 +845,18 @@ stopifnot(isequal(round(sqrt(statistic(lta)), 3), 2.481))
 # asymptotical p-value, page 1020
 stopifnot(isequal(round(pvalue(lta), 5), 0.01309))
 
+
+### --------------------------------------------------------- ###
+
+# some additional checks (always add new tests at the end because of the RNG's)
+
+lta <- surv_test(Surv(time, event) ~ treatment | gender, data = srv)
+stopifnot(isequal(round(pvalue(lta), 4), 0.1224))
+
+### example from Callaert (2003), AmStat 57, 214-217
+exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
+                     event = rep(TRUE, 15),
+                     group = factor(c(rep(0, 7), rep(1, 8))))
+p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
+          distribution = exact()))
+stopifnot(isequal(round(p, 4), 0.0505))

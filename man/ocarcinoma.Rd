@@ -17,8 +17,10 @@ IIA.
   }
 }
 \details{
+
   Data from Fleming et al. (1980, 1984), reanalysed in Schumacher and
-Schulgen (2002).
+  Schulgen (2002).
+
 }
 \source{
   

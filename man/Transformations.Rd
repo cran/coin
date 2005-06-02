@@ -23,7 +23,7 @@ normal_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 median_trafo(x)
 consal_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 maxstat_trafo(x, minprob = 0.1, maxprob = 0.9)
-logrank_trafo(x)
+logrank_trafo(x, ties.method = c("logrank", "HL"))
 f_trafo(x)
 }
 \arguments{
@@ -43,8 +43,9 @@ f_trafo(x)
   \item{x}{an object of classes \code{numeric}, \code{factor} or
     \code{Surv}.}
   \item{ties.method}{two methods are available to adjust scores for ties.
-    Either the score generating function is applied to \code{mid-ranks}
-	    or scores, based on random ranks, are averaged \code{average-scores}.}
+    Either the score generating function is applied to \code{mid-ranks} 
+    or scores, based on random ranks, are averaged \code{average-scores}.
+    For ties handling in case of censored data, see \code{\link{surv_test}}.}
   \item{minprob}{a fraction between 0 and 0.5.}
   \item{maxprob}{a fraction between 0.5 and 1.}
 }
@@ -65,7 +66,7 @@ f_trafo(x)
   \code{normal_trafo}, \code{median_trafo} and \code{consal_trafo}
   implement normal scores, median scores or Conover-Salburg scores
   (see \code{\link{neuropathy}}) for location problems, 
-  \code{logrank_trafo} returns Logrank scores for censored data.
+  \code{logrank_trafo} returns logrank scores for censored data.
 
   A \code{trafo} function with modified default arguments is usually
   feeded into \code{\link{independence_test}} via the \code{xtrafo}

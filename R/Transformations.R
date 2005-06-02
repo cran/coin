@@ -90,14 +90,19 @@ maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
     cm
 }
 
-#### Logrank 
-logrank_trafo <- function(x) {
+### logrank scores; with two different methods of handling
+### ties
+logrank_trafo <- function(x, ties.method = c("logrank", "HL")) {
+    ties.method <- match.arg(ties.method)
     time <- x[,1]
     event <- x[,2]
     n <- length(time)
-    ot <- order(time)
+    ot <- order(time, event)
     rt <- rank(time, ties.method = "max")
-    fact <- event/(n - rt + 1)
+    mt <- rank(time, ties.method = "min") - 1
+    fact <- switch(ties.method, "logrank" = event / (n - mt),
+                                "HL" = event/(n - rt + 1)
+                  )
     event - cumsum(fact[ot])[rt]
 }
 

@@ -7,10 +7,12 @@
     
 }
 \usage{
-\method{surv_test}{formula}(formula, data, subset = NULL,  weights = NULL, \dots)
+\method{surv_test}{formula}(formula, data, subset = NULL,  
+    weights = NULL, \dots)
 \method{surv_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"), ...)
+    distribution = c("asymptotic", "approximate", "exact"), 
+    ties.method = c("logrank", "HL"), ...)
 }
 \arguments{
   \item{formula}{a formula of the form \code{Surv(time, event) ~ x | block} where 
@@ -32,13 +34,37 @@
   \item{distribution}{a character, the null distribution of the test statistic
     can be computed \code{exact}ly or can be approximated by its
     asymptotic distribution (\code{asympt})  
-    or via Monte-Carlo resampling (\code{approx}).}
+    or via Monte-Carlo resampling (\code{approx}).
+    Alternatively, the functions 
+    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
+  \item{ties.method}{a character specifying the way ties are handled in the
+                     definition of the logrank scores, see below.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
 
   The null hypothesis of the equality of the distribution of the survival
   functions in the groups induced by \code{x} is tested. 
+
+  The test implemented here is based on the classical logrank test,
+  reformulated as a linear rank test. There are several ways of dealing with
+  ties. Here, two methods are implemented. The first one (\code{ties.method = "logrank"})
+  is described in Callaert (2003) for the uncensored case and leads, in 
+  the presence of censored observations, to coefficients 
+  \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k < X_j\}|)}
+  for a linear rank statistic \eqn{T = \sum_{i = 1}^ n a_i U_i} 
+  (in the two-sample situations, where \eqn{U_i = 0} or \eqn{U_i = 1} denotes
+  the groups). The second method is described in Hothorn & Lausen (2003) where
+  the coefficients
+  \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k \le X_j\}| + 1)}
+  are suggested.
+
+  Note, however, that the test statistics will differ from the results
+  of \code{\link[survival]{survdiff}} since the conditional variance 
+  is not identical to the variance estimate used by the classical logrank
+  test.
 
 }
 \value{
@@ -50,12 +76,33 @@
   \code{\link{qperm}} and \code{\link{support}} methods.
 
 }
+\references{
+
+    Herman Callaert (2003), Comparing Statistical Software Packages:
+    The Case of the Logrank Test in StatXact. 
+    \emph{The American Statistician}, \bold{57}, 214--217.
+
+    Torsten Hothorn & Berthold Lausen (2003),
+    On the Exact Distribution of Maximally Selected Rank
+    Statistics. \emph{Computational Statistics \& Data Analysis}
+    \bold{43}, 121--137.
+}    
 \examples{
 
+### asymptotic tests for carcinoma data
 data(ocarcinoma, package = "coin")
+surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
+survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
 
-surv_test(Surv(time, event) ~ stadium, data = ocarcinoma, 
-             distribution = "exact")
+### example data given in Callaert (2003)
+exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
+                     event = rep(TRUE, 15),
+                     group = factor(c(rep(0, 7), rep(1, 8))))
+### p = 0.0523
+survdiff(Surv(time, event) ~ group, data = exdata)
+### p = 0.0505
+surv_test(Surv(time, event) ~ group, data = exdata, 
+          distribution = exact())
 
 }
 \keyword{htest}

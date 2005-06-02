@@ -7,6 +7,8 @@
 \alias{initialize,signature-method}
 \alias{initialize,environment-method}
 \alias{initialize,ModelEnv-method}
+\alias{initialize,CovarianceMatrix-method}
+\alias{initialize,Variance-method}
 \alias{initialize,IndependenceTestProblem-method}
 \alias{initialize,IndependenceTestStatistic-method}
 \alias{initialize,ScalarIndependenceTestStatistic-method}

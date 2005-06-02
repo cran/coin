@@ -10,7 +10,7 @@
 \usage{
 \method{mh_test}{formula}(formula, data, subset = NULL, \dots)
 \method{mh_test}{table}(object, ...)
-\method{mh_test}{SymmetryProblem}(object, distribution = c("asympt", "approx"), ...) 
+\method{mh_test}{SymmetryProblem}(object, distribution = c("asymptotic", "approximate"), ...) 
 }
 \arguments{
   \item{formula}{a formula of the form \code{y ~ x | block} where \code{y}
@@ -25,8 +25,12 @@
   \item{object}{an object inheriting from class \code{SymmetryProblem} or a 
            \code{table} with identical \code{dimnames} attributes.}
   \item{distribution}{a character, the null distribution of the test statistic
-    can be approximated by its asymptotic distribution (\code{asympt}) 
-    or via Monte-Carlo resampling (\code{approx}).}
+    can be approximated by its asymptotic distribution (\code{asymptotic}) 
+    or via Monte-Carlo resampling (\code{approximate}).
+    Alternatively, the functions 
+    \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{

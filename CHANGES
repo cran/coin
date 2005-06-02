@@ -1,5 +1,32 @@
 
 
+		CHANGES IN `coin' VERSION 0.2-11
+
+
+    o   the `distribution' argument now takes the return values of
+        functions `exact()', `approximate()' or `asymptotic()' as well.
+        Those functions can be used to specify parameters, such as the
+        number of Monte-Carlo replications via
+        ..., distribution = approximate(B = 9999), ...
+
+    o   `show()' returns objects (of class `htest', for example) invisibly
+
+    o   `expectation()' returns a vector, not a matrix
+
+    o   new generic `variance()' for extracting the variance(s) of 
+        linear statistics
+
+    o   only variances (instead of the whole covariance matrix) is 
+        computed when the distribution of maximum type test statistics 
+        is to be _approximated_.
+
+    o   `data' may be an object of class `exprSet' (-> Biobase), the
+        vignette has an example
+
+    o   `logrank_trafo' (and `surv_test') now have a `ties.method' argument,
+        see ?surv_test for more information
+
+
 		CHANGES IN `coin' VERSION 0.2-10
 
 

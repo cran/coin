@@ -55,6 +55,10 @@
 
 <<setup, echo = FALSE, results = hide>>=
 options(width = 65)
+require(coin)
+require(Biobase)
+require(multcomp)
+set.seed(290875)
 @
 
 \section{Introduction}
@@ -298,7 +302,7 @@ available in package \texttt{stats} for a long time. The exact
 null distribution of the Kruskal-Wallis test can be approximated by $9999$
 Monte-Carlo replications via
 <<YOY-KW, echo = TRUE>>=
-kw <- kruskal_test(length ~ site, data = YOY, distribution = "approx", B = 9999)
+kw <- kruskal_test(length ~ site, data = YOY, distribution = approximate(B = 9999))
 kw
 @
 with $p$-value (and $99\%$ confidence interval) of 
@@ -350,6 +354,50 @@ association test via a list those names correspond to the variable names
 lbl_test(jobsatisfaction, 
     scores = list(Job.Satisfaction = c(1, 3, 4, 5), 
                   Income = c(3, 10, 20, 35)))
+@
+
+\paragraph{Multiple Tests.}
+
+One may be interested in testing multiple hypotheses simultaneously, either
+by using a linear combination of the linear statistic $\K\T$, or by
+specifying multivariate variables $\Y$ and / or $\X$. For example, all pair
+comparisons may be implemented via
+<<warpbreaks-Tukey, echo = TRUE>>=
+if (require(multcomp)) {
+    it <- independence_test(length ~ site, data = YOY,
+                  xtrafo = function(data) 
+                     trafo(data, factor_trafo = function(x)
+                     model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
+                 teststat = "max", distribution = approximate(B = 9999))
+    print(pvalue(it))
+    print(pvalue(it, adjusted = TRUE))
+}
+@
+Another important application are simultaneous tests for many response
+variables. This problem frequently occurs in microarray expression studies
+and we shall have a look at an artificial example: 100 variables (from a
+normal distribution) are to be tested in a one-way classification with $n =
+40$ observations. Only the first variable shows a difference and we are
+interested in both a global test and the adjusted $P$-values. Here, the
+example is formulated within the \texttt{Biobase} framework:
+<<biobase-resampling, echo = TRUE>>=
+if (require(Biobase)) {
+
+    p <- 100
+    pd <- new("phenoData", pData = data.frame(group = gl(2, 20)),
+              varLabels = list(group = c("1", "2")))
+    exprs <- matrix(rnorm(p * 40), nrow = p)
+    exprs[1,1:20] <- exprs[1,1:20] + 1.5
+    ex <- new("exprSet", exprs = exprs,
+                         phenoData = pd)
+
+    it <- independence_test(group ~ ., data = ex,
+                      distribution = approximate(B = 1000))
+
+    print(pvalue(it))
+    print(which(pvalue(it, adjusted = TRUE) < 0.05))
+
+}
 @
 
 \section{Quality Assurance}

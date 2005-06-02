@@ -15,14 +15,14 @@
 \method{ansari_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{ansari_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asympt", "approx", "exact"),
+    distribution = c("asymptotic", "approximate", "exact"),
     ties.method = c("mid-ranks", "average-scores"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{fligner_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{fligner_test}{IndependenceProblem}(object, 
     ties.method = c("mid-ranks", "average-scores"),
-    distribution = c("asympt", "approx"), 
+    distribution = c("asymptotic", "approximate"), 
     ...)
 
 }
@@ -43,8 +43,12 @@
     \code{"less"}.  You can specify just the initial letter.}   
   \item{distribution}{a character, the null distribution of the test statistic
     can be computed \code{exact}ly or can be approximated by its
-    asymptotic distribution (\code{asympt})   
-    or via Monte-Carlo resampling (\code{approx}).}
+    asymptotic distribution (\code{asymptotic})   
+    or via Monte-Carlo resampling (\code{approximate}).
+    Alternatively, the functions 
+    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    used to specify how the exact conditional distribution of the test statistic
+    should be calculated or approximated.}
   \item{ties.method}{a character, two methods are available to adjust scores for ties,
       either the score generating function is applied to \code{mid-ranks}
       or the scores computed based on random ranks are averaged for all tied
@@ -149,7 +153,7 @@ platalet_counts <- data.frame(
 lt <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
         cbind(rank(x), ansari_trafo(x))),
-    teststat = "quadtype", distribution = "approx", B = 9999)
+    teststat = "quadtype", distribution = approximate(B = 9999))
 
 lt
 
@@ -159,7 +163,7 @@ ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
                dimnames = list(1:length(x), c("Location", "Scale")))),
-    teststat = "maxtype", distribution = "approx", B = 9999)
+    teststat = "maxtype")
 
 ### points to a difference in location
 pvalue(ltmax, adjusted = TRUE)
