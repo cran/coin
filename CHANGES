@@ -1,4 +1,11 @@
 
+		CHANGES IN `coin' VERSION 0.2-13
+
+
+    o   I() in formulae returns objects of class `AsIs' which caused
+        troubles in `trafo'
+
+
 		CHANGES IN `coin' VERSION 0.2-12
 
 

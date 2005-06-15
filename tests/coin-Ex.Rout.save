@@ -1,6 +1,6 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.0  (2005-04-18), ISBN 3-900051-07-0
+Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -133,6 +133,24 @@ data:  Job.Satisfaction (ordered) by
 T = 6.1563, p-value = 0.0123
 
 > 
+> ### Smoking and HDL cholesterin status
+> ### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
+> smokingHDL <- as.table(
++     matrix(c(15,  8, 11,  5,
++               3,  4,  6,  1, 
++               6,  7, 15, 11, 
++               1,  2,  3,  5), ncol = 4,
++            dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"),
++                            HDL = c("normal", "low", "borderline", "abnormal"))
++     ))
+> ### use interval mid-points as scores for smoking
+> lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  HDL (ordered) by groups none < < 5 < < 10 < >=10 
+T = 9.8557, df = 1, p-value = 0.001693
+
 > 
 > 
 > 
@@ -1431,7 +1449,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  24.43 0.07 24.55 0 0 
+Time elapsed:  26.23 0.09 26.38 0 0 
 > grDevices::dev.off()
 null device 
           1 

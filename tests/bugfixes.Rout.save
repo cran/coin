@@ -1,0 +1,39 @@
+
+R : Copyright 2005, The R Foundation for Statistical Computing
+Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### Regression tests for fixed bugs
+> 
+> set.seed(290875)
+> library(coin)
+Loading required package: survival
+Loading required package: splines
+Loading required package: mvtnorm
+Loading required package: modeltools
+> isequal <- coin:::isequal
+> 
+> ### I() returns objects of class AsIs which caused an error in `trafo'
+> df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50))
+> independence_test(I(x1 / x2) ~ x3, data = df)
+
+	Asymptotic General Independence Test
+
+data:  I(x1/x2) by groups 1, 2 
+T = -0.4491, p-value = 0.6534
+alternative hypothesis: two.sided 
+
+>  
+> 

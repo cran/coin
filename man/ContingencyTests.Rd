@@ -120,5 +120,18 @@ cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
                                         Income = c(3, 10, 20, 35)),
          distribution = approximate(B = 10000))
 
+### Smoking and HDL cholesterin status
+### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
+smokingHDL <- as.table(
+    matrix(c(15,  8, 11,  5, 
+              3,  4,  6,  1, 
+              6,  7, 15, 11, 
+              1,  2,  3,  5), ncol = 4,
+           dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
+                           HDL = c("normal", "low", "borderline", "abnormal"))
+    ))
+### use interval mid-points as scores for smoking
+lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
+
 }
 \keyword{htest}

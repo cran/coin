@@ -152,17 +152,15 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
         stop("data class ", class(x), " is not supported")
     })
 
-    chk <- sapply(tr, function(x) (is.matrix(x) && nrow(x) == nrow(data)) ||
-                           (is.vector(x) && length(x) == nrow(data)))
-    if (!all(chk))
-        stop("transformations are not of length / nrow", nrow(data))
-
     RET <- c()
     assignvar <- c()
     for (i in 1:length(tr)) {
+        if (!is.matrix(tr[[i]])) 
+            tr[[i]] <- as.matrix(tr[[i]])
+        if (nrow(tr[[i]]) != nrow(data)) 
+            stop("transformations are not of length / nrow", nrow(data))
         RET <- cbind(RET, tr[[i]])
-        p <- ifelse(is.matrix(tr[[i]]), ncol(tr[[i]]), 1)
-        assignvar <- c(assignvar, rep(i, p))
+        assignvar <- c(assignvar, rep(i, ncol(tr[[i]])))
     }
     attr(RET, "assign") <- assignvar
     return(RET)

@@ -1,0 +1,31 @@
+vandeWiel.o: vandeWiel.c /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h
