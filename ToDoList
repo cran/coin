@@ -1,4 +1,9 @@
 
+o	some classes are the same in `coin' and `party': can they conflict?
+
+o	maxstat_tests scales poorly for very large problems (number of obs)
+        maybe we can look at each 2-sample problem separately?
+
 o	compare multiple test procedures with multtest
 
 o	check spearman_test vs. cor.test

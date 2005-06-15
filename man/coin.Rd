@@ -19,7 +19,7 @@ the two- and K-sample location and scale problem against ordered and
 unordered alternatives including post-hoc tests for arbitrary contrasts,
 tests of independence for contingency tables, two- and K-sample tests for
 censored data, tests for independence of two continuous variables as well as 
-tests for marginal homogenity and symmetry. Conditional counterparts of 
+tests for marginal homogeneity and symmetry. Conditional counterparts of 
 most of the classical procedures
 given in famous text books like Hollander & Wolfe (1999) or Agresti (2002)
 can be implemented as part of the general framework without much effort.

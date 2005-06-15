@@ -1,4 +1,16 @@
 
+		CHANGES IN `coin' VERSION 0.2-12
+
+
+    o   functionality for formula parsing and evaluation is now imported
+        from package `modeltools'
+
+    o   `show()' returns objects (of class `htest', for example) invisibly,
+         really.
+
+    o   `maxstat_trafo' is much faster now and returns a matrix with
+        both row- and column names set appropriately
+
 
 		CHANGES IN `coin' VERSION 0.2-11
 

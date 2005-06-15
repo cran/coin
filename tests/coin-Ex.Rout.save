@@ -48,6 +48,7 @@ Type 'q()' to quit R.
 Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
+Loading required package: modeltools
 > 
 > assign(".oldSearch", search(), env = .CheckExEnv)
 > assign(".oldNS", loadedNamespaces(), env = .CheckExEnv)
@@ -864,17 +865,28 @@ attr(,"assign")
 > 
 > ### maximally selected statistics
 > maxstat_trafo(rnorm(10))
-      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,]    1    0    1    0    0    1    1    1
- [3,]    1    1    1    1    1    1    1    1
- [4,]    1    1    1    1    1    1    1    1
- [5,]    0    0    1    0    0    0    0    0
- [6,]    1    0    1    1    1    1    1    1
- [7,]    1    0    1    0    1    1    1    1
- [8,]    0    0    1    0    0    1    0    0
- [9,]    0    0    1    0    0    1    1    0
-[10,]    0    0    1    0    0    1    1    1
+   x <= 0.39 x <= -0.621 x <= 1.125 x <= -0.045 x <= -0.016 x <= 0.944
+1          0           0          0           0           0          0
+2          1           0          1           0           0          1
+3          1           1          1           1           1          1
+4          1           1          1           1           1          1
+5          0           0          1           0           0          0
+6          1           0          1           1           1          1
+7          1           0          1           0           1          1
+8          0           0          1           0           0          1
+9          0           0          1           0           0          1
+10         0           0          1           0           0          1
+   x <= 0.821 x <= 0.594
+1           0          0
+2           1          1
+3           1          1
+4           1          1
+5           0          0
+6           1          1
+7           1          1
+8           0          0
+9           1          0
+10          1          1
 > 
 > ### apply transformation blockwise (e.g. for Friedman test)
 > trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
@@ -1419,7 +1431,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  27.54 0.1 27.68 0 0 
+Time elapsed:  24.43 0.07 24.55 0 0 
 > grDevices::dev.off()
 null device 
           1 

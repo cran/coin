@@ -85,8 +85,10 @@ maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
     ux <- unique(x)
     ux <- ux[ux < max(x) & ux > min(x)]
     cutpoints <- ux[ux > qx[1] & ux <= qx[2]]
-    cm <- matrix(unlist(sapply(cutpoints, function(cut)
-        as.numeric(x <= cut))), nrow = length(x))
+    cm <- .Call("R_maxstattrafo", as.double(x), as.double(cutpoints),
+                PACKAGE = "coin")
+    colnames(cm) <- paste("x <= ", round(cutpoints, 3), sep = "")
+    rownames(cm) <- 1:nrow(cm)
     cm
 }
 

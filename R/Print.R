@@ -67,6 +67,7 @@ setMethod(f = "show", signature = "QuadTypeIndependenceTest",
             RET <- c(RET, x@statistic@estimates)
         class(RET) <- "htest"
         print(RET)
+        invisible(RET)
     }
 )
 
@@ -94,6 +95,7 @@ setMethod(f = "show", signature = "MaxTypeIndependenceTest",
             RET <- c(RET, x@statistic@estimates)
         class(RET) <- "htest"
         print(RET)
+        invisible(RET)
     }
 )
 
@@ -125,6 +127,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTest",
             RET <- c(RET, x@statistic@estimates)
         class(RET) <- "htest"
         print(RET)
+        invisible(RET)
     }
 )
 
@@ -159,6 +162,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTestConfint",
             RET <- c(RET, x@statistic@estimates)
         class(RET) <- "htest"
         print(RET)
+        invisible(RET)
     }
 )
 
@@ -185,5 +189,4 @@ print.MCp <- function(x, ...) {
     ci <- list(conf.int = attr(x, "conf.int"))
     class(ci) <- "ci"
     print(ci)
-    invisible(x)
 }
