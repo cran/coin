@@ -208,7 +208,7 @@ $\Sigma$. The application of a quadratic form $c_\text{quad}(\mathbf{t}, \mu,
 computationally more expensive because the Moore-Penrose 
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
-The conditional distribution and thus the $P$-value
+The conditional distribution and thus the $p$-value
 of the statistics $c(\mathbf{t}, \mu, \Sigma)$ can be
 computed in several different ways. For some special forms of the
 linear statistic, the exact distribution of the test statistic is trackable.
@@ -365,7 +365,7 @@ comparisons may be implemented via
 <<warpbreaks-Tukey, echo = TRUE>>=
 if (require(multcomp)) {
     it <- independence_test(length ~ site, data = YOY,
-                  xtrafo = function(data) 
+                 xtrafo = function(data) 
                      trafo(data, factor_trafo = function(x)
                      model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
                  teststat = "max", distribution = approximate(B = 9999))
@@ -373,12 +373,15 @@ if (require(multcomp)) {
     print(pvalue(it, adjusted = TRUE))
 }
 @
+In the above example, single-step adjusted $p$-values based on maximum-type
+statistics are computed. 
+
 Another important application are simultaneous tests for many response
 variables. This problem frequently occurs in microarray expression studies
 and we shall have a look at an artificial example: 100 variables (from a
 normal distribution) are to be tested in a one-way classification with $n =
 40$ observations. Only the first variable shows a difference and we are
-interested in both a global test and the adjusted $P$-values. Here, the
+interested in both a global test and the adjusted $p$-values. Here, the
 example is formulated within the \texttt{Biobase} framework:
 <<biobase-resampling, echo = TRUE>>=
 if (require(Biobase)) {

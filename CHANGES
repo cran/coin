@@ -1,4 +1,12 @@
 
+		CHANGES IN `coin' VERSION 0.2-14
+
+    o   distribution = "approximate" for maxtype statistics was wrong
+        in case both xtrafo _and_ ytrafo were multivariate (the conditional
+        expectation was computed incorrectly)
+
+
+
 		CHANGES IN `coin' VERSION 0.2-13
 
 

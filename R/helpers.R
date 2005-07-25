@@ -45,7 +45,8 @@ ExpectCovarLinearStatistic <- function(x, y, weights, varonly = FALSE) {
 
         rSx <- colSums(x)
         rSx2 <- colSums(x^2)
-        E <- rSx * Ey
+        ### in case rSx _and_ Ey are _both_ vectors
+        E <- as.vector(kronecker(Ey, rSx))
         V <- n / (n - 1) * kronecker(Vy, rSx2)
         V <- V - 1 / (n - 1) * kronecker(Vy, rSx^2) 
         RET <- new("ExpectCovar")

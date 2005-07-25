@@ -45,5 +45,5 @@ o	check whats happening here
 
 o	Kurt: trafo as family of transformations (see glm(..., family,...)
 
-o	should be have `distribution = "none"'?
+o	should we have `distribution = "none"'?
 
