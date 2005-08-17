@@ -242,7 +242,7 @@ if (require(multcomp)) {
     print(pvalue(NDWD))
 
     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
-    print(pvalue(NDWD, adjusted = TRUE))
+    print(pvalue(NDWD, method = "single-step"))
 }
 
 }

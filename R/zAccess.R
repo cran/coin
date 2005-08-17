@@ -26,19 +26,18 @@ setMethod(f = "pvalue",
 
 setMethod(f = "pvalue",
           signature = "MaxTypeIndependenceTest",
-          definition = function(object, adjusted = FALSE, ...) {
+          definition = function(object, 
+              method = c("global", "single-step", "step-down", "discrete"), ...) {
+
+              method <- match.arg(method)
               x <- object@statistic
-              if (adjusted) {
-                  padj <- 1 - sapply(abs(x@standardizedlinearstatistic), pperm, 
-                                     object = object, ...)
-                  RET <- matrix(padj, nrow = ncol(x@xtrans), 
-                                ncol = ncol(x@ytrans), 
-                                dimnames = list(colnames(x@xtrans), 
-                                                colnames(x@ytrans)))
-              } else {
-                  RET <- pvalue(object@distribution, 
-                                object@statistic@teststatistic)
-              }
+              RET <- switch(method, 
+                   "global" = pvalue(object@distribution, 
+                                    object@statistic@teststatistic),
+                   "single-step" = singlestep(object, ...),
+                   "step-down" = stepdown(object, ...),
+                   "discrete" = dbonf(object, ...)
+              )
               return(RET)
           }
 )
@@ -174,7 +173,7 @@ setGeneric("support", function(object, p, ...)
 setMethod(f = "support",
           signature = "NullDistribution",
           definition = function(object, p, ...) {
-              object@support(p)
+              object@support(p, ...)
           }
 )
 
@@ -195,14 +194,14 @@ setMethod(f = "support",
 setMethod(f = "support",
           signature = "MaxTypeIndependenceTest",
           definition = function(object, p, ...) {
-              support(object@distribution, p)
+              support(object@distribution, p, ...)
           }
 )
 
 setMethod(f = "support",
           signature = "QuadTypeIndependenceTest",
           definition = function(object, p, ...) {
-              support(object@distribution, p)
+              support(object@distribution, p, ...)
           }
 )
 

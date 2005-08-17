@@ -69,9 +69,11 @@ setClass(Class = "IndependenceTestStatistic",
         linearstatistic = "numeric",
         expectation     = "numeric",
         covariance      = "VarCovar",
-        estimates       = "list"
+        estimates       = "list",
+        teststatistic   = "numeric"
     ),
-    contains = "IndependenceTestProblem"
+    contains = "IndependenceTestProblem",
+
 )
 
 ### back-transformation
@@ -85,7 +87,6 @@ setAs(from = "IndependenceTestStatistic", to = "IndependenceTestProblem",
 ### teststatistic = linearstatistic
 setClass(Class = "ScalarIndependenceTestStatistic",
     representation = representation(
-        teststatistic = "numeric",
         alternative   = "character"
     ),
     contains = "IndependenceTestStatistic",
@@ -104,10 +105,12 @@ setAs(from = "ScalarIndependenceTestStatistic",
 ### teststatistic = max(abs(linearstatistic))
 setClass(Class = "MaxTypeIndependenceTestStatistic",
     representation = representation(
-        teststatistic               = "numeric",
-        standardizedlinearstatistic = "numeric" 
+        standardizedlinearstatistic = "numeric",
+        alternative                 = "character"
     ),
-    contains = "IndependenceTestStatistic"
+    contains = "IndependenceTestStatistic",
+    validity = function(object)
+        object@alternative %in% c("two.sided", "less", "greater")
 )
 
 ### back-transformation
@@ -121,7 +124,6 @@ setAs(from = "MaxTypeIndependenceTestStatistic",
 ### teststatistic = quadform(linearstatistic)
 setClass(Class = "QuadTypeIndependenceTestStatistic",
     representation = representation(
-        teststatistic  = "numeric",
         covarianceplus = "matrix",
         df             = "numeric"
     ),

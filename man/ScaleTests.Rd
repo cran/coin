@@ -166,7 +166,7 @@ ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
     teststat = "maxtype")
 
 ### points to a difference in location
-pvalue(ltmax, adjusted = TRUE)
+pvalue(ltmax, method = "single-step")
 
 ### Funny: We could have used a simple Bonferroni procedure
 ### since the correlation between the Wilcoxon and Ansari-Bradley 

@@ -1,9 +1,9 @@
 
 /**
     Linear statistics for conditional inference
-    *\file $RCSfile: LinearStatistic.c,v $
+    *\file LinearStatistic.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/02/10 14:54:09 $
+    *\date $Date: 2005/07/28 15:04:29 $
 */
     
 #include "CI_common.h"

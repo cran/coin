@@ -230,7 +230,8 @@ setMethod(f = "initialize",
 ### new("MaxTypeIndependenceTestStatistic", ...)
 setMethod(f = "initialize", 
     signature = "MaxTypeIndependenceTestStatistic", 
-    definition = function(.Object, its) {
+    definition = function(.Object, its, 
+        alternative = c("two.sided", "less", "greater")) {
 
         if (!extends(class(its), "IndependenceTestStatistic"))
             stop("Argument ", sQuote("its"), " is not of class ",
@@ -238,9 +239,14 @@ setMethod(f = "initialize",
 
         .Object <- copyslots(its, .Object)
 
+        .Object@alternative <- match.arg(alternative)
         standstat <- (its@linearstatistic - expectation(its)) / 
                       sqrt(variance(its))
-        .Object@teststatistic <- drop(max(abs(standstat)))
+        .Object@teststatistic <- switch(alternative,
+            "less" = drop(min(standstat)),
+            "greater" = drop(max(standstat)),
+            "two.sided" = drop(max(abs(standstat)))
+         )
         .Object@standardizedlinearstatistic <- standstat
 
         .Object

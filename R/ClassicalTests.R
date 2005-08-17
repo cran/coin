@@ -89,7 +89,7 @@ independence_test.IndependenceProblem <- function(object,
                     sQuote("maxtype"), " test statistic")
             teststat <- "maxtype"
         }
-        if (alternative != "two.sided")
+        if (alternative != "two.sided" && teststat == "quadform")
             warning(sQuote("alternative"), " is ignored for ", 
                     teststat, " type test statistics")
     } else {
@@ -115,7 +115,7 @@ independence_test.IndependenceProblem <- function(object,
             new("ScalarIndependenceTest", statistic = ts, distribution = nd)
         },
         "maxtype" = {
-            ts <- new("MaxTypeIndependenceTestStatistic", its)
+            ts <- new("MaxTypeIndependenceTestStatistic", its, alternative = alternative)
             nd <- switch(class(distribution),
                 "asymptotic" = do.call("AsymptNullDistribution", c(list(object = ts), distribution)),
                 "exact"  = do.call("ExactNullDistribution", c(list(object = ts), distribution)),

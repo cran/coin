@@ -362,7 +362,7 @@ T = 22.8524, p-value < 2.2e-16
 +     print(pvalue(NDWD))
 + 
 +     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
-+     print(pvalue(NDWD, adjusted = TRUE))
++     print(pvalue(NDWD, method = "single-step"))
 + }
 Loading required package: multcomp
 [1] 0.0004888889
@@ -585,7 +585,7 @@ T = 9.3384, p-value = 0.0042
 +     teststat = "maxtype")
 > 
 > ### points to a difference in location
-> pvalue(ltmax, adjusted = TRUE)
+> pvalue(ltmax, method = "single-step")
          Location     Scale
 Control 0.0067991 0.6189816
 > 
@@ -771,7 +771,7 @@ T = 11.1429, df = 2, p-value = 0.003805
 + 
 +     ### simultaneous P-values for all pair comparisons
 +     ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
-+     print(pvalue(rtt, adjusted = TRUE))
++     print(pvalue(rtt, method = "single-step"))
 + }
 Loading required package: multcomp
 [1] 0.00387132
@@ -1449,7 +1449,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  26.23 0.09 26.38 0 0 
+Time elapsed:  20.27 0.12 20.56 0 0 
 > grDevices::dev.off()
 null device 
           1 

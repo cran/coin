@@ -121,7 +121,7 @@ if (require(multcomp)) {
 
     ### simultaneous P-values for all pair comparisons
     ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
-    print(pvalue(rtt, adjusted = TRUE))
+    print(pvalue(rtt, method = "single-step"))
 }
 
 ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286

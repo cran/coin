@@ -1,9 +1,9 @@
 
 /**
     S4 classes 
-    *\file $RCSfile: Classes.c,v $
+    *\file Classes.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/02/10 14:54:09 $
+    *\date $Date: 2005/07/28 15:04:29 $
 */
 
 #include "CI_common.h"

@@ -231,7 +231,7 @@ if (require(multcomp)) {
     print(pvalue(NDWD))
 
     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
-    print(pvalue(NDWD, adjusted = TRUE))
+    print(pvalue(NDWD, method = "single-step"))
 }
 
 
@@ -395,7 +395,7 @@ ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
     teststat = "maxtype")
 
 ### points to a difference in location
-pvalue(ltmax, adjusted = TRUE)
+pvalue(ltmax, method = "single-step")
 
 ### Funny: We could have used a simple Bonferroni procedure
 ### since the correlation between the Wilcoxon and Ansari-Bradley 
@@ -531,7 +531,7 @@ if (require(multcomp)) {
 
     ### simultaneous P-values for all pair comparisons
     ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
-    print(pvalue(rtt, adjusted = TRUE))
+    print(pvalue(rtt, method = "single-step"))
 }
 
 ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286

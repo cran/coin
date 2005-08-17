@@ -7,9 +7,9 @@
             with modifications for R by 
             Torsten Hothorn <Torsten.Hothorn@R-project.org>
       
-    *\file $RCSfile: vandeWiel.c,v $
+    *\file vandeWiel.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/03/14 11:42:30 $
+    *\date $Date: 2005/07/28 15:04:29 $
 */
                     
 #include <R.h>

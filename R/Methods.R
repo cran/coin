@@ -25,6 +25,16 @@ setMethod(f = "AsymptNullDistribution",
           }
 )
 
+### just a wrapper
+pmv <- function(lower, upper, mean, corr, ...) {
+    if (length(corr) > 1) {
+        pmvnorm(lower = lower, upper = upper, mean = mean, corr = corr, ...)
+    } else {
+        pmvnorm(lower = lower, upper = upper, mean = mean, sigma = 1, ...)
+    }
+} 
+
+
 ### method for max-type test statistics
 setMethod(f = "AsymptNullDistribution", 
           signature = "MaxTypeIndependenceTestStatistic", 
@@ -34,16 +44,17 @@ setMethod(f = "AsymptNullDistribution",
               pq <- length(expectation(object))
               RET <- new("AsymptNullDistribution")
               RET@p <- function(q) {
-
-                  if (length(corr) > 1) 
-                      p <- pmvnorm(lower = -abs(q), upper = abs(q), 
-                              mean = rep(0, pq), 
-                              corr = corr, ...)
-                  else
-                      p <- pmvnorm(lower = -abs(q), upper = abs(q),
-                              mean = rep(0, pq),
-                              sigma = 1, ...)
-
+                  p <- switch(object@alternative,
+                      "less"      = pmv(lower = q, upper = Inf, 
+                                        mean = rep(0, pq),
+                                        corr = corr, ...),
+                      "greater"   = pmv(lower = -Inf, upper = q, 
+                                        mean = rep(0, pq),
+                                        corr = corr, ...),
+                      "two.sided" = pmv(lower = -abs(q), upper = abs(q),
+                                        mean = rep(0, pq),
+                                        corr = corr, ...)
+                  )
                   error <- attr(p, "error")
                   attr(p, "error") <- NULL
                   attr(p, "conf.int") <- c(max(0, p - error), min(p + error, 1))
@@ -128,7 +139,7 @@ setMethod(f = "ApproxNullDistribution",
               if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
                   stop("cannot approximate distribution with non-unity weights")
 
-              pls <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
+              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
@@ -164,7 +175,10 @@ setMethod(f = "ApproxNullDistribution",
                   class(p) <- "MCp"
                   p
               }
-              RET@support <- function(p = 1e-5) unique(pls)
+              RET@support <- function(p = 1e-5, raw = FALSE) {
+                  if (raw) return(plsraw)
+                  unique(pls)
+              }
               return(RET)
           }
 )
@@ -176,26 +190,36 @@ setMethod(f = "ApproxNullDistribution",
               if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
                   stop("cannot approximate distribution with non-unity weights")
 
-              pls <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
+              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
               if (object@has_scores) {
                   S <- object@scores
-                  pls <- lapply(pls, function(x) S %*% x)     
+                  pls <- plsraw <- lapply(pls, function(x) S %*% x)     
               } 
+
+              fun <- switch(object@alternative,
+                  "less" = min,
+                  "greater" = max,
+                  "two.sided" = function(x) max(abs(x))
+              )
 
               dcov <- sqrt(variance(object))
               expect <- expectation(object)
               pls <- lapply(pls, function(x) 
-                         max(abs(x - expect) / dcov)
+                         fun((x - expect) / dcov)
                      )
               pls <- sort(round(unlist(pls), 10))
 
               RET <- new("ApproxNullDistribution")
 
               RET@p <- function(q) {
-                  p <- mean(pls <= round(q, 10))
+                  p <- switch(object@alternative,
+                      "less" = mean(pls >= round(q, 10)),
+                      "greater" = mean(pls <= round(q, 10)),
+                      "two.sided" = mean(pls <= round(q, 10))
+                  )
                   attr(p, "conf.int") <- binom.test(round(p * B), B, 
                       conf.level = 0.99)$conf.int
                   class(p) <- "MCp"
@@ -205,13 +229,21 @@ setMethod(f = "ApproxNullDistribution",
               RET@q <- function(p) pls[length(pls) * p]
               RET@d <- function(x) length(pls == x)
               RET@pvalue <- function(q) {
-                  p <- mean(pls >= round(q, 10))
-                  attr(p, "conf.int") <- binom.test(round(p * B), B, 
+                  p <- switch(object@alternative,
+                      "less" = mean(pls <= round(q, 10)),
+                      "greater" = mean(pls >= round(q, 10)),
+                      "two.sided" = mean(pls >= round(q, 10))
+                  )
+                  attr(p, "conf.int") <- binom.test(round(p * B), B,
                       conf.level = 0.99)$conf.int
                   class(p) <- "MCp"
                   p
               }
-              RET@support <- function(p = 1e-5) unique(pls)
+
+              RET@support <- function(p = 1e-5, raw = FALSE) {
+                  if (raw) return(plsraw)
+                  unique(pls)
+              }
               RET@name = "MonteCarlo distribution"
               return(RET)
           }
@@ -224,13 +256,13 @@ setMethod(f = "ApproxNullDistribution",
               if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
                   stop("cannot approximate distribution with non-unity weights")
 
-              pls <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
+              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
               if (object@has_scores) {
                   S <- object@scores
-                  pls <- lapply(pls, function(x) S %*% x)
+                  pls <- plsraw <- lapply(pls, function(x) S %*% x)
               }
 
               dcov <- object@covarianceplus
@@ -261,7 +293,10 @@ setMethod(f = "ApproxNullDistribution",
                   class(p) <- "MCp"
                   p
               }
-              RET@support <- function(p = 1e-5) unique(pls)
+              RET@support <- function(p = 1e-5, raw = FALSE) {
+                  if (raw) return(plsraw)
+                  unique(pls)
+              }
               RET@name = "MonteCarlo distribution"
               return(RET)
           }

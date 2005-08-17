@@ -1,0 +1,68 @@
+
+R : Copyright 2005, The R Foundation for Statistical Computing
+Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### Regression tests for multiple adjustments
+> 
+> set.seed(290875)
+> library(coin)
+Loading required package: survival
+Loading required package: splines
+Loading required package: mvtnorm
+Loading required package: modeltools
+> isequal <- coin:::isequal
+> 
+> ### example from Westfall & Wolfinger (1997), Table 4
+> tab <- as.table(matrix(c(12, 1, 3, 8, 17, 12, 9, 9, 16, 24), nrow = 2,
++     dimnames = list(group = c("Placebo", "Active"),
++                     response = c("Very Poor", "Poor", "Fair", "Good",
++                                  "Excellent"))))
+> df <- coin:::table2df(tab)
+> 
+> it <- independence_test(response ~ group, data = df,
++                         distr = approximate(B = 100000))
+> 
+> ### Table 5, last column: OK
+> pvalue(it, method = "step-down")
+        Very Poor    Poor    Fair Good Excellent
+Placebo   0.00689 0.24334 0.56908    1   0.21351
+> 
+> ### example from Westfall & Wolfinger (1997), Table 2
+> df <- data.frame(group = factor(c(rep("Control", 50), rep("Treatment", 48))),
++                  V1 = c(rep(0, 50), rep(1, 0), rep(0, 48 - 5), rep(1, 5)),
++                  V2 = c(rep(0, 50 - 4), rep(1, 4), rep(0, 48 - 3), rep(1, 3)),
++                  V3 = c(rep(0, 50), rep(1, 0), rep(0, 48 - 4), rep(1, 4)),
++                  V4 = c(rep(0, 50 - 6), rep(1, 6), rep(0, 48 - 4), rep(1, 4)))
+> 
+> ### alternative: less
+> it <- independence_test(V1 + V2 + V3 + V4 ~ group, data = df,
++                         distr = approximate(B = 100000), alt = "less")
+> 
+> ### page 4, 2nd column: adjusted p-value = 0.03665 for V1
+> pvalue(it, method = "discrete")
+                      V1        V2        V3       V4
+group.Control 0.03666069 0.9842865 0.1587312 0.997373
+> 
+> ### alternative: less       
+> it <- independence_test(V1 + V2 + V3 + V4 ~ group, data = df,
++                         distr = approximate(B = 100000), alt = "two")
+> 
+> ### page 5, 1st column: adjusted p-value = 0.05261 for V1
+> pvalue(it, method = "discrete")
+                      V1 V2        V3        V4
+group.Control 0.05407491  1 0.1348184 0.9907555
+> 
+> 

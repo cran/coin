@@ -3,9 +3,9 @@
     Exact Distribution of Two-Sample Permutation Tests   
     Streitberg & Roehmel Algorithm
 
-    *\file $RCSfile: StreitbergRoehmel.c,v $
+    *\file StreitbergRoehmel.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/02/10 14:54:09 $
+    *\date $Date: 2005/07/28 15:04:29 $
 */
 
 #include <R.h>

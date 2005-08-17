@@ -1,9 +1,9 @@
 
 /**
-    Some additional functionality for package `ConditionalInference'
-    *\file $RCSfile: CIstuff.c,v $
+    Some additional functionality for package `coin'
+    *\file CIstuff.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/06/15 07:28:43 $
+    *\date $Date: 2005/07/28 15:08:26 $
 */
                 
 #include "CI_common.h"
@@ -89,8 +89,8 @@ SEXP R_blocksetup (SEXP block) {
 
 /**
     Block permutation
-    *\param index 
-    *\param block integer vector coding for blocks
+    *\param blocksetup as computed by `R_blocksetup'
+    *\param ans integer vector 
 */
                                 
 void C_blockperm (SEXP blocksetup, int *ans) {

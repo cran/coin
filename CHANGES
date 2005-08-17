@@ -1,4 +1,24 @@
 
+
+		CHANGES IN `coin' VERSION 0.3-1
+
+    o   alternative = "less" and alternative = "greater" are now defined
+        for maxtype statistics as well
+
+    o   one- and two-sided single-step and step-down maxT p-value
+        adjustments are now available from the appropriate 
+        `pvalue' method (NOTE: those procedures have not been tested
+                         carefully, yet)
+
+        In addition, the Bonferroni-adjustment by Westfall & Wolfinger
+        (1997) is available now. Note that the interface to `pvalue'
+        changed slightly, `adjustment = TRUE' was replaced by
+        `method = "single-step"'.
+
+    o   more examples added to the vignette.
+
+
+
 		CHANGES IN `coin' VERSION 0.2-14
 
     o   distribution = "approximate" for maxtype statistics was wrong

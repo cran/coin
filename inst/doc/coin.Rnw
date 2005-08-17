@@ -208,6 +208,22 @@ $\Sigma$. The application of a quadratic form $c_\text{quad}(\mathbf{t}, \mu,
 computationally more expensive because the Moore-Penrose 
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
+The definition of one- and two-sided $p$-values used for the computations in
+the \texttt{coin} package is 
+\begin{eqnarray*}
+P(c(\T, \mu, \Sigma) &\le& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(less)} \\
+P(c(\T, \mu, \Sigma) &\ge& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(greater)}\\
+P(|c(\T, \mu, \Sigma)| &\le& |c(\mathbf{t}, \mu, \Sigma)|) \quad \text{(two-sided).}
+\end{eqnarray*}
+Note that for quadratic forms only two-sided $p$-values are available 
+and that in the one-sided case maximum type test statistics are replaced by
+\begin{eqnarray*}
+\min \left( \frac{\mathbf{t} - \mu}{\text{diag}(\Sigma)^{1/2}} \right) 
+    \quad \text{(less) and } 
+\max \left( \frac{\mathbf{t} - \mu}{\text{diag}(\Sigma)^{1/2}} \right) 
+    \quad \text{(greater).}
+\end{eqnarray*}
+
 The conditional distribution and thus the $p$-value
 of the statistics $c(\mathbf{t}, \mu, \Sigma)$ can be
 computed in several different ways. For some special forms of the
@@ -356,6 +372,50 @@ lbl_test(jobsatisfaction,
                   Income = c(3, 10, 20, 35)))
 @
 
+\paragraph{Incomplete Randomised Blocks.}
+
+\cite{RaynerBest2001}, Chapter 7, discuss the application of Durbin's test
+to data from sensoric experiments, where incomplete block designs are
+common. As an example, data from taste-testing on ten dried eggs where mean
+scores for off-flavour from seven judges are given and one wants to assess
+whether there is any difference in the scores between the ten egg samples.
+The sittings are a block variable which can be added to the formula via
+`\texttt{|}'.
+<<eggs-Durbin, echo = TRUE>>=
+egg_data <- data.frame(scores = c(9.7, 8.7, 5.4, 5.0, 9.6, 8.8, 5.6, 3.6, 9.0,
+                                  7.3, 3.8, 4.3, 9.3, 8.7, 6.8, 3.8, 10.0, 7.5,
+                                  4.2, 2.8, 9.6, 5.1, 4.6, 3.6, 9.8, 7.4, 4.4, 
+                                  3.8, 9.4, 6.3, 5.1, 2.0, 9.4, 9.3, 8.2, 3.3,
+                                  8.7, 9.0, 6.0, 3.3, 9.7, 6.7, 6.6, 2.8, 9.3,
+                                  8.1, 3.7, 2.6, 9.8, 7.3, 5.4, 4.0, 9.0, 8.3,
+                                  4.8,3.8,9.3,8.3,6.3,3.8),
+                       sitting = factor(rep(c(1:15), rep(4,15))),
+                       product = factor(c(1, 2, 4, 5, 2, 3, 6, 10, 2, 4, 6, 7,
+                                          1, 3, 5, 7, 1, 4, 8, 10, 2, 7, 8, 9,
+                                          2, 5, 8, 10, 5, 7, 9, 10, 1, 2, 3, 9,
+                                          4, 5, 6, 9, 1, 6, 7, 10, 3, 4, 9, 10,
+                                          1, 6, 8, 9, 3, 4, 7, 8, 3, 5, 6, 8)))
+independence_test(scores ~ product | sitting, data=egg_data, teststat = "quadtype", 
+                  ytrafo = function(data) 
+                      trafo(data, numeric_trafo = rank, block = egg_data$sitting))
+@
+and the Monte-Carlo $p$-value can be computed via
+<<eggs-Durbin-approx, echo = TRUE>>=
+pvalue(independence_test(scores ~ product | sitting, data=egg_data, teststat = "quadtype",
+                  ytrafo = function(data) 
+                      trafo(data, numeric_trafo = rank, block = egg_data$sitting), 
+                  distribution = approximate(B = 19999)))
+@
+If we assume that the products are ordered, the Page test is appropriate and
+can be computed as follows
+<<eggs-Durbin-approx, echo = TRUE>>=
+independence_test(scores ~ product | sitting, data=egg_data, 
+                  scores = list(product = 1:10),
+                  ytrafo = function(data) 
+                      trafo(data, numeric_trafo = rank, block = egg_data$sitting))
+@
+
+
 \paragraph{Multiple Tests.}
 
 One may be interested in testing multiple hypotheses simultaneously, either
@@ -370,11 +430,17 @@ if (require(multcomp)) {
                      model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
                  teststat = "max", distribution = approximate(B = 9999))
     print(pvalue(it))
-    print(pvalue(it, adjusted = TRUE))
+    print(pvalue(it, method = "single-step"))
 }
 @
-In the above example, single-step adjusted $p$-values based on maximum-type
-statistics are computed. 
+When either $g$ or $h$ are multivariate, single-step adjusted $p$-values based on 
+maximum-type statistics are computed as described in \cite{WestfallYoung1993}, 
+algorithm 2.5 (page 47) and equation (2.8), page 50. Note that for the
+example shown above only the \textit{minimum} $p$-value is adjusted
+appropriately because the subset pivotality condition is violated, i.e., the
+distribution of the test statistics under the complete null-hypothesis of no
+treatment effect of \texttt{site} is the basis of all adjustments instead of
+the corresponding partial null-hypothesis. 
 
 Another important application are simultaneous tests for many response
 variables. This problem frequently occurs in microarray expression studies
@@ -398,7 +464,7 @@ if (require(Biobase)) {
                       distribution = approximate(B = 1000))
 
     print(pvalue(it))
-    print(which(pvalue(it, adjusted = TRUE) < 0.05))
+    print(which(pvalue(it, method = "step-down") < 0.05))
 
 }
 @
