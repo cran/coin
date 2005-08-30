@@ -306,7 +306,6 @@ is_ordered <- function(object) {
 }
 
 is_completeblock <- function(object) {
-    x <- object@x
     all(table(object@x[[1]], object@block) == 1)
 }
 

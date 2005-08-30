@@ -42,9 +42,9 @@ confint_location <- function(object, nulldistr, level = 0.95,
         ### explicitely compute all possible steps
         for (lev in levels(object@block)) {
             thisblock <- (object@block == lev)
-            xtmp <- sort(split(scores[thisblock], groups[thisblock])[[1]])             
-            ytmp <- sort(split(scores[thisblock], groups[thisblock])[[2]])             
-            steps <- c(steps, as.vector(outer(x, y, foo)))
+            ytmp <- sort(split(scores[thisblock], groups[thisblock])[[1]])             
+            xtmp <- sort(split(scores[thisblock], groups[thisblock])[[2]])             
+            steps <- c(steps, as.vector(outer(xtmp, ytmp, foo)))
         }
         steps <- sort(steps)
 
@@ -232,9 +232,9 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         steps <- c()
         for (lev in levels(object@block)) {
             thisblock <- (object@block == lev)
-            xtmp <- sort(split(scores[thisblock], groups[thisblock])[[1]])
-            ytmp <- sort(split(scores[thisblock], groups[thisblock])[[2]])
-            ratio <-  outer(x, y, "/")
+            ytmp <- sort(split(scores[thisblock], groups[thisblock])[[1]])
+            xtmp <- sort(split(scores[thisblock], groups[thisblock])[[2]])
+            ratio <-  outer(xtmp, ytmp, "/")
             aratio <- ratio[ratio >= 0]
             steps <- c(steps, aratio)
         }
@@ -346,7 +346,6 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         if (any(is.infinite(c(srangepos, srangeneg)))) {
             stop(paste("Cannot compute asymptotic confidence",
                        "set or estimator"))
-            conf.int <- FALSE
         }
         mumin <- range(c(srangepos, srangeneg), na.rm=FALSE)[1]
         mumax <- range(c(srangepos, srangeneg), na.rm=FALSE)[2]

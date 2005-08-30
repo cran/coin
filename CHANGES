@@ -1,6 +1,14 @@
 
 
+
+		CHANGES IN `coin' VERSION 0.3-2
+
+
+    o   fix some problems reported by `codetools'
+
+
 		CHANGES IN `coin' VERSION 0.3-1
+
 
     o   alternative = "less" and alternative = "greater" are now defined
         for maxtype statistics as well
@@ -18,13 +26,12 @@
     o   more examples added to the vignette.
 
 
-
 		CHANGES IN `coin' VERSION 0.2-14
+
 
     o   distribution = "approximate" for maxtype statistics was wrong
         in case both xtrafo _and_ ytrafo were multivariate (the conditional
         expectation was computed incorrectly)
-
 
 
 		CHANGES IN `coin' VERSION 0.2-13

@@ -576,7 +576,6 @@ cmh_test.IndependenceProblem <- function(object,
             stop(sQuote("object"), " does not represent a contingency problem")
         return(TRUE)
     }
-    n <- nrow(object@x)
 
     distribution <- check_distribution_arg(distribution, 
         values = c("asymptotic", "approximate"))
