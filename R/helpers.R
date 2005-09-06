@@ -97,8 +97,12 @@ formula2data <- function(formula, data, subset, ...) {
 
     ### in case `data' is an exprSet object 
     if (extends(class(data), "exprSet")) {
+        ### <FIXME> terms(y ~ ., data = tmpdf) only works (as from R-2.2.0)
+        ### when tmpdf has variables additional to y which might not be true
+        tmpdf <- cbind(pData(phenoData(data)), 1)
+        ### </FIXME>
         dat <- ModelEnvFormula(formula = formula, 
-                               data = pData(phenoData(data)),
+                               data = tmpdf,
                                subset = subset, ...)
 
         ### x are _all_ expression levels, always

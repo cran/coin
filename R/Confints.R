@@ -49,14 +49,14 @@ confint_location <- function(object, nulldistr, level = 0.95,
         steps <- sort(steps)
 
         ### computes the statistic under the alternative `d'
-        fs <- function(d)
+        fse <- function(d)
             sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
 
         ### we need to compute the statistics just to the right of
         ### each step       
         ds <- diff(steps)
         justright <- min(abs(ds[ds > .Machine$double.eps]))/2
-        jumps <- sapply(steps + justright, fs)
+        jumps <- sapply(steps + justright, fse)
 
         ### determine if the statistics are in- or decreasing 
         ### jumpsdiffs <- diff(jumps)
@@ -129,7 +129,7 @@ confint_location <- function(object, nulldistr, level = 0.95,
         names(ESTIMATE) <- "difference in location"
     } else {
         ### approximate the steps
-        ### Here we search the root of the function `fs' on the set
+        ### Here we search the root of the function `fsa' on the set
         ### c(mumin, mumax).
         ##
         ### This returns a value from c(mumin, mumax) for which
@@ -138,7 +138,7 @@ confint_location <- function(object, nulldistr, level = 0.95,
         ### within the critical region, and that implies that '
         ### is a confidence limit for the median.
 
-        fs <- function(d, zq) {
+        fsa <- function(d, zq) {
            STAT <- sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
            (STAT - expectation(object)) / sqrt(variance(object)) - zq
         }
@@ -148,17 +148,17 @@ confint_location <- function(object, nulldistr, level = 0.95,
         ccia <- function(alpha) {
             ## Check if the statistic exceeds both quantiles
             ## first: otherwise `uniroot' won't work anyway 
-            statu <- fs(mumin, zq = qperm(nulldistr, alpha/2))
-            statl <- fs(mumax, zq = qperm(nulldistr, 1 - alpha/2))
+            statu <- fsa(mumin, zq = qperm(nulldistr, alpha/2))
+            statl <- fsa(mumax, zq = qperm(nulldistr, 1 - alpha/2))
             if (sign(statu) == sign(statl)) {
                 warning(paste("Samples differ in location:",
                               "Cannot compute confidence set,",
                               "returning NA"))
                 return(c(NA, NA))
             }
-            u <- uniroot(fs, c(mumin, mumax), 
+            u <- uniroot(fsa, c(mumin, mumax), 
                          zq = qperm(nulldistr, alpha/2), ...)$root
-            l <- uniroot(fs, c(mumin, mumax), 
+            l <- uniroot(fsa, c(mumin, mumax), 
                          zq = qperm(nulldistr, 1 - alpha/2), ...)$root
             ## The process of the statistics does not need to be
             ## increasing: sort is ok here.
@@ -173,13 +173,13 @@ confint_location <- function(object, nulldistr, level = 0.95,
                 })
                 attr(cint, "conf.level") <- level
         ## Check if the statistic exceeds both quantiles first.
-        statu <- fs(mumin, zq = 0)
-        statl <- fs(mumax, zq = 0)
+        statu <- fsa(mumin, zq = 0)
+        statl <- fsa(mumax, zq = 0)
         if (sign(statu) == sign(statl)) {
             ESTIMATE <- NA
             warning("Cannot compute estimate, returning NA")
         } else {
-            ESTIMATE <- uniroot(fs, c(mumin, mumax), zq = 0, ...)$root
+            ESTIMATE <- uniroot(fsa, c(mumin, mumax), zq = 0, ...)$root
         }
         names(ESTIMATE) <- "difference in location"
     }
@@ -241,14 +241,14 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         steps <- sort(steps)
 
         ### computes the statistic under the alternative `d'
-        fs <- function(d)
+        fse <- function(d)
             sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
 
         ### we need to compute the statistics just to the right of
         ### each step       
         ds <- diff(steps)
         justright <- min(abs(ds[ds > .Machine$double.eps]))/2
-        jumps <- sapply(steps + justright, fs)
+        jumps <- sapply(steps + justright, fse)
 
         ### determine if the statistics are in- or decreasing 
         ### jumpsdiffs <- diff(jumps)
@@ -319,7 +319,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         names(ESTIMATE) <- "ratio of scales"
     } else {
         ### approximate the steps
-        ### Here we search the root of the function `fs' on the set
+        ### Here we search the root of the function `fsa' on the set
         ### c(mumin, mumax).
         ##
         ### This returns a value from c(mumin, mumax) for which
@@ -328,7 +328,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         ### within the critical region, and that implies that '
         ### is a confidence limit for the median.
 
-        fs <- function(d, zq) {
+        fsa <- function(d, zq) {
            STAT <- sum(object@ytrafo(data.frame(c(foo(x,d),y)))[seq(along = x)])
            (STAT - expectation(object)) / sqrt(variance(object)) - zq
         }
@@ -353,17 +353,17 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         ccia <- function(alpha) {
             ## Check if the statistic exceeds both quantiles
             ## first: otherwise `uniroot' won't work anyway 
-            statu <- fs(mumin, zq = qperm(nulldistr, alpha/2))
-            statl <- fs(mumax, zq = qperm(nulldistr, 1 - alpha/2))
+            statu <- fsa(mumin, zq = qperm(nulldistr, alpha/2))
+            statl <- fsa(mumax, zq = qperm(nulldistr, 1 - alpha/2))
             if (sign(statu) == sign(statl)) {
                 warning(paste("Samples differ in location:",
                               "Cannot compute confidence set,",
                               "returning NA"))
                 return(c(NA, NA))
             }
-            u <- uniroot(fs, c(mumin, mumax), 
+            u <- uniroot(fsa, c(mumin, mumax), 
                          zq = qperm(nulldistr, alpha/2), ...)$root
-            l <- uniroot(fs, c(mumin, mumax), 
+            l <- uniroot(fsa, c(mumin, mumax), 
                          zq = qperm(nulldistr, 1 - alpha/2), ...)$root
             ## The process of the statistics does not need to be
             ## increasing: sort is ok here.
@@ -378,13 +378,13 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                 })
                 attr(cint, "conf.level") <- level
         ## Check if the statistic exceeds both quantiles first.
-        statu <- fs(mumin, zq = 0)
-        statl <- fs(mumax, zq = 0)
+        statu <- fsa(mumin, zq = 0)
+        statl <- fsa(mumax, zq = 0)
         if (sign(statu) == sign(statl)) {
             ESTIMATE <- NA
             warning("Cannot compute estimate, returning NA")
         } else {
-            ESTIMATE <- uniroot(fs, c(mumin, mumax), zq = 0, ...)$root
+            ESTIMATE <- uniroot(fsa, c(mumin, mumax), zq = 0, ...)$root
         }
         names(ESTIMATE) <- "ratio of scales"
     }
@@ -431,7 +431,7 @@ simconfint_location <- function(object, level = 0.95,
                   object@statistic@y[thisset,,drop = FALSE],
                   object@statistic@block[thisset])
         
-        itp <- generic_independence_test(ip, teststat = "scalar", 
+        itp <- independence_test(ip, teststat = "scalar", 
             distribution = "asympt", alternative = "two.sided", 
             yfun = object@statistic@ytrafo, ...)
 
@@ -447,3 +447,4 @@ simconfint_location <- function(object, level = 0.95,
     attr(RET, "conf.level") <- level
     return(RET)
 }
+

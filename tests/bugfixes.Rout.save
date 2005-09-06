@@ -35,5 +35,22 @@ data:  I(x1/x2) by groups 1, 2
 T = -0.4491, p-value = 0.6534
 alternative hypothesis: two.sided 
 
->  
+> 
+> ### expectation was wrong when varonly = TRUE in case both
+> ### xtrafo and ytrafo were multivariate 
+> if (require(multcomp)) {
++     df <- data.frame(x = runif(30), y = runif(30), z = gl(3, 10))
++     a <- independence_test(x + y ~ z, data = df,
++          distribution = approximate(B = 19999),
++          xtrafo = function(data) trafo(data, factor_trafo = function(x)
++              model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))))
++     b <- independence_test(x + y ~ z, data = df,
++          xtrafo = function(data) trafo(data, factor_trafo = function(x)
++              model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))))
++     isequal(expectation(a), expectation(b))
++ }
+Loading required package: multcomp
+[1] TRUE
+> 
+> 
 > 

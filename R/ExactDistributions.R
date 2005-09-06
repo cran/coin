@@ -113,13 +113,13 @@ vdW_split_up_2sample <- function(object) {
     if (nlevels(object@block) != 1)
         stop("cannot compute exact p-values with blocks")
 
-    ### 2 groups as  variable
+    ### 2 groups as `x' variable
     groups <- ncol(object@xtrans) == 1 && all(object@xtrans[,1] %in% c(0, 1))
+    if (!groups) stop("cannot only deal with two-sample problems")
  
     RET <- new("ExactNullDistribution")
 
     scores <- object@ytrans[,1]
-    n <- length(scores)
     storage.mode(scores) <- "double"
     m <- sum(object@xtrans)
     storage.mode(m) <- "integer"

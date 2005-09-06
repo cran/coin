@@ -834,7 +834,8 @@ contrast_test.IndependenceProblem <- function(object,
         stop(sQuote("object@x"), " is not univariate or a factor")
 
     if  (!is.matrix(cmatrix) || nrow(cmatrix) != nlevels(object@x[[1]]))
-        stop(sQuote("cmatrix"), " is not a matrix with ", nlevels(x), " rows")
+        stop(sQuote("cmatrix"), " is not a matrix with ", 
+             nlevels(object@x), " rows")
 
     if (is.null(colnames(cmatrix)))
         colnames(cmatrix) <- paste("C", 1:ncol(cmatrix), sep = "")

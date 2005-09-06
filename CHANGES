@@ -1,5 +1,11 @@
 
 
+		CHANGES IN `coin' VERSION 0.3-3
+
+
+    o    fix more problems reported by new `codetools'. Try to work around
+         the `terms(y ~ ., data = data.frame(1:10))' problem in R-2.2.0.
+
 
 		CHANGES IN `coin' VERSION 0.3-2
 
