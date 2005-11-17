@@ -34,24 +34,32 @@ ExpectCovarInfluence <- function(y, weights) {
           PACKAGE = "coin")
 }
 
+expectvaronly <- function(x, y, weights) {
+    indx <- rep(1:nrow(x), weights)
+    x <- x[indx,,drop = FALSE]
+    y <- y[indx,,drop = FALSE]
+    n <- nrow(x)
+    Ey <- colMeans(y)
+    Vy <- rowMeans((t(y) - Ey)^2)
+
+    rSx <- colSums(x)   
+    rSx2 <- colSums(x^2)
+    ### in case rSx _and_ Ey are _both_ vectors
+    E <- .Call("R_kronecker", Ey, rSx, package = "coin") 
+          ### as.vector(kronecker(Ey, rSx))
+    V <- n / (n - 1) * .Call("R_kronecker", Vy, rSx2, package = "coin") 
+                        ### kronecker(Vy, rSx2)
+    V <- V - 1 / (n - 1) * .Call("R_kronecker", Vy, rSx^2, package = "coin") 
+                        ### kronecker(Vy, rSx^2)
+    list(E = drop(E), V = matrix(V, nrow = 1))
+}
+
 ExpectCovarLinearStatistic <- function(x, y, weights, varonly = FALSE) {
     if (varonly) {
-        indx <- rep(1:nrow(x), weights)
-        x <- x[indx,,drop = FALSE]
-        y <- y[indx,,drop = FALSE]
-        n <- nrow(x)
-        Ey <- colMeans(y)
-        Vy <- rowMeans((t(y) - Ey)^2)
-
-        rSx <- colSums(x)
-        rSx2 <- colSums(x^2)
-        ### in case rSx _and_ Ey are _both_ vectors
-        E <- as.vector(kronecker(Ey, rSx))
-        V <- n / (n - 1) * kronecker(Vy, rSx2)
-        V <- V - 1 / (n - 1) * kronecker(Vy, rSx^2) 
+        ev <- expectvaronly(x, y, weights)
         RET <- new("ExpectCovar")
-        RET@expectation <- drop(E)
-        RET@covariance <- matrix(V, nrow = 1)
+        RET@expectation <- ev$E
+        RET@covariance <- ev$V
         return(RET)
     } else {
         storage.mode(x) <- "double"
@@ -352,3 +360,8 @@ check_distribution_arg <- function(distribution,
        paste(values, collapse = ", "))
     distribution
 }
+
+### don't use! never!
+get_weights <- function(object) object@statistic@weights
+get_xtrans <- function(object) object@statistic@xtrans
+get_ytrans <- function(object) object@statistic@ytrans

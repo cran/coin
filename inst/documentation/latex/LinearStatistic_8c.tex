@@ -16,29 +16,31 @@ Include dependency graph for Linear\-Statistic.c:\begin{figure}[H]
 \item 
 void \hyperlink{LinearStatistic_8c_a0}{C\_\-kronecker} (const double $\ast$A, const int m, const int n, const double $\ast$B, const int r, const int s, double $\ast$ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a1}{C\_\-Expect\-Covar\-Influence} (const double $\ast$y, const int q, const double $\ast$weights, const int n, SEXP ans)
+SEXP \hyperlink{LinearStatistic_8c_a1}{R\_\-kronecker} (SEXP A, SEXP B)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a2}{R\_\-Expect\-Covar\-Influence} (SEXP y, SEXP weights)
+void \hyperlink{LinearStatistic_8c_a2}{C\_\-Expect\-Covar\-Influence} (const double $\ast$y, const int q, const double $\ast$weights, const int n, SEXP ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a3}{C\_\-Expect\-Covar\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const double $\ast$weights, const int n, const SEXP expcovinf, SEXP ans)
+SEXP \hyperlink{LinearStatistic_8c_a3}{R\_\-Expect\-Covar\-Influence} (SEXP y, SEXP weights)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a4}{R\_\-Expect\-Covar\-Linear\-Statistic} (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)
+void \hyperlink{LinearStatistic_8c_a4}{C\_\-Expect\-Covar\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const double $\ast$weights, const int n, const SEXP expcovinf, SEXP ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a5}{C\_\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const double $\ast$weights, const int n, double $\ast$ans)
+SEXP \hyperlink{LinearStatistic_8c_a5}{R\_\-Expect\-Covar\-Linear\-Statistic} (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a6}{R\_\-Linear\-Statistic} (SEXP x, SEXP y, SEXP weights)
+void \hyperlink{LinearStatistic_8c_a6}{C\_\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const double $\ast$weights, const int n, double $\ast$ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a7}{C\_\-Permuted\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const int n, const int nperm, const int $\ast$indx, const int $\ast$perm, double $\ast$ans)
+SEXP \hyperlink{LinearStatistic_8c_a7}{R\_\-Linear\-Statistic} (SEXP x, SEXP y, SEXP weights)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a8}{R\_\-Permuted\-Linear\-Statistic} (SEXP x, SEXP y, SEXP indx, SEXP perm)
+void \hyperlink{LinearStatistic_8c_a8}{C\_\-Permuted\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const int n, const int nperm, const int $\ast$indx, const int $\ast$perm, double $\ast$ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a9}{C\_\-scmatleft} (const double $\ast$x, const int p, const int q, double $\ast$ans)
+SEXP \hyperlink{LinearStatistic_8c_a9}{R\_\-Permuted\-Linear\-Statistic} (SEXP x, SEXP y, SEXP indx, SEXP perm)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a10}{R\_\-scmatleft} (SEXP x, SEXP pq)
+void \hyperlink{LinearStatistic_8c_a10}{C\_\-scmatleft} (const double $\ast$x, const int p, const int q, double $\ast$ans)
 \item 
-void \hyperlink{LinearStatistic_8c_a11}{C\_\-scmatright} (const double $\ast$x, const int p, const int q, double $\ast$ans)
+SEXP \hyperlink{LinearStatistic_8c_a11}{R\_\-scmatleft} (SEXP x, SEXP pq)
 \item 
-SEXP \hyperlink{LinearStatistic_8c_a12}{R\_\-scmatright} (SEXP x, SEXP pq)
+void \hyperlink{LinearStatistic_8c_a12}{C\_\-scmatright} (const double $\ast$x, const int p, const int q, double $\ast$ans)
+\item 
+SEXP \hyperlink{LinearStatistic_8c_a13}{R\_\-scmatright} (SEXP x, SEXP pq)
 \end{CompactItemize}
 
 
@@ -51,18 +53,18 @@ Linear statistics for conditional inference
 \end{Desc}
 \begin{Desc}
 \item[Date:]\begin{Desc}
-\item[Date]2005/02/10 14:54:09 \end{Desc}
+\item[Date]2005/10/13 12:45:01 \end{Desc}
 \end{Desc}
 
 
 Definition in file \hyperlink{LinearStatistic_8c-source}{Linear\-Statistic.c}.
 
 \subsection{Function Documentation}
-\hypertarget{LinearStatistic_8c_a1}{
+\hypertarget{LinearStatistic_8c_a2}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_ExpectCovarInfluence@{C\_\-ExpectCovarInfluence}}
 \index{C_ExpectCovarInfluence@{C\_\-ExpectCovarInfluence}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-ExpectCovarInfluence]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-Expect\-Covar\-Influence (const double $\ast$ {\em y}, const int {\em q}, const double $\ast$ {\em weights}, const int {\em n}, SEXP {\em ans})}}
-\label{LinearStatistic_8c_a1}
+\label{LinearStatistic_8c_a2}
 
 
 Conditional expectation and covariance of the influence function\par
@@ -73,15 +75,15 @@ Conditional expectation and covariance of the influence function\par
 \end{Desc}
 
 
-Definition at line 54 of file Linear\-Statistic.c.
+Definition at line 80 of file Linear\-Statistic.c.
 
 References CI\_\-covariance\-Sym, CI\_\-expectation\-Sym, and CI\_\-sumweights\-Sym.
 
-Referenced by R\_\-Expect\-Covar\-Influence().\hypertarget{LinearStatistic_8c_a3}{
+Referenced by R\_\-Expect\-Covar\-Influence().\hypertarget{LinearStatistic_8c_a4}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_ExpectCovarLinearStatistic@{C\_\-ExpectCovarLinearStatistic}}
 \index{C_ExpectCovarLinearStatistic@{C\_\-ExpectCovarLinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-ExpectCovarLinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-Expect\-Covar\-Linear\-Statistic (const double $\ast$ {\em x}, const int {\em p}, const double $\ast$ {\em y}, const int {\em q}, const double $\ast$ {\em weights}, const int {\em n}, const SEXP {\em expcovinf}, SEXP {\em ans})}}
-\label{LinearStatistic_8c_a3}
+\label{LinearStatistic_8c_a4}
 
 
 Conditional expectation and covariance of the a linear statistic\par
@@ -92,7 +94,7 @@ Conditional expectation and covariance of the a linear statistic\par
 \end{Desc}
 
 
-Definition at line 166 of file Linear\-Statistic.c.
+Definition at line 192 of file Linear\-Statistic.c.
 
 References C\_\-kronecker(), CI\_\-covariance\-Sym, CI\_\-expectation\-Sym, and CI\_\-sumweights\-Sym.
 
@@ -101,7 +103,7 @@ Referenced by R\_\-Expect\-Covar\-Linear\-Statistic().
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=158pt]{LinearStatistic_8c_a3_cgraph}
+\includegraphics[width=158pt]{LinearStatistic_8c_a4_cgraph}
 \end{center}
 \end{figure}
 \hypertarget{LinearStatistic_8c_a0}{
@@ -121,11 +123,11 @@ Computes the Kronecker product of two matrices\par
 
 Definition at line 22 of file Linear\-Statistic.c.
 
-Referenced by C\_\-Expect\-Covar\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a5}{
+Referenced by C\_\-Expect\-Covar\-Linear\-Statistic(), and R\_\-kronecker().\hypertarget{LinearStatistic_8c_a6}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_LinearStatistic@{C\_\-LinearStatistic}}
 \index{C_LinearStatistic@{C\_\-LinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-LinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-Linear\-Statistic (const double $\ast$ {\em x}, const int {\em p}, const double $\ast$ {\em y}, const int {\em q}, const double $\ast$ {\em weights}, const int {\em n}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a5}
+\label{LinearStatistic_8c_a6}
 
 
 Computes the linear statistic, formula (1) in the paper\par
@@ -136,13 +138,13 @@ Computes the linear statistic, formula (1) in the paper\par
 \end{Desc}
 
 
-Definition at line 301 of file Linear\-Statistic.c.
+Definition at line 327 of file Linear\-Statistic.c.
 
-Referenced by R\_\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a7}{
+Referenced by R\_\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a8}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_PermutedLinearStatistic@{C\_\-PermutedLinearStatistic}}
 \index{C_PermutedLinearStatistic@{C\_\-PermutedLinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-PermutedLinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-Permuted\-Linear\-Statistic (const double $\ast$ {\em x}, const int {\em p}, const double $\ast$ {\em y}, const int {\em q}, const int {\em n}, const int {\em nperm}, const int $\ast$ {\em indx}, const int $\ast$ {\em perm}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a7}
+\label{LinearStatistic_8c_a8}
 
 
 Linear Statistic with permuted indices\par
@@ -153,13 +155,13 @@ Linear Statistic with permuted indices\par
 \end{Desc}
 
 
-Definition at line 383 of file Linear\-Statistic.c.
+Definition at line 409 of file Linear\-Statistic.c.
 
-Referenced by R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a9}{
+Referenced by R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a10}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_scmatleft@{C\_\-scmatleft}}
 \index{C_scmatleft@{C\_\-scmatleft}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-scmatleft]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-scmatleft (const double $\ast$ {\em x}, const int {\em p}, const int {\em q}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a9}
+\label{LinearStatistic_8c_a10}
 
 
 Score matrix for a linear combination of a linear statistic from the left\par
@@ -170,13 +172,13 @@ Score matrix for a linear combination of a linear statistic from the left\par
 \end{Desc}
 
 
-Definition at line 472 of file Linear\-Statistic.c.
+Definition at line 498 of file Linear\-Statistic.c.
 
-Referenced by R\_\-scmatleft().\hypertarget{LinearStatistic_8c_a11}{
+Referenced by R\_\-scmatleft().\hypertarget{LinearStatistic_8c_a12}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!C_scmatright@{C\_\-scmatright}}
 \index{C_scmatright@{C\_\-scmatright}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[C\_\-scmatright]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-scmatright (const double $\ast$ {\em x}, const int {\em p}, const int {\em q}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a11}
+\label{LinearStatistic_8c_a12}
 
 
 Score matrix for a linear combination of a linear statistic from the right\par
@@ -187,13 +189,13 @@ Score matrix for a linear combination of a linear statistic from the right\par
 \end{Desc}
 
 
-Definition at line 537 of file Linear\-Statistic.c.
+Definition at line 563 of file Linear\-Statistic.c.
 
-Referenced by R\_\-scmatright().\hypertarget{LinearStatistic_8c_a2}{
+Referenced by R\_\-scmatright().\hypertarget{LinearStatistic_8c_a3}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_ExpectCovarInfluence@{R\_\-ExpectCovarInfluence}}
 \index{R_ExpectCovarInfluence@{R\_\-ExpectCovarInfluence}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-ExpectCovarInfluence]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Expect\-Covar\-Influence (SEXP {\em y}, SEXP {\em weights})}}
-\label{LinearStatistic_8c_a2}
+\label{LinearStatistic_8c_a3}
 
 
 R-interface to C\_\-Expect\-Covar\-Influence\par
@@ -204,21 +206,21 @@ R-interface to C\_\-Expect\-Covar\-Influence\par
 \end{Desc}
 
 
-Definition at line 124 of file Linear\-Statistic.c.
+Definition at line 150 of file Linear\-Statistic.c.
 
 References C\_\-Expect\-Covar\-Influence(), CI\_\-covariance\-Sym, CI\_\-expectation\-Sym, CI\_\-sumweights\-Sym, ncol(), and nrow().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=179pt]{LinearStatistic_8c_a2_cgraph}
+\includegraphics[width=179pt]{LinearStatistic_8c_a3_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{LinearStatistic_8c_a4}{
+\hypertarget{LinearStatistic_8c_a5}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_ExpectCovarLinearStatistic@{R\_\-ExpectCovarLinearStatistic}}
 \index{R_ExpectCovarLinearStatistic@{R\_\-ExpectCovarLinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-ExpectCovarLinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Expect\-Covar\-Linear\-Statistic (SEXP {\em x}, SEXP {\em y}, SEXP {\em weights}, SEXP {\em expcovinf})}}
-\label{LinearStatistic_8c_a4}
+\label{LinearStatistic_8c_a5}
 
 
 R-interface to C\_\-Expect\-Covar\-Linear\-Statistic\par
@@ -229,21 +231,46 @@ R-interface to C\_\-Expect\-Covar\-Linear\-Statistic\par
 \end{Desc}
 
 
-Definition at line 259 of file Linear\-Statistic.c.
+Definition at line 285 of file Linear\-Statistic.c.
 
 References C\_\-Expect\-Covar\-Linear\-Statistic(), CI\_\-covariance\-Sym, CI\_\-expectation\-Sym, ncol(), and nrow().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=255pt]{LinearStatistic_8c_a4_cgraph}
+\includegraphics[width=255pt]{LinearStatistic_8c_a5_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{LinearStatistic_8c_a6}{
+\hypertarget{LinearStatistic_8c_a1}{
+\index{LinearStatistic.c@{Linear\-Statistic.c}!R_kronecker@{R\_\-kronecker}}
+\index{R_kronecker@{R\_\-kronecker}!LinearStatistic.c@{Linear\-Statistic.c}}
+\subsubsection[R\_\-kronecker]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-kronecker (SEXP {\em A}, SEXP {\em B})}}
+\label{LinearStatistic_8c_a1}
+
+
+R-interface to C\_\-kronecker\par
+ \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em A}]matrix \item[{\em B}]matrix \end{description}
+\end{Desc}
+
+
+Definition at line 51 of file Linear\-Statistic.c.
+
+References C\_\-kronecker(), ncol(), and nrow().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=117pt]{LinearStatistic_8c_a1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{LinearStatistic_8c_a7}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_LinearStatistic@{R\_\-LinearStatistic}}
 \index{R_LinearStatistic@{R\_\-LinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-LinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Linear\-Statistic (SEXP {\em x}, SEXP {\em y}, SEXP {\em weights})}}
-\label{LinearStatistic_8c_a6}
+\label{LinearStatistic_8c_a7}
 
 
 R-interface to C\_\-Linear\-Statistic \par
@@ -254,21 +281,21 @@ R-interface to C\_\-Linear\-Statistic \par
 \end{Desc}
 
 
-Definition at line 337 of file Linear\-Statistic.c.
+Definition at line 363 of file Linear\-Statistic.c.
 
 References C\_\-Linear\-Statistic(), ncol(), and nrow().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=137pt]{LinearStatistic_8c_a6_cgraph}
+\includegraphics[width=137pt]{LinearStatistic_8c_a7_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{LinearStatistic_8c_a8}{
+\hypertarget{LinearStatistic_8c_a9}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_PermutedLinearStatistic@{R\_\-PermutedLinearStatistic}}
 \index{R_PermutedLinearStatistic@{R\_\-PermutedLinearStatistic}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-PermutedLinearStatistic]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Permuted\-Linear\-Statistic (SEXP {\em x}, SEXP {\em y}, SEXP {\em indx}, SEXP {\em perm})}}
-\label{LinearStatistic_8c_a8}
+\label{LinearStatistic_8c_a9}
 
 
 Linear Statistic with permuted indices\par
@@ -279,21 +306,21 @@ Linear Statistic with permuted indices\par
 \end{Desc}
 
 
-Definition at line 416 of file Linear\-Statistic.c.
+Definition at line 442 of file Linear\-Statistic.c.
 
 References C\_\-Permuted\-Linear\-Statistic(), ncol(), and nrow().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=185pt]{LinearStatistic_8c_a8_cgraph}
+\includegraphics[width=185pt]{LinearStatistic_8c_a9_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{LinearStatistic_8c_a10}{
+\hypertarget{LinearStatistic_8c_a11}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_scmatleft@{R\_\-scmatleft}}
 \index{R_scmatleft@{R\_\-scmatleft}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-scmatleft]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-scmatleft (SEXP {\em x}, SEXP {\em pq})}}
-\label{LinearStatistic_8c_a10}
+\label{LinearStatistic_8c_a11}
 
 
 R-interface to C\_\-scmatleft \begin{Desc}
@@ -303,21 +330,21 @@ R-interface to C\_\-scmatleft \begin{Desc}
 \end{Desc}
 
 
-Definition at line 504 of file Linear\-Statistic.c.
+Definition at line 530 of file Linear\-Statistic.c.
 
 References C\_\-scmatleft().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=113pt]{LinearStatistic_8c_a10_cgraph}
+\includegraphics[width=113pt]{LinearStatistic_8c_a11_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{LinearStatistic_8c_a12}{
+\hypertarget{LinearStatistic_8c_a13}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_scmatright@{R\_\-scmatright}}
 \index{R_scmatright@{R\_\-scmatright}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-scmatright]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-scmatright (SEXP {\em x}, SEXP {\em pq})}}
-\label{LinearStatistic_8c_a12}
+\label{LinearStatistic_8c_a13}
 
 
 R-interface to C\_\-scmatright \begin{Desc}
@@ -327,13 +354,13 @@ R-interface to C\_\-scmatright \begin{Desc}
 \end{Desc}
 
 
-Definition at line 569 of file Linear\-Statistic.c.
+Definition at line 595 of file Linear\-Statistic.c.
 
 References C\_\-scmatright().
 
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=119pt]{LinearStatistic_8c_a12_cgraph}
+\includegraphics[width=119pt]{LinearStatistic_8c_a13_cgraph}
 \end{center}
 \end{figure}

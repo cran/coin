@@ -1,4 +1,41 @@
 
+		CHANGES in `coin' VERSION 0.3-5
+
+    o    internal C function `R_MonteCarloIndependenceTest' returns
+         a (pq x B) matrix instead of a list with B elements 
+         (the linear statistic for each random permutation of the data)
+
+    o    various simplifications for the computations of adjusted p-values
+
+    o    I() in formulae could still cause trouble with class `AsIs', now
+         fixed.
+
+    o    logical variables are now allowed in formulae 
+         (and are treated like factors)
+
+
+		CHANGES in `coin' VERSION 0.3-5
+
+    o    fix print method for marginal homogeneity tests 
+         (...stratified by block...)
+
+    o    R_kronecker in C now available
+
+    o    C versions of nrow and ncol return 1 or length for vectors
+
+    o    some internal optimisation
+
+
+		CHANGES IN `coin' VERSION 0.3-4
+
+    o    C functions `nrow(x)' and `ncol(x)' return LENGTH(x) or 1 when
+         x has no dim attribute
+
+    o    new R-interface function `R_kronecker' to `C_kronecker' (which
+         returns a _vector_!)
+
+    o    speedup of variance computations in internal functions
+
 
 		CHANGES IN `coin' VERSION 0.3-3
 

@@ -143,7 +143,14 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     }
 
     tr <- lapply(data, function(x) {
-        if (is.factor(x))
+        if (class(x)[1] == "AsIs") {
+            if (length(class(x)) == 1) {
+                x <- as.numeric(x)
+            } else {
+                class(x) <- class(x)[-1]
+            }
+        }
+        if (is.factor(x) || is.logical(x))
             return(factor_trafo(x))
         if (class(x) == "Surv")
             return(surv_trafo(x))

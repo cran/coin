@@ -1,6 +1,7 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+Version 2.2.0  (2005-10-06 r35749)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -412,7 +413,7 @@ IV-III 0.9998777778
 
 data:  response by
 	 groups ExtramaritalSex, PremaritalSex 
-	 stratified by  
+	 stratified by block 
 T = 271.9222, df = 3, p-value < 2.2e-16
 
 > 
@@ -423,7 +424,7 @@ T = 271.9222, df = 3, p-value < 2.2e-16
 
 data:  response (ordered) by
 	 groups ExtramaritalSex, PremaritalSex 
-	 stratified by  
+	 stratified by block 
 T = 270.7402, df = 1, p-value < 2.2e-16
 
 > 
@@ -1449,7 +1450,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  20.27 0.12 20.56 0 0 
+Time elapsed:  22.04 0.14 22.33 0 0 
 > grDevices::dev.off()
 null device 
           1 

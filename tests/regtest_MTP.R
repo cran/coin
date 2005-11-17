@@ -39,3 +39,38 @@ it <- independence_test(V1 + V2 + V3 + V4 ~ group, data = df,
 ### page 5, 1st column: adjusted p-value = 0.05261 for V1
 pvalue(it, method = "discrete")
 
+### artificial example, checked against `multtest:mt.maxT'
+
+set.seed(290875)
+
+gr <- gl(2, 50) 
+x1 <- rnorm(100) + (as.numeric(gr) - 1) * 0.5
+x2 <- rnorm(100) - (as.numeric(gr) - 1) * 0.5
+
+pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided"), "single-step")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "less"), "single-step")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "greater"), "single-step")
+
+pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided", 
+                         dist = approximate(B = 10000)), "single-step")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "less", 
+                         dist = approximate(B = 10000)), "single-step")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "greater", 
+                         dist = approximate(B = 10000)), "single-step")
+
+pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided", 
+                         dist = approximate(B = 10000)), "step-down")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "less", 
+                         dist = approximate(B = 10000)), "step-down")
+pvalue(independence_test(x1 + x2 ~ gr, alt = "greater", 
+                         dist = approximate(B = 10000)), "step-down")
+
+if (FALSE) {
+    library("multtest")
+    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
+    a[order(a$index),]
+    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
+    a[order(a$index),]
+    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
+    a[order(a$index),]
+}

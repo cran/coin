@@ -1,4 +1,4 @@
-.TH "CIstuff.c" 3 "28 Jul 2005" "coin" \" -*- nroff -*-
+.TH "CIstuff.c" 3 "17 Nov 2005" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -39,7 +39,7 @@ CIstuff.c \-
 .in -1c
 .SH "Detailed Description"
 .PP 
-Some additional functionality for package `ConditionalInference'
+Some additional functionality for package `coin'
 .PP
 \fBAuthor:\fP
 .RS 4
@@ -52,7 +52,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2005/06/15 07:28:43 
+2005/11/17 12:10:42 
 .RE
 .PP
 .RE
@@ -75,7 +75,7 @@ Block permutation
 .PP
 
 .PP
-Definition at line 96 of file CIstuff.c.
+Definition at line 110 of file CIstuff.c.
 .PP
 References C_SampleNoReplace().
 .PP
@@ -97,35 +97,35 @@ compute a permutation of a (random subset of) 0:(m-1)
 .PP
 
 .PP
-Definition at line 28 of file CIstuff.c.
+Definition at line 42 of file CIstuff.c.
 .PP
 Referenced by C_blockperm().
 .SS "int ncol (SEXP x)"
 .PP
-Definition at line 15 of file CIstuff.c.
+Definition at line 22 of file CIstuff.c.
 .PP
-Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_LinearStatistic(), R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
+Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_kronecker(), R_LinearStatistic(), R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
 .SS "int nrow (SEXP x)"
 .PP
 Definition at line 11 of file CIstuff.c.
 .PP
-Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_LinearStatistic(), R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
+Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_kronecker(), R_LinearStatistic(), R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
 .SS "SEXP R_blockperm (SEXP block)"
 .PP
-Definition at line 125 of file CIstuff.c.
+Definition at line 139 of file CIstuff.c.
 .PP
 References C_blockperm(), and R_blocksetup().
 .SS "SEXP R_blocksetup (SEXP block)"
 .PP
-Definition at line 42 of file CIstuff.c.
+Definition at line 56 of file CIstuff.c.
 .PP
 Referenced by R_blockperm(), and R_MonteCarloIndependenceTest().
 .SS "SEXP R_maxstattrafo (SEXP x, SEXP cutpoints)"
 .PP
-Definition at line 184 of file CIstuff.c.
+Definition at line 202 of file CIstuff.c.
 .SS "SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B)"
 .PP
-Definition at line 138 of file CIstuff.c.
+Definition at line 152 of file CIstuff.c.
 .PP
 References C_blockperm(), C_PermutedLinearStatistic(), ncol(), nrow(), and R_blocksetup().
 .SH "Author"

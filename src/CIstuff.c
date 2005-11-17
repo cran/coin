@@ -3,17 +3,31 @@
     Some additional functionality for package `coin'
     *\file CIstuff.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/07/28 15:08:26 $
+    *\date $Date: 2005/11/17 12:10:42 $
 */
                 
 #include "CI_common.h"
 
 int nrow(SEXP x) {
-    return(INTEGER(getAttrib(x, R_DimSymbol))[0]);
+    SEXP a;
+
+    a = getAttrib(x, R_DimSymbol);
+    if (a == R_NilValue) {
+        return(LENGTH(x));
+    } else {
+        return(INTEGER(getAttrib(x, R_DimSymbol))[0]);
+    }
 }
     
 int ncol(SEXP x) {
-    return(INTEGER(getAttrib(x, R_DimSymbol))[1]);
+    SEXP a;
+    
+    a = getAttrib(x, R_DimSymbol);
+    if (a == R_NilValue) {
+        return(1);
+    } else {
+        return(INTEGER(getAttrib(x, R_DimSymbol))[1]);
+    }
 }
         
 
@@ -139,7 +153,7 @@ SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B) {
 
     int n, p, q, pq, i, *index, *permindex, b, Bsim;
     SEXP ans, blocksetup, linstat;
-    double *dx, *dy, f = 0.1;
+    double *dans, *dlinstat, *dx, *dy, f = 0.1;
     
     n = nrow(x);
     p = ncol(x);
@@ -154,7 +168,10 @@ SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B) {
 
     PROTECT(blocksetup = R_blocksetup(block));
 
-    PROTECT(ans = allocVector(VECSXP, Bsim));
+    PROTECT(ans = allocMatrix(REALSXP, pq, Bsim));
+    dans = REAL(ans);
+    PROTECT(linstat = allocVector(REALSXP, pq));
+    dlinstat = REAL(linstat);
     
     for (i = 0; i < n; i++)
         index[i] = i;
@@ -164,8 +181,9 @@ SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B) {
     for (b = 0; b < Bsim; b++) {
 
         C_blockperm(blocksetup, permindex);
-        SET_VECTOR_ELT(ans, b, linstat = allocVector(REALSXP, pq));
-        C_PermutedLinearStatistic(dx, p, dy, q, n, n, index, permindex, REAL(linstat));
+        C_PermutedLinearStatistic(dx, p, dy, q, n, n, index, permindex, dlinstat);
+        
+        for (i = 0; i < pq; i++) dans[b*pq + i] = dlinstat[i];
         
         /* check user interrupts */
         if (b > Bsim * f) {
@@ -176,7 +194,7 @@ SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B) {
 
     PutRNGstate();
 
-    UNPROTECT(2);
+    UNPROTECT(3);
     return(ans);
 }
 

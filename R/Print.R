@@ -25,9 +25,11 @@ varnames <- function(object) {
                         sep = "", collapse = ", ")
     }
 
-    if (nlevels(object@block) > 1)
-        xnames <- paste(xnames,  
-            paste("\n\t stratified by", attr(object@block, "blockname")))
+    if (nlevels(object@block) > 1) {
+        bn <- attr(object@block, "blockname")
+        if (is.null(bn)) bn <- "block"
+        xnames <- paste(xnames, paste("\n\t stratified by", bn))
+    }
 
     if (nchar(xnames) > options("width")$width/2) { 
         strg <- paste(ynames, "by\n\t", xnames, collapse = "")

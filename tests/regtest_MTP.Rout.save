@@ -1,6 +1,7 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+Version 2.2.0  (2005-10-06 r35749)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -65,4 +66,57 @@ group.Control 0.03666069 0.9842865 0.1587312 0.997373
                       V1 V2        V3        V4
 group.Control 0.05407491  1 0.1348184 0.9907555
 > 
+> ### artificial example, checked against `multtest:mt.maxT'
+> 
+> set.seed(290875)
+> 
+> gr <- gl(2, 50) 
+> x1 <- rnorm(100) + (as.numeric(gr) - 1) * 0.5
+> x2 <- rnorm(100) - (as.numeric(gr) - 1) * 0.5
+> 
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided"), "single-step")
+              x1         x2
+gr.1 0.009466134 0.01080496
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "less"), "single-step")
+              x1       x2
+gr.1 0.004742767 0.999996
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "greater"), "single-step")
+           x1          x2
+gr.1 0.999997 0.005414957
+> 
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided", 
++                          dist = approximate(B = 10000)), "single-step")
+         x1     x2
+gr.1 0.0088 0.0097
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "less", 
++                          dist = approximate(B = 10000)), "single-step")
+         x1 x2
+gr.1 0.0048  1
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "greater", 
++                          dist = approximate(B = 10000)), "single-step")
+     x1     x2
+gr.1  1 0.0052
+> 
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided", 
++                          dist = approximate(B = 10000)), "step-down")
+         x1    x2
+gr.1 0.0089 0.005
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "less", 
++                          dist = approximate(B = 10000)), "step-down")
+         x1     x2
+gr.1 0.0053 0.9971
+> pvalue(independence_test(x1 + x2 ~ gr, alt = "greater", 
++                          dist = approximate(B = 10000)), "step-down")
+         x1     x2
+gr.1 0.9981 0.0057
+> 
+> if (FALSE) {
++     library("multtest")
++     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
++     a[order(a$index),]
++     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
++     a[order(a$index),]
++     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
++     a[order(a$index),]
++ }
 > 

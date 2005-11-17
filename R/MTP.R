@@ -15,6 +15,32 @@ singlestep <- function(object, ...) {
     ret
 }
 
+### algorithm 2.8 (Free Step-Down Resampling Method) in
+### Westfall & Young (1993), page 66 _using standardized 
+### statistics instead of p-values_!
+sdmaxT <- function(pls, ts) {
+
+    ### order of original statistics
+    rts <- order(ts)
+
+    ### algorithm 2.8 (Free Step-Down Resampling Method) in 
+    ### Westfall & Young (1993), page 66 _using standardized
+    ### statistics instead of p-values_!
+    q <- pls[,rts, drop = FALSE]
+
+    if (ncol(q) > 1) {
+        for (j in 2:ncol(q))
+            q[,j] <- pmax(q[,j], q[,j-1])
+    }
+    ret <- matrix(rowMeans(t(q) >= ts[rts])[rank(ts)],
+                  nrow = nrow(ts), ncol = ncol(ts))
+    
+    rownames(ret) <- rownames(ts)
+    colnames(ret) <- colnames(ts)
+    ret
+}
+    
+
 ### stepdown maxT multiple testing procedure
 stepdown <- function(object, ...) {
 
@@ -30,43 +56,19 @@ stepdown <- function(object, ...) {
     ### standardize
     dcov <- sqrt(variance(object))
     expect <- expectation(object) 
+    pls <- t((pls - expect) / dcov)
+    ts <- statistic(object, "standardized")
+
     if (object@statistic@alternative == "two.sided") {
-        pls <- lapply(pls, function(x)
-            (abs(x - expect) / dcov)
-        )
-        ts <- abs(statistic(object, "standardized"))
-    } else {
-        pls <- lapply(pls, function(x)
-            (x - expect) / dcov
-        )
-        ts <- statistic(object, "standardized")
-    }
-
-    ### order of original statistics
-    rts <- order(ts)
-    if (object@statistic@alternative == "less") rts <- rev(rts)
-
-    ### algorithm 2.8 (Free Step-Down Resampling Method) in
-    ### Westfall & Young (1993), page 66 _using standardized 
-    ### statistics instead of p-values_!
-    q <- matrix(unlist(pls), nrow = length(pls), 
-                byrow = TRUE)[,rts]
-
+        pls <- abs(pls)
+        ts <- abs(ts)
+    } 
     if (object@statistic@alternative == "less") {
-        for (j in 2:ncol(q))
-            q[,j] <- pmin(q[,j], q[,j-1])
-        ret <- matrix(rowMeans(t(q) < ts[rts])[rev(rank(ts))], 
-                      nrow = nrow(ts), ncol = ncol(ts))
-    } else {
-        for (j in 2:ncol(q))
-            q[,j] <- pmax(q[,j], q[,j-1])
-        ret <- matrix(rowMeans(t(q) >= ts[rts])[rank(ts)], 
-                      nrow = nrow(ts), ncol = ncol(ts))
+        pls <- -pls
+        ts <- -ts
     }
-    
-    rownames(ret) <- rownames(ts)
-    colnames(ret) <- colnames(ts)
-    ret
+
+    sdmaxT(pls, ts)
 }
 
 ### Bonferroni permutation method (Westfall & Wolfinger, 1997, AmStat 51, 3-8)
@@ -90,9 +92,7 @@ dbonf <- function(object, ...) {
 
    ### raw simulation results, scores have been handled already
    pls <- support(object, raw = TRUE)
-   pls <- lapply(pls, function(x)
-            (x - expect) / dcov)
-   pls <- t(matrix(unlist(pls), nrow = length(pls), byrow = TRUE))
+   pls <- (pls - expect) / dcov
    ts <- (statistic(object, "standardized"))
    
    pvals <- switch(alternative,

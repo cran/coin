@@ -11,195 +11,213 @@
 00009 <span class="preprocessor">#include "<a class="code" href="CI__common_8h.html">CI_common.h</a>"</span>
 00010 
 <a name="l00011"></a><a class="code" href="CIstuff_8h.html#a0">00011</a> <span class="keywordtype">int</span> <a class="code" href="CIstuff_8c.html#a0">nrow</a>(SEXP x) {
-00012     <span class="keywordflow">return</span>(INTEGER(getAttrib(x, R_DimSymbol))[0]);
-00013 }
-00014     
-<a name="l00015"></a><a class="code" href="CIstuff_8h.html#a1">00015</a> <span class="keywordtype">int</span> <a class="code" href="CIstuff_8c.html#a1">ncol</a>(SEXP x) {
-00016     <span class="keywordflow">return</span>(INTEGER(getAttrib(x, R_DimSymbol))[1]);
-00017 }
-00018         
-00019 
-<a name="l00028"></a><a class="code" href="CIstuff_8c.html#a2">00028</a> <span class="keywordtype">void</span> <a class="code" href="CIstuff_8c.html#a2">C_SampleNoReplace</a>(<span class="keywordtype">int</span> *x, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> k, <span class="keywordtype">int</span> *ans) {
-00029                          
-00030     <span class="keywordtype">int</span> i, j, n = m;
-00031 
-00032     <span class="keywordflow">for</span> (i = 0; i &lt; m; i++)
-00033         x[i] = i;
-00034     <span class="keywordflow">for</span> (i = 0; i &lt; k; i++) {
-00035         j = n * unif_rand();    
-00036         ans[i] = x[j];
-00037         x[j] = x[--n];  
-00038     }
-00039 }
-00040 
-00041 
-<a name="l00042"></a><a class="code" href="CIstuff_8c.html#a3">00042</a> SEXP <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a> (SEXP block) {
-00043 
-00044     <span class="keywordtype">int</span> n, nlev, nlevels, i, j, *iblock, l;
-00045     SEXP ans, dims, indices, dummies, pindices, lindex;
-00046     
-00047     n = LENGTH(block);
-00048     iblock = INTEGER(block);
-00049     nlevels = 1;
-00050     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00051         <span class="keywordflow">if</span> (iblock[i] &gt; nlevels) nlevels++;
+00012     SEXP a;
+00013 
+00014     a = getAttrib(x, R_DimSymbol);
+00015     <span class="keywordflow">if</span> (a == R_NilValue) {
+00016         <span class="keywordflow">return</span>(LENGTH(x));
+00017     } <span class="keywordflow">else</span> {
+00018         <span class="keywordflow">return</span>(INTEGER(getAttrib(x, R_DimSymbol))[0]);
+00019     }
+00020 }
+00021     
+<a name="l00022"></a><a class="code" href="CIstuff_8h.html#a1">00022</a> <span class="keywordtype">int</span> <a class="code" href="CIstuff_8c.html#a1">ncol</a>(SEXP x) {
+00023     SEXP a;
+00024     
+00025     a = getAttrib(x, R_DimSymbol);
+00026     <span class="keywordflow">if</span> (a == R_NilValue) {
+00027         <span class="keywordflow">return</span>(1);
+00028     } <span class="keywordflow">else</span> {
+00029         <span class="keywordflow">return</span>(INTEGER(getAttrib(x, R_DimSymbol))[1]);
+00030     }
+00031 }
+00032         
+00033 
+<a name="l00042"></a><a class="code" href="CIstuff_8c.html#a2">00042</a> <span class="keywordtype">void</span> <a class="code" href="CIstuff_8c.html#a2">C_SampleNoReplace</a>(<span class="keywordtype">int</span> *x, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> k, <span class="keywordtype">int</span> *ans) {
+00043                          
+00044     <span class="keywordtype">int</span> i, j, n = m;
+00045 
+00046     <span class="keywordflow">for</span> (i = 0; i &lt; m; i++)
+00047         x[i] = i;
+00048     <span class="keywordflow">for</span> (i = 0; i &lt; k; i++) {
+00049         j = n * unif_rand();    
+00050         ans[i] = x[j];
+00051         x[j] = x[--n];  
 00052     }
-00053     
-00054     PROTECT(ans = allocVector(VECSXP, 4));
-00055     SET_VECTOR_ELT(ans, 0, dims = allocVector(INTSXP, 2));
-00056     SET_VECTOR_ELT(ans, 1, indices = allocVector(VECSXP, nlevels));
-00057     SET_VECTOR_ELT(ans, 2, dummies = allocVector(VECSXP, nlevels));
-00058     SET_VECTOR_ELT(ans, 3, pindices = allocVector(VECSXP, nlevels));
-00059     
-00060     INTEGER(dims)[0] = n;
-00061     INTEGER(dims)[1] = nlevels;
-00062 
-00063     <span class="keywordflow">for</span> (l = 1; l &lt;= nlevels; l++) {
-00064     
-00065         <span class="comment">/* number of elements in block `l' */</span>
-00066         nlev = 0;   
-00067         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00068             <span class="keywordflow">if</span> (iblock[i] == l) nlev++;
-00069         }
-00070                                                 
-00071         <span class="comment">/* which(block == l) and memory setup */</span>
-00072         SET_VECTOR_ELT(indices, l - 1, lindex = allocVector(INTSXP, nlev));
-00073         SET_VECTOR_ELT(dummies, l - 1, allocVector(INTSXP, nlev));
-00074         SET_VECTOR_ELT(pindices, l - 1, allocVector(INTSXP, nlev));
-00075 
-00076         j = 0;
-00077         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {   
-00078             <span class="keywordflow">if</span> (iblock[i] == l) {
-00079                 INTEGER(lindex)[j] = i;
-00080                 j++; 
-00081             }
-00082         }
-00083     }
-00084 
-00085     UNPROTECT(1);
-00086     <span class="keywordflow">return</span>(ans);
-00087 }
-00088 
+00053 }
+00054 
+00055 
+<a name="l00056"></a><a class="code" href="CIstuff_8c.html#a3">00056</a> SEXP <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a> (SEXP block) {
+00057 
+00058     <span class="keywordtype">int</span> n, nlev, nlevels, i, j, *iblock, l;
+00059     SEXP ans, dims, indices, dummies, pindices, lindex;
+00060     
+00061     n = LENGTH(block);
+00062     iblock = INTEGER(block);
+00063     nlevels = 1;
+00064     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00065         <span class="keywordflow">if</span> (iblock[i] &gt; nlevels) nlevels++;
+00066     }
+00067     
+00068     PROTECT(ans = allocVector(VECSXP, 4));
+00069     SET_VECTOR_ELT(ans, 0, dims = allocVector(INTSXP, 2));
+00070     SET_VECTOR_ELT(ans, 1, indices = allocVector(VECSXP, nlevels));
+00071     SET_VECTOR_ELT(ans, 2, dummies = allocVector(VECSXP, nlevels));
+00072     SET_VECTOR_ELT(ans, 3, pindices = allocVector(VECSXP, nlevels));
+00073     
+00074     INTEGER(dims)[0] = n;
+00075     INTEGER(dims)[1] = nlevels;
+00076 
+00077     <span class="keywordflow">for</span> (l = 1; l &lt;= nlevels; l++) {
+00078     
+00079         <span class="comment">/* number of elements in block `l' */</span>
+00080         nlev = 0;   
+00081         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00082             <span class="keywordflow">if</span> (iblock[i] == l) nlev++;
+00083         }
+00084                                                 
+00085         <span class="comment">/* which(block == l) and memory setup */</span>
+00086         SET_VECTOR_ELT(indices, l - 1, lindex = allocVector(INTSXP, nlev));
+00087         SET_VECTOR_ELT(dummies, l - 1, allocVector(INTSXP, nlev));
+00088         SET_VECTOR_ELT(pindices, l - 1, allocVector(INTSXP, nlev));
 00089 
-<a name="l00096"></a><a class="code" href="CIstuff_8c.html#a4">00096</a> <span class="keywordtype">void</span> <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a> (SEXP blocksetup, <span class="keywordtype">int</span> *ans) {
-00097                   
-00098     <span class="keywordtype">int</span> n, nlevels, l, nlev, j, *iindex, *ipindex;
-00099     SEXP indices, dummies, pindices, index, dummy, pindex;
-00100 
-00101     n = INTEGER(VECTOR_ELT(blocksetup, 0))[0];
-00102     nlevels = INTEGER(VECTOR_ELT(blocksetup, 0))[1];
-00103     indices = VECTOR_ELT(blocksetup, 1);
-00104     dummies = VECTOR_ELT(blocksetup, 2);
-00105     pindices = VECTOR_ELT(blocksetup, 3);
-00106     
-00107     <span class="keywordflow">for</span> (l = 1; l &lt;= nlevels; l++) {
-00108     
-00109         <span class="comment">/* number of elements in block `l' */</span>
-00110         index = VECTOR_ELT(indices, l - 1);
-00111         dummy = VECTOR_ELT(dummies, l - 1);
-00112         pindex = VECTOR_ELT(pindices, l - 1);
-00113         nlev = LENGTH(index);
-00114         iindex = INTEGER(index);
-00115         ipindex = INTEGER(pindex);
-00116 
-00117         <a class="code" href="CIstuff_8c.html#a2">C_SampleNoReplace</a>(INTEGER(dummy), nlev, nlev, ipindex);
-00118 
-00119         <span class="keywordflow">for</span> (j = 0; j &lt; nlev; j++) {
-00120             ans[iindex[j]] = iindex[ipindex[j]];
-00121         }
-00122     }
-00123 }
-00124 
-<a name="l00125"></a><a class="code" href="CIstuff_8c.html#a5">00125</a> SEXP <a class="code" href="CIstuff_8c.html#a5">R_blockperm</a> (SEXP block) {
-00126 
-00127     SEXP blocksetup, ans;
-00128     
-00129     blocksetup = <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a>(block);
-00130     PROTECT(ans = allocVector(INTSXP, LENGTH(block)));
-00131     GetRNGstate();
-00132     <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a>(blocksetup, INTEGER(ans));
-00133     PutRNGstate();
-00134     UNPROTECT(1);
-00135     <span class="keywordflow">return</span>(ans);
-00136 }
-00137 
-<a name="l00138"></a><a class="code" href="CIstuff_8c.html#a6">00138</a> SEXP <a class="code" href="CIstuff_8c.html#a6">R_MonteCarloIndependenceTest</a> (SEXP x, SEXP y, SEXP block, SEXP B) {
-00139 
-00140     <span class="keywordtype">int</span> n, p, q, pq, i, *index, *permindex, b, Bsim;
-00141     SEXP ans, blocksetup, linstat;
-00142     <span class="keywordtype">double</span> *dx, *dy, f = 0.1;
-00143     
-00144     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(x);
-00145     p = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
-00146     q = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
-00147     pq = p*q;
-00148     Bsim = INTEGER(B)[0];
-00149     dx = REAL(x);
-00150     dy = REAL(y);
-00151     
-00152     index = Calloc(n, <span class="keywordtype">int</span>);
-00153     permindex = Calloc(n, <span class="keywordtype">int</span>);
-00154 
-00155     PROTECT(blocksetup = <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a>(block));
-00156 
-00157     PROTECT(ans = allocVector(VECSXP, Bsim));
-00158     
-00159     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++)
-00160         index[i] = i;
-00161         
-00162     GetRNGstate();
-00163         
-00164     <span class="keywordflow">for</span> (b = 0; b &lt; Bsim; b++) {
-00165 
-00166         <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a>(blocksetup, permindex);
-00167         SET_VECTOR_ELT(ans, b, linstat = allocVector(REALSXP, pq));
-00168         <a class="code" href="LinearStatistic_8c.html#a7">C_PermutedLinearStatistic</a>(dx, p, dy, q, n, n, index, permindex, REAL(linstat));
-00169         
-00170         <span class="comment">/* check user interrupts */</span>
-00171         <span class="keywordflow">if</span> (b &gt; Bsim * f) {
-00172             R_CheckUserInterrupt();
-00173             f += 0.1;
-00174         }
-00175     }
-00176 
-00177     PutRNGstate();
-00178 
-00179     UNPROTECT(2);
-00180     <span class="keywordflow">return</span>(ans);
-00181 }
+00090         j = 0;
+00091         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {   
+00092             <span class="keywordflow">if</span> (iblock[i] == l) {
+00093                 INTEGER(lindex)[j] = i;
+00094                 j++; 
+00095             }
+00096         }
+00097     }
+00098 
+00099     UNPROTECT(1);
+00100     <span class="keywordflow">return</span>(ans);
+00101 }
+00102 
+00103 
+<a name="l00110"></a><a class="code" href="CIstuff_8c.html#a4">00110</a> <span class="keywordtype">void</span> <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a> (SEXP blocksetup, <span class="keywordtype">int</span> *ans) {
+00111                   
+00112     <span class="keywordtype">int</span> n, nlevels, l, nlev, j, *iindex, *ipindex;
+00113     SEXP indices, dummies, pindices, index, dummy, pindex;
+00114 
+00115     n = INTEGER(VECTOR_ELT(blocksetup, 0))[0];
+00116     nlevels = INTEGER(VECTOR_ELT(blocksetup, 0))[1];
+00117     indices = VECTOR_ELT(blocksetup, 1);
+00118     dummies = VECTOR_ELT(blocksetup, 2);
+00119     pindices = VECTOR_ELT(blocksetup, 3);
+00120     
+00121     <span class="keywordflow">for</span> (l = 1; l &lt;= nlevels; l++) {
+00122     
+00123         <span class="comment">/* number of elements in block `l' */</span>
+00124         index = VECTOR_ELT(indices, l - 1);
+00125         dummy = VECTOR_ELT(dummies, l - 1);
+00126         pindex = VECTOR_ELT(pindices, l - 1);
+00127         nlev = LENGTH(index);
+00128         iindex = INTEGER(index);
+00129         ipindex = INTEGER(pindex);
+00130 
+00131         <a class="code" href="CIstuff_8c.html#a2">C_SampleNoReplace</a>(INTEGER(dummy), nlev, nlev, ipindex);
+00132 
+00133         <span class="keywordflow">for</span> (j = 0; j &lt; nlev; j++) {
+00134             ans[iindex[j]] = iindex[ipindex[j]];
+00135         }
+00136     }
+00137 }
+00138 
+<a name="l00139"></a><a class="code" href="CIstuff_8c.html#a5">00139</a> SEXP <a class="code" href="CIstuff_8c.html#a5">R_blockperm</a> (SEXP block) {
+00140 
+00141     SEXP blocksetup, ans;
+00142     
+00143     blocksetup = <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a>(block);
+00144     PROTECT(ans = allocVector(INTSXP, LENGTH(block)));
+00145     GetRNGstate();
+00146     <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a>(blocksetup, INTEGER(ans));
+00147     PutRNGstate();
+00148     UNPROTECT(1);
+00149     <span class="keywordflow">return</span>(ans);
+00150 }
+00151 
+<a name="l00152"></a><a class="code" href="CIstuff_8c.html#a6">00152</a> SEXP <a class="code" href="CIstuff_8c.html#a6">R_MonteCarloIndependenceTest</a> (SEXP x, SEXP y, SEXP block, SEXP B) {
+00153 
+00154     <span class="keywordtype">int</span> n, p, q, pq, i, *index, *permindex, b, Bsim;
+00155     SEXP ans, blocksetup, linstat;
+00156     <span class="keywordtype">double</span> *dans, *dlinstat, *dx, *dy, f = 0.1;
+00157     
+00158     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(x);
+00159     p = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
+00160     q = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
+00161     pq = p*q;
+00162     Bsim = INTEGER(B)[0];
+00163     dx = REAL(x);
+00164     dy = REAL(y);
+00165     
+00166     index = Calloc(n, <span class="keywordtype">int</span>);
+00167     permindex = Calloc(n, <span class="keywordtype">int</span>);
+00168 
+00169     PROTECT(blocksetup = <a class="code" href="CIstuff_8c.html#a3">R_blocksetup</a>(block));
+00170 
+00171     PROTECT(ans = allocMatrix(REALSXP, pq, Bsim));
+00172     dans = REAL(ans);
+00173     PROTECT(linstat = allocVector(REALSXP, pq));
+00174     dlinstat = REAL(linstat);
+00175     
+00176     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++)
+00177         index[i] = i;
+00178         
+00179     GetRNGstate();
+00180         
+00181     <span class="keywordflow">for</span> (b = 0; b &lt; Bsim; b++) {
 00182 
-00183 
-<a name="l00184"></a><a class="code" href="CIstuff_8c.html#a7">00184</a> SEXP <a class="code" href="CIstuff_8c.html#a7">R_maxstattrafo</a>(SEXP x, SEXP cutpoints) {
-00185 
-00186     <span class="keywordtype">int</span> i, j, n, nc, jn;
-00187     SEXP ans;
-00188     <span class="keywordtype">double</span> *dans, *dx, *dcutpoints, cj;
-00189     
-00190     <span class="keywordflow">if</span> (!isReal(x) || !isReal(cutpoints))
-00191         error(<span class="stringliteral">"x or cutpoints are not of type REALSXP"</span>);
-00192         
-00193     n = LENGTH(x);
-00194     nc = LENGTH(cutpoints);
-00195     PROTECT(ans = allocMatrix(REALSXP, n, nc));
-00196     dans = REAL(ans);
-00197     dx = REAL(x);
-00198     dcutpoints = REAL(cutpoints);
-00199     
-00200     <span class="keywordflow">for</span> (j = 0; j &lt; nc; j++) {
-00201         jn = j * n;
-00202         cj = dcutpoints[j];
-00203         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00204             <span class="keywordflow">if</span> (dx[i] &gt; cj) {
-00205                 dans[jn + i] = 0.0;
-00206             } <span class="keywordflow">else</span> {
-00207                 dans[jn + i] = 1.0;
-00208             }
-00209         }
-00210     }
-00211     UNPROTECT(1);
-00212     <span class="keywordflow">return</span>(ans);
-00213 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 28 17:02:21 2005 for coin by&nbsp;
+00183         <a class="code" href="CIstuff_8c.html#a4">C_blockperm</a>(blocksetup, permindex);
+00184         <a class="code" href="LinearStatistic_8c.html#a8">C_PermutedLinearStatistic</a>(dx, p, dy, q, n, n, index, permindex, dlinstat);
+00185         
+00186         <span class="keywordflow">for</span> (i = 0; i &lt; pq; i++) dans[b*pq + i] = dlinstat[i];
+00187         
+00188         <span class="comment">/* check user interrupts */</span>
+00189         <span class="keywordflow">if</span> (b &gt; Bsim * f) {
+00190             R_CheckUserInterrupt();
+00191             f += 0.1;
+00192         }
+00193     }
+00194 
+00195     PutRNGstate();
+00196 
+00197     UNPROTECT(3);
+00198     <span class="keywordflow">return</span>(ans);
+00199 }
+00200 
+00201 
+<a name="l00202"></a><a class="code" href="CIstuff_8c.html#a7">00202</a> SEXP <a class="code" href="CIstuff_8c.html#a7">R_maxstattrafo</a>(SEXP x, SEXP cutpoints) {
+00203 
+00204     <span class="keywordtype">int</span> i, j, n, nc, jn;
+00205     SEXP ans;
+00206     <span class="keywordtype">double</span> *dans, *dx, *dcutpoints, cj;
+00207     
+00208     <span class="keywordflow">if</span> (!isReal(x) || !isReal(cutpoints))
+00209         error(<span class="stringliteral">"x or cutpoints are not of type REALSXP"</span>);
+00210         
+00211     n = LENGTH(x);
+00212     nc = LENGTH(cutpoints);
+00213     PROTECT(ans = allocMatrix(REALSXP, n, nc));
+00214     dans = REAL(ans);
+00215     dx = REAL(x);
+00216     dcutpoints = REAL(cutpoints);
+00217     
+00218     <span class="keywordflow">for</span> (j = 0; j &lt; nc; j++) {
+00219         jn = j * n;
+00220         cj = dcutpoints[j];
+00221         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00222             <span class="keywordflow">if</span> (dx[i] &gt; cj) {
+00223                 dans[jn + i] = 0.0;
+00224             } <span class="keywordflow">else</span> {
+00225                 dans[jn + i] = 1.0;
+00226             }
+00227         }
+00228     }
+00229     UNPROTECT(1);
+00230     <span class="keywordflow">return</span>(ans);
+00231 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Nov 17 15:36:17 2005 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.2 </small></address>
 </body>

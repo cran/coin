@@ -144,7 +144,7 @@ setMethod(f = "ApproxNullDistribution",
                   PACKAGE = "coin")
 
               ### <FIXME> can transform p, q, x instead of those </FIXME>
-              pls <- sort(round((unlist(pls) - expectation(object)) / 
+              pls <- sort(round((pls - expectation(object)) / 
                          sqrt(variance(object)), 10))
 
               RET <- new("ApproxNullDistribution")
@@ -163,13 +163,7 @@ setMethod(f = "ApproxNullDistribution",
                   p <- switch(object@alternative,
                       "less"      = mean(pls <= round(q, 10)), 
                       "greater"   = mean(pls >= round(q, 10)),
-                      "two.sided" = {
-                          q <- round(q, 10)
-                          if (q == 0) 1
-                          mean(pls <= ifelse(q >  0, -q,  q)) +
-                          mean(pls >= ifelse(q >= 0,  q, -q))
-                      }
-                  )
+                      "two.sided" = mean(abs(pls) >= round(abs(q), 10)))
                   attr(p, "conf.int") <- binom.test(round(p * B), B, 
                       conf.level = 0.99)$conf.int
                   class(p) <- "MCp"
@@ -194,10 +188,8 @@ setMethod(f = "ApproxNullDistribution",
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
-              if (object@has_scores) {
-                  S <- object@scores
-                  pls <- plsraw <- lapply(pls, function(x) S %*% x)     
-              } 
+              if (object@has_scores)
+                  pls <- plsraw <- object@scores %*% pls
 
               fun <- switch(object@alternative,
                   "less" = min,
@@ -207,10 +199,12 @@ setMethod(f = "ApproxNullDistribution",
 
               dcov <- sqrt(variance(object))
               expect <- expectation(object)
-              pls <- lapply(pls, function(x) 
-                         fun((x - expect) / dcov)
-                     )
-              pls <- sort(round(unlist(pls), 10))
+              pls <- (pls - expect) / dcov
+              pls <- switch(object@alternative,
+                  "less" = do.call("pmin", as.data.frame(t(pls))),
+                  "greater" = do.call("pmax", as.data.frame(t(pls))),
+                  "two.sided" = do.call("pmax", as.data.frame(t(abs(pls)))))
+              pls <- sort(round(pls, 10))
 
               RET <- new("ApproxNullDistribution")
 
@@ -260,19 +254,14 @@ setMethod(f = "ApproxNullDistribution",
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
-              if (object@has_scores) {
-                  S <- object@scores
-                  pls <- plsraw <- lapply(pls, function(x) S %*% x)
-              }
+              if (object@has_scores)
+                  pls <- plsraw <- object@scores %*% pls
 
               dcov <- object@covarianceplus
               expect <- expectation(object)
-              pls <- lapply(pls, function(x) {
-                                a <- x - expect
-                                drop(a %*% dcov %*% a)
-                            }
-                     )
-              pls <- sort(round(unlist(pls), 10))
+              a <- pls - expect
+              pls <- rowSums((t(a) %*% dcov) * t(a))
+              pls <- sort(round(pls, 10))
 
               RET <- new("ApproxNullDistribution")
 

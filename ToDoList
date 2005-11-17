@@ -1,4 +1,7 @@
 
+o       add checks on achieved alpha in confint (see wilcox.test changes by
+        Thomas L)
+
 o	some classes are the same in `coin' and `party': can they conflict?
 
 o	maxstat_tests scales poorly for very large problems (number of obs)
@@ -6,6 +9,8 @@ o	maxstat_tests scales poorly for very large problems (number of obs)
 
 o	compare multiple test procedures with multtest and add more checks,
         compare with Peter Westfalls example
+
+        [done]
 
 o	check spearman_test vs. cor.test
 

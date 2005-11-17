@@ -3,7 +3,7 @@
     Linear statistics for conditional inference
     *\file LinearStatistic.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/07/28 15:04:29 $
+    *\date $Date: 2005/10/13 12:45:01 $
 */
     
 #include "CI_common.h"
@@ -40,6 +40,32 @@ void C_kronecker (const double *A, const int m, const int n,
         }
     }
 }  
+
+
+/**
+    R-interface to C_kronecker\n
+    *\param A matrix
+    *\param B matrix
+*/
+
+SEXP R_kronecker(SEXP A, SEXP B) {
+
+    int m, n, r, s;
+    SEXP ans;
+
+    if (!isReal(A) || !isReal(B))
+        error("R_kronecker: A and / or B are not of type REALSXP");
+
+    m = nrow(A);
+    n = ncol(A);
+    r = nrow(B);
+    s = ncol(B);
+    
+    PROTECT(ans = allocVector(REALSXP, m * n * r * s));
+    C_kronecker(REAL(A), m, n, REAL(B), r, s, REAL(ans));
+    UNPROTECT(1);
+    return(ans);
+}
 
 
 /**
