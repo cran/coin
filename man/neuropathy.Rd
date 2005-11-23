@@ -6,7 +6,7 @@
   The logarithm of the ratio of pain scores at baseline and after four weeks
 for a control and treatment group.
 }
-\usage{data(neuropathy)}
+\usage{data("neuropathy")}
 \format{
   A data frame with 58 observations on the following 2 variables.
   \describe{
@@ -26,7 +26,7 @@ for a control and treatment group.
 }
 \examples{
 
-data(neuropathy, package = "coin")
+data("neuropathy", package = "coin")
 
 ### compare with Table 2 of Conover & Salsburg (1988)
 oneway_test(pain ~ group, data = neuropathy, alternative = "less",

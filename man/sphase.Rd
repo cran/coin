@@ -2,7 +2,7 @@
 \alias{sphase}
 \non_function{}
 \title{ S-phase Fraction of Tumor Cells }
-\usage{data(sphase)}
+\usage{data("sphase")}
 \description{
   S-phase fraction of tumor cells in breast cancer patients. 
 }
@@ -42,7 +42,7 @@
 }
 \examples{
 
-data(sphase, package = "coin")
+data("sphase", package = "coin")
 maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
 
 ### reproduce the test statistic reported in Hothorn & Lausen (2003)

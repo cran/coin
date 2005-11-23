@@ -13,9 +13,9 @@
 \alias{show,MaxTypeIndependenceTest-method}
 \alias{show,ScalarIndependenceTest-method}
 \alias{show,ScalarIndependenceTestConfint-method}
-\title{ ~~ Methods for Function show in Package `coin' ~~}
+\title{ Methods for Function show in Package `coin'}
 \description{
- ~~ Methods for function \code{show} in package \pkg{coin} ~~
+  Methods for function \code{show} in package \pkg{coin}
 }
 \section{Methods}{
 \describe{

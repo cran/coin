@@ -99,7 +99,7 @@
     set.seed(290875)
 }
 
-data(jobsatisfaction, package = "coin")
+data("jobsatisfaction", package = "coin")
 
 ### for females only
 chisq_test(as.table(jobsatisfaction[,,"Female"]), 

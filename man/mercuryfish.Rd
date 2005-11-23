@@ -1,14 +1,14 @@
 \name{mercuryfish}
 \alias{mercuryfish}
 \docType{data}
-\title{ Chromosomal effects of mercury contaminated fish consumption }
+\title{ Chromosomal Effects of Mercury Contaminated Fish Consumption }
 \description{
     The mercury level in the blood, the proportion of cells with
     abnormalities and the proportion of cells with chromosome aberrations
     for a group of consuments of mercury contaminated fish and a control
     group.
 }
-\usage{data(mercuryfish)}
+\usage{data("mercuryfish")}
 \format{
   A data frame with 39 observations on the following 4 variables.
   \describe{
@@ -46,7 +46,7 @@
 
 }
 \examples{
-data(mercuryfish)
+data("mercuryfish")
 
 coherence <- function(data) {
     x <- as.matrix(data)

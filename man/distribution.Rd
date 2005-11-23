@@ -1,4 +1,4 @@
-\name{distribution}
+\name{Distribution}
 \alias{exact}
 \alias{asymptotic}
 \alias{approximate}

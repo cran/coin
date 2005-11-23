@@ -167,41 +167,41 @@ setMethod(f = "dperm",
 )
 
 ### generic method for the permutation distribution from objects
-setGeneric("support", function(object, p, ...)
+setGeneric("support", function(object, ...)
     standardGeneric("support"))
 
 setMethod(f = "support",
           signature = "NullDistribution",
-          definition = function(object, p, ...) {
-              object@support(p, ...)
+          definition = function(object, ...) {
+              object@support(...)
           }
 )
 
 setMethod(f = "support",
           signature = "IndependenceTest",
-          definition = function(object, p, ...) {
-              support(object@distribution, p)
+          definition = function(object, ...) {
+              support(object@distribution, ...)
           }
 )
 
 setMethod(f = "support",
           signature = "ScalarIndependenceTest",
-          definition = function(object, p, ...) {
-              support(object@distribution, p)
+          definition = function(object, ...) {
+              support(object@distribution, ...)
           }
 )
 
 setMethod(f = "support",
           signature = "MaxTypeIndependenceTest",
-          definition = function(object, p, ...) {
-              support(object@distribution, p, ...)
+          definition = function(object, ...) {
+              support(object@distribution, ...)
           }
 )
 
 setMethod(f = "support",
           signature = "QuadTypeIndependenceTest",
-          definition = function(object, p, ...) {
-              support(object@distribution, p, ...)
+          definition = function(object, ...) {
+              support(object@distribution, ...)
           }
 )
 
@@ -215,75 +215,36 @@ setMethod(f = "statistic",
           signature = "IndependenceTest",
           definition = function(object, 
               type = c("test", "linear", "standardized"), ...) {
-              type <- match.arg(type)
               ### <FIXME> it is not sure that object@statistic exists! </FIXME>
-              statistic(object@statistic, type = type, ...)
-          }
-)
-
-setMethod(f = "statistic",
-          signature = "ScalarIndependenceTestStatistic",
-          definition = function(object, 
-              type = c("test", "linear", "standardized"), ...) {
+              object <- object@statistic
               type <- match.arg(type)
-              if (type == "standardized") type <- "test"
-              switch(type, "test" = object@teststatistic,
-                           "linear" = {
-                               x <- object@linearstatistic
-                               matrix(x, nrow = ncol(object@xtrans), 
-                                      ncol = ncol(object@ytrans),
-                                      dimnames = list(colnames(object@xtrans), 
-                                                      colnames(object@ytrans)))
-                           })
-          }
-)
-
-setMethod(f = "statistic",
-          signature = "MaxTypeIndependenceTestStatistic",
-          definition = function(object, 
-              type = c("test", "linear", "standardized"), ...) {
-              type <- match.arg(type)
-              switch(type, "test" = object@teststatistic,
-                           "linear" = {
-                               x <- object@linearstatistic
-                               matrix(x, nrow = ncol(object@xtrans), 
-                                      ncol = ncol(object@ytrans),
-                                      dimnames = list(colnames(object@xtrans), 
-                                                      colnames(object@ytrans)))
-                           },
-                           "standardized" = {
-                               x <- object@standardizedlinearstatistic
-                               matrix(x, nrow = ncol(object@xtrans), 
-                                      ncol = ncol(object@ytrans),
-                                      dimnames = list(colnames(object@xtrans), 
-                                                      colnames(object@ytrans)))
-                           })
+              nc <- ncol(object@ytrans)
+              nr <- ncol(object@xtrans)
+              dn <- list(colnames(object@xtrans), 
+                         colnames(object@ytrans))
+              if (object@has_scores) {
+                  if (object@xordinal) {
+                      x <- object@x[[1]]
+                      nr <- 1
+                      dn[[1]] <- paste(attr(x, "scores"), "*", 
+                                       abbreviate(levels(x)), 
+                                       collapse = " + ", sep = "")
+                  }
+                  if (object@yordinal) {
+                      y <- object@y[[1]]
+                      nc <- 1
+                      dn[[2]] <- paste(attr(y, "scores"), "*", 
+                                       abbreviate(levels(y)), 
+                                       collapse = " + ", sep = "")
+                  }
               }
-)
-
-setMethod(f = "statistic",
-          signature = "QuadTypeIndependenceTestStatistic",
-          definition = function(object, type = c("test", "linear", "standardized"), 
-              ...) {
-              type <- match.arg(type)
               switch(type, "test" = object@teststatistic,
-                           "linear" = {
-                               x <- object@linearstatistic
-                               matrix(x, nrow = ncol(object@xtrans),
-                                      ncol = ncol(object@ytrans),
-                                      dimnames = list(colnames(object@xtrans), 
-                                                      colnames(object@ytrans)))
-                           },
-                           "standardized" = {
-                               matrix((object@linearstatistic - expectation(object)) /
-                                     sqrt(variance(object)), 
-                                     nrow = ncol(object@xtrans),
-                                     ncol = ncol(object@ytrans),
-                                     dimnames = list(colnames(object@xtrans),
-                                                     colnames(object@ytrans)))
-                           }
-              )              
-          }
+                           "linear" = matrix(object@linearstatistic, 
+                                             nrow = nr, ncol = nc, dimnames = dn),
+                           "standardized" = matrix(object@standardizedlinearstatistic, 
+                                                   nrow = nr, ncol = nc, dimnames = dn)
+                           )
+      }
 )
 
 ### generic method for extracting expectations from objects

@@ -61,7 +61,7 @@ SR_shift_2sample <- function(object, fact = NULL) {
             }
         )
     }
-    RET@support <- function(p = 1e-5) T
+    RET@support <- function() T
     RET@name <- "exact distribution (via Streitberg-Roehmel algorithm)"
     return(RET)
 }

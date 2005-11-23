@@ -39,7 +39,7 @@
 dperm(object, x, ...)
 pperm(object, q, ...)
 qperm(object, p, ...)
-support(object, p, ...)
+support(object, ...)
 }
 \arguments{
   \item{object}{an object inheriting from class
@@ -47,7 +47,7 @@ support(object, p, ...)
   \item{x}{value of a standardized statistic.}
   \item{q}{value of a standardized statistic.}
   \item{p}{a probability.}
-  \item{\dots}{further arguments (currently ignored).}
+  \item{\dots}{further arguments to be passed to methods.}
 }
 \section{Methods}{
   \describe{
@@ -67,6 +67,9 @@ at <- ansari_test(y ~ x, data = df, distribution = "exact")
 
 ### density of the exact distribution of the Ansari-Bradley statistic
 dens <- sapply(support(at), dperm, object = at)
+
+### plot density
+plot(support(at), dens, type = "s")
 
 ### 95\% quantile
 qperm(at, 0.95)

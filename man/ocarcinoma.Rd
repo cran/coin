@@ -6,7 +6,7 @@
   Survival times of 35 women suffering ovarian carcinoma at stadium II and
 IIA.
 }
-\usage{data(ocarcinoma)}
+\usage{data("ocarcinoma")}
 \format{
   A data frame with 35 observations on the following 3 variables.
   \describe{
@@ -43,7 +43,7 @@ IIA.
 }
 \examples{
 
-data(ocarcinoma, package = "coin")
+data("ocarcinoma", package = "coin")
 
 ### logrank test with exact two-sided p-value
 lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,

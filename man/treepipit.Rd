@@ -6,7 +6,7 @@
   Data on the population density of tree pipits in Franconian oak forests
   including variables describing the forest ecosystem.
 }
-\usage{data(treepipit)}
+\usage{data("treepipit")}
 \format{
   A data frame with 86 observations describing 86 stands with 
   the following 10 variables:
@@ -54,7 +54,7 @@
 }
 \examples{
 
-data(treepipit, package = "coin")
+data("treepipit", package = "coin")
 
 maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
                       coniferous + deadtree + cbpiles + ivytree,

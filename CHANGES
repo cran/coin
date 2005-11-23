@@ -1,5 +1,20 @@
 
-		CHANGES in `coin' VERSION 0.3-5
+		CHANGES in `coin' VERSION 0.3-7
+
+    o    `statistic()' now returns correct linear and standardized 
+         statistics when scores are in play
+
+    o    `alzheimer' data added
+
+    o    `photocar' data added
+
+    o    documentation updates
+
+    o    `support()' and `dperm()' methods have been improved for asymptotic and
+         approximate null distributions
+
+
+		CHANGES in `coin' VERSION 0.3-6
 
     o    internal C function `R_MonteCarloIndependenceTest' returns
          a (pq x B) matrix instead of a list with B elements 

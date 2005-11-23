@@ -30,6 +30,10 @@ Type 'q()' to quit R.
 +            RNGkind("default", "default")
 + 	   set.seed(1)
 +    	   options(warn = 1)
++ 	   delayedAssign("T", stop("T used instead of TRUE"),
++ 		  assign.env = .CheckExEnv)
++ 	   delayedAssign("F", stop("F used instead of FALSE"),
++ 		  assign.env = .CheckExEnv)
 + 	   sch <- search()
 + 	   newitems <- sch[! sch %in% .oldSearch]
 + 	   for(item in rev(newitems))
@@ -42,9 +46,10 @@ Type 'q()' to quit R.
 +        env = .CheckExEnv)
 > assign("..nameEx", "__{must remake R-ex/*.R}__", env = .CheckExEnv) # for now
 > assign("ptime", proc.time(), env = .CheckExEnv)
-> grDevices::postscript("coin-Examples.ps")
+> grDevices::postscript("coin-Ex.ps")
 > assign("par.postscript", graphics::par(no.readonly = TRUE), env = .CheckExEnv)
 > options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
+> options(warn = 1)    
 > library('coin')
 Loading required package: survival
 Loading required package: splines
@@ -60,7 +65,7 @@ Loading required package: modeltools
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: ContingencyTests
-> ### Title: Independence in General I x K x J Contingency Tables
+> ### Title: Independence in Three-Way Contingency Tables
 > ### Aliases: chisq_test chisq_test.formula chisq_test.table
 > ###   chisq_test.IndependenceProblem cmh_test.formula cmh_test.table
 > ###   cmh_test.IndependenceProblem cmh_test lbl_test.formula lbl_test.table
@@ -74,7 +79,7 @@ Loading required package: modeltools
 >     set.seed(290875)
 > ## End Don't show
 > 
-> data(jobsatisfaction, package = "coin")
+> data("jobsatisfaction", package = "coin")
 > 
 > ### for females only
 > chisq_test(as.table(jobsatisfaction[,,"Female"]), 
@@ -137,11 +142,11 @@ T = 6.1563, p-value = 0.0123
 > ### Smoking and HDL cholesterin status
 > ### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
 > smokingHDL <- as.table(
-+     matrix(c(15,  8, 11,  5,
++     matrix(c(15,  8, 11,  5, 
 +               3,  4,  6,  1, 
 +               6,  7, 15, 11, 
 +               1,  2,  3,  5), ncol = 4,
-+            dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"),
++            dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
 +                            HDL = c("normal", "low", "borderline", "abnormal"))
 +     ))
 > ### use interval mid-points as scores for smoking
@@ -152,6 +157,7 @@ T = 6.1563, p-value = 0.0123
 data:  HDL (ordered) by groups none < < 5 < < 10 < >=10 
 T = 9.8557, df = 1, p-value = 0.001693
 
+> 
 > 
 > 
 > 
@@ -170,7 +176,7 @@ T = 9.8557, df = 1, p-value = 0.001693
 > ### ** Examples
 > 
 > 
-> data(asat, package = "coin")
+> data("asat", package = "coin")
 > 
 > ### independence of asat and group via normal scores test
 > independence_test(asat ~ group, data = asat,
@@ -324,7 +330,7 @@ alternative hypothesis: true mu is not equal to 0
 > plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
 > 
 > ### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
-> ### sampled in Summer 1984, Hollander & Wolfe, Table 6.3, page 200
+> ### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
 > YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
 +                              42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
 +                              38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
@@ -349,9 +355,9 @@ T = 22.8524, p-value < 2.2e-16
 
 > 
 > ### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
-> ### Hollander & Wolfe, 1999, page 244 
+> ### Hollander & Wolfe (1999), page 244 
 > ### (where Steel-Dwass results are given)
-> if (require(multcomp)) {
+> if (require("multcomp")) {
 + 
 +     NDWD <- oneway_test(length ~ site, data = YOY,
 +         ytrafo = function(data) trafo(data, numeric_trafo = rank),
@@ -381,14 +387,14 @@ IV-III 0.9998777778
 > 
 > 
 > 
-> cleanEx(); ..nameEx <- "MarginalHomogenityTest"
+> cleanEx(); ..nameEx <- "MarginalHomogeneityTest"
 > 
-> ### * MarginalHomogenityTest
+> ### * MarginalHomogeneityTest
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: MarginalHomogenityTest
-> ### Title: Marginal Homogenity Test
+> ### Name: MarginalHomogeneityTest
+> ### Title: Marginal Homogeneity Test
 > ### Aliases: mh_test mh_test.table mh_test.formula mh_test.SymmetryProblem
 > ### Keywords: htest
 > 
@@ -446,7 +452,7 @@ T = 270.7402, df = 1, p-value < 2.2e-16
 > ### ** Examples
 > 
 > 
-> data(treepipit, package = "coin")
+> data("treepipit", package = "coin")
 > 
 > maxstat_test(counts ~ coverstorey, data = treepipit)
 
@@ -499,6 +505,9 @@ cutpoint in  coverstorey
 > 
 > ### density of the exact distribution of the Ansari-Bradley statistic
 > dens <- sapply(support(at), dperm, object = at)
+> 
+> ### plot density
+> plot(support(at), dens, type = "s")
 > 
 > ### 95% quantile
 > qperm(at, 0.95)
@@ -557,13 +566,13 @@ alternative hypothesis: true mu is not equal to 1
 
 > 
 > ### Platelet Counts of Newborn Infants
-> ### Hollander & Wolfe, Table 5.4, page 171
+> ### Hollander & Wolfe (1999), Table 5.4, page 171
 > platalet_counts <- data.frame(
 +     counts = c(120, 124, 215, 90, 67, 95, 190, 180, 135, 399, 
 +                12, 20, 112, 32, 60, 40),
 +     treatment = factor(c(rep("Prednisone", 10), rep("Control", 6))))
 > 
-> ### Lepage test, Hollander & Wolfe, page 172 
+> ### Lepage test, Hollander & Wolfe (1999), page 172 
 > lt <- independence_test(counts ~ treatment, data = platalet_counts,
 +     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
 +         cbind(rank(x), ansari_trafo(x))),
@@ -652,7 +661,7 @@ data:  y by groups II, IIA
 T = -2.3373, p-value = 0.01942
 alternative hypothesis: two.sided 
 
-> survdiff(Surv(time, event) ~ stadium, data = ocarcinoma) 
+> survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
 Call:
 survdiff(formula = Surv(time, event) ~ stadium, data = ocarcinoma)
 
@@ -686,6 +695,8 @@ data:  y by groups 0, 1
 T = -1.9201, p-value = 0.0505
 alternative hypothesis: two.sided 
 
+> 
+> 
 > 
 > 
 > cleanEx(); ..nameEx <- "SymmetryTests"
@@ -753,15 +764,15 @@ T = 11.1429, df = 2, p-value = 0.003805
 > 
 > ### where do the differences come from?
 > ### Wilcoxon-Nemenyi-McDonald-Thompson test
-> ### Hollander & Wolfe, page 295
-> if (require(multcomp)) {
+> ### Hollander & Wolfe (1999), page 295
+> if (require("multcomp")) {
 + 
 +     ### all pairwise comparisons
 +     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
 +          teststat = "maxtype",
 +          xtrafo = function(data)
 +              trafo(data, factor_trafo = function(x)
-+                  model.matrix(~ x - 1) 
++                  model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))
 +              ),
 +          ytrafo = function(data)
 +              trafo(data, numeric_trafo = rank, block = RoundingTimes$block)
@@ -775,14 +786,14 @@ T = 11.1429, df = 2, p-value = 0.003805
 +     print(pvalue(rtt, method = "single-step"))
 + }
 Loading required package: multcomp
-[1] 0.00387132
+[1] 0.003455914
  percent confidence interval:
- 0.003609045 0.004133595 
+ 0.003205723 0.003706106 
 
-                     [,1]
-xNarrow Angle 0.701908847
-xRound Out    0.042678917
-xWide Angle   0.003811824
+                               [,1]
+Round Out-Narrow Angle  0.623924061
+Wide Angle-Narrow Angle 0.053791966
+Wide Angle-Round Out    0.003398077
 > 
 > ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286
 > sc <- data.frame(block = factor(c(rep(1, 5), rep(2, 5), rep(3, 5))),
@@ -791,7 +802,7 @@ xWide Angle   0.003811824
 +                               7.68, 7.57, 7.73, 8.15, 8.00,
 +                               7.21, 7.80, 7.74, 7.87, 7.93))
 > 
-> ### Page test
+> ### Page test for ordered alternatives
 > ft <- friedman_test(strength ~ potash | block, data = sc)
 > ft
 
@@ -825,7 +836,7 @@ T = 7.0533, df = 1, p-value = 0.007912
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: Transformations
-> ### Title: Functions for Data Transformations and Score Computations
+> ### Title: Functions for Data Transformations
 > ### Aliases: trafo id_trafo ansari_trafo fligner_trafo normal_trafo
 > ###   median_trafo consal_trafo maxstat_trafo logrank_trafo f_trafo
 > ### Keywords: manip
@@ -936,6 +947,50 @@ attr(,"assign")
 > 
 > 
 > 
+> cleanEx(); ..nameEx <- "alzheimer"
+> 
+> ### * alzheimer
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: alzheimer
+> ### Title: Smoking and Alzheimer's Disease
+> ### Aliases: alzheimer
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("alzheimer")
+> 
+> ### Cochran-Mantel-Haenszel test
+> cmh_test(alzheimer)
+
+	Asymptotic Generalised Cochran-Mantel-Haenszel Test
+
+data:  disease by
+	 groups None, <10, 10-20, >20 
+	 stratified by gender 
+T = 23.3163, df = 6, p-value = 0.0006972
+
+> 
+> ### Linear-by-Linear Association test
+> cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  disease by
+	 groups None < <10 < 10-20 < >20 
+	 stratified by gender 
+T = 10.3366, df = 2, p-value = 0.005694
+
+> statistic(cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25))),
++           "standardized")
+                                  Alzheimer's Other dementias Other diagnoses
+0*None + 5*<10 + 15*10-2 + 25*>20   -2.334202        3.087989      -0.6459272
+> 
+> 
+> 
+> 
 > cleanEx(); ..nameEx <- "asat"
 > 
 > ### * asat
@@ -950,7 +1005,7 @@ attr(,"assign")
 > ### ** Examples
 > 
 > 
-> data(asat, package = "coin")
+> data("asat", package = "coin")
 > 
 > ### proof-of-safety based on ratio of medians
 > pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
@@ -973,16 +1028,26 @@ attr(,"conf.level")
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: expectation-methods
-> ### Title: Extract the Expectation and Covariance of Linear Statistics
+> ### Title: Extract the Expectation and Variance / Covariance of Linear
+> ###   Statistics
 > ### Aliases: expectation expectation-methods
 > ###   expectation,IndependenceTest-method
+> ###   expectation,IndependenceTestStatistic-method
 > ###   expectation,ScalarIndependenceTestStatistic-method
 > ###   expectation,MaxTypeIndependenceTestStatistic-method
 > ###   expectation,QuadTypeIndependenceTestStatistic-method covariance
-> ###   covariance-methods covariance,IndependenceTest-method
+> ###   covariance-methods covariance,CovarianceMatrix-method
+> ###   covariance,IndependenceTest-method
+> ###   covariance,IndependenceTestStatistic-method
 > ###   covariance,ScalarIndependenceTestStatistic-method
 > ###   covariance,MaxTypeIndependenceTestStatistic-method
-> ###   covariance,QuadTypeIndependenceTestStatistic-method
+> ###   covariance,QuadTypeIndependenceTestStatistic-method variance
+> ###   variance-methods variance,Variance-method
+> ###   variance,CovarianceMatrix-method variance,IndependenceTest-method
+> ###   variance,IndependenceTestStatistic-method
+> ###   variance,ScalarIndependenceTestStatistic-method
+> ###   variance,MaxTypeIndependenceTestStatistic-method
+> ###   variance,QuadTypeIndependenceTestStatistic-method
 > ### Keywords: methods
 > 
 > ### ** Examples
@@ -1062,7 +1127,7 @@ attr(,"conf.level")
 > ### ** Examples
 > 
 > 
-> data(glioma, package = "coin")
+> data("glioma", package = "coin")
 > 
 > par(mfrow=c(1,2))
 > 
@@ -1139,7 +1204,7 @@ alternative hypothesis: two.sided
 > ### ** Examples
 > 
 > 
-> data(jobsatisfaction, package = "coin")
+> data("jobsatisfaction", package = "coin")
 > 
 > # Generalized Cochran-Mantel-Haenzel test
 > cmh_test(jobsatisfaction)
@@ -1151,6 +1216,84 @@ data:  Job.Satisfaction by
 	 stratified by Gender 
 T = 10.2001, df = 9, p-value = 0.3345
 
+> 
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "mercuryfish"
+> 
+> ### * mercuryfish
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: mercuryfish
+> ### Title: Chromosomal Effects of Mercury Contaminated Fish Consumption
+> ### Aliases: mercuryfish
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data("mercuryfish")
+> 
+> coherence <- function(data) {
++     x <- as.matrix(data)
++     matrix(apply(x, 1, function(y)
++         sum(colSums(t(x) < y) == ncol(x)) - 
++         sum(colSums(t(x) > y) == ncol(x))), ncol = 1)
++ }
+> 
+> ### POSET-test
+> poset <- independence_test(mercury + abnormal + ccells ~ group, data =
++                            mercuryfish, ytrafo = coherence)
+> 
+> ### linear statistic (T in Rosenbaum's, 1994, notation)
+> statistic(poset, "linear")
+        [,1]
+control -237
+> 
+> ### expectation
+> expectation(poset)
+[1] 0
+> 
+> ### variance (Rosenbaum, 1994, uses the unconditional approach)
+> covariance(poset)
+         [,1]
+[1,] 3097.954
+> 
+> ### the standardized statistic
+> statistic(poset)
+[1] -4.258051
+> 
+> ### and asymptotic p-value
+> pvalue(poset)
+[1] 2.062169e-05
+> 
+> ### exact p-value
+> independence_test(mercury + abnormal + ccells ~ group, data =
++                   mercuryfish, ytrafo = coherence, distribution = "exact")
+
+	Exact General Independence Test
+
+data:  mercury, abnormal, ccells by groups control, exposed 
+T = -4.2581, p-value = 4.486e-06
+alternative hypothesis: two.sided 
+
+> 
+> ### multivariate analysis
+> mvtest <- independence_test(mercury + abnormal + ccells ~ group, 
++                             data = mercuryfish)
+> 
+> ### global p-value
+> pvalue(mvtest)
+[1] 0.007050273
+ percent confidence interval:
+ 0.006381220 0.007719326 
+
+> 
+> ### adjusted univariate p-value
+> pvalue(mvtest, method = "single-step")
+                  mercury   abnormal     ccells
+group.control 0.007191719 0.01705445 0.03836982
 > 
 > 
 > 
@@ -1169,7 +1312,7 @@ T = 10.2001, df = 9, p-value = 0.3345
 > ### ** Examples
 > 
 > 
-> data(neuropathy, package = "coin")
+> data("neuropathy", package = "coin")
 > 
 > ### compare with Table 2 of Conover & Salsburg (1988)
 > oneway_test(pain ~ group, data = neuropathy, alternative = "less",
@@ -1221,7 +1364,7 @@ alternative hypothesis: true mu is less than 0
 > ### ** Examples
 > 
 > 
-> data(ocarcinoma, package = "coin")
+> data("ocarcinoma", package = "coin")
 > 
 > ### logrank test with exact two-sided p-value
 > lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
@@ -1234,6 +1377,56 @@ alternative hypothesis: true mu is less than 0
 > ### p-value
 > pvalue(lrt)
 [1] 0.01819756
+> 
+> 
+> 
+> 
+> cleanEx(); ..nameEx <- "photocar"
+> 
+> ### * photocar
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: photocar
+> ### Title: Multiple Dosing Photococarcinogenicity Experiment
+> ### Aliases: photocar
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+> data("photocar")
+> 
+> layout(matrix(1:3, ncol = 3))
+> plot(survfit(Surv(time, event) ~ group, data = photocar), xmax = 50, lty =
++ 1:3, main = "Survival Time")
+> legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+> plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50, lty =
++ 1:3, main = "Time to First Tumor")
+> legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+> boxplot(ntumor ~ group, data = photocar, main = "Number of Tumors")
+> 
+> ### global test (all three responses)
+> fm <- Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group
+> it <- independence_test(fm, data = photocar, 
++                         distribution = approximate(B = 10000))
+> pvalue(it)
+[1] 0
+99 percent confidence interval:
+ 0.0000000000 0.0005296914 
+
+> 
+> ### why was the global null hypothesis rejected?
+> statistic(it, "standardized")
+        Surv(time, event) Surv(dmin, tumor)     ntumor
+group.A         -2.327338         -2.178704  0.2642120
+group.B         -4.750336         -4.106039  0.1509783
+group.C          7.077674          6.284743 -0.4151904
+> pvalue(it, "single-step")
+        Surv(time, event) Surv(dmin, tumor) ntumor
+group.A             0.129            0.1850 0.9999
+group.B             0.000            0.0003 1.0000
+group.C             0.000            0.0000 0.9988
 > 
 > 
 > 
@@ -1273,6 +1466,23 @@ alternative hypothesis: true mu is not equal to 1
 > pvalue(at)
 [1] 0.710234
 > 
+> ### bivariate 2-sample problem
+> df <- data.frame(y1 = rnorm(20) + c(rep(0, 10), rep(1, 10)), 
++                  y2 = rnorm(20), 
++                  x = gl(2, 10))
+> 
+> it <- independence_test(y1 + y2 ~ x, data = df, 
++                         distribution = approximate(B = 9999))
+> pvalue(it, method = "single-step")
+           y1     y2
+x.1 0.0110011 0.9998
+> pvalue(it, method = "step-down")
+           y1        y2
+x.1 0.0110011 0.9789979
+> pvalue(it, method = "discrete")
+            y1       y2
+x.1 0.01097084 0.999559
+> 
 > 
 > 
 > 
@@ -1290,7 +1500,7 @@ alternative hypothesis: true mu is not equal to 1
 > ### ** Examples
 > 
 > 
-> data(rotarod, package = "coin")
+> data("rotarod", package = "coin")
 > 
 > ### Wilcoxon-Mann-Whitney Rank Sum Test
 > 
@@ -1340,14 +1550,27 @@ alternative hypothesis: true mu is not equal to 0
 > ### ** Examples
 > 
 > 
-> data(sphase, package = "coin")
-> 
+> data("sphase", package = "coin")
 > maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
 
 	Asymptotic Maxstat Test
 
 data:  y by SPF 
 T = 2.3966, p-value = 0.1582
+sample estimates:
+cutpoint in  SPF 
+             107 
+
+> 
+> ### reproduce the test statistic reported in Hothorn & Lausen (2003)
+> maxstat_test(Surv(RFS, event) ~ SPF, data = sphase, 
++     ytrafo = function(data) trafo(data, surv_trafo = function(x) 
++         logrank_trafo(x, ties.method = "HL")))
+
+	Asymptotic Maxstat Test
+
+data:  y by SPF 
+T = 2.4033, p-value = 0.1557
 sample estimates:
 cutpoint in  SPF 
              107 
@@ -1366,9 +1589,6 @@ cutpoint in  SPF
 > ### Title: Extract Test Statistics, Linear Statistics and Standardized
 > ###   Statistics
 > ### Aliases: statistic statistic-methods statistic,IndependenceTest-method
-> ###   statistic,ScalarIndependenceTestStatistic-method
-> ###   statistic,MaxTypeIndependenceTestStatistic-method
-> ###   statistic,QuadTypeIndependenceTestStatistic-method
 > ### Keywords: methods
 > 
 > ### ** Examples
@@ -1403,7 +1623,7 @@ cutpoint in  SPF
   5 0 0 0 4
 > 
 > ### and the standardized contingency table for illustrating
-> ### departures from the null-hypothesis of independence of x and y
+> ### departures from the null hypothesis of independence of x and y
 > statistic(ct, type = "standardized")
           1         2         3         4
 1  3.774917 -1.258306 -1.258306 -1.258306
@@ -1428,7 +1648,7 @@ cutpoint in  SPF
 > ### ** Examples
 > 
 > 
-> data(treepipit, package = "coin")
+> data("treepipit", package = "coin")
 > 
 > maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
 +                       coniferous + deadtree + cbpiles + ivytree,
@@ -1450,7 +1670,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  22.04 0.14 22.33 0 0 
+Time elapsed:  31.31 0.82 32.29 0 0 
 > grDevices::dev.off()
 null device 
           1 

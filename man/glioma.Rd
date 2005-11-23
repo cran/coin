@@ -6,7 +6,7 @@
   A non-randomized pilot study on malignant glioma patients with 
   pretargeted adjuvant radioimmunotherapy using Yttrium-90-biotin.
 }
-\usage{data(glioma)}
+\usage{data("glioma")}
 \format{
   A data frame with 37 observations on the following 7 variables.
   \describe{
@@ -37,7 +37,7 @@
 }
 \examples{
 
-data(glioma, package = "coin")
+data("glioma", package = "coin")
 
 par(mfrow=c(1,2))
 

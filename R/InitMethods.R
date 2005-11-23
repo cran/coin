@@ -97,6 +97,8 @@ setMethod(f = "initialize",
         yORDINAL <- (ncol(y) == 1 && is.ordered(y[[1]])) && 
                     (nlevels(y[[1]]) > 2) 
         .Object@has_scores <- xORDINAL || yORDINAL
+        .Object@xordinal <- xORDINAL
+        .Object@yordinal <- yORDINAL
 
         if (xORDINAL) {
             if (is.null(attr(x[[1]], "scores")) && is.null(xscores))
@@ -222,6 +224,7 @@ setMethod(f = "initialize",
         standstat <- (its@linearstatistic - expectation(its)) / 
                      sqrt(variance(its))
         .Object@teststatistic <- drop(standstat)
+        .Object@standardizedlinearstatistic <- drop(standstat)
 
         .Object
     }
@@ -272,6 +275,9 @@ setMethod(f = "initialize",
         stand <- (its@linearstatistic - expectation(its))
         .Object@teststatistic <- 
             drop(stand %*% .Object@covarianceplus %*% stand)
+        standstat <- (its@linearstatistic - expectation(its)) /
+                      sqrt(variance(its))
+        .Object@standardizedlinearstatistic <- standstat
 
         .Object
     }

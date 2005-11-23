@@ -5,9 +5,9 @@
 \description{
   Income and job satisfaction by gender.
 }
-\usage{data(jobsatisfaction)}
+\usage{data("jobsatisfaction")}
 \format{
- A tree-dimensional contigency table with dimensions
+ A tree-dimensional contingency table with dimensions
  \description{
      \item{Income}{a factor at levels \code{<5000, 5000-15000, 15000-25000}
                    and \code{>25000}.}
@@ -30,7 +30,7 @@
 }
 \examples{
 
-data(jobsatisfaction, package = "coin")
+data("jobsatisfaction", package = "coin")
 
 # Generalized Cochran-Mantel-Haenzel test
 cmh_test(jobsatisfaction)

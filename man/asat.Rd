@@ -6,7 +6,7 @@
   ASAT-values for a new compound and a control group of 34 female Wistar
 rats.
 }
-\usage{data(asat)}
+\usage{data("asat")}
 \format{
   A data frame with 34 observations on the following 2 variables.
   \describe{
@@ -40,7 +40,7 @@ Hauschke et al. (1999).
 }
 \examples{
 
-data(asat, package = "coin")
+data("asat", package = "coin")
 
 ### proof-of-safety based on ratio of medians
 pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 

@@ -80,8 +80,7 @@ setMethod(f = "AsymptNullDistribution",
                   p
               }
 
-              RET@support <- RET@support <- function(p = 1e-5) 
-                  c(RET@q(p), RET@q(1 - p))
+              RET@support <- function(p = 1e-5) c(RET@q(p), RET@q(1 - p))
 
               RET@name <- "multivariate normal distribution"
               RET@parameters <- list(corr = corr)
@@ -100,7 +99,7 @@ setMethod(f = "AsymptNullDistribution",
               RET@d <- function(d) dchisq(d, df = object@df)
               RET@pvalue <- function(q) 1 - RET@p(q)
 
-              RET@support <- function(p = 1e-5) c(RET@q(p), RET@q(1 - p))
+              RET@support <- function(p = 1e-5) c(0, RET@q(1 - p))
 
               RET@name <- "chisq distribution"
               RET@parameters <- list(df = object@df)
@@ -158,7 +157,10 @@ setMethod(f = "ApproxNullDistribution",
               }
 
               RET@q <- function(p) pls[length(pls) * p]
-              RET@d <- function(x) length(pls == x)
+              RET@d <- function(x) {
+                  tmp <- abs(pls - x)
+                  mean(tmp == tmp[which.min(tmp)])
+              }
               RET@pvalue <- function(q) {
                   p <- switch(object@alternative,
                       "less"      = mean(pls <= round(q, 10)), 
@@ -169,9 +171,9 @@ setMethod(f = "ApproxNullDistribution",
                   class(p) <- "MCp"
                   p
               }
-              RET@support <- function(p = 1e-5, raw = FALSE) {
+              RET@support <- function(raw = FALSE) {
                   if (raw) return(plsraw)
-                  unique(pls)
+                  sort(unique(drop(pls)))
               }
               return(RET)
           }
@@ -221,7 +223,10 @@ setMethod(f = "ApproxNullDistribution",
               }
 
               RET@q <- function(p) pls[length(pls) * p]
-              RET@d <- function(x) length(pls == x)
+              RET@d <- function(x) {
+                  tmp <- abs(pls - x)
+                  mean(tmp == tmp[which.min(tmp)])
+              }
               RET@pvalue <- function(q) {
                   p <- switch(object@alternative,
                       "less" = mean(pls <= round(q, 10)),
@@ -234,9 +239,9 @@ setMethod(f = "ApproxNullDistribution",
                   p
               }
 
-              RET@support <- function(p = 1e-5, raw = FALSE) {
+              RET@support <- function(raw = FALSE) {
                   if (raw) return(plsraw)
-                  unique(pls)
+                  sort(unique(drop(pls)))
               }
               RET@name = "MonteCarlo distribution"
               return(RET)
@@ -274,7 +279,10 @@ setMethod(f = "ApproxNullDistribution",
               }
 
               RET@q <- function(p) pls[length(pls) * p]
-              RET@d <- function(x) length(pls == x)
+              RET@d <- function(x) {
+                  tmp <- abs(pls - x)
+                  mean(tmp == tmp[which.min(tmp)])
+              }
               RET@pvalue <- function(q) {
                   p <- mean(pls >= round(q, 10))
                   attr(p, "conf.int") <- binom.test(round(p * B), B, 
@@ -282,9 +290,9 @@ setMethod(f = "ApproxNullDistribution",
                   class(p) <- "MCp"
                   p
               }
-              RET@support <- function(p = 1e-5, raw = FALSE) {
+              RET@support <- function(raw = FALSE) {
                   if (raw) return(plsraw)
-                  unique(pls)
+                  sort(unique(drop(pls)))
               }
               RET@name = "MonteCarlo distribution"
               return(RET)

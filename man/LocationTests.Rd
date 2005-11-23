@@ -230,7 +230,7 @@ pvalue(kw)
 ### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
 ### Hollander & Wolfe (1999), page 244 
 ### (where Steel-Dwass results are given)
-if (require(multcomp)) {
+if (require("multcomp")) {
 
     NDWD <- oneway_test(length ~ site, data = YOY,
         ytrafo = function(data) trafo(data, numeric_trafo = rank),

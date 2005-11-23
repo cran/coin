@@ -103,7 +103,7 @@ axis(2)
 ### where do the differences come from?
 ### Wilcoxon-Nemenyi-McDonald-Thompson test
 ### Hollander & Wolfe (1999), page 295
-if (require(multcomp)) {
+if (require("multcomp")) {
 
     ### all pairwise comparisons
     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,

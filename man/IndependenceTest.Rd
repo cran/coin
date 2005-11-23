@@ -109,7 +109,7 @@
 }
 \examples{
 
-data(asat, package = "coin")
+data("asat", package = "coin")
 
 ### independence of asat and group via normal scores test
 independence_test(asat ~ group, data = asat,

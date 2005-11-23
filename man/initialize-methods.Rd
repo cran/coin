@@ -14,9 +14,9 @@
 \alias{initialize,ScalarIndependenceTestStatistic-method}
 \alias{initialize,MaxTypeIndependenceTestStatistic-method}
 \alias{initialize,QuadTypeIndependenceTestStatistic-method}
-\title{ ~~ Methods for Function initialize in Package `coin' ~~}
+\title{ Methods for Function initialize in Package `coin' }
 \description{
- ~~ Methods for function \code{initialize} in package \pkg{coin} ~~
+  Methods for function \code{initialize} in package \pkg{coin} 
 }
 \section{Methods}{
 \describe{

@@ -5,7 +5,7 @@
 \description{
   The endurance time of 24 rats in two groups in a rotating cylinder.
 }
-\usage{data(rotarod)}
+\usage{data("rotarod")}
 \format{
   A data frame with 24 observations on the following 2 variables.
   \describe{
@@ -38,7 +38,7 @@ p-value (corrected for ties) is reported as 0.0147.
 }
 \examples{
 
-data(rotarod, package = "coin")
+data("rotarod", package = "coin")
 
 ### Wilcoxon-Mann-Whitney Rank Sum Test
 

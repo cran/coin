@@ -32,6 +32,8 @@ setClass(Class = "IndependenceTestProblem",
         xtrafo     = "function",
         ytrafo     = "function",
         has_scores = "logical",
+        xordinal   = "logical",
+        yordinal   = "logical",
         scores     = "matrix"
     ),
     contains = "IndependenceProblem",
@@ -66,11 +68,12 @@ setClassUnion("VarCovar", c("CovarianceMatrix", "Variance"))
 ### Strasser & Weber (1999)
 setClass(Class = "IndependenceTestStatistic",
     representation = representation(
-        linearstatistic = "numeric",
-        expectation     = "numeric",
-        covariance      = "VarCovar",
-        estimates       = "list",
-        teststatistic   = "numeric"
+        linearstatistic             = "numeric",
+        expectation                 = "numeric",
+        covariance                  = "VarCovar",
+        estimates                   = "list",
+        teststatistic               = "numeric",
+        standardizedlinearstatistic = "numeric"
     ),
     contains = "IndependenceTestProblem",
 
@@ -105,7 +108,6 @@ setAs(from = "ScalarIndependenceTestStatistic",
 ### teststatistic = max(abs(linearstatistic))
 setClass(Class = "MaxTypeIndependenceTestStatistic",
     representation = representation(
-        standardizedlinearstatistic = "numeric",
         alternative                 = "character"
     ),
     contains = "IndependenceTestStatistic",
@@ -124,8 +126,8 @@ setAs(from = "MaxTypeIndependenceTestStatistic",
 ### teststatistic = quadform(linearstatistic)
 setClass(Class = "QuadTypeIndependenceTestStatistic",
     representation = representation(
-        covarianceplus = "matrix",
-        df             = "numeric"
+        covarianceplus              = "matrix",
+        df                          = "numeric"
     ),
     contains = "IndependenceTestStatistic"
 )
