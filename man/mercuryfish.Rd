@@ -16,7 +16,7 @@
     \item{mercury}{the level of mercury in the blood.}
     \item{abnormal}{the proportion of cells with structural abnormalities.}
     \item{ccells}{the proportion of cells with asymmetrical or
-                  incomplete-symmetrical chomosome aberrations called 
+                  incomplete-symmetrical chromosome aberrations called 
                   \eqn{C_u} cells.}
   }
 }
@@ -26,7 +26,7 @@
   \code{exposed} group and subjects of a control group are to be compared.
   Instead of a multivariate comparison, Rosenbaum (1994) 
   applied a coherence criterion. The observations are partially ordered: an
-  observation is than another when all three variables (\code{mercury},
+  observation is smaller than another when all three variables (\code{mercury},
   \code{abnormal} and \code{ccells}) are smaller and a score reflecting the
   `ranking' is attached to each observation. The distribution of the scores
   in both groups is to be compared and the corresponding test is called
@@ -65,7 +65,8 @@ statistic(poset, "linear")
 ### expectation
 expectation(poset)
 
-### variance (Rosenbaum, 1994, uses the unconditional approach)
+### variance (there is a typo in Rosenbaum, 1994, page 371, 
+### last paragraph Section 2)
 covariance(poset)
 
 ### the standardized statistic

@@ -120,7 +120,7 @@ f_trafo <- function(x) {
 
 ### transformation function
 trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo, 
-                 surv_trafo = logrank_trafo, block = NULL) {
+                 surv_trafo = logrank_trafo, var_trafo = NULL, block = NULL) {
 
     if (!(is.data.frame(data) || is.list(data)))
         stop(sQuote("data"), " is not a data.frame or list")
@@ -142,7 +142,22 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
         return(ret)
     }
 
-    tr <- lapply(data, function(x) {
+    if (!is.null(var_trafo)) {
+        if (!is.list(var_trafo)) stop(sQuote("var_trafo"), " is not a list")
+        if (!all(names(var_trafo) %in% names(data)))
+            stop("variable(s) ", 
+                 names(var_trafo)[!(names(var_trafo) %in% names(data))], 
+                 " not found in ", sQuote("var_trafo"))
+    }
+
+    tr <- vector(mode = "list", length = length(data))
+    names(tr) <- names(data)
+    for (nm in names(data)) {
+        x <- data[[nm]]
+        if (nm %in% names(var_trafo)) {
+            tr[[nm]] <- var_trafo[[nm]](x)
+            next()
+        }
         if (class(x)[1] == "AsIs") {
             if (length(class(x)) == 1) {
                 x <- as.numeric(x)
@@ -150,14 +165,21 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
                 class(x) <- class(x)[-1]
             }
         }
-        if (is.factor(x) || is.logical(x))
-            return(factor_trafo(x))
-        if (class(x) == "Surv")
-            return(surv_trafo(x))
-        if (is.numeric(x))
-            return(numeric_trafo(x))
-        stop("data class ", class(x), " is not supported")
-    })
+        if (is.factor(x) || is.logical(x)) {
+            tr[[nm]] <- factor_trafo(x)
+            next()
+        }
+        if (inherits(x, "Surv")) {
+            tr[[nm]] <- surv_trafo(x)
+            next()
+        }
+        if (is.numeric(x)) {
+            tr[[nm]] <- numeric_trafo(x)
+            next()
+        }
+        if (is.null(tr[[nm]]))
+            stop("data class ", class(x), " is not supported")
+    }
 
     RET <- c()
     assignvar <- c()

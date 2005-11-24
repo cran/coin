@@ -41,7 +41,7 @@
      \texttt{Torsten.Hothorn@R-project.org}
 \newline
 
-\noindent$^2$Institut f\"ur Statistik und Mathematik,
+\noindent$^2$Department f\"ur Statistik und Mathematik,
              Wirtschaftsuniversit\"at Wien \\
        Augasse 2-6, A-1090 Wien, Austria \\
        \texttt{Kurt.Hornik@R-project.org} \\
@@ -157,7 +157,7 @@ circumstances. At least under the null hypothesis one can dispose of this
 dependency by fixing $\X_1, \dots, \X_n$ and conditioning on all possible
 permutations $S$ of the responses $\Y_1, \dots, \Y_n$. 
 This principle leads to test procedures known
-as \textsl{permutation tests}. 
+as \textit{permutation tests}. 
 
 The conditional expectation $\mu \in \R^{pq}$ and covariance 
 $\Sigma \in \R^{pq \times pq}$ 
@@ -237,7 +237,7 @@ Conditional Monte-Carlo procedures can be used to approximate the exact
 distribution. \cite{StrasserWeber1999} proved (Theorem 2.3) that the   
 conditional distribution of linear statistics $\T$ with conditional    
 expectation $\mu$ and covariance $\Sigma$ tends to a multivariate normal
-distribution with parameters $\mu$ and $\Sigma$ as $n, s \rightarrow
+distribution with parameters $\mu$ and $\Sigma$ as $n, \ws \rightarrow
 \infty$. Thus, the asymptotic conditional distribution of test statistics of
 the
 form $c_\text{max}$ is normal and

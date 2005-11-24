@@ -41,6 +41,7 @@ exportMethods("initialize", "show", "pvalue", "statistic",
               "covariance", "variance")
 
 S3method(independence_test, formula)
+S3method(independence_test, table)
 S3method(independence_test, IndependenceProblem)
 
 S3method(oneway_test, formula)

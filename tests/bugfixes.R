@@ -53,3 +53,22 @@ itas <- independence_test(I(round(x, 1)) ~ z, data = df)
 lines(ae[-1], diff(sapply(ae, function(x) pperm(itas, x))), lty = 3)
 legend("topleft", lty = 1:3, legend = c("approx", "exact", "asympt"), bty = "n")
 
+### check correct handling of multiple censoring indicators (in modeltools)
+### was never wrong, just in case...
+data("photocar", package = "coin")
+i1 <- independence_test(Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group,
+                  data = photocar)
+i2 <- independence_test(Surv(time, event) ~ group, data = photocar)
+i3 <- independence_test(Surv(dmin, tumor) ~ group, data = photocar)
+
+stopifnot(max(abs(statistic(i1, "standardized")[,1] - 
+                  statistic(i2, "stand"))) < sqrt(.Machine$double.eps))
+stopifnot(max(abs(statistic(i1, "standardized")[,2] - 
+                  statistic(i3, "stand"))) < sqrt(.Machine$double.eps))
+
+### check new var_trafo argument
+x <- rnorm(20)
+y <- gl(2, 10)
+a <- trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
+b <- trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
+stopifnot(all.equal(a, b))

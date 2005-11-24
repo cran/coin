@@ -657,7 +657,7 @@ alternative hypothesis: true mu is not equal to 0
 
 	Asymptotic Logrank Test
 
-data:  y by groups II, IIA 
+data:  Surv(time, event) by groups II, IIA 
 T = -2.3373, p-value = 0.01942
 alternative hypothesis: two.sided 
 
@@ -691,7 +691,7 @@ group=1 8        8     5.16      1.56      3.76
 
 	Exact Logrank Test
 
-data:  y by groups 0, 1 
+data:  Surv(time, event) by groups 0, 1 
 T = -1.9201, p-value = 0.0505
 alternative hypothesis: two.sided 
 
@@ -787,7 +787,7 @@ T = 11.1429, df = 2, p-value = 0.003805
 + }
 Loading required package: multcomp
 [1] 0.003455914
- percent confidence interval:
+99 percent confidence interval:
  0.003205723 0.003706106 
 
                                [,1]
@@ -1147,7 +1147,7 @@ attr(,"conf.level")
 
 	Exact Logrank Test
 
-data:  y by groups Control, RIT 
+data:  Surv(time, event) by groups Control, RIT 
 T = 2.1711, p-value = 0.02877
 alternative hypothesis: two.sided 
 
@@ -1168,7 +1168,7 @@ alternative hypothesis: two.sided
 
 	Exact Logrank Test
 
-data:  y by groups Control, RIT 
+data:  Surv(time, event) by groups Control, RIT 
 T = 3.2215, p-value = 0.0001588
 alternative hypothesis: two.sided 
 
@@ -1179,7 +1179,7 @@ alternative hypothesis: two.sided
 
 	Approximative Logrank Test
 
-data:  y by
+data:  Surv(time, event) by
 	 groups Control, RIT 
 	 stratified by histology 
 T = 3.6704, p-value < 2.2e-16
@@ -1286,7 +1286,7 @@ alternative hypothesis: two.sided
 > ### global p-value
 > pvalue(mvtest)
 [1] 0.007050273
- percent confidence interval:
+99 percent confidence interval:
  0.006381220 0.007719326 
 
 > 
@@ -1555,7 +1555,7 @@ alternative hypothesis: true mu is not equal to 0
 
 	Asymptotic Maxstat Test
 
-data:  y by SPF 
+data:  Surv(RFS, event) by SPF 
 T = 2.3966, p-value = 0.1582
 sample estimates:
 cutpoint in  SPF 
@@ -1569,7 +1569,7 @@ cutpoint in  SPF
 
 	Asymptotic Maxstat Test
 
-data:  y by SPF 
+data:  Surv(RFS, event) by SPF 
 T = 2.4033, p-value = 0.1557
 sample estimates:
 cutpoint in  SPF 
@@ -1670,7 +1670,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  31.31 0.82 32.29 0 0 
+Time elapsed:  31.13 0.93 32.27 0 0 
 > grDevices::dev.off()
 null device 
           1 

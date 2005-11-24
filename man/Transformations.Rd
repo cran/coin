@@ -15,7 +15,7 @@
 }
 \usage{
 trafo(data, numeric_trafo = id_trafo, 
-    factor_trafo = f_trafo, surv_trafo = logrank_trafo, block = NULL)
+    factor_trafo = f_trafo, surv_trafo = logrank_trafo, var_trafo = NULL, block = NULL)
 id_trafo(x)
 ansari_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 fligner_trafo(x, ties.method = c("mid-ranks", "average-scores"))
@@ -38,6 +38,8 @@ f_trafo(x)
   \item{surv_trafo}{a function to by applied to 
     elements of class \code{Surv} of \code{data} returning a 
     matrix with \code{nrow(data)} rows and an arbitrary number of columns.}
+  \item{var_trafo}{an optional named list of functions to be applied to the
+                   corresponding variables in \code{data}.}
   \item{block}{an optional factor those levels are interpreted as blocks.
     \code{trafo} is applied to each level of \code{block} separately.}
   \item{x}{an object of classes \code{numeric}, \code{factor} or
@@ -72,6 +74,10 @@ f_trafo(x)
   feeded into \code{\link{independence_test}} via the \code{xtrafo}
   or \code{ytrafo} arguments.
 
+  Fine tuning (different transformations for different variables) is
+  possible by supplying a named list of functions to the \code{var_trafo}
+  argument.
+
 }
 \value{
 
@@ -92,6 +98,9 @@ normal_trafo(x <- rnorm(10))
 
 ### and now together
 trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
+
+### the same, more flexible when multiple variables are in play
+trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
 
 ### maximally selected statistics
 maxstat_trafo(rnorm(10))

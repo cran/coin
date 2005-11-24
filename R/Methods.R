@@ -57,7 +57,9 @@ setMethod(f = "AsymptNullDistribution",
                   )
                   error <- attr(p, "error")
                   attr(p, "error") <- NULL
-                  attr(p, "conf.int") <- c(max(0, p - error), min(p + error, 1))
+                  ci <- c(max(0, p - error), min(p + error, 1))
+                  attr(ci, "conf.level") <- 0.99
+                  attr(p, "conf.int") <- ci
                   class(p) <- "MCp"
                   p
               }
@@ -76,6 +78,7 @@ setMethod(f = "AsymptNullDistribution",
               RET@pvalue <- function(q) {
                   p <- 1 - RET@p(q)
                   attr(p, "conf.int") <- 1 - attr(p, "conf.int")[c(2,1)]
+                  attr(attr(p, "conf.int"), "conf.level") <- 0.99
                   class(p) <- "MCp"
                   p
               }

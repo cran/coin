@@ -1,6 +1,7 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+Version 2.2.0  (2005-10-06 r35749)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -416,7 +417,7 @@ Loading required package: modeltools
 
 	Asymptotic Logrank Test
 
-data:  y by groups 1, 2 
+data:  Surv(time, event) by groups 1, 2 
 	 stratified by gender 
 T = 1.5446, p-value = 0.1224
 alternative hypothesis: two.sided 

@@ -1,4 +1,16 @@
 
+		CHANGES in `coin' VERSION 0.3-8
+
+    o    export `independence_test.table'
+
+    o    add `conf.level' attribute for `MCp' objects when quasi-randomized 
+         Monte-Carlo procedures (from `mvtnorm') have been used
+
+    o    add new `var_trafo' argument to `trafo'
+
+    o    documentation updates
+ 
+
 		CHANGES in `coin' VERSION 0.3-7
 
     o    `statistic()' now returns correct linear and standardized 
