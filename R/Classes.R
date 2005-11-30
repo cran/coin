@@ -1,7 +1,7 @@
 
 
 ### Class for raw data: a set of `x' variables and a set of `y' variables,
-### possibly blocked
+### possibly blocked and with weights
 setClass(Class = "IndependenceProblem",
     representation = representation(
         x       = "data.frame",
@@ -13,8 +13,7 @@ setClass(Class = "IndependenceProblem",
         dims <- ((nrow(object@x) == nrow(object@y)) && 
                  (nrow(object@x) == length(object@block))) 
         dims <- dims && (length(object@block) == length(object@weights))
-        Wint <- max(abs(object@weights - floor(object@weights))) < 
-                        sqrt(.Machine$double.eps)
+        Wint <- max(abs(object@weights - floor(object@weights))) < eps()
         block <- all(table(object@block) > 1)
         NAs <- all(complete.cases(object@x) & complete.cases(object@y))
         return((dims && block) && (NAs && Wint))
@@ -38,24 +37,19 @@ setClass(Class = "IndependenceTestProblem",
     ),
     contains = "IndependenceProblem",
     validity = function(object) 
-        storage.mode(object@xtrans) == "double" && 
-        storage.mode(object@ytrans) == "double"
+        (storage.mode(object@xtrans) == "double" && 
+         storage.mode(object@ytrans) == "double") && 
+         storage.mode(object@scores) =="double"
 )
 
-### back-transformation
-setAs(from = "IndependenceTestProblem", to = "IndependenceProblem", 
-      def = function(from)
-          new("IndependenceProblem", x = from@x, y = from@y, 
-              block = from@block)
-)
-
-###
+### Covariance matrix
 setClass(Class = "CovarianceMatrix",
     representation = representation(
         covariance = "matrix"
     )
 )
 
+### Variances only
 setClass(Class = "Variance",
     representation = representation(
         variance = "numeric"
@@ -79,15 +73,7 @@ setClass(Class = "IndependenceTestStatistic",
 
 )
 
-### back-transformation
-setAs(from = "IndependenceTestStatistic", to = "IndependenceTestProblem", 
-      def = function(from)
-          new("IndependenceTestProblem", ip = from, 
-              xfun = from@xtrafo, yfun = from@ytrafo)
-)
-
-
-### teststatistic = linearstatistic
+### teststatistic = standardizedlinearstatistic
 setClass(Class = "ScalarIndependenceTestStatistic",
     representation = representation(
         alternative   = "character"
@@ -97,15 +83,7 @@ setClass(Class = "ScalarIndependenceTestStatistic",
         object@alternative %in% c("two.sided", "less", "greater")
 )
 
-### back-transformation
-setAs(from = "ScalarIndependenceTestStatistic", 
-      to = "IndependenceTestStatistic", 
-      def = function(from)
-          new("IndependenceTestStatistic", itp = from)
-)
-
-
-### teststatistic = max(abs(linearstatistic))
+### teststatistic = max(abs(standardizedlinearstatistic))
 setClass(Class = "MaxTypeIndependenceTestStatistic",
     representation = representation(
         alternative                 = "character"
@@ -114,14 +92,6 @@ setClass(Class = "MaxTypeIndependenceTestStatistic",
     validity = function(object)
         object@alternative %in% c("two.sided", "less", "greater")
 )
-
-### back-transformation
-setAs(from = "MaxTypeIndependenceTestStatistic", 
-      to = "IndependenceTestStatistic", 
-      def = function(from)
-          new("IndependenceTestStatistic", itp = from)
-)
-
 
 ### teststatistic = quadform(linearstatistic)
 setClass(Class = "QuadTypeIndependenceTestStatistic",
@@ -132,13 +102,7 @@ setClass(Class = "QuadTypeIndependenceTestStatistic",
     contains = "IndependenceTestStatistic"
 )
 
-### back-transformation
-setAs(from = "QuadTypeIndependenceTestStatistic", 
-      to = "IndependenceTestStatistic", 
-      def = function(from)
-          new("IndependenceTestStatistic", itp = from)
-)
-
+### p values
 setClass(Class = "PValue",
     representation = representation(
         pvalue = "function",

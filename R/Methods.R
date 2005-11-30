@@ -125,7 +125,7 @@ setMethod(f = "ExactNullDistribution",
                   if (algorithm == "split-up")
                       return(vdW_split_up_2sample(object))
               }
-              error(sQuote("object"), " is not a two sample problem")
+              stop(sQuote("object"), " is not a two sample problem")
 
           }
 )
@@ -138,7 +138,7 @@ setMethod(f = "ApproxNullDistribution",
           signature = "ScalarIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
+              if (!(max(abs(object@weights - 1.0)) < eps()))
                   stop("cannot approximate distribution with non-unity weights")
 
               pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
@@ -186,7 +186,7 @@ setMethod(f = "ApproxNullDistribution",
           signature = "MaxTypeIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
+              if (!(max(abs(object@weights - 1.0)) < eps()))
                   stop("cannot approximate distribution with non-unity weights")
 
               pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
@@ -255,7 +255,7 @@ setMethod(f = "ApproxNullDistribution",
           signature = "QuadTypeIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
+              if (!(max(abs(object@weights - 1.0)) < eps()))
                   stop("cannot approximate distribution with non-unity weights")
 
               pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 

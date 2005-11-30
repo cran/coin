@@ -217,27 +217,12 @@ setMethod(f = "statistic",
               type = c("test", "linear", "standardized"), ...) {
               ### <FIXME> it is not sure that object@statistic exists! </FIXME>
               object <- object@statistic
-              type <- match.arg(type)
               nc <- ncol(object@ytrans)
+              if (object@yordinal) nc <- 1
               nr <- ncol(object@xtrans)
-              dn <- list(colnames(object@xtrans), 
-                         colnames(object@ytrans))
-              if (object@has_scores) {
-                  if (object@xordinal) {
-                      x <- object@x[[1]]
-                      nr <- 1
-                      dn[[1]] <- paste(attr(x, "scores"), "*", 
-                                       abbreviate(levels(x)), 
-                                       collapse = " + ", sep = "")
-                  }
-                  if (object@yordinal) {
-                      y <- object@y[[1]]
-                      nc <- 1
-                      dn[[2]] <- paste(attr(y, "scores"), "*", 
-                                       abbreviate(levels(y)), 
-                                       collapse = " + ", sep = "")
-                  }
-              }
+              if (object@xordinal) nr <- 1
+              type <- match.arg(type)
+              dn <- statnames(object)$dimnames
               switch(type, "test" = object@teststatistic,
                            "linear" = matrix(object@linearstatistic, 
                                              nrow = nr, ncol = nc, dimnames = dn),

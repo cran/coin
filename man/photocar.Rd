@@ -21,9 +21,11 @@
 }
 \details{
 
-  The animals were exposed to different levels of UVR exposure (group A:
-  topical vehicle and 600 RBUs of UVR, group B: no topical vehicle and 600
-  RBUs of UVR and group C: no topical vehicle and 1200 RBUs of UVR). The
+  The animals were exposed to different levels of ultraviolet radiation
+  (UVR) exposure (group A:
+  topical vehicle and 600 Robertson--Berger units of UVR, group B: no topical vehicle and 600
+  Robertson--Berger units of UVR and group C: no topical vehicle and 1200 
+  Robertson--Berger units of UVR). The
   data are taken from Tables 1-3 in Molefe et al. (2005).
 
   The main interest is testing the global null of no treatment effect with
@@ -39,7 +41,7 @@
     Christopher P. Sambuco, P. Donald Forbes \& Ralph L. Kodell (2005), 
     Tests for effects on tumor frequency and latency in multiple dosing
     photococarcinogenicity experiments. \emph{Journal of Statistical Planning
-    and Inference}, \bold{129}, 39--58.
+    and Inference} \bold{129}, 39--58.
 
 }
 \examples{

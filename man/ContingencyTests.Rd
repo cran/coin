@@ -133,5 +133,25 @@ smokingHDL <- as.table(
 ### use interval mid-points as scores for smoking
 lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
 
+### Cochran-Armitage trend test for proportions
+### Lung tumors in female mice exposed to 1,2-dichloroethane
+### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
+### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
+lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
+                        tumor = c(rep(c(0, 1), c(38, 2)),
+                                  rep(c(0, 1), c(43, 7)),
+                                  rep(c(0, 1), c(33, 15))))
+table(lungtumor$dose, lungtumor$tumor)
+
+### Cochran-Armitage test (permutation equivalent to correlation 
+### between dose and tumor), cf. Table 2 for results
+independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
+
+### linear-by-linear association test with scores 0, 1, 2
+### is identical with Cochran-Armitage test
+lungtumor$dose <- ordered(lungtumor$dose)
+independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
+                  scores = list(dose = c(0, 1, 2)))
+
 }
 \keyword{htest}

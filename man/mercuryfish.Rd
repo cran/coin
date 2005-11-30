@@ -37,12 +37,12 @@
 
     S. Skerfving, K. Hansson, C. Mangs, J. Lindsten, N. Ryman (1974),
     Methylmercury-induced chromosome damage in men.
-    \emph{Environmental Research}, \bold{7}, 83--98.
+    \emph{Environmental Research} \bold{7}, 83--98.
 }
 \references{
 
     P. R. Rosenbaum (1994), Coherence in Observational Studies.
-    \emph{Biometrics}, \bold{50}, 368--374.
+    \emph{Biometrics} \bold{50}, 368--374.
 
 }
 \examples{

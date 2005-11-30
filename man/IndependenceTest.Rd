@@ -30,7 +30,7 @@
     model formula. Alternatively, an object of class
     \code{\link[Biobase]{exprSet}} may be specified. In this case,
     all variables in \code{formula}, except \code{.}, 
-    are first evaluated in the \code{pData} data.frame. The dot (\code{.}) 
+    are first evaluated in the \code{pData} data frame. The dot (\code{.}) 
     refers to the matrix of expression levels (\code{exprs} slot).}
   \item{subset}{an optional vector specifying a subset of observations
     to be used.}
@@ -76,8 +76,8 @@
   interpreted as observation counts.
 
   This function is the basic workhorse called by all other convenience
-  functions, mainly by supplying transformations via the \code{xtrans} and
-  \code{ytrans} arguments.
+  functions, mainly by supplying transformations via the \code{xtrafo}
+  argument and influence functions via the \code{ytrafo} argument.
 
   The \code{scores} argument leads to linear-by-linear association tests
   against ordered alternatives. If the formula \code{y ~ x} was supplied and
@@ -104,7 +104,7 @@
 
     Helmut Strasser & Christian Weber (1999),
     On the asymptotic theory of permutation statistics. 
-    \emph{Mathematical Methods of Statistics}, \bold{8}, 220--250.
+    \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.
 
 }
 \examples{

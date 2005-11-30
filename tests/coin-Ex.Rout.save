@@ -264,17 +264,18 @@ difference in location
 > ### extract observed Wilcoxon statistic, i.e, the sum of the
 > ### ranks for age = "12-26 Weeks"
 > statistic(wt, "linear")
-            [,1]
-12-26 Weeks   30
+              
+12-26 Weeks 30
 > 
 > ### its expectation
 > expectation(wt)
-[1] 40
+12-26 Weeks 
+         40 
 > 
 > ### and variance
 > covariance(wt)
-         [,1]
-[1,] 66.66667
+            12-26 Weeks
+12-26 Weeks    66.66667
 > 
 > ### and, finally, the exact two-sided p-value
 > pvalue(wt)
@@ -376,7 +377,7 @@ Loading required package: multcomp
 99 percent confidence interval:
  0.0003199269 0.0007126921 
 
-               [,1]
+                   
 II-I   0.9469666667
 III-I  0.0089333333
 IV-I   0.0070666667
@@ -603,9 +604,9 @@ Control 0.0067991 0.6189816
 > ### since the correlation between the Wilcoxon and Ansari-Bradley 
 > ### test statistics is zero
 > covariance(ltmax)
-     [,1] [,2]
-[1,]   85    0
-[2,]    0   21
+                 Control:Location Control:Scale
+Control:Location               85             0
+Control:Scale                   0            21
 > 
 > 
 > 
@@ -790,7 +791,7 @@ Loading required package: multcomp
 99 percent confidence interval:
  0.003205723 0.003706106 
 
-                               [,1]
+                                   
 Round Out-Narrow Angle  0.623924061
 Wide Angle-Narrow Angle 0.053791966
 Wide Angle-Round Out    0.003398077
@@ -879,17 +880,17 @@ T = 7.0533, df = 1, p-value = 0.007912
 > 
 > ### and now together
 > trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
-              1 2 3 4 5
-1  -0.6045853 1 0 0 0 0
-2  -0.1141853 1 0 0 0 0
-3  -1.3351777 0 1 0 0 0
-4   1.3351777 0 1 0 0 0
-5   0.1141853 0 0 1 0 0
-6  -0.9084579 0 0 1 0 0
-7   0.3487557 0 0 0 1 0
-8   0.9084579 0 0 0 1 0
-9   0.6045853 0 0 0 0 1
-10 -0.3487557 0 0 0 0 1
+            x y.1 y.2 y.3 y.4 y.5
+1  -0.6045853   1   0   0   0   0
+2  -0.1141853   1   0   0   0   0
+3  -1.3351777   0   1   0   0   0
+4   1.3351777   0   1   0   0   0
+5   0.1141853   0   0   1   0   0
+6  -0.9084579   0   0   1   0   0
+7   0.3487557   0   0   0   1   0
+8   0.9084579   0   0   0   1   0
+9   0.6045853   0   0   0   0   1
+10 -0.3487557   0   0   0   0   1
 attr(,"assign")
 [1] 1 2 2 2 2 2
 > 
@@ -920,27 +921,27 @@ attr(,"assign")
 > 
 > ### apply transformation blockwise (e.g. for Friedman test)
 > trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
-      [,1]
- [1,]    1
- [2,]    2
- [3,]    3
- [4,]    4
- [5,]    5
- [6,]    1
- [7,]    2
- [8,]    3
- [9,]    4
-[10,]    5
-[11,]    1
-[12,]    2
-[13,]    3
-[14,]    4
-[15,]    5
-[16,]    1
-[17,]    2
-[18,]    3
-[19,]    4
-[20,]    5
+       
+ [1,] 1
+ [2,] 2
+ [3,] 3
+ [4,] 4
+ [5,] 5
+ [6,] 1
+ [7,] 2
+ [8,] 3
+ [9,] 4
+[10,] 5
+[11,] 1
+[12,] 2
+[13,] 3
+[14,] 4
+[15,] 5
+[16,] 1
+[17,] 2
+[18,] 3
+[19,] 4
+[20,] 5
 attr(,"assign")
 [1] 1
 > 
@@ -1069,32 +1070,34 @@ attr(,"conf.level")
 > ### expectation
 > El <- expectation(ct)
 > El
-[1] 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667
-[8] 0.6666667 0.6666667
+      1:1       2:1       3:1       1:2       2:2       3:2       1:3       2:3 
+0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 
+      3:3 
+0.6666667 
 > 
 > ### covariance
 > Vl <- covariance(ct)
 > Vl
-             [,1]        [,2]        [,3]        [,4]        [,5]        [,6]
- [1,]  0.35555556 -0.17777778 -0.17777778 -0.17777778  0.08888889  0.08888889
- [2,] -0.17777778  0.35555556 -0.17777778  0.08888889 -0.17777778  0.08888889
- [3,] -0.17777778 -0.17777778  0.35555556  0.08888889  0.08888889 -0.17777778
- [4,] -0.17777778  0.08888889  0.08888889  0.35555556 -0.17777778 -0.17777778
- [5,]  0.08888889 -0.17777778  0.08888889 -0.17777778  0.35555556 -0.17777778
- [6,]  0.08888889  0.08888889 -0.17777778 -0.17777778 -0.17777778  0.35555556
- [7,] -0.17777778  0.08888889  0.08888889 -0.17777778  0.08888889  0.08888889
- [8,]  0.08888889 -0.17777778  0.08888889  0.08888889 -0.17777778  0.08888889
- [9,]  0.08888889  0.08888889 -0.17777778  0.08888889  0.08888889 -0.17777778
-             [,7]        [,8]        [,9]
- [1,] -0.17777778  0.08888889  0.08888889
- [2,]  0.08888889 -0.17777778  0.08888889
- [3,]  0.08888889  0.08888889 -0.17777778
- [4,] -0.17777778  0.08888889  0.08888889
- [5,]  0.08888889 -0.17777778  0.08888889
- [6,]  0.08888889  0.08888889 -0.17777778
- [7,]  0.35555556 -0.17777778 -0.17777778
- [8,] -0.17777778  0.35555556 -0.17777778
- [9,] -0.17777778 -0.17777778  0.35555556
+            1:1         2:1         3:1         1:2         2:2         3:2
+1:1  0.35555556 -0.17777778 -0.17777778 -0.17777778  0.08888889  0.08888889
+2:1 -0.17777778  0.35555556 -0.17777778  0.08888889 -0.17777778  0.08888889
+3:1 -0.17777778 -0.17777778  0.35555556  0.08888889  0.08888889 -0.17777778
+1:2 -0.17777778  0.08888889  0.08888889  0.35555556 -0.17777778 -0.17777778
+2:2  0.08888889 -0.17777778  0.08888889 -0.17777778  0.35555556 -0.17777778
+3:2  0.08888889  0.08888889 -0.17777778 -0.17777778 -0.17777778  0.35555556
+1:3 -0.17777778  0.08888889  0.08888889 -0.17777778  0.08888889  0.08888889
+2:3  0.08888889 -0.17777778  0.08888889  0.08888889 -0.17777778  0.08888889
+3:3  0.08888889  0.08888889 -0.17777778  0.08888889  0.08888889 -0.17777778
+            1:3         2:3         3:3
+1:1 -0.17777778  0.08888889  0.08888889
+2:1  0.08888889 -0.17777778  0.08888889
+3:1  0.08888889  0.08888889 -0.17777778
+1:2 -0.17777778  0.08888889  0.08888889
+2:2  0.08888889 -0.17777778  0.08888889
+3:2  0.08888889  0.08888889 -0.17777778
+1:3  0.35555556 -0.17777778 -0.17777778
+2:3 -0.17777778  0.35555556 -0.17777778
+3:3 -0.17777778 -0.17777778  0.35555556
 > 
 > ### the standardized contingency table (hard way)
 > (l - El) / sqrt(variance(ct))
@@ -1248,21 +1251,23 @@ T = 10.2001, df = 9, p-value = 0.3345
 > 
 > ### linear statistic (T in Rosenbaum's, 1994, notation)
 > statistic(poset, "linear")
-        [,1]
+            
 control -237
 > 
 > ### expectation
 > expectation(poset)
-[1] 0
+control 
+      0 
 > 
 > ### variance (Rosenbaum, 1994, uses the unconditional approach)
 > covariance(poset)
-         [,1]
-[1,] 3097.954
+         control
+control 3097.954
 > 
 > ### the standardized statistic
 > statistic(poset)
-[1] -4.258051
+  control 
+-4.258051 
 > 
 > ### and asymptotic p-value
 > pvalue(poset)
@@ -1292,8 +1297,8 @@ alternative hypothesis: two.sided
 > 
 > ### adjusted univariate p-value
 > pvalue(mvtest, method = "single-step")
-                  mercury   abnormal     ccells
-group.control 0.007191719 0.01705445 0.03836982
+            mercury   abnormal     ccells
+control 0.007191719 0.01705445 0.03836982
 > 
 > 
 > 
@@ -1372,7 +1377,8 @@ alternative hypothesis: true mu is less than 0
 > 
 > ### the test statistic
 > statistic(lrt)
-[1] -2.337284
+       II 
+-2.337284 
 > 
 > ### p-value
 > pvalue(lrt)
@@ -1418,15 +1424,15 @@ alternative hypothesis: true mu is less than 0
 > 
 > ### why was the global null hypothesis rejected?
 > statistic(it, "standardized")
-        Surv(time, event) Surv(dmin, tumor)     ntumor
-group.A         -2.327338         -2.178704  0.2642120
-group.B         -4.750336         -4.106039  0.1509783
-group.C          7.077674          6.284743 -0.4151904
+  Surv(time, event) Surv(dmin, tumor)     ntumor
+A         -2.327338         -2.178704  0.2642120
+B         -4.750336         -4.106039  0.1509783
+C          7.077674          6.284743 -0.4151904
 > pvalue(it, "single-step")
-        Surv(time, event) Surv(dmin, tumor) ntumor
-group.A             0.129            0.1850 0.9999
-group.B             0.000            0.0003 1.0000
-group.C             0.000            0.0000 0.9988
+  Surv(time, event) Surv(dmin, tumor) ntumor
+A             0.129            0.1850 0.9999
+B             0.000            0.0003 1.0000
+C             0.000            0.0000 0.9988
 > 
 > 
 > 
@@ -1474,14 +1480,14 @@ alternative hypothesis: true mu is not equal to 1
 > it <- independence_test(y1 + y2 ~ x, data = df, 
 +                         distribution = approximate(B = 9999))
 > pvalue(it, method = "single-step")
-           y1     y2
-x.1 0.0110011 0.9998
+         y1     y2
+1 0.0110011 0.9998
 > pvalue(it, method = "step-down")
-           y1        y2
-x.1 0.0110011 0.9789979
+         y1        y2
+1 0.0110011 0.9789979
 > pvalue(it, method = "discrete")
-            y1       y2
-x.1 0.01097084 0.999559
+          y1       y2
+1 0.01097084 0.999559
 > 
 > 
 > 
@@ -1670,7 +1676,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  31.13 0.93 32.27 0 0 
+Time elapsed:  46.51 1.08 49.81 0 0 
 > grDevices::dev.off()
 null device 
           1 

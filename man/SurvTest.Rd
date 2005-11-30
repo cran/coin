@@ -4,7 +4,8 @@
 \alias{surv_test.IndependenceProblem}
 \title{ Independent Two- and K-Sample Tests for Censored Data }
 \description{
-    
+    Testing the equality of survival distributions in
+    two or more independent groups.
 }
 \usage{
 \method{surv_test}{formula}(formula, data, subset = NULL,  
@@ -55,7 +56,7 @@
   the presence of censored observations, to coefficients 
   \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k < X_j\}|)}
   for a linear rank statistic \eqn{T = \sum_{i = 1}^ n a_i U_i} 
-  (in the two-sample situations, where \eqn{U_i = 0} or \eqn{U_i = 1} denotes
+  (in two-sample situations where \eqn{U_i = 0} or \eqn{U_i = 1} denotes
   the groups). The second method is described in Hothorn & Lausen (2003) where
   the coefficients
   \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k \le X_j\}| + 1)}
@@ -80,7 +81,7 @@
 
     Herman Callaert (2003), Comparing Statistical Software Packages:
     The Case of the Logrank Test in StatXact. 
-    \emph{The American Statistician}, \bold{57}, 214--217.
+    \emph{The American Statistician} \bold{57}, 214--217.
 
     Torsten Hothorn & Berthold Lausen (2003),
     On the Exact Distribution of Maximally Selected Rank

@@ -27,13 +27,20 @@ setMethod(f = "initialize",
             stop(sQuote("x"), " contains missing values")
         if (any(is.na(y))) 
             stop(sQuote("y"), " contains missing values")
-        if (!is.null(block) && any(is.na(y))) 
+        if (!is.null(block) && !is.factor(block))
+            stop(sQuote("block"), " is not a factor")
+        if (!is.null(block) && any(is.na(block))) 
             stop(sQuote("block"), " contains missing values")
+        if (!is.null(weights) && any(is.na(weights))) 
+            stop(sQuote("weights"), " contains missing values")
         .Object@x <- x
         .Object@y <- y
         if (is.null(block)) {
             .Object@block <- factor(rep(0, nrow(x)))
         } else {
+            if (any(table(block) < 2))
+                stop(sQuote("block"), 
+                     " contains levels with less than two observations")
             .Object@block <- block
         }
         if (is.null(weights)) {
@@ -63,8 +70,6 @@ setMethod(f = "initialize",
 
         x <- ip@x
         y <- ip@y
-        xfact <- sapply(x, is.factor)
-        yfact <- sapply(y, is.factor)
 
         tr <- check_trafo(xtrafo(x), ytrafo(y))
         .Object@xtrans <- tr$xtrafo
@@ -75,59 +80,48 @@ setMethod(f = "initialize",
         q <- ncol(.Object@ytrans)
         .Object@scores <- diag(p * q)
 
-        if (((ncol(x) > 1 && ncol(tr$xtrafo) > 1) || 
-             (ncol(y) > 1 && ncol(tr$ytrafo) > 1)) && 
-             any(xfact || yfact)) {
-            colnames(.Object@xtrans) <- paste(
-                rep(colnames(x), table(attr(.Object@xtrans, "assign"))), 
-                    colnames(.Object@xtrans), sep = ".")
-            colnames(.Object@xtrans)[attr(.Object@xtrans, "assign") 
-                %in% which(!xfact)] <- colnames(x)[!xfact]
-            colnames(.Object@ytrans) <- paste(
-                rep(colnames(y), table(attr(.Object@ytrans, "assign"))), 
-                    colnames(.Object@ytrans), sep = ".")
-            colnames(.Object@ytrans)[attr(.Object@ytrans, "assign") 
-                %in% which(!yfact)] <- colnames(y)[!yfact]
-        }
+        xORDINAL <- sapply(x, is.ordered)
+        yORDINAL <- sapply(y, is.ordered)
 
-        ### check if scores are attached
-        ### <FIXME> more careful checks!
-        xORDINAL <- (ncol(x) == 1 && is.ordered(x[[1]])) && 
-                    (nlevels(x[[1]]) > 2)
-        yORDINAL <- (ncol(y) == 1 && is.ordered(y[[1]])) && 
-                    (nlevels(y[[1]]) > 2) 
+        ### <FIXME> implement handling of multiple ordered factors
+        if ((any(xORDINAL) && length(xORDINAL) > 1) ||
+            (any(yORDINAL) && length(yORDINAL) > 1))
+            stop("handling of multiple ordered factors currently not implemented")
+
         .Object@has_scores <- xORDINAL || yORDINAL
-        .Object@xordinal <- xORDINAL
-        .Object@yordinal <- yORDINAL
+        .Object@xordinal <- any(xORDINAL)
+        .Object@yordinal <- any(yORDINAL)
 
-        if (xORDINAL) {
-            if (is.null(attr(x[[1]], "scores")) && is.null(xscores))
-                xscores <- 1:nlevels(x[[1]])
-            else {
-                if (is.null(xscores)) 
-                    xscores <- attr(x[[1]], "scores")
+        xscores <- c()
+        for (i in 1:ncol(x)) {
+            if (is.ordered(x[[i]])) {
+                sc <- attr(x[[i]], "scores")
+                if (is.null(sc)) sc <- 1:nlevels(x[[i]])
+            } else {
+                sc <- rep(0, sum(attr(tr$xtrafo, "assign") == i))
             }
-            if (length(xscores) != ncol(.Object@xtrans)) 
-                stop(sQuote("xscores"), " don't match")
+            xscores <- c(xscores, sc)
         }
-        if (yORDINAL) {
-            if (is.null(attr(y[[1]], "scores")))
-                yscores <-  1:nlevels(y[[1]])
-            else {
-                if (is.null(yscores))
-                    yscores <- attr(y[[1]], "scores")
+
+        yscores <- c()
+        for (i in 1:ncol(y)) {
+            if (is.ordered(y[[i]])) {
+                sc <- attr(y[[i]], "scores")
+                if (is.null(sc)) sc <- 1:nlevels(y[[i]])
+            } else {
+                sc <- rep(0, sum(attr(tr$ytrafo, "assign") == i))
             }
-            if (length(yscores) != ncol(.Object@ytrans)) 
-                stop(sQuote("yscores"), " don't match")
+            yscores <- c(yscores, sc)
         }
-        if (xORDINAL && !yORDINAL)
+
+        if (any(xORDINAL) && !any(yORDINAL))
             .Object@scores <- .Call("R_scmatleft",
                 as.double(xscores), as.integer(p * q), 
                 PACKAGE = "coin")
-        if (xORDINAL && yORDINAL)
+        if (any(xORDINAL) && any(yORDINAL))
             ### grrr: class(kronecker(1:4, 1:3)) == "array"  
             .Object@scores <- matrix(kronecker(yscores, xscores), nrow = 1)
-        if (!xORDINAL && yORDINAL)
+        if (!any(xORDINAL) && any(yORDINAL))
             .Object@scores <- .Call("R_scmatright", 
                     as.double(yscores), as.integer(p * q),
                     PACKAGE = "coin")
@@ -188,6 +182,7 @@ setMethod(f = "initialize",
             }
         }
 
+
         ### multiply with score matrix if necessary
         if (SCORES) {
             .Object@expectation <- drop(S %*% exp)
@@ -200,7 +195,19 @@ setMethod(f = "initialize",
                 .Object@covariance <- new("CovarianceMatrix", cov)
             }
         }
-        if (any(variance(.Object) < sqrt(.Machine$double.eps)))
+
+        ### pretty names
+        nm <- statnames(itp)$names
+        names(.Object@expectation) <- nm
+
+        if (extends(class(.Object@covariance), "CovarianceMatrix")) {
+                colnames(.Object@covariance@covariance) <- nm
+                rownames(.Object@covariance@covariance) <- nm
+        }
+        if (extends(class(.Object@covariance), "Variance"))
+                names(.Object@covariance@variance) <- nm
+
+        if (any(variance(.Object) < eps()))
             warning("The conditional covariance matrix has ",
                     "zero diagonal elements")
         .Object
@@ -259,7 +266,7 @@ setMethod(f = "initialize",
 ### new("QuadTypeIndependenceTestStatistic", ...)
 setMethod(f = "initialize", 
     signature = "QuadTypeIndependenceTestStatistic",
-    definition = function(.Object, its, tol = sqrt(.Machine$double.eps)) {
+    definition = function(.Object, its, ...) {
 
         if (!extends(class(its), "IndependenceTestStatistic"))
             stop("Argument ", sQuote("its"), " is not of class ",
@@ -268,7 +275,7 @@ setMethod(f = "initialize",
         .Object <- copyslots(its, .Object)
 
         covm <- covariance(its)
-        mp <- MPinv(covm)
+        mp <- MPinv(covm, ...)
         .Object@covarianceplus <- mp$MPinv
         .Object@df <- mp$rank
 

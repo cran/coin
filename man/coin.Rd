@@ -28,7 +28,7 @@ conditional Monte-Carlo procedures are available for every test while the
 exact null distribution is currently available for two-sample problems only. 
 
 }
-\authors{
+\author{
 
     This package is written by \cr
     Torsten Hothorn <Torsten.Hothorn@R-project.org>, \cr 
@@ -41,7 +41,7 @@ exact null distribution is currently available for two-sample problems only.
 
     Helmut Strasser & Christian Weber (1999),
     On the asymptotic theory of permutation statistics. 
-    \emph{Mathematical Methods of Statistics}, \bold{8}, 220--250.  
+    \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.  
 
     Myles Hollander & Douglas A. Wolfe (1999),  
     \emph{Nonparametric Statistical Methods, 2nd Edition}.

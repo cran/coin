@@ -337,7 +337,7 @@ tested by the Cochran-Mantel-Haenszel test. Here, both $g$ and $h$ are dummy
 matrices \citep[example data from][Table 7.8, page 288]{Agresti2002}:
 
 <<jobsatisfaction-cmh, echo = TRUE>>=
-data(jobsatisfaction, package = "coin")
+data("jobsatisfaction", package = "coin")
 
 it <- cmh_test(jobsatisfaction)
 it

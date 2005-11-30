@@ -1,4 +1,6 @@
 
+o       improve error messages
+
 o       add checks on achieved alpha in confint (see wilcox.test changes by
         Thomas L)
 
@@ -13,8 +15,6 @@ o	compare multiple test procedures with multtest and add more checks,
         [done]
 
 o	check spearman_test vs. cor.test
-
-o	formula interface + NA's and weights
 
 o	definition of two-sided p-values in ansari.test contradicts the one
         used here in some cases (-> regtest_2samples.R)

@@ -1,4 +1,24 @@
 
+		CHANGES in `coin' VERSION 0.4-1
+
+    o    documentation updates
+
+    o    remove unused setAs definitions
+
+    o    expectation(), variance() and covariance() return 
+         named vectors or matrices. Names for objects returned
+         by statistic() have been partially improved.
+
+    o    all observations with NA's are removed now
+
+    o    some internal improvements (removed unused code, avoid duplicated
+         code chunks etc.)
+
+    o    more checks on NA's, blocks and multiple ordinal variables (one
+         univariate problems are currently allowed to have ordinal
+         variables)
+
+
 		CHANGES in `coin' VERSION 0.3-8
 
     o    export `independence_test.table'

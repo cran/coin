@@ -25,7 +25,7 @@
 
     Emad Salib \& Valerie Hillier (1997), A case-control study of smoking
     and Alzheimer's disease. \emph{International Journal of Geriatric
-    Psychiatry}, \bold{12}, 295--300.
+    Psychiatry} \bold{12}, 295--300.
 
 }
 \examples{

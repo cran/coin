@@ -112,6 +112,7 @@ logrank_trafo <- function(x, ties.method = c("logrank", "HL")) {
 f_trafo <- function(x) {
     mm <- model.matrix(~ x - 1)
     colnames(mm) <- levels(x)
+    ### remove unused levels
     mm <- mm[,colSums(mm) > 0,drop = FALSE]
     ### the two-sample situations
     if (ncol(mm) == 2) mm <- mm[,-2,drop = FALSE]
@@ -150,12 +151,13 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
                  " not found in ", sQuote("var_trafo"))
     }
 
+    ### compute transformations for each variable
     tr <- vector(mode = "list", length = length(data))
     names(tr) <- names(data)
     for (nm in names(data)) {
         x <- data[[nm]]
         if (nm %in% names(var_trafo)) {
-            tr[[nm]] <- var_trafo[[nm]](x)
+            tr[[nm]] <- as.matrix(var_trafo[[nm]](x))
             next()
         }
         if (class(x)[1] == "AsIs") {
@@ -166,31 +168,46 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
             }
         }
         if (is.factor(x) || is.logical(x)) {
-            tr[[nm]] <- factor_trafo(x)
+            tr[[nm]] <- as.matrix(factor_trafo(x))
             next()
         }
         if (inherits(x, "Surv")) {
-            tr[[nm]] <- surv_trafo(x)
+            tr[[nm]] <- as.matrix(surv_trafo(x))
             next()
         }
         if (is.numeric(x)) {
-            tr[[nm]] <- numeric_trafo(x)
+            tr[[nm]] <- as.matrix(numeric_trafo(x))
             next()
         }
         if (is.null(tr[[nm]]))
             stop("data class ", class(x), " is not supported")
     }
 
+    ### set up a matrix of transformations
+    ### when more than one factor is in play, factor names 
+    ### _and_ colnames of the corresponding rows are combined by `.'
     RET <- c()
     assignvar <- c()
+    cn <- c()
     for (i in 1:length(tr)) {
-        if (!is.matrix(tr[[i]])) 
-            tr[[i]] <- as.matrix(tr[[i]])
         if (nrow(tr[[i]]) != nrow(data)) 
-            stop("transformations are not of length / nrow", nrow(data))
+            stop("Transformation of variable ", names(tr)[i], 
+                 " are not of length / nrow", nrow(data))
         RET <- cbind(RET, tr[[i]])
+        if (is.null(colnames(tr[[i]]))) {
+            cn <- c(cn, rep("", ncol(tr[[i]])))	
+        } else {
+            cn <- c(cn, paste(ifelse(length(tr) > 1, ".", ""), 
+                              colnames(tr[[i]]), sep = ""))
+        }
         assignvar <- c(assignvar, rep(i, ncol(tr[[i]])))
     }
     attr(RET, "assign") <- assignvar
+    if (length(tr) > 1) {
+        colnames(RET) <- paste(rep(names(tr), tabulate(assignvar)), 
+                               cn, sep = "")
+    } else {
+        colnames(RET) <- cn
+    }
     return(RET)
 }

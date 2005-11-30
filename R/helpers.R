@@ -101,17 +101,18 @@ copyslots <- function(source, target) {
     return(target)
 }
 
-formula2data <- function(formula, data, subset, ...) {
+formula2data <- function(formula, data, subset, weights = NULL, ...) {
+
+    other <- list()
+    if (!is.null(weights)) other = list(weights = weights)
 
     ### in case `data' is an exprSet object 
     if (extends(class(data), "exprSet")) {
-        ### <FIXME> terms(y ~ ., data = tmpdf) only works (as from R-2.2.0)
-        ### when tmpdf has variables additional to y which might not be true
-        tmpdf <- cbind(pData(phenoData(data)), 1)
-        ### </FIXME>
         dat <- ModelEnvFormula(formula = formula, 
-                               data = tmpdf,
-                               subset = subset, ...)
+                               data = pData(phenoData(data)),
+                               subset = subset, other = other,
+                               na.action = na.omit, 
+                               ...)
 
         ### x are _all_ expression levels, always
         x <- as.data.frame(t(exprs(data)))
@@ -120,7 +121,9 @@ formula2data <- function(formula, data, subset, ...) {
 
         dat <- ModelEnvFormula(formula = formula, 
                                data = data,
-                               subset = subset, ...)
+                               subset = subset, other = other, 
+                               na.action = na.omit, 
+                               ...)
 
         ### rhs of formula
         if (has(dat, "input"))
@@ -147,49 +150,10 @@ formula2data <- function(formula, data, subset, ...) {
     } else 
         block <- NULL
 
-    ### Surv(y, event) ~ x or Surv(y, event) ~ x | block
-    if (has(dat, "censored")) {
-        event <- dat@get("censored")
-        y <- data.frame(y = Surv(y[[1]], event[[1]]))    
-    } 
-
-    RET <- list(x = x, y = y, block = block, bl = block[[1]])
-
-    ### <FIXME>
-    if (any(sapply(RET, function(x) {
-        if (is.null(x)) return(FALSE)
-        if (is.list(x)) 
-            return(any(sapply(x, is.na)))
-        else
-            return(any(is.na(x)))
-    })))
-        stop("NA handling currently not implemented")
-    ### </FIXME>
+    RET <- list(x = x, y = y, block = block, bl = block[[1]], w = NULL)
+    if (!is.null(weights)) RET$w <- dat@get("weights")[[1]]
 
     return(RET)
-}
-
-formula2weights <- function(weights, data, subset, ...) {
-
-    if (is.null(weights)) return(NULL)
-
-    if (class(weights) != "formula") 
-        stop(sQuote("weights"), " is not a formula object")
-
-    if (extends(class(data), "exprSet")) data <- pData(phenoData(data))
-
-    dat <- ModelEnvFormula(formula = weights, data = data,
-                           subset = subset, ...)
-
-    if (has(dat, "input"))
-        weights <- dat@get("input")
-    else 
-        stop("missing right hand side of formula ", sQuote("weights"))
-
-    if (length(weights) > 1 || has(dat, "response"))
-        stop("only one right hand side variable allowed in ", sQuote("weights"))
-
-    return(weights[[1]])
 }
 
 setscores <- function(x, scores) {
@@ -330,8 +294,7 @@ is_ordered_x <- function(object) {
 }
 
 is_integer <- function(x, fact = c(1, 2, 10, 100, 1000))
-    sapply(fact, function(f) max(abs(round(x * f) - (x * f))) < 
-           sqrt(.Machine$double.eps))
+    sapply(fact, function(f) max(abs(round(x * f) - (x * f))) < eps())
 
 is_censored <- function(object) {
     ncol(object@y) == 1 && class(object@y[[1]]) == "Surv"
@@ -360,6 +323,37 @@ check_distribution_arg <- function(distribution,
        paste(values, collapse = ", "))
     distribution
 }
+
+statnames <- function(object) {
+    nc <- ncol(object@ytrans)
+    nr <- ncol(object@xtrans)
+    dn <- list(colnames(object@xtrans),
+               colnames(object@ytrans))
+    if (is.null(dn[[1]])) dn[[1]] <- ""
+    if (is.null(dn[[2]])) dn[[2]] <- ""
+    if (object@has_scores) {
+        if (object@xordinal) {
+            x <- object@x[[1]]
+            nr <- 1
+            dn[[1]] <- paste(attr(x, "scores"), "*",
+                             abbreviate(levels(x)),
+                             collapse = " + ", sep = "")
+        }
+        if (object@yordinal) {
+            y <- object@y[[1]] 
+            nc <- 1
+            dn[[2]] <- paste(attr(y, "scores"), "*",  
+                             abbreviate(levels(y)), 
+                             collapse = " + ", sep = "")
+            }
+    }
+    list(dimnames = dn, 
+         names = paste(rep((dn[[1]]), nc), 
+                       rep((dn[[2]]), rep(nr, nc)), 
+                       sep = ifelse(dn[[1]] == "" || dn[[2]] == "", "", ":")))
+}
+
+eps <- function() sqrt(.Machine$double.eps)
 
 ### don't use! never!
 get_weights <- function(object) object@statistic@weights

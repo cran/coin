@@ -15,7 +15,8 @@
 }
 \usage{
 trafo(data, numeric_trafo = id_trafo, 
-    factor_trafo = f_trafo, surv_trafo = logrank_trafo, var_trafo = NULL, block = NULL)
+    factor_trafo = f_trafo, surv_trafo = logrank_trafo, 
+    var_trafo = NULL, block = NULL)
 id_trafo(x)
 ansari_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 fligner_trafo(x, ties.method = c("mid-ranks", "average-scores"))

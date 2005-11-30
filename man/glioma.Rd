@@ -32,7 +32,7 @@
     C. Grana, M. Chinol, C. Robertson, C. Mazzetta, M. Bartolomei, C. De
     Cicco, M. Fiorenza, M. Gatti, P. Caliceti & G. Paganelli (2002),
     Pretargeted adjuvant radioimmunotherapy with Yttrium-90-biotin in malignant
-    glioma patients: A pilot study. \emph{British Journal of Cancer},
+    glioma patients: A pilot study. \emph{British Journal of Cancer}
     \bold{86}(2), 207--212.
 }
 \examples{

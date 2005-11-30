@@ -10,7 +10,7 @@ SR_shift_2sample <- function(object, fact = NULL) {
         stop(sQuote("object"), 
              " does not represent an independent two-sample problem")
 
-    if (!(max(abs(object@weights - 1.0)) < sqrt(.Machine$double.eps)))
+    if (!(max(abs(object@weights - 1.0)) < eps()))
         stop("cannot compute exact distribution with non-unity weights")
 
     ### in case we can't map the scores into integers, use another algorithm

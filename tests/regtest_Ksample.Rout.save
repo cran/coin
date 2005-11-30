@@ -1,6 +1,7 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+Version 2.2.0  (2005-10-06 r35749)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -52,8 +53,7 @@ Loading required package: modeltools
 > try(kruskal_test(x ~ y, data = dat))
 Error in check(itp) : 'object' does not represent a K sample problem
 > try(kruskal_test(x ~ y | y, data = dat))
-Error in checkSlotAssignment(object, name, value) : 
-	assignment of an object of class "numeric" is not valid for slot 'block' in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### Fligner Test 
 > 
@@ -78,7 +78,6 @@ Error in checkSlotAssignment(object, name, value) :
 > try(fligner_test(x ~ y, data = dat)) 
 Error in FUN(X[[1]], ...) : need numeric data
 > try(fligner_test(x ~ y | y, data = dat))
-Error in checkSlotAssignment(object, name, value) : 
-	assignment of an object of class "numeric" is not valid for slot 'block' in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > 

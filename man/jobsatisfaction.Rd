@@ -32,7 +32,7 @@
 
 data("jobsatisfaction", package = "coin")
 
-# Generalized Cochran-Mantel-Haenzel test
+### Generalized Cochran-Mantel-Haenzel test
 cmh_test(jobsatisfaction)
 
 }

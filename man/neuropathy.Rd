@@ -20,7 +20,7 @@ for a control and treatment group.
 
         William J. Conover & David S. Salsburg (1988), Locally most powerful tests
         for detecting treatment effects when only a subset of patients can  
-        be expected to "respond" to treatment. \emph{Biometrics}, \bold{44},
+        be expected to "respond" to treatment. \emph{Biometrics} \bold{44},
         189--196.
 
 }

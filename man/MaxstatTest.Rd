@@ -76,7 +76,7 @@
 
    Berthold Lausen, Torsten Hothorn, Frank Bretz &
    Martin Schumacher (2004), Optimally Selected Prognostic Factors.
-   \emph{Biometrical Journal}, \bold{46}, 364--374.
+   \emph{Biometrical Journal} \bold{46}, 364--374.
 
 }
 \examples{

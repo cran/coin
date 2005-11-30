@@ -33,6 +33,8 @@ asymptotic(maxpts = 25000, abseps = 0.001, releps = 0)
   The \code{distribution} argument to \code{\link{independence_test}} 
   can be specified with additional arguments using those functions.
 
+  Exact algorithms are currently only implemented for two-sample problems.
+
 }
 \value{
   An object of class \code{exact}, \code{approximate} or \code{asymptotic},

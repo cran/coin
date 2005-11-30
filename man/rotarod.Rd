@@ -30,9 +30,9 @@ p-value (corrected for ties) is reported as 0.0147.
 }
 \source{
 
-    Reinhard Bergmann, John Ludbrook & Will P.J.M. Spooren (2000),
+    Reinhard Bergmann, John Ludbrook & Will P. J. M. Spooren (2000),
     Different outcomes of the Wilcoxon-Mann-Whitney test from different 
-    statistics packages. \emph{The American Statistician}, 
+    statistics packages. \emph{The American Statistician}
     \bold{54}(1), 72--77.
 
 }

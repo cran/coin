@@ -1,6 +1,7 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.1.1  (2005-06-20), ISBN 3-900051-07-0
+Version 2.2.0  (2005-10-06 r35749)
+ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -100,7 +101,8 @@ Loading required package: modeltools
 > 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt", 
 +                    alternative = "less"))
-[1] 0.0897446
+        1 
+0.0897446 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx", 
 +                    alternative = "less"))
 [1] 0.099
@@ -113,7 +115,8 @@ Loading required package: modeltools
 > 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt", 
 +                    alternative = "greater"))
-[1] 0.9102554
+        1 
+0.9102554 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx", 
 +                    alternative = "greater"))
 [1] 0.917
@@ -128,8 +131,7 @@ Loading required package: modeltools
 > try(wilcox_test(x ~ y, data = dat))
 Error in check(itp) : 'object' does not represent a two sample problem
 > try(wilcox_test(x ~ y | y, data = dat))
-Error in checkSlotAssignment(object, name, value) : 
-	assignment of an object of class "numeric" is not valid for slot 'block' in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### Ansari-Bradley Test 
 > 
@@ -202,8 +204,7 @@ Error in checkSlotAssignment(object, name, value) :
 > try(ansari_test(x ~ y, data = dat))
 Error in check(itp) : 'object' does not represent a two sample problem
 > try(ansari_test(x ~ y | y, data = dat))
-Error in checkSlotAssignment(object, name, value) : 
-	assignment of an object of class "numeric" is not valid for slot 'block' in an object of class "IndependenceProblem"; is(value, "factor") is not TRUE
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### the remaining three candidates
 > ### asymptotic distribution
