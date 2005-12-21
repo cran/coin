@@ -7,8 +7,8 @@
 }
 \usage{data("alzheimer")}
 \format{
- A tree-dimensional contingency table with dimensions
- \description{
+  A data frame with 538 observations on the following 3 variables.
+ \describe{
      \item{smoking}{a factor at levels \code{None}, \code{<10}, \code{10-20}
                     and \code{>20} (cigarettes per day).}
      \item{disease}{a factor at levels \code{Alzheimer's}, \code{Other
@@ -29,15 +29,18 @@
 
 }
 \examples{
-data("alzheimer")
 
-### Cochran-Mantel-Haenszel test
-cmh_test(alzheimer)
+  data("alzheimer", package = "coin")
 
-### Linear-by-Linear Association test
-cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25)))
-statistic(cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25))),
-          "standardized")
+  ### spineplots
+  layout(matrix(1:2, ncol = 2))
+  spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Male",
+            main = "Male")
+  spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Female",
+            main = "Female")
+
+  ### Cochran-Mantel-Haenszel test
+  cmh_test(disease ~ smoking | gender, data = alzheimer)
 
 }
 \keyword{datasets}

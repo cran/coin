@@ -98,7 +98,7 @@
   procedures. Exact p-values may be computed for the two-sample problems and
   can be approximated via Monte-Carlo resampling 
   for all procedures. Exact p-values
-  are computed either by the shift algorithm (Streitberg & Roehmel, 1986,
+  are computed either by the shift algorithm (Streitberg & R\"ohmel, 1986,
   1987) or by the split-up algorithm (van de Wiel, 2001).
 
   The linear rank tests for two samples (\code{wilcox_test},

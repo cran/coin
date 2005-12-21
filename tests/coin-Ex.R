@@ -92,6 +92,26 @@ smokingHDL <- as.table(
 ### use interval mid-points as scores for smoking
 lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
 
+### Cochran-Armitage trend test for proportions
+### Lung tumors in female mice exposed to 1,2-dichloroethane
+### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
+### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
+lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
+                        tumor = c(rep(c(0, 1), c(38, 2)),
+                                  rep(c(0, 1), c(43, 7)),
+                                  rep(c(0, 1), c(33, 15))))
+table(lungtumor$dose, lungtumor$tumor)
+
+### Cochran-Armitage test (permutation equivalent to correlation 
+### between dose and tumor), cf. Table 2 for results
+independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
+
+### linear-by-linear association test with scores 0, 1, 2
+### is identical with Cochran-Armitage test
+lungtumor$dose <- ordered(lungtumor$dose)
+independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
+                  scores = list(dose = c(0, 1, 2)))
+
 
 
 
@@ -593,11 +613,35 @@ normal_trafo(x <- rnorm(10))
 ### and now together
 trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
 
+### the same, more flexible when multiple variables are in play
+trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
+
 ### maximally selected statistics
 maxstat_trafo(rnorm(10))
 
 ### apply transformation blockwise (e.g. for Friedman test)
 trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
+
+
+
+
+cleanEx(); ..nameEx <- "alpha"
+
+### * alpha
+
+flush(stderr()); flush(stdout())
+
+### Name: alpha
+### Title: Genetic Components of Alcoholism
+### Aliases: alpha
+### Keywords: datasets
+
+### ** Examples
+
+
+  data("alpha", package = "coin")
+  boxplot(elevel ~ alength, data = alpha)
+  kruskal_test(elevel ~ alength, data = alpha)
 
 
 
@@ -615,15 +659,18 @@ flush(stderr()); flush(stdout())
 
 ### ** Examples
 
-data("alzheimer")
 
-### Cochran-Mantel-Haenszel test
-cmh_test(alzheimer)
+  data("alzheimer", package = "coin")
 
-### Linear-by-Linear Association test
-cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25)))
-statistic(cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25))),
-          "standardized")
+  ### spineplots
+  layout(matrix(1:2, ncol = 2))
+  spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Male",
+            main = "Male")
+  spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Female",
+            main = "Female")
+
+  ### Cochran-Mantel-Haenszel test
+  cmh_test(disease ~ smoking | gender, data = alzheimer)
 
 
 
@@ -783,7 +830,7 @@ flush(stderr()); flush(stdout())
 
 data("jobsatisfaction", package = "coin")
 
-# Generalized Cochran-Mantel-Haenzel test
+### Generalized Cochran-Mantel-Haenzel test
 cmh_test(jobsatisfaction)
 
 
@@ -821,7 +868,8 @@ statistic(poset, "linear")
 ### expectation
 expectation(poset)
 
-### variance (Rosenbaum, 1994, uses the unconditional approach)
+### variance (there is a typo in Rosenbaum, 1994, page 371, 
+### last paragraph Section 2)
 covariance(poset)
 
 ### the standardized statistic

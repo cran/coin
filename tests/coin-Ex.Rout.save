@@ -1,6 +1,6 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.0  (2005-10-06 r35749)
+Version 2.2.1  (2005-12-20 r36812)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > ### * <HEADER>
@@ -156,6 +156,43 @@ T = 6.1563, p-value = 0.0123
 
 data:  HDL (ordered) by groups none < < 5 < < 10 < >=10 
 T = 9.8557, df = 1, p-value = 0.001693
+
+> 
+> ### Cochran-Armitage trend test for proportions
+> ### Lung tumors in female mice exposed to 1,2-dichloroethane
+> ### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
+> ### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
+> lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
++                         tumor = c(rep(c(0, 1), c(38, 2)),
++                                   rep(c(0, 1), c(43, 7)),
++                                   rep(c(0, 1), c(33, 15))))
+> table(lungtumor$dose, lungtumor$tumor)
+   
+     0  1
+  0 38  2
+  1 43  7
+  2 33 15
+> 
+> ### Cochran-Armitage test (permutation equivalent to correlation 
+> ### between dose and tumor), cf. Table 2 for results
+> independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
+
+	Asymptotic General Independence Test
+
+data:  tumor by dose 
+T = 10.6381, df = 1, p-value = 0.001108
+
+> 
+> ### linear-by-linear association test with scores 0, 1, 2
+> ### is identical with Cochran-Armitage test
+> lungtumor$dose <- ordered(lungtumor$dose)
+> independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
++                   scores = list(dose = c(0, 1, 2)))
+
+	Asymptotic General Independence Test
+
+data:  tumor by groups 0 < 1 < 2 
+T = 10.6381, df = 1, p-value = 0.001108
 
 > 
 > 
@@ -894,6 +931,22 @@ T = 7.0533, df = 1, p-value = 0.007912
 attr(,"assign")
 [1] 1 2 2 2 2 2
 > 
+> ### the same, more flexible when multiple variables are in play
+> trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
+            x y.1 y.2 y.3 y.4 y.5
+1  -0.6045853   1   0   0   0   0
+2  -0.1141853   1   0   0   0   0
+3  -1.3351777   0   1   0   0   0
+4   1.3351777   0   1   0   0   0
+5   0.1141853   0   0   1   0   0
+6  -0.9084579   0   0   1   0   0
+7   0.3487557   0   0   0   1   0
+8   0.9084579   0   0   0   1   0
+9   0.6045853   0   0   0   0   1
+10 -0.3487557   0   0   0   0   1
+attr(,"assign")
+[1] 1 2 2 2 2 2
+> 
 > ### maximally selected statistics
 > maxstat_trafo(rnorm(10))
    x <= 0.39 x <= -0.621 x <= 1.125 x <= -0.045 x <= -0.016 x <= 0.944
@@ -948,6 +1001,33 @@ attr(,"assign")
 > 
 > 
 > 
+> cleanEx(); ..nameEx <- "alpha"
+> 
+> ### * alpha
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: alpha
+> ### Title: Genetic Components of Alcoholism
+> ### Aliases: alpha
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   data("alpha", package = "coin")
+>   boxplot(elevel ~ alength, data = alpha)
+>   kruskal_test(elevel ~ alength, data = alpha)
+
+	Asymptotic Kruskal-Wallis Test
+
+data:  elevel by groups short, intermediate, long 
+T = 8.8302, df = 2, p-value = 0.01209
+
+> 
+> 
+> 
+> 
 > cleanEx(); ..nameEx <- "alzheimer"
 > 
 > ### * alzheimer
@@ -961,10 +1041,18 @@ attr(,"assign")
 > 
 > ### ** Examples
 > 
-> data("alzheimer")
 > 
-> ### Cochran-Mantel-Haenszel test
-> cmh_test(alzheimer)
+>   data("alzheimer", package = "coin")
+> 
+>   ### spineplots
+>   layout(matrix(1:2, ncol = 2))
+>   spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Male",
++             main = "Male")
+>   spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Female",
++             main = "Female")
+> 
+>   ### Cochran-Mantel-Haenszel test
+>   cmh_test(disease ~ smoking | gender, data = alzheimer)
 
 	Asymptotic Generalised Cochran-Mantel-Haenszel Test
 
@@ -973,21 +1061,6 @@ data:  disease by
 	 stratified by gender 
 T = 23.3163, df = 6, p-value = 0.0006972
 
-> 
-> ### Linear-by-Linear Association test
-> cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25)))
-
-	Asymptotic Linear-by-Linear Association Test
-
-data:  disease by
-	 groups None < <10 < 10-20 < >20 
-	 stratified by gender 
-T = 10.3366, df = 2, p-value = 0.005694
-
-> statistic(cmh_test(alzheimer, scores = list(smoking = c(0, 5, 15, 25))),
-+           "standardized")
-                                  Alzheimer's Other dementias Other diagnoses
-0*None + 5*<10 + 15*10-2 + 25*>20   -2.334202        3.087989      -0.6459272
 > 
 > 
 > 
@@ -1209,7 +1282,7 @@ alternative hypothesis: two.sided
 > 
 > data("jobsatisfaction", package = "coin")
 > 
-> # Generalized Cochran-Mantel-Haenzel test
+> ### Generalized Cochran-Mantel-Haenzel test
 > cmh_test(jobsatisfaction)
 
 	Asymptotic Generalised Cochran-Mantel-Haenszel Test
@@ -1259,7 +1332,8 @@ control -237
 control 
       0 
 > 
-> ### variance (Rosenbaum, 1994, uses the unconditional approach)
+> ### variance (there is a typo in Rosenbaum, 1994, page 371, 
+> ### last paragraph Section 2)
 > covariance(poset)
          control
 control 3097.954
@@ -1676,7 +1750,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  46.51 1.08 49.81 0 0 
+Time elapsed:  34.1 0.64 34.87 0 0 
 > grDevices::dev.off()
 null device 
           1 

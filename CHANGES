@@ -1,4 +1,14 @@
 
+		CHANGES in `coin' VERSION 0.4-2
+
+    o    new data set `alpha'
+
+    o    data set `alzheimer' is now a data.frame, not a table
+
+    o    new vignette with more applications
+
+
+
 		CHANGES in `coin' VERSION 0.4-1
 
     o    documentation updates

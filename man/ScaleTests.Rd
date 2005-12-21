@@ -70,7 +70,7 @@
   procedures. Exact p-values may be computed for the Ansari-Bradley test 
   can be approximated via Monte-Carlo for the Fligner-Killeen procedure. 
   Exact p-values are computed either by the shift algorithm 
-  (Streitberg & Roehmel, 1986, 1987) or by the split-up algorithm 
+  (Streitberg & R\"ohmel, 1986, 1987) or by the split-up algorithm 
   (van de Wiel, 2001).
 
   The Ansari-Bradley test can be used to test the
