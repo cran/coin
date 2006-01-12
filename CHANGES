@@ -1,6 +1,11 @@
 
 		CHANGES in `coin' VERSION 0.4-2
 
+    o    isequal must not check equality of attributes
+
+
+		CHANGES in `coin' VERSION 0.4-2
+
     o    new data set `alpha'
 
     o    data set `alzheimer' is now a data.frame, not a table

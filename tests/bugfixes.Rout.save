@@ -1,6 +1,6 @@
 
-R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.0  (2005-10-06 r35749)
+R : Copyright 2006, The R Foundation for Statistical Computing
+Version 2.3.0 Under development (unstable) (2006-01-11 r37063)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > 
@@ -60,6 +60,8 @@ alternative hypothesis: two.sided
 + }
 Loading required package: multcomp
 [1] TRUE
+Warning message:
+use of NULL environment is deprecated 
 > 
 > 
 > ### `statistic' for linear and standardized statistics was wrong in case of 
@@ -113,7 +115,7 @@ Loading required package: multcomp
 > y <- gl(2, 10)
 > a <- trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
 > b <- trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
-> stopifnot(all.equal(a, b))
+> stopifnot(isequal(a, b))
 > 
 > ### check for multiple ordered factors
 > mydf <- data.frame(x = ordered(gl(4, 5)), y = ordered(gl(5, 4)), 

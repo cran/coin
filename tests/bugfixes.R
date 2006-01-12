@@ -71,7 +71,7 @@ x <- rnorm(20)
 y <- gl(2, 10)
 a <- trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
 b <- trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
-stopifnot(all.equal(a, b))
+stopifnot(isequal(a, b))
 
 ### check for multiple ordered factors
 mydf <- data.frame(x = ordered(gl(4, 5)), y = ordered(gl(5, 4)), 

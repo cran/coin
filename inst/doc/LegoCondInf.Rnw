@@ -354,7 +354,7 @@ test statistics is trackable for small and moderate sample sizes.
 Conditional Monte-Carlo procedures (`resampling') can always be used to 
 approximate the exact distribution up to any desired accuracy by evaluating
 the test statistic for a random sample from the set of all permutations $S$.
-It is important to note that the presence of a grouping of the observations
+It is important to note that in the presence of a grouping of the observations
 into blocks, only permutations within blocks are eligible and that the
 conditional expectation and covariance matrix need to be computed
 separately for each block.

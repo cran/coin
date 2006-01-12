@@ -302,7 +302,8 @@ is_censored <- function(object) {
 
 isequal <- function(a, b) {
     attributes(a) <- NULL
-    if (!identical(all.equal(a, b), TRUE)) {
+    attributes(b) <- NULL
+    if (!isTRUE(all.equal(a, b))) {
         print(a, digits = 10)
         print(b, digits = 10)
         return(FALSE)
