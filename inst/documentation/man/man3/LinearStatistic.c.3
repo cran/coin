@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "28 Jul 2005" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "17 Nov 2005" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -14,6 +14,9 @@ LinearStatistic.c \-
 .in +1c
 .ti -1c
 .RI "void \fBC_kronecker\fP (const double *A, const int m, const int n, const double *B, const int r, const int s, double *ans)"
+.br
+.ti -1c
+.RI "SEXP \fBR_kronecker\fP (SEXP A, SEXP B)"
 .br
 .ti -1c
 .RI "void \fBC_ExpectCovarInfluence\fP (const double *y, const int q, const double *weights, const int n, SEXP ans)"
@@ -67,7 +70,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2005/07/28 15:04:29 
+2005/10/13 12:45:01 
 .RE
 .PP
 .RE
@@ -98,7 +101,7 @@ Conditional expectation and covariance of the influence function
 .PP
 
 .PP
-Definition at line 54 of file LinearStatistic.c.
+Definition at line 80 of file LinearStatistic.c.
 .PP
 References CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
 .PP
@@ -130,7 +133,7 @@ Conditional expectation and covariance of the a linear statistic
 .PP
 
 .PP
-Definition at line 166 of file LinearStatistic.c.
+Definition at line 192 of file LinearStatistic.c.
 .PP
 References C_kronecker(), CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
 .PP
@@ -162,7 +165,7 @@ Computes the Kronecker product of two matrices
 .PP
 Definition at line 22 of file LinearStatistic.c.
 .PP
-Referenced by C_ExpectCovarLinearStatistic().
+Referenced by C_ExpectCovarLinearStatistic(), and R_kronecker().
 .SS "void C_LinearStatistic (const double * x, const int p, const double * y, const int q, const double * weights, const int n, double * ans)"
 .PP
 Computes the linear statistic, formula (1) in the paper
@@ -188,7 +191,7 @@ Computes the linear statistic, formula (1) in the paper
 .PP
 
 .PP
-Definition at line 301 of file LinearStatistic.c.
+Definition at line 327 of file LinearStatistic.c.
 .PP
 Referenced by R_LinearStatistic().
 .SS "void C_PermutedLinearStatistic (const double * x, const int p, const double * y, const int q, const int n, const int nperm, const int * indx, const int * perm, double * ans)"
@@ -220,7 +223,7 @@ Linear Statistic with permuted indices
 .PP
 
 .PP
-Definition at line 383 of file LinearStatistic.c.
+Definition at line 409 of file LinearStatistic.c.
 .PP
 Referenced by R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
 .SS "void C_scmatleft (const double * x, const int p, const int q, double * ans)"
@@ -242,7 +245,7 @@ Score matrix for a linear combination of a linear statistic from the left
 .PP
 
 .PP
-Definition at line 472 of file LinearStatistic.c.
+Definition at line 498 of file LinearStatistic.c.
 .PP
 Referenced by R_scmatleft().
 .SS "void C_scmatright (const double * x, const int p, const int q, double * ans)"
@@ -264,7 +267,7 @@ Score matrix for a linear combination of a linear statistic from the right
 .PP
 
 .PP
-Definition at line 537 of file LinearStatistic.c.
+Definition at line 563 of file LinearStatistic.c.
 .PP
 Referenced by R_scmatright().
 .SS "SEXP R_ExpectCovarInfluence (SEXP y, SEXP weights)"
@@ -282,7 +285,7 @@ R-interface to C_ExpectCovarInfluence
 .PP
 
 .PP
-Definition at line 124 of file LinearStatistic.c.
+Definition at line 150 of file LinearStatistic.c.
 .PP
 References C_ExpectCovarInfluence(), CI_covarianceSym, CI_expectationSym, CI_sumweightsSym, ncol(), and nrow().
 .SS "SEXP R_ExpectCovarLinearStatistic (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)"
@@ -304,9 +307,27 @@ R-interface to C_ExpectCovarLinearStatistic
 .PP
 
 .PP
-Definition at line 259 of file LinearStatistic.c.
+Definition at line 285 of file LinearStatistic.c.
 .PP
 References C_ExpectCovarLinearStatistic(), CI_covarianceSym, CI_expectationSym, ncol(), and nrow().
+.SS "SEXP R_kronecker (SEXP A, SEXP B)"
+.PP
+R-interface to C_kronecker
+.br
+ 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIA\fP matrix 
+.br
+\fIB\fP matrix 
+.RE
+.PP
+
+.PP
+Definition at line 51 of file LinearStatistic.c.
+.PP
+References C_kronecker(), ncol(), and nrow().
 .SS "SEXP R_LinearStatistic (SEXP x, SEXP y, SEXP weights)"
 .PP
 R-interface to C_LinearStatistic 
@@ -324,7 +345,7 @@ R-interface to C_LinearStatistic
 .PP
 
 .PP
-Definition at line 337 of file LinearStatistic.c.
+Definition at line 363 of file LinearStatistic.c.
 .PP
 References C_LinearStatistic(), ncol(), and nrow().
 .SS "SEXP R_PermutedLinearStatistic (SEXP x, SEXP y, SEXP indx, SEXP perm)"
@@ -346,7 +367,7 @@ Linear Statistic with permuted indices
 .PP
 
 .PP
-Definition at line 416 of file LinearStatistic.c.
+Definition at line 442 of file LinearStatistic.c.
 .PP
 References C_PermutedLinearStatistic(), ncol(), and nrow().
 .SS "SEXP R_scmatleft (SEXP x, SEXP pq)"
@@ -362,7 +383,7 @@ R-interface to C_scmatleft
 .PP
 
 .PP
-Definition at line 504 of file LinearStatistic.c.
+Definition at line 530 of file LinearStatistic.c.
 .PP
 References C_scmatleft().
 .SS "SEXP R_scmatright (SEXP x, SEXP pq)"
@@ -378,7 +399,7 @@ R-interface to C_scmatright
 .PP
 
 .PP
-Definition at line 569 of file LinearStatistic.c.
+Definition at line 595 of file LinearStatistic.c.
 .PP
 References C_scmatright().
 .SH "Author"

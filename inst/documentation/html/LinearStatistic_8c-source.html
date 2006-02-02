@@ -33,450 +33,470 @@
 00042 }  
 00043 
 00044 
-<a name="l00054"></a><a class="code" href="LinearStatistic_8c.html#a1">00054</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a1">C_ExpectCovarInfluence</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>* y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
-00055                             <span class="keyword">const</span> <span class="keywordtype">double</span>* weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n, 
-00056                             SEXP ans) {
-00057 
-00058     <span class="keywordtype">int</span> i, j, k, jq;
-00059     
-00060     <span class="comment">/* pointers to the slots of object ans */</span>
-00061     <span class="keywordtype">double</span> *dExp_y, *dCov_y, *dsweights, tmp;
-00062     
-00063     <span class="comment">/*  return values: set to zero initially */</span>
-00064     dExp_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
-00065     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) dExp_y[j] = 0.0;
-00066     
-00067     dCov_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
-00068     <span class="keywordflow">for</span> (j = 0; j &lt; q*q; j++) dCov_y[j] = 0.0;
-00069     
-00070     dsweights = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>));
-00071 
-00072     <span class="comment">/*  compute the sum of the weights */</span>
-00073         
-00074     dsweights[0] = 0;
-00075     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) dsweights[0] += weights[i];
-00076     <span class="keywordflow">if</span> (dsweights[0] &lt;= 1) 
-00077         error(<span class="stringliteral">"C_ExpectCovarInfluence: sum of weights is less than one"</span>);
-00078 
-00079     <span class="comment">/*</span>
-00080 <span class="comment">     *    Expectation of the influence function</span>
-00081 <span class="comment">     */</span>
-00082 
-00083     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00084 
-00085         <span class="comment">/*  observations with zero case weights do not contribute */</span>
-00086     
-00087         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
+<a name="l00051"></a><a class="code" href="LinearStatistic_8c.html#a1">00051</a> SEXP <a class="code" href="LinearStatistic_8c.html#a1">R_kronecker</a>(SEXP A, SEXP B) {
+00052 
+00053     <span class="keywordtype">int</span> m, n, r, s;
+00054     SEXP ans;
+00055 
+00056     <span class="keywordflow">if</span> (!isReal(A) || !isReal(B))
+00057         error(<span class="stringliteral">"R_kronecker: A and / or B are not of type REALSXP"</span>);
+00058 
+00059     m = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(A);
+00060     n = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(A);
+00061     r = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(B);
+00062     s = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(B);
+00063     
+00064     PROTECT(ans = allocVector(REALSXP, m * n * r * s));
+00065     <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(REAL(A), m, n, REAL(B), r, s, REAL(ans));
+00066     UNPROTECT(1);
+00067     <span class="keywordflow">return</span>(ans);
+00068 }
+00069 
+00070 
+<a name="l00080"></a><a class="code" href="LinearStatistic_8c.html#a2">00080</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a2">C_ExpectCovarInfluence</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>* y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
+00081                             <span class="keyword">const</span> <span class="keywordtype">double</span>* weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n, 
+00082                             SEXP ans) {
+00083 
+00084     <span class="keywordtype">int</span> i, j, k, jq;
+00085     
+00086     <span class="comment">/* pointers to the slots of object ans */</span>
+00087     <span class="keywordtype">double</span> *dExp_y, *dCov_y, *dsweights, tmp;
 00088     
-00089         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
-00090             dExp_y[j] += weights[i] * y[j * n + i];
-00091     }
-00092 
-00093     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
-00094         dExp_y[j] = dExp_y[j] / dsweights[0];
-00095 
-00096 
-00097     <span class="comment">/*</span>
-00098 <span class="comment">     *    Covariance of the influence function</span>
-00099 <span class="comment">     */</span>
-00100 
-00101     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00102 
-00103         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
-00104      
-00105         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) {
-00106             tmp = weights[i] * (y[j * n + i] - dExp_y[j]);
-00107             jq = j * q;
-00108             <span class="keywordflow">for</span> (k = 0; k &lt; q; k++)
-00109                 dCov_y[jq + k] += tmp * (y[k * n + i] - dExp_y[k]);
-00110         }
-00111     }
-00112 
-00113     <span class="keywordflow">for</span> (j = 0; j &lt; q*q; j++)
-00114         dCov_y[j] = dCov_y[j] / dsweights[0];
-00115 }
-00116 
-00117 
-<a name="l00124"></a><a class="code" href="LinearStatistic_8c.html#a2">00124</a> SEXP <a class="code" href="LinearStatistic_8c.html#a2">R_ExpectCovarInfluence</a>(SEXP y, SEXP weights) {
-00125 
-00126     SEXP ans;
-00127     <span class="keywordtype">int</span> q, n;
-00128     
-00129     <span class="keywordflow">if</span> (!isReal(y) || !isReal(weights))
-00130         error(<span class="stringliteral">"R_ExpectCovarInfluence: arguments are not of type REALSXP"</span>);
-00131     
-00132     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
-00133     q = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
-00134     
-00135     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
-00136         error(<span class="stringliteral">"R_ExpectCovarInfluence: vector of case weights does not have %d elements"</span>, n);
-00137 
-00138     <span class="comment">/*  allocate storage for return values */</span>
-00139     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovarInfluence"</span>)));
-00140     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>, 
-00141              PROTECT(allocVector(REALSXP, q)));
-00142     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>, 
-00143              PROTECT(allocMatrix(REALSXP, q, q)));
-00144     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>, 
-00145              PROTECT(allocVector(REALSXP, 1)));
-00146 
-00147     <a class="code" href="LinearStatistic_8c.html#a1">C_ExpectCovarInfluence</a>(REAL(y), q, REAL(weights), n, ans);
-00148     
-00149     UNPROTECT(4);
-00150     <span class="keywordflow">return</span>(ans);
-00151 }
-00152 
-00153 
-<a name="l00166"></a><a class="code" href="LinearStatistic_8c.html#a3">00166</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a3">C_ExpectCovarLinearStatistic</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>* x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
-00167                                   <span class="keyword">const</span> <span class="keywordtype">double</span>* y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
-00168                                   <span class="keyword">const</span> <span class="keywordtype">double</span>* weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n,
-00169                                   <span class="keyword">const</span> SEXP expcovinf, SEXP ans) {
-00170 
-00171     <span class="keywordtype">int</span> i, j, k, pq, ip;
-00172     <span class="keywordtype">double</span> sweights = 0.0, f1, f2, tmp;
-00173     <span class="keywordtype">double</span> *swx, *CT1, *CT2, *Covy_x_swx, 
-00174            *dExp_y, *dCov_y, *dExp_T, *dCov_T;
-00175     
-00176     pq   = p * q;
-00177     
-00178     <span class="comment">/* the expectation and covariance of the influence function */</span>
-00179     dExp_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
-00180     dCov_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
-00181     sweights = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>))[0];
-00182 
-00183     <span class="keywordflow">if</span> (sweights &lt;= 1.0) 
-00184         error(<span class="stringliteral">"C_ExpectCovarLinearStatistic: sum of weights is less than one"</span>);
-00185 
-00186     <span class="comment">/* prepare for storing the results */</span>
-00187     dExp_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
-00188     dCov_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
-00189 
-00190     <span class="comment">/* allocate storage: all helpers, initially zero */</span>
-00191     swx = Calloc(p, <span class="keywordtype">double</span>);               <span class="comment">/* p x 1  */</span>
-00192     CT1 = Calloc(p * p, <span class="keywordtype">double</span>);           <span class="comment">/* p x p  */</span>
-00193 
-00194     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00195 
-00196         <span class="comment">/*  observations with zero case weights do not contribute */</span>
-00197         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
-00198     
-00199         ip = i*p;
-00200         <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
-00201             tmp = weights[i] * x[k * n + i];
-00202             swx[k] += tmp;
-00203 
-00204             <span class="comment">/* covariance part */</span>
-00205             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) {
-00206                 CT1[j * p + k] += tmp * x[j * n + i];
-00207             }
-00208         }
-00209     }
-00210 
-00211     <span class="comment">/*</span>
-00212 <span class="comment">    *   dExp_T: expectation of the linear statistic T</span>
-00213 <span class="comment">    */</span>
-00214 
-00215     <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
-00216         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
-00217             dExp_T[j * p + k] = swx[k] * dExp_y[j];
-00218     }
+00089     <span class="comment">/*  return values: set to zero initially */</span>
+00090     dExp_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
+00091     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) dExp_y[j] = 0.0;
+00092     
+00093     dCov_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
+00094     <span class="keywordflow">for</span> (j = 0; j &lt; q*q; j++) dCov_y[j] = 0.0;
+00095     
+00096     dsweights = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>));
+00097 
+00098     <span class="comment">/*  compute the sum of the weights */</span>
+00099         
+00100     dsweights[0] = 0;
+00101     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) dsweights[0] += weights[i];
+00102     <span class="keywordflow">if</span> (dsweights[0] &lt;= 1) 
+00103         error(<span class="stringliteral">"C_ExpectCovarInfluence: sum of weights is less than one"</span>);
+00104 
+00105     <span class="comment">/*</span>
+00106 <span class="comment">     *    Expectation of the influence function</span>
+00107 <span class="comment">     */</span>
+00108 
+00109     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00110 
+00111         <span class="comment">/*  observations with zero case weights do not contribute */</span>
+00112     
+00113         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
+00114     
+00115         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
+00116             dExp_y[j] += weights[i] * y[j * n + i];
+00117     }
+00118 
+00119     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
+00120         dExp_y[j] = dExp_y[j] / dsweights[0];
+00121 
+00122 
+00123     <span class="comment">/*</span>
+00124 <span class="comment">     *    Covariance of the influence function</span>
+00125 <span class="comment">     */</span>
+00126 
+00127     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00128 
+00129         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
+00130      
+00131         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) {
+00132             tmp = weights[i] * (y[j * n + i] - dExp_y[j]);
+00133             jq = j * q;
+00134             <span class="keywordflow">for</span> (k = 0; k &lt; q; k++)
+00135                 dCov_y[jq + k] += tmp * (y[k * n + i] - dExp_y[k]);
+00136         }
+00137     }
+00138 
+00139     <span class="keywordflow">for</span> (j = 0; j &lt; q*q; j++)
+00140         dCov_y[j] = dCov_y[j] / dsweights[0];
+00141 }
+00142 
+00143 
+<a name="l00150"></a><a class="code" href="LinearStatistic_8c.html#a3">00150</a> SEXP <a class="code" href="LinearStatistic_8c.html#a3">R_ExpectCovarInfluence</a>(SEXP y, SEXP weights) {
+00151 
+00152     SEXP ans;
+00153     <span class="keywordtype">int</span> q, n;
+00154     
+00155     <span class="keywordflow">if</span> (!isReal(y) || !isReal(weights))
+00156         error(<span class="stringliteral">"R_ExpectCovarInfluence: arguments are not of type REALSXP"</span>);
+00157     
+00158     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
+00159     q = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
+00160     
+00161     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
+00162         error(<span class="stringliteral">"R_ExpectCovarInfluence: vector of case weights does not have %d elements"</span>, n);
+00163 
+00164     <span class="comment">/*  allocate storage for return values */</span>
+00165     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovarInfluence"</span>)));
+00166     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>, 
+00167              PROTECT(allocVector(REALSXP, q)));
+00168     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>, 
+00169              PROTECT(allocMatrix(REALSXP, q, q)));
+00170     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>, 
+00171              PROTECT(allocVector(REALSXP, 1)));
+00172 
+00173     <a class="code" href="LinearStatistic_8c.html#a2">C_ExpectCovarInfluence</a>(REAL(y), q, REAL(weights), n, ans);
+00174     
+00175     UNPROTECT(4);
+00176     <span class="keywordflow">return</span>(ans);
+00177 }
+00178 
+00179 
+<a name="l00192"></a><a class="code" href="LinearStatistic_8c.html#a4">00192</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a4">C_ExpectCovarLinearStatistic</a>(<span class="keyword">const</span> <span class="keywordtype">double</span>* x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
+00193                                   <span class="keyword">const</span> <span class="keywordtype">double</span>* y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
+00194                                   <span class="keyword">const</span> <span class="keywordtype">double</span>* weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n,
+00195                                   <span class="keyword">const</span> SEXP expcovinf, SEXP ans) {
+00196 
+00197     <span class="keywordtype">int</span> i, j, k, pq, ip;
+00198     <span class="keywordtype">double</span> sweights = 0.0, f1, f2, tmp;
+00199     <span class="keywordtype">double</span> *swx, *CT1, *CT2, *Covy_x_swx, 
+00200            *dExp_y, *dCov_y, *dExp_T, *dCov_T;
+00201     
+00202     pq   = p * q;
+00203     
+00204     <span class="comment">/* the expectation and covariance of the influence function */</span>
+00205     dExp_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
+00206     dCov_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
+00207     sweights = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#a2">CI_sumweightsSym</a>))[0];
+00208 
+00209     <span class="keywordflow">if</span> (sweights &lt;= 1.0) 
+00210         error(<span class="stringliteral">"C_ExpectCovarLinearStatistic: sum of weights is less than one"</span>);
+00211 
+00212     <span class="comment">/* prepare for storing the results */</span>
+00213     dExp_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>));
+00214     dCov_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>));
+00215 
+00216     <span class="comment">/* allocate storage: all helpers, initially zero */</span>
+00217     swx = Calloc(p, <span class="keywordtype">double</span>);               <span class="comment">/* p x 1  */</span>
+00218     CT1 = Calloc(p * p, <span class="keywordtype">double</span>);           <span class="comment">/* p x p  */</span>
 00219 
-00220     <span class="comment">/* </span>
-00221 <span class="comment">    *   dCov_T:  covariance of the linear statistic T</span>
-00222 <span class="comment">    */</span>
-00223 
-00224     f1 = sweights/(sweights - 1);
-00225     f2 = (1/(sweights - 1));
-00226 
-00227     <span class="keywordflow">if</span> (pq == 1) {
-00228         dCov_T[0] = f1 * dCov_y[0] * CT1[0];
-00229         dCov_T[0] -= f2 * dCov_y[0] * swx[0] * swx[0];
-00230     } <span class="keywordflow">else</span> {
-00231         <span class="comment">/* two more helpers needed */</span>
-00232         CT2 = Calloc(pq * pq, <span class="keywordtype">double</span>);            <span class="comment">/* pq x pq */</span>
-00233         Covy_x_swx = Calloc(pq * q, <span class="keywordtype">double</span>);      <span class="comment">/* pq x q  */</span>
-00234         
-00235         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(dCov_y, q, q, CT1, p, p, dCov_T);
-00236         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(dCov_y, q, q, swx, p, 1, Covy_x_swx);
-00237         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(Covy_x_swx, pq, q, swx, 1, p, CT2);
-00238 
-00239         <span class="keywordflow">for</span> (k = 0; k &lt; (pq * pq); k++)
-00240             dCov_T[k] = f1 * dCov_T[k] - f2 * CT2[k];
-00241 
-00242         <span class="comment">/* clean up */</span>
-00243         Free(CT2); Free(Covy_x_swx);
+00220     <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00221 
+00222         <span class="comment">/*  observations with zero case weights do not contribute */</span>
+00223         <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
+00224     
+00225         ip = i*p;
+00226         <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
+00227             tmp = weights[i] * x[k * n + i];
+00228             swx[k] += tmp;
+00229 
+00230             <span class="comment">/* covariance part */</span>
+00231             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) {
+00232                 CT1[j * p + k] += tmp * x[j * n + i];
+00233             }
+00234         }
+00235     }
+00236 
+00237     <span class="comment">/*</span>
+00238 <span class="comment">    *   dExp_T: expectation of the linear statistic T</span>
+00239 <span class="comment">    */</span>
+00240 
+00241     <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
+00242         <span class="keywordflow">for</span> (j = 0; j &lt; q; j++)
+00243             dExp_T[j * p + k] = swx[k] * dExp_y[j];
 00244     }
 00245 
-00246     <span class="comment">/* clean up */</span>
-00247     Free(swx); Free(CT1); 
-00248 }
+00246     <span class="comment">/* </span>
+00247 <span class="comment">    *   dCov_T:  covariance of the linear statistic T</span>
+00248 <span class="comment">    */</span>
 00249 
-00250 
-<a name="l00259"></a><a class="code" href="LinearStatistic_8c.html#a4">00259</a> SEXP <a class="code" href="LinearStatistic_8c.html#a4">R_ExpectCovarLinearStatistic</a>(SEXP x, SEXP y, SEXP weights, 
-00260                                   SEXP expcovinf) {
-00261     
-00262     SEXP ans;
-00263     <span class="keywordtype">int</span> n, p, q, pq;
+00250     f1 = sweights/(sweights - 1);
+00251     f2 = (1/(sweights - 1));
+00252 
+00253     <span class="keywordflow">if</span> (pq == 1) {
+00254         dCov_T[0] = f1 * dCov_y[0] * CT1[0];
+00255         dCov_T[0] -= f2 * dCov_y[0] * swx[0] * swx[0];
+00256     } <span class="keywordflow">else</span> {
+00257         <span class="comment">/* two more helpers needed */</span>
+00258         CT2 = Calloc(pq * pq, <span class="keywordtype">double</span>);            <span class="comment">/* pq x pq */</span>
+00259         Covy_x_swx = Calloc(pq * q, <span class="keywordtype">double</span>);      <span class="comment">/* pq x q  */</span>
+00260         
+00261         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(dCov_y, q, q, CT1, p, p, dCov_T);
+00262         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(dCov_y, q, q, swx, p, 1, Covy_x_swx);
+00263         <a class="code" href="LinearStatistic_8c.html#a0">C_kronecker</a>(Covy_x_swx, pq, q, swx, 1, p, CT2);
 00264 
-00265     <span class="comment">/* determine the dimensions and some checks */</span>
-00266 
-00267     n  = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(x);
-00268     p  = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
-00269     q  = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
-00270     pq = p * q;
-00271     
-00272     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(y) != n)
-00273         error(<span class="stringliteral">"y does not have %d rows"</span>, n);
-00274     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
-00275         error(<span class="stringliteral">"vector of case weights does not have %d elements"</span>, n);
+00265         <span class="keywordflow">for</span> (k = 0; k &lt; (pq * pq); k++)
+00266             dCov_T[k] = f1 * dCov_T[k] - f2 * CT2[k];
+00267 
+00268         <span class="comment">/* clean up */</span>
+00269         Free(CT2); Free(Covy_x_swx);
+00270     }
+00271 
+00272     <span class="comment">/* clean up */</span>
+00273     Free(swx); Free(CT1); 
+00274 }
+00275 
 00276 
-00277     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovar"</span>)));
-00278     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>, 
-00279              PROTECT(allocVector(REALSXP, pq)));
-00280     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>, 
-00281              PROTECT(allocMatrix(REALSXP, pq, pq)));
-00282 
-00283     <a class="code" href="LinearStatistic_8c.html#a3">C_ExpectCovarLinearStatistic</a>(REAL(x), p, REAL(y), q, 
-00284         REAL(weights), n, expcovinf, ans);
-00285     
-00286     UNPROTECT(3);
-00287     <span class="keywordflow">return</span>(ans);
-00288 }
-00289 
-<a name="l00301"></a><a class="code" href="LinearStatistic_8c.html#a5">00301</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a5">C_LinearStatistic</a> (<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p,
-00302                         <span class="keyword">const</span> <span class="keywordtype">double</span> *y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
-00303                         <span class="keyword">const</span> <span class="keywordtype">double</span> *weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n,
-00304                         <span class="keywordtype">double</span> *ans) {
-00305               
-00306     <span class="keywordtype">int</span> i, j, k, kp, kn, ip;
-00307     <span class="keywordtype">double</span> tmp;
+<a name="l00285"></a><a class="code" href="LinearStatistic_8c.html#a5">00285</a> SEXP <a class="code" href="LinearStatistic_8c.html#a5">R_ExpectCovarLinearStatistic</a>(SEXP x, SEXP y, SEXP weights, 
+00286                                   SEXP expcovinf) {
+00287     
+00288     SEXP ans;
+00289     <span class="keywordtype">int</span> n, p, q, pq;
+00290 
+00291     <span class="comment">/* determine the dimensions and some checks */</span>
+00292 
+00293     n  = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(x);
+00294     p  = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
+00295     q  = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
+00296     pq = p * q;
+00297     
+00298     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(y) != n)
+00299         error(<span class="stringliteral">"y does not have %d rows"</span>, n);
+00300     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
+00301         error(<span class="stringliteral">"vector of case weights does not have %d elements"</span>, n);
+00302 
+00303     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovar"</span>)));
+00304     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a0">CI_expectationSym</a>, 
+00305              PROTECT(allocVector(REALSXP, pq)));
+00306     SET_SLOT(ans, <a class="code" href="Classes_8c.html#a1">CI_covarianceSym</a>, 
+00307              PROTECT(allocMatrix(REALSXP, pq, pq)));
 00308 
-00309     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
-00310 
-00311         kn = k * n;
-00312         kp = k * p;
-00313         <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) ans[kp + j] = 0.0;
-00314             
-00315         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
-00316                 
-00317             <span class="comment">/* optimization: weights are often zero */</span>
-00318             <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
-00319                 
-00320             tmp = y[kn + i] * weights[i];
-00321                 
-00322             ip = i * p;
-00323             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++)
-00324                  ans[kp + j] += x[j*n + i] * tmp;
-00325         }
-00326     }
-00327 }
-00328 
-00329 
-<a name="l00337"></a><a class="code" href="LinearStatistic_8c.html#a6">00337</a> SEXP <a class="code" href="LinearStatistic_8c.html#a6">R_LinearStatistic</a>(SEXP x, SEXP y, SEXP weights) {
-00338 
-00339     <span class="comment">/* the return value; a vector of type REALSXP */</span>
-00340     SEXP ans;
-00341 
-00342     <span class="comment">/* dimensions */</span>
-00343     <span class="keywordtype">int</span> n, p, q;
-00344 
-00345     <span class="comment">/* </span>
-00346 <span class="comment">     *    only a basic check: we do not coerce objects since this</span>
-00347 <span class="comment">     *    function is for internal use only</span>
-00348 <span class="comment">     */</span>
-00349     
-00350     <span class="keywordflow">if</span> (!isReal(x) || !isReal(y) || !isReal(weights))
-00351         error(<span class="stringliteral">"LinStat: arguments are not of type REALSXP"</span>);
-00352     
-00353     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
-00354     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(x) != n || LENGTH(weights) != n)
-00355         error(<span class="stringliteral">"LinStat: dimensions don't match"</span>);
-00356 
-00357     q    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
-00358     p    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
-00359            
-00360     PROTECT(ans = allocVector(REALSXP, p*q));
-00361  
-00362     <a class="code" href="LinearStatistic_8c.html#a5">C_LinearStatistic</a>(REAL(x), p, REAL(y), q, REAL(weights), n, 
-00363                       REAL(ans));
+00309     <a class="code" href="LinearStatistic_8c.html#a4">C_ExpectCovarLinearStatistic</a>(REAL(x), p, REAL(y), q, 
+00310         REAL(weights), n, expcovinf, ans);
+00311     
+00312     UNPROTECT(3);
+00313     <span class="keywordflow">return</span>(ans);
+00314 }
+00315 
+<a name="l00327"></a><a class="code" href="LinearStatistic_8c.html#a6">00327</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a6">C_LinearStatistic</a> (<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p,
+00328                         <span class="keyword">const</span> <span class="keywordtype">double</span> *y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
+00329                         <span class="keyword">const</span> <span class="keywordtype">double</span> *weights, <span class="keyword">const</span> <span class="keywordtype">int</span> n,
+00330                         <span class="keywordtype">double</span> *ans) {
+00331               
+00332     <span class="keywordtype">int</span> i, j, k, kp, kn, ip;
+00333     <span class="keywordtype">double</span> tmp;
+00334 
+00335     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
+00336 
+00337         kn = k * n;
+00338         kp = k * p;
+00339         <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) ans[kp + j] = 0.0;
+00340             
+00341         <span class="keywordflow">for</span> (i = 0; i &lt; n; i++) {
+00342                 
+00343             <span class="comment">/* optimization: weights are often zero */</span>
+00344             <span class="keywordflow">if</span> (weights[i] == 0.0) <span class="keywordflow">continue</span>;
+00345                 
+00346             tmp = y[kn + i] * weights[i];
+00347                 
+00348             ip = i * p;
+00349             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++)
+00350                  ans[kp + j] += x[j*n + i] * tmp;
+00351         }
+00352     }
+00353 }
+00354 
+00355 
+<a name="l00363"></a><a class="code" href="LinearStatistic_8c.html#a7">00363</a> SEXP <a class="code" href="LinearStatistic_8c.html#a7">R_LinearStatistic</a>(SEXP x, SEXP y, SEXP weights) {
 00364 
-00365     UNPROTECT(1);
-00366     <span class="keywordflow">return</span>(ans);
-00367 }
-00368 
-00369 
-<a name="l00383"></a><a class="code" href="LinearStatistic_8h.html#a0">00383</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a7">C_PermutedLinearStatistic</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p,
-00384                                <span class="keyword">const</span> <span class="keywordtype">double</span> *y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
-00385                                <span class="keyword">const</span> <span class="keywordtype">int</span> n, <span class="keyword">const</span> <span class="keywordtype">int</span> nperm,
-00386                                <span class="keyword">const</span> <span class="keywordtype">int</span> *indx, <span class="keyword">const</span> <span class="keywordtype">int</span> *perm, 
-00387                                <span class="keywordtype">double</span> *ans) {
-00388 
-00389     <span class="keywordtype">int</span> i, j, k, kp, kn, knpi;
+00365     <span class="comment">/* the return value; a vector of type REALSXP */</span>
+00366     SEXP ans;
+00367 
+00368     <span class="comment">/* dimensions */</span>
+00369     <span class="keywordtype">int</span> n, p, q;
+00370 
+00371     <span class="comment">/* </span>
+00372 <span class="comment">     *    only a basic check: we do not coerce objects since this</span>
+00373 <span class="comment">     *    function is for internal use only</span>
+00374 <span class="comment">     */</span>
+00375     
+00376     <span class="keywordflow">if</span> (!isReal(x) || !isReal(y) || !isReal(weights))
+00377         error(<span class="stringliteral">"LinStat: arguments are not of type REALSXP"</span>);
+00378     
+00379     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
+00380     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(x) != n || LENGTH(weights) != n)
+00381         error(<span class="stringliteral">"LinStat: dimensions don't match"</span>);
+00382 
+00383     q    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
+00384     p    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
+00385            
+00386     PROTECT(ans = allocVector(REALSXP, p*q));
+00387  
+00388     <a class="code" href="LinearStatistic_8c.html#a6">C_LinearStatistic</a>(REAL(x), p, REAL(y), q, REAL(weights), n, 
+00389                       REAL(ans));
 00390 
-00391     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
-00392 
-00393         kn = k * n;
-00394         kp = k * p;
-00395         <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) ans[kp + j] = 0.0;
-00396             
-00397         <span class="keywordflow">for</span> (i = 0; i &lt; nperm; i++) {
-00398                 
-00399             knpi = kn + perm[i];
-00400 
-00401             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++)
-00402                 ans[kp + j] += x[j*n + indx[i]] * y[knpi];
-00403         }
-00404     }
-00405 }
-00406 
-00407 
-<a name="l00416"></a><a class="code" href="LinearStatistic_8c.html#a8">00416</a> SEXP <a class="code" href="LinearStatistic_8c.html#a8">R_PermutedLinearStatistic</a>(SEXP x, SEXP y, SEXP indx, SEXP perm) {
-00417 
-00418     SEXP ans;
-00419     <span class="keywordtype">int</span> n, nperm, p, q, i, *iperm, *iindx;
-00420 
-00421     <span class="comment">/* </span>
-00422 <span class="comment">       only a basic check</span>
-00423 <span class="comment">    */</span>
-00424 
-00425     <span class="keywordflow">if</span> (!isReal(x) || !isReal(y))
-00426         error(<span class="stringliteral">"R_PermutedLinearStatistic: arguments are not of type REALSXP"</span>);
-00427     
-00428     <span class="keywordflow">if</span> (!isInteger(perm))
-00429         error(<span class="stringliteral">"R_PermutedLinearStatistic: perm is not of type INTSXP"</span>);
-00430     <span class="keywordflow">if</span> (!isInteger(indx))
-00431         error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not of type INTSXP"</span>);
-00432     
-00433     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
-00434     nperm = LENGTH(perm);
-00435     iperm = INTEGER(perm);
-00436     <span class="keywordflow">if</span> (LENGTH(indx)  != nperm)
-00437         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
-00438     iindx = INTEGER(indx);
-00439 
-00440     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(x) != n)
-00441         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
-00442 
-00443     <span class="keywordflow">for</span> (i = 0; i &lt; nperm; i++) {
-00444         <span class="keywordflow">if</span> (iperm[i] &lt; 0 || iperm[i] &gt; (n - 1) )
-00445             error(<span class="stringliteral">"R_PermutedLinearStatistic: perm is not between 1 and nobs"</span>);
-00446         <span class="keywordflow">if</span> (iindx[i] &lt; 0 || iindx[i] &gt; (n - 1) )
-00447             error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not between 1 and nobs"</span>);
-00448     }
-00449 
-00450     q    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
-00451     p    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
-00452            
-00453     PROTECT(ans = allocVector(REALSXP, p*q));
-00454     
-00455     <a class="code" href="LinearStatistic_8c.html#a7">C_PermutedLinearStatistic</a>(REAL(x), p, REAL(y), q, n, nperm,
-00456                  iindx, iperm, REAL(ans));
-00457     
-00458     UNPROTECT(1);
-00459     <span class="keywordflow">return</span>(ans);
-00460 }
-00461 
-00462 
-<a name="l00472"></a><a class="code" href="LinearStatistic_8c.html#a9">00472</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a9">C_scmatleft</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
-00473                  <span class="keyword">const</span> <span class="keywordtype">int</span> q, <span class="keywordtype">double</span> *ans) {
-00474 
-00475     <span class="comment">/*</span>
-00476 <span class="comment">     *</span>
-00477 <span class="comment">     *    The basic difficulty is that the statistic itself is</span>
-00478 <span class="comment">     *    L ~ (p, q) but we only look at vec(L)</span>
-00479 <span class="comment">     *    </span>
-00480 <span class="comment">     *    The function creates a score matrix A in order to</span>
-00481 <span class="comment">     *    compute A %*% vec(L) == x %*% L</span>
-00482 <span class="comment">     *</span>
-00483 <span class="comment">     *    pq is the length of vec(L) (and p is determined from </span>
-00484 <span class="comment">     *    the length of x)</span>
-00485 <span class="comment">     */</span>
-00486     
-00487     <span class="keywordtype">int</span> k, j, pq;
-00488     
-00489     pq = p * q;
-00490     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) {
-00491             <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
-00492                 ans[pq * j + q*k +  j] = x[k];
-00493             }
-00494     }
-00495 }
-00496 
-00497 
-<a name="l00504"></a><a class="code" href="LinearStatistic_8c.html#a10">00504</a> SEXP <a class="code" href="LinearStatistic_8c.html#a10">R_scmatleft</a>(SEXP x, SEXP pq) {
-00505 
-00506     SEXP ans;
-00507     <span class="keywordtype">double</span> *dans, *dx;
-00508     <span class="keywordtype">int</span> p, q, i;
-00509     
-00510     <span class="keywordflow">if</span> (!isReal(x)) error(<span class="stringliteral">"R_scmatleft: x not of type REALSXP"</span>);
-00511     <span class="keywordflow">if</span> (!isInteger(pq)) error(<span class="stringliteral">"R_scmatleft: pq not of type INTSXP"</span>);
+00391     UNPROTECT(1);
+00392     <span class="keywordflow">return</span>(ans);
+00393 }
+00394 
+00395 
+<a name="l00409"></a><a class="code" href="LinearStatistic_8h.html#a0">00409</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a8">C_PermutedLinearStatistic</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p,
+00410                                <span class="keyword">const</span> <span class="keywordtype">double</span> *y, <span class="keyword">const</span> <span class="keywordtype">int</span> q,
+00411                                <span class="keyword">const</span> <span class="keywordtype">int</span> n, <span class="keyword">const</span> <span class="keywordtype">int</span> nperm,
+00412                                <span class="keyword">const</span> <span class="keywordtype">int</span> *indx, <span class="keyword">const</span> <span class="keywordtype">int</span> *perm, 
+00413                                <span class="keywordtype">double</span> *ans) {
+00414 
+00415     <span class="keywordtype">int</span> i, j, k, kp, kn, knpi;
+00416 
+00417     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
+00418 
+00419         kn = k * n;
+00420         kp = k * p;
+00421         <span class="keywordflow">for</span> (j = 0; j &lt; p; j++) ans[kp + j] = 0.0;
+00422             
+00423         <span class="keywordflow">for</span> (i = 0; i &lt; nperm; i++) {
+00424                 
+00425             knpi = kn + perm[i];
+00426 
+00427             <span class="keywordflow">for</span> (j = 0; j &lt; p; j++)
+00428                 ans[kp + j] += x[j*n + indx[i]] * y[knpi];
+00429         }
+00430     }
+00431 }
+00432 
+00433 
+<a name="l00442"></a><a class="code" href="LinearStatistic_8c.html#a9">00442</a> SEXP <a class="code" href="LinearStatistic_8c.html#a9">R_PermutedLinearStatistic</a>(SEXP x, SEXP y, SEXP indx, SEXP perm) {
+00443 
+00444     SEXP ans;
+00445     <span class="keywordtype">int</span> n, nperm, p, q, i, *iperm, *iindx;
+00446 
+00447     <span class="comment">/* </span>
+00448 <span class="comment">       only a basic check</span>
+00449 <span class="comment">    */</span>
+00450 
+00451     <span class="keywordflow">if</span> (!isReal(x) || !isReal(y))
+00452         error(<span class="stringliteral">"R_PermutedLinearStatistic: arguments are not of type REALSXP"</span>);
+00453     
+00454     <span class="keywordflow">if</span> (!isInteger(perm))
+00455         error(<span class="stringliteral">"R_PermutedLinearStatistic: perm is not of type INTSXP"</span>);
+00456     <span class="keywordflow">if</span> (!isInteger(indx))
+00457         error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not of type INTSXP"</span>);
+00458     
+00459     n = <a class="code" href="CIstuff_8c.html#a0">nrow</a>(y);
+00460     nperm = LENGTH(perm);
+00461     iperm = INTEGER(perm);
+00462     <span class="keywordflow">if</span> (LENGTH(indx)  != nperm)
+00463         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
+00464     iindx = INTEGER(indx);
+00465 
+00466     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#a0">nrow</a>(x) != n)
+00467         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
+00468 
+00469     <span class="keywordflow">for</span> (i = 0; i &lt; nperm; i++) {
+00470         <span class="keywordflow">if</span> (iperm[i] &lt; 0 || iperm[i] &gt; (n - 1) )
+00471             error(<span class="stringliteral">"R_PermutedLinearStatistic: perm is not between 1 and nobs"</span>);
+00472         <span class="keywordflow">if</span> (iindx[i] &lt; 0 || iindx[i] &gt; (n - 1) )
+00473             error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not between 1 and nobs"</span>);
+00474     }
+00475 
+00476     q    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(y);
+00477     p    = <a class="code" href="CIstuff_8c.html#a1">ncol</a>(x);
+00478            
+00479     PROTECT(ans = allocVector(REALSXP, p*q));
+00480     
+00481     <a class="code" href="LinearStatistic_8c.html#a8">C_PermutedLinearStatistic</a>(REAL(x), p, REAL(y), q, n, nperm,
+00482                  iindx, iperm, REAL(ans));
+00483     
+00484     UNPROTECT(1);
+00485     <span class="keywordflow">return</span>(ans);
+00486 }
+00487 
+00488 
+<a name="l00498"></a><a class="code" href="LinearStatistic_8c.html#a10">00498</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a10">C_scmatleft</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
+00499                  <span class="keyword">const</span> <span class="keywordtype">int</span> q, <span class="keywordtype">double</span> *ans) {
+00500 
+00501     <span class="comment">/*</span>
+00502 <span class="comment">     *</span>
+00503 <span class="comment">     *    The basic difficulty is that the statistic itself is</span>
+00504 <span class="comment">     *    L ~ (p, q) but we only look at vec(L)</span>
+00505 <span class="comment">     *    </span>
+00506 <span class="comment">     *    The function creates a score matrix A in order to</span>
+00507 <span class="comment">     *    compute A %*% vec(L) == x %*% L</span>
+00508 <span class="comment">     *</span>
+00509 <span class="comment">     *    pq is the length of vec(L) (and p is determined from </span>
+00510 <span class="comment">     *    the length of x)</span>
+00511 <span class="comment">     */</span>
 00512     
-00513     dx = REAL(x);
-00514     p = LENGTH(x);
-00515     q = INTEGER(pq)[0] / p;
-00516     
-00517     PROTECT(ans = allocMatrix(REALSXP, q, p*q));
-00518     dans = REAL(ans);
-00519     <span class="keywordflow">for</span> (i = 0; i &lt; q*p*q; i++) dans[i] = 0.0;
-00520     
-00521     <a class="code" href="LinearStatistic_8c.html#a9">C_scmatleft</a>(dx, p, q, dans);
-00522     
-00523     UNPROTECT(1);
-00524     <span class="keywordflow">return</span>(ans);
-00525 }
-00526 
-00527 
-<a name="l00537"></a><a class="code" href="LinearStatistic_8c.html#a11">00537</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a11">C_scmatright</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
-00538                  <span class="keyword">const</span> <span class="keywordtype">int</span> q, <span class="keywordtype">double</span> *ans) { 
-00539 
-00540     <span class="comment">/* </span>
-00541 <span class="comment">     *</span>
-00542 <span class="comment">     *    The basic difficulty is that the statistic itself is</span>
-00543 <span class="comment">     *    L ~ (p, q) but we only look at vec(L)</span>
-00544 <span class="comment">     *    </span>
-00545 <span class="comment">     *    The function creates a score matrix A in order to</span>
-00546 <span class="comment">     *    compute A %*% vec(L) == L %*% x</span>
-00547 <span class="comment">     *</span>
-00548 <span class="comment">     *    pq is the length of vec(L) (and q is determined from </span>
-00549 <span class="comment">     *    the length of x)</span>
-00550 <span class="comment">     *</span>
-00551 <span class="comment">     */</span> 
+00513     <span class="keywordtype">int</span> k, j, pq;
+00514     
+00515     pq = p * q;
+00516     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) {
+00517             <span class="keywordflow">for</span> (k = 0; k &lt; p; k++) {
+00518                 ans[pq * j + q*k +  j] = x[k];
+00519             }
+00520     }
+00521 }
+00522 
+00523 
+<a name="l00530"></a><a class="code" href="LinearStatistic_8c.html#a11">00530</a> SEXP <a class="code" href="LinearStatistic_8c.html#a11">R_scmatleft</a>(SEXP x, SEXP pq) {
+00531 
+00532     SEXP ans;
+00533     <span class="keywordtype">double</span> *dans, *dx;
+00534     <span class="keywordtype">int</span> p, q, i;
+00535     
+00536     <span class="keywordflow">if</span> (!isReal(x)) error(<span class="stringliteral">"R_scmatleft: x not of type REALSXP"</span>);
+00537     <span class="keywordflow">if</span> (!isInteger(pq)) error(<span class="stringliteral">"R_scmatleft: pq not of type INTSXP"</span>);
+00538     
+00539     dx = REAL(x);
+00540     p = LENGTH(x);
+00541     q = INTEGER(pq)[0] / p;
+00542     
+00543     PROTECT(ans = allocMatrix(REALSXP, q, p*q));
+00544     dans = REAL(ans);
+00545     <span class="keywordflow">for</span> (i = 0; i &lt; q*p*q; i++) dans[i] = 0.0;
+00546     
+00547     <a class="code" href="LinearStatistic_8c.html#a10">C_scmatleft</a>(dx, p, q, dans);
+00548     
+00549     UNPROTECT(1);
+00550     <span class="keywordflow">return</span>(ans);
+00551 }
 00552 
-00553     <span class="keywordtype">int</span> i, k, pp;
-00554     
-00555     pp = p * p;
-00556     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
-00557         <span class="keywordflow">for</span> (i = 0; i &lt; p; i++) {
-00558             ans[pp * k + i * p   + i] = x[k];
-00559         }
-00560     }
-00561 }
-00562 
-<a name="l00569"></a><a class="code" href="LinearStatistic_8c.html#a12">00569</a> SEXP <a class="code" href="LinearStatistic_8c.html#a12">R_scmatright</a>(SEXP x, SEXP pq) {
-00570 
-00571     SEXP ans;
-00572     <span class="keywordtype">double</span> *dans, *dx;
-00573     <span class="keywordtype">int</span> p, q, i;
-00574     
-00575     <span class="keywordflow">if</span> (!isReal(x)) error(<span class="stringliteral">"R_scmatright: x not of type REALSXP"</span>);
-00576     <span class="keywordflow">if</span> (!isInteger(pq)) error(<span class="stringliteral">"R_scmatright: pq not of type INTSXP"</span>);
-00577     
-00578     dx = REAL(x);
-00579     q = LENGTH(x);
-00580     p = INTEGER(pq)[0] / q;
-00581     
-00582     PROTECT(ans = allocMatrix(REALSXP, p, p*q));
-00583     dans = REAL(ans);
-00584     
-00585     <span class="keywordflow">for</span> (i = 0; i &lt; p*p*q; i++) dans[i] = 0.0;
-00586     
-00587     <a class="code" href="LinearStatistic_8c.html#a11">C_scmatright</a>(dx, p, q, dans);
+00553 
+<a name="l00563"></a><a class="code" href="LinearStatistic_8c.html#a12">00563</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#a12">C_scmatright</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> *x, <span class="keyword">const</span> <span class="keywordtype">int</span> p, 
+00564                  <span class="keyword">const</span> <span class="keywordtype">int</span> q, <span class="keywordtype">double</span> *ans) { 
+00565 
+00566     <span class="comment">/* </span>
+00567 <span class="comment">     *</span>
+00568 <span class="comment">     *    The basic difficulty is that the statistic itself is</span>
+00569 <span class="comment">     *    L ~ (p, q) but we only look at vec(L)</span>
+00570 <span class="comment">     *    </span>
+00571 <span class="comment">     *    The function creates a score matrix A in order to</span>
+00572 <span class="comment">     *    compute A %*% vec(L) == L %*% x</span>
+00573 <span class="comment">     *</span>
+00574 <span class="comment">     *    pq is the length of vec(L) (and q is determined from </span>
+00575 <span class="comment">     *    the length of x)</span>
+00576 <span class="comment">     *</span>
+00577 <span class="comment">     */</span> 
+00578 
+00579     <span class="keywordtype">int</span> i, k, pp;
+00580     
+00581     pp = p * p;
+00582     <span class="keywordflow">for</span> (k = 0; k &lt; q; k++) {
+00583         <span class="keywordflow">for</span> (i = 0; i &lt; p; i++) {
+00584             ans[pp * k + i * p   + i] = x[k];
+00585         }
+00586     }
+00587 }
 00588 
-00589     UNPROTECT(1);
-00590     <span class="keywordflow">return</span>(ans);
-00591 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jul 28 17:05:21 2005 for coin by&nbsp;
+<a name="l00595"></a><a class="code" href="LinearStatistic_8c.html#a13">00595</a> SEXP <a class="code" href="LinearStatistic_8c.html#a13">R_scmatright</a>(SEXP x, SEXP pq) {
+00596 
+00597     SEXP ans;
+00598     <span class="keywordtype">double</span> *dans, *dx;
+00599     <span class="keywordtype">int</span> p, q, i;
+00600     
+00601     <span class="keywordflow">if</span> (!isReal(x)) error(<span class="stringliteral">"R_scmatright: x not of type REALSXP"</span>);
+00602     <span class="keywordflow">if</span> (!isInteger(pq)) error(<span class="stringliteral">"R_scmatright: pq not of type INTSXP"</span>);
+00603     
+00604     dx = REAL(x);
+00605     q = LENGTH(x);
+00606     p = INTEGER(pq)[0] / q;
+00607     
+00608     PROTECT(ans = allocMatrix(REALSXP, p, p*q));
+00609     dans = REAL(ans);
+00610     
+00611     <span class="keywordflow">for</span> (i = 0; i &lt; p*p*q; i++) dans[i] = 0.0;
+00612     
+00613     <a class="code" href="LinearStatistic_8c.html#a12">C_scmatright</a>(dx, p, q, dans);
+00614 
+00615     UNPROTECT(1);
+00616     <span class="keywordflow">return</span>(ans);
+00617 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Nov 17 15:36:17 2005 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.2 </small></address>
 </body>

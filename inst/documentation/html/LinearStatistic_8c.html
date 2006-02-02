@@ -12,10 +12,10 @@
 <p>
 Include dependency graph for LinearStatistic.c:<p><center><img src="LinearStatistic_8c__incl.png" border="0" usemap="#LinearStatistic.c_map" alt=""></center>
 <map name="LinearStatistic.c_map">
-<area href="CI__common_8h.html" shape="rect" coords="174,176,278,200" alt="">
-<area href="Classes_8h.html" shape="rect" coords="346,248,426,272" alt="">
-<area href="LinearStatistic_8h.html" shape="rect" coords="327,296,445,320" alt="">
-<area href="CIstuff_8h.html" shape="rect" coords="350,344,422,368" alt="">
+<area href="CI__common_8h.html" shape="rect" coords="169,175,257,198" alt="">
+<area href="Classes_8h.html" shape="rect" coords="324,246,390,270" alt="">
+<area href="LinearStatistic_8h.html" shape="rect" coords="306,294,408,318" alt="">
+<area href="CIstuff_8h.html" shape="rect" coords="330,342,384,366" alt="">
 </map>
 
 <p>
@@ -24,41 +24,43 @@ Include dependency graph for LinearStatistic.c:<p><center><img src="LinearStatis
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a0">C_kronecker</a> (const double *A, const int m, const int n, const double *B, const int r, const int s, double *ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a1">C_ExpectCovarInfluence</a> (const double *y, const int q, const double *weights, const int n, SEXP ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a1">R_kronecker</a> (SEXP A, SEXP B)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a2">R_ExpectCovarInfluence</a> (SEXP y, SEXP weights)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a2">C_ExpectCovarInfluence</a> (const double *y, const int q, const double *weights, const int n, SEXP ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a3">C_ExpectCovarLinearStatistic</a> (const double *x, const int p, const double *y, const int q, const double *weights, const int n, const SEXP expcovinf, SEXP ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a3">R_ExpectCovarInfluence</a> (SEXP y, SEXP weights)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a4">R_ExpectCovarLinearStatistic</a> (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a4">C_ExpectCovarLinearStatistic</a> (const double *x, const int p, const double *y, const int q, const double *weights, const int n, const SEXP expcovinf, SEXP ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a5">C_LinearStatistic</a> (const double *x, const int p, const double *y, const int q, const double *weights, const int n, double *ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a5">R_ExpectCovarLinearStatistic</a> (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a6">R_LinearStatistic</a> (SEXP x, SEXP y, SEXP weights)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a6">C_LinearStatistic</a> (const double *x, const int p, const double *y, const int q, const double *weights, const int n, double *ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a7">C_PermutedLinearStatistic</a> (const double *x, const int p, const double *y, const int q, const int n, const int nperm, const int *indx, const int *perm, double *ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a7">R_LinearStatistic</a> (SEXP x, SEXP y, SEXP weights)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a8">R_PermutedLinearStatistic</a> (SEXP x, SEXP y, SEXP indx, SEXP perm)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a8">C_PermutedLinearStatistic</a> (const double *x, const int p, const double *y, const int q, const int n, const int nperm, const int *indx, const int *perm, double *ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a9">C_scmatleft</a> (const double *x, const int p, const int q, double *ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a9">R_PermutedLinearStatistic</a> (SEXP x, SEXP y, SEXP indx, SEXP perm)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a10">R_scmatleft</a> (SEXP x, SEXP pq)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a10">C_scmatleft</a> (const double *x, const int p, const int q, double *ans)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a11">C_scmatright</a> (const double *x, const int p, const int q, double *ans)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a11">R_scmatleft</a> (SEXP x, SEXP pq)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a12">R_scmatright</a> (SEXP x, SEXP pq)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a12">C_scmatright</a> (const double *x, const int p, const int q, double *ans)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a13">R_scmatright</a> (SEXP x, SEXP pq)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Linear statistics for conditional inference<p>
 <dl compact><dt><b>Author:</b></dt><dd><dl compact><dt><b>Author</b></dt><dd>hothorn </dd></dl>
 </dd></dl>
-<dl compact><dt><b>Date:</b></dt><dd><dl compact><dt><b>Date</b></dt><dd>2005/07/28 15:04:29 </dd></dl>
+<dl compact><dt><b>Date:</b></dt><dd><dl compact><dt><b>Date</b></dt><dd>2005/10/13 12:45:01 </dd></dl>
 </dd></dl>
 
 <p>
 Definition in file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.<hr><h2>Function Documentation</h2>
-<a class="anchor" name="a1" doxytag="LinearStatistic.c::C_ExpectCovarInfluence"></a><p>
+<a class="anchor" name="a2" doxytag="LinearStatistic.c::C_ExpectCovarInfluence"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -122,14 +124,14 @@ Conditional expectation and covariance of the influence function<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00054">54</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00080">80</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
 References <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, and <a class="el" href="Classes_8c-source.html#l00012">CI_sumweightsSym</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00124">R_ExpectCovarInfluence()</a>.    </td>
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00150">R_ExpectCovarInfluence()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3" doxytag="LinearStatistic.c::C_ExpectCovarLinearStatistic"></a><p>
+<a class="anchor" name="a4" doxytag="LinearStatistic.c::C_ExpectCovarLinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -214,15 +216,15 @@ Conditional expectation and covariance of the a linear statistic<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00166">166</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00192">192</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
 References <a class="el" href="LinearStatistic_8c-source.html#l00022">C_kronecker()</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, and <a class="el" href="Classes_8c-source.html#l00012">CI_sumweightsSym</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00259">R_ExpectCovarLinearStatistic()</a>.
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00285">R_ExpectCovarLinearStatistic()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a3_cgraph.png" border="0" usemap="#LinearStatistic_8c_a3_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a3_cgraph_map">
-<area href="LinearStatistic_8c.html#a0" shape="rect" coords="257,8,353,32" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a4_cgraph.png" border="0" usemap="#LinearStatistic_8c_a4_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a4_cgraph_map">
+<area href="LinearStatistic_8c.html#a0" shape="rect" coords="246,7,329,30" alt="">
 </map>
     </td>
   </tr>
@@ -307,10 +309,10 @@ Computes the Kronecker product of two matrices<br>
 <p>
 Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00022">22</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00166">C_ExpectCovarLinearStatistic()</a>.    </td>
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00192">C_ExpectCovarLinearStatistic()</a>, and <a class="el" href="LinearStatistic_8c-source.html#l00051">R_kronecker()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5" doxytag="LinearStatistic.c::C_LinearStatistic"></a><p>
+<a class="anchor" name="a6" doxytag="LinearStatistic.c::C_LinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -388,12 +390,12 @@ Computes the linear statistic, formula (1) in the paper<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00301">301</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00327">327</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00337">R_LinearStatistic()</a>.    </td>
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00363">R_LinearStatistic()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7" doxytag="LinearStatistic.c::C_PermutedLinearStatistic"></a><p>
+<a class="anchor" name="a8" doxytag="LinearStatistic.c::C_PermutedLinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -485,12 +487,12 @@ Linear Statistic with permuted indices<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00383">383</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00409">409</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-Referenced by <a class="el" href="CIstuff_8c-source.html#l00138">R_MonteCarloIndependenceTest()</a>, and <a class="el" href="LinearStatistic_8c-source.html#l00416">R_PermutedLinearStatistic()</a>.    </td>
+Referenced by <a class="el" href="CIstuff_8c-source.html#l00152">R_MonteCarloIndependenceTest()</a>, and <a class="el" href="LinearStatistic_8c-source.html#l00442">R_PermutedLinearStatistic()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9" doxytag="LinearStatistic.c::C_scmatleft"></a><p>
+<a class="anchor" name="a10" doxytag="LinearStatistic.c::C_scmatleft"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -547,12 +549,12 @@ Score matrix for a linear combination of a linear statistic from the left<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00472">472</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00498">498</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00504">R_scmatleft()</a>.    </td>
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00530">R_scmatleft()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11" doxytag="LinearStatistic.c::C_scmatright"></a><p>
+<a class="anchor" name="a12" doxytag="LinearStatistic.c::C_scmatright"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -609,12 +611,12 @@ Score matrix for a linear combination of a linear statistic from the right<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00537">537</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00563">563</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00569">R_scmatright()</a>.    </td>
+Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00595">R_scmatright()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2" doxytag="LinearStatistic.c::R_ExpectCovarInfluence"></a><p>
+<a class="anchor" name="a3" doxytag="LinearStatistic.c::R_ExpectCovarInfluence"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -657,20 +659,20 @@ R-interface to C_ExpectCovarInfluence<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00124">124</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00150">150</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00054">C_ExpectCovarInfluence()</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_sumweightsSym</a>, <a class="el" href="CIstuff_8c-source.html#l00015">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00080">C_ExpectCovarInfluence()</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_sumweightsSym</a>, <a class="el" href="CIstuff_8c-source.html#l00022">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a2_cgraph.png" border="0" usemap="#LinearStatistic_8c_a2_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a2_cgraph_map">
-<area href="LinearStatistic_8c.html#a1" shape="rect" coords="227,8,395,32" alt="">
-<area href="CIstuff_8c.html#a1" shape="rect" coords="289,56,334,80" alt="">
-<area href="CIstuff_8c.html#a0" shape="rect" coords="286,104,337,128" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a3_cgraph.png" border="0" usemap="#LinearStatistic_8c_a3_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a3_cgraph_map">
+<area href="LinearStatistic_8c.html#a2" shape="rect" coords="216,7,362,31" alt="">
+<area href="CIstuff_8c.html#a1" shape="rect" coords="270,55,308,78" alt="">
+<area href="CIstuff_8c.html#a0" shape="rect" coords="270,102,308,126" alt="">
 </map>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4" doxytag="LinearStatistic.c::R_ExpectCovarLinearStatistic"></a><p>
+<a class="anchor" name="a5" doxytag="LinearStatistic.c::R_ExpectCovarLinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -727,21 +729,77 @@ R-interface to C_ExpectCovarLinearStatistic<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00259">259</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00285">285</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00166">C_ExpectCovarLinearStatistic()</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, <a class="el" href="CIstuff_8c-source.html#l00015">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00192">C_ExpectCovarLinearStatistic()</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_covarianceSym</a>, <a class="el" href="Classes_8c-source.html#l00012">CI_expectationSym</a>, <a class="el" href="CIstuff_8c-source.html#l00022">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a4_cgraph.png" border="0" usemap="#LinearStatistic_8c_a4_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a4_cgraph_map">
-<area href="LinearStatistic_8c.html#a3" shape="rect" coords="256,8,456,32" alt="">
-<area href="CIstuff_8c.html#a1" shape="rect" coords="333,56,378,80" alt="">
-<area href="CIstuff_8c.html#a0" shape="rect" coords="330,104,381,128" alt="">
-<area href="LinearStatistic_8c.html#a0" shape="rect" coords="505,8,601,32" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a5_cgraph.png" border="0" usemap="#LinearStatistic_8c_a5_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a5_cgraph_map">
+<area href="LinearStatistic_8c.html#a4" shape="rect" coords="248,7,426,31" alt="">
+<area href="CIstuff_8c.html#a1" shape="rect" coords="318,55,355,78" alt="">
+<area href="CIstuff_8c.html#a0" shape="rect" coords="318,102,355,126" alt="">
+<area href="LinearStatistic_8c.html#a0" shape="rect" coords="475,7,558,31" alt="">
 </map>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6" doxytag="LinearStatistic.c::R_LinearStatistic"></a><p>
+<a class="anchor" name="a1" doxytag="LinearStatistic.c::R_kronecker"></a><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">SEXP R_kronecker           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">SEXP&nbsp;</td>
+          <td class="mdname" nowrap> <em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>SEXP&nbsp;</td>
+          <td class="mdname" nowrap> <em>B</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+R-interface to C_kronecker<br>
+ <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>A</em>&nbsp;</td><td>matrix </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>B</em>&nbsp;</td><td>matrix </td></tr>
+  </table>
+</dl>
+
+<p>
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00051">51</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+<p>
+References <a class="el" href="LinearStatistic_8c-source.html#l00022">C_kronecker()</a>, <a class="el" href="CIstuff_8c-source.html#l00022">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a1_cgraph.png" border="0" usemap="#LinearStatistic_8c_a1_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a1_cgraph_map">
+<area href="LinearStatistic_8c.html#a0" shape="rect" coords="147,7,230,31" alt="">
+<area href="CIstuff_8c.html#a1" shape="rect" coords="170,55,207,78" alt="">
+<area href="CIstuff_8c.html#a0" shape="rect" coords="170,102,207,126" alt="">
+</map>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a7" doxytag="LinearStatistic.c::R_LinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -791,20 +849,20 @@ R-interface to C_LinearStatistic <br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00337">337</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00363">363</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00301">C_LinearStatistic()</a>, <a class="el" href="CIstuff_8c-source.html#l00015">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00327">C_LinearStatistic()</a>, <a class="el" href="CIstuff_8c-source.html#l00022">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a6_cgraph.png" border="0" usemap="#LinearStatistic_8c_a6_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a6_cgraph_map">
-<area href="LinearStatistic_8c.html#a5" shape="rect" coords="178,8,301,32" alt="">
-<area href="CIstuff_8c.html#a1" shape="rect" coords="217,56,262,80" alt="">
-<area href="CIstuff_8c.html#a0" shape="rect" coords="214,104,265,128" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a7_cgraph.png" border="0" usemap="#LinearStatistic_8c_a7_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a7_cgraph_map">
+<area href="LinearStatistic_8c.html#a6" shape="rect" coords="171,7,278,31" alt="">
+<area href="CIstuff_8c.html#a1" shape="rect" coords="206,55,243,78" alt="">
+<area href="CIstuff_8c.html#a0" shape="rect" coords="206,102,243,126" alt="">
 </map>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8" doxytag="LinearStatistic.c::R_PermutedLinearStatistic"></a><p>
+<a class="anchor" name="a9" doxytag="LinearStatistic.c::R_PermutedLinearStatistic"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -861,20 +919,20 @@ Linear Statistic with permuted indices<br>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00416">416</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00442">442</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00383">C_PermutedLinearStatistic()</a>, <a class="el" href="CIstuff_8c-source.html#l00015">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00409">C_PermutedLinearStatistic()</a>, <a class="el" href="CIstuff_8c-source.html#l00022">ncol()</a>, and <a class="el" href="CIstuff_8c-source.html#l00011">nrow()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a8_cgraph.png" border="0" usemap="#LinearStatistic_8c_a8_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a8_cgraph_map">
-<area href="LinearStatistic_8c.html#a7" shape="rect" coords="237,8,418,32" alt="">
-<area href="CIstuff_8c.html#a1" shape="rect" coords="305,56,350,80" alt="">
-<area href="CIstuff_8c.html#a0" shape="rect" coords="302,104,353,128" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a9_cgraph.png" border="0" usemap="#LinearStatistic_8c_a9_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a9_cgraph_map">
+<area href="LinearStatistic_8c.html#a8" shape="rect" coords="227,7,390,31" alt="">
+<area href="CIstuff_8c.html#a1" shape="rect" coords="290,55,327,78" alt="">
+<area href="CIstuff_8c.html#a0" shape="rect" coords="290,102,327,126" alt="">
 </map>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="LinearStatistic.c::R_scmatleft"></a><p>
+<a class="anchor" name="a11" doxytag="LinearStatistic.c::R_scmatleft"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -916,18 +974,18 @@ R-interface to C_scmatleft <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00504">504</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00530">530</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00472">C_scmatleft()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00498">C_scmatleft()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a10_cgraph.png" border="0" usemap="#LinearStatistic_8c_a10_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a10_cgraph_map">
-<area href="LinearStatistic_8c.html#a9" shape="rect" coords="149,8,242,32" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a11_cgraph.png" border="0" usemap="#LinearStatistic_8c_a11_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a11_cgraph_map">
+<area href="LinearStatistic_8c.html#a10" shape="rect" coords="142,7,220,30" alt="">
 </map>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12" doxytag="LinearStatistic.c::R_scmatright"></a><p>
+<a class="anchor" name="a13" doxytag="LinearStatistic.c::R_scmatright"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -969,18 +1027,18 @@ R-interface to C_scmatright <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00569">569</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
+Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00595">595</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
 <p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00537">C_scmatright()</a>.
+References <a class="el" href="LinearStatistic_8c-source.html#l00563">C_scmatright()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a12_cgraph.png" border="0" usemap="#LinearStatistic_8c_a12_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a12_cgraph_map">
-<area href="LinearStatistic_8c.html#a11" shape="rect" coords="157,8,258,32" alt="">
+Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a13_cgraph.png" border="0" usemap="#LinearStatistic_8c_a13_cgraph_map" alt=""></center>
+<map name="LinearStatistic_8c_a13_cgraph_map">
+<area href="LinearStatistic_8c.html#a12" shape="rect" coords="150,7,236,30" alt="">
 </map>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jul 28 17:06:01 2005 for coin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 17 15:36:20 2005 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.2 </small></address>
 </body>

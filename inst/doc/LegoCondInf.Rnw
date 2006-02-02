@@ -136,7 +136,7 @@ if(!anonymous) {
 <<affil, echo = FALSE, results = tex>>=
 if(!anonymous)
     cat("\\noindent$^1$ Institut f\\\"ur Medizininformatik, Biometrie und Epidemiologie\\\\
-           Friedrich-Alexander-Universit\\\"at Erlangen-N\"urnberg\\\\
+           Friedrich-Alexander-Universit\\\"at Erlangen-N\\\"urnberg\\\\
            Waldstra{\\ss}e 6, D-91054 Erlangen, Germany \\\\
            \\texttt{Torsten.Hothorn@R-project.org}
          \\newline
