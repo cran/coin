@@ -29,17 +29,12 @@ setClass(Class = "IndependenceTestProblem",
         xtrans     = "matrix",
         ytrans     = "matrix",
         xtrafo     = "function",
-        ytrafo     = "function",
-        has_scores = "logical",
-        xordinal   = "logical",
-        yordinal   = "logical",
-        scores     = "matrix"
+        ytrafo     = "function"
     ),
     contains = "IndependenceProblem",
     validity = function(object) 
         (storage.mode(object@xtrans) == "double" && 
-         storage.mode(object@ytrans) == "double") && 
-         storage.mode(object@scores) =="double"
+         storage.mode(object@ytrans) == "double")
 )
 
 ### Covariance matrix

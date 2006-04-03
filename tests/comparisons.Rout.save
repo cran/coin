@@ -1,6 +1,6 @@
 
-R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.0  (2005-10-06 r35749)
+R : Copyright 2006, The R Foundation for Statistical Computing
+Version 2.3.0 alpha (2006-04-04 r37647)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > 
@@ -537,7 +537,7 @@ alternative hypothesis: two.sided
 > mta <- independence_test(response ~ drug, data = tox,
 +                          ytrafo = function(data) 
 +                              trafo(data, numeric_trafo = median_trafo),
-+                          teststat = "quadtype")
++                          teststat = "quad")
 > 
 > # StatXact reports results of scaled Pearson statistic!
 > a <- factor(tox$response <= 7)
@@ -552,7 +552,7 @@ alternative hypothesis: two.sided
 > mtMC <- independence_test(response ~ drug, data = tox,
 +                           ytrafo = function(data) 
 +                               trafo(data, numeric_trafo = median_trafo),
-+                           teststat = "quadtype",
++                           teststat = "quad",
 +                           distribution = approximate(B = 10000))
 > 
 > pci <- attr(pvalue(mtMC), "conf.int")
@@ -573,7 +573,7 @@ alternative hypothesis: two.sided
 > # asymptotic p-value, page 493
 > stopifnot(isequal(round(pvalue(kta), 4), 0.0515))
 > 
-> pta <- oneway_test(response ~ drug, data = tox, teststat = "quadtype")
+> pta <- oneway_test(response ~ drug, data = tox, teststat = "quad")
 > 
 > # test statistic, page 508
 > stopifnot(isequal(round(statistic(pta), 2), 10.98))
@@ -623,7 +623,7 @@ alternative hypothesis: two.sided
 > pta <- oneway_test(temp ~ incidents, data = oring)
 > 
 > # test statistic, page 524
-> stopifnot(isequal(round(statistic(pta), 3), 2.698))
+> stopifnot(isequal(round(statistic(pta), 3), -2.698))
 > 
 > stopifnot(isequal(round(pvalue(pta), 4), 0.007))
 > 

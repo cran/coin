@@ -251,7 +251,7 @@ if (require("multcomp")) {
         ytrafo = function(data) trafo(data, numeric_trafo = rank),
         xtrafo = function(data) trafo(data, factor_trafo = function(x)
             model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
-        teststat = "maxtype", distribution = approximate(B = 90000))
+        teststat = "max", distribution = approximate(B = 90000))
 
     ### global p-value
     print(pvalue(NDWD))
@@ -411,7 +411,7 @@ platalet_counts <- data.frame(
 lt <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
         cbind(rank(x), ansari_trafo(x))),
-    teststat = "quadtype", distribution = approximate(B = 9999))
+    teststat = "quad", distribution = approximate(B = 9999))
 
 lt
 
@@ -421,7 +421,7 @@ ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
                dimnames = list(1:length(x), c("Location", "Scale")))),
-    teststat = "maxtype")
+    teststat = "max")
 
 ### points to a difference in location
 pvalue(ltmax, method = "single-step")
@@ -548,7 +548,7 @@ if (require("multcomp")) {
 
     ### all pairwise comparisons
     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
-         teststat = "maxtype",
+         teststat = "max",
          xtrafo = function(data)
              trafo(data, factor_trafo = function(x)
                  model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))

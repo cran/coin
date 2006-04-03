@@ -1,6 +1,6 @@
 
 R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 Under development (unstable) (2006-01-11 r37063)
+Version 2.3.0 alpha (2006-04-04 r37647)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -60,8 +60,6 @@ alternative hypothesis: two.sided
 + }
 Loading required package: multcomp
 [1] TRUE
-Warning message:
-use of NULL environment is deprecated 
 > 
 > 
 > ### `statistic' for linear and standardized statistics was wrong in case of 
@@ -120,12 +118,18 @@ use of NULL environment is deprecated
 > ### check for multiple ordered factors
 > mydf <- data.frame(x = ordered(gl(4, 5)), y = ordered(gl(5, 4)), 
 +                    z = rnorm(20))
-> try(independence_test(x + y ~ z , data = mydf))
-Error in .local(.Object, ...) : handling of multiple ordered factors currently not implemented
-> try(independence_test(x + z ~ y , data = mydf))
-Error in .local(.Object, ...) : handling of multiple ordered factors currently not implemented
-> try(independence_test(z ~ x + y , data = mydf))
-Error in .local(.Object, ...) : handling of multiple ordered factors currently not implemented
+> it1 <- independence_test(x + y ~ z , data = mydf)
+> stopifnot(isequal(drop(statistic(it1, "linear")), 
++           c(statistic(independence_test(x ~ z , data = mydf), "linear"),
++             statistic(independence_test(y ~ z , data = mydf), "linear"))))
+> it1 <- independence_test(x + z ~ y , data = mydf)
+> stopifnot(isequal(drop(statistic(it1, "linear")),
++           c(statistic(independence_test(x ~ y , data = mydf), "linear"),
++             statistic(independence_test(z ~ y , data = mydf), "linear"))))
+> it1 <- independence_test(z ~ x + y , data = mydf)
+> stopifnot(isequal(drop(statistic(it1, "linear")),
++           c(statistic(independence_test(z ~ x , data = mydf), "linear"),
++             statistic(independence_test(z ~ y , data = mydf), "linear"))))
 > 
 > ### NA's and weights
 > mydf <- data.frame(x = 1:10, y = gl(2, 5), w = rep(2, 10))
@@ -168,7 +172,7 @@ Error in validObject(.Object) : invalid class "IndependenceProblem" object: FALS
 > 
 > it <- independence_test(length ~ site, data = YOY,
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank),
-+     teststat = "quadtype")
++     teststat = "quad")
 > expectation(it)
   I  II III  IV 
 205 205 205 205 

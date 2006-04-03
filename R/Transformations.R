@@ -110,10 +110,15 @@ logrank_trafo <- function(x, ties.method = c("logrank", "HL")) {
 
 ### factor handling
 f_trafo <- function(x) {
+    ### temporarily define `na.pass' as na.action
+    opt <- options()
+    on.exit(options(opt))
+    options(na.action = na.pass)
+    ### construct design matrix _without_ intercept
     mm <- model.matrix(~ x - 1)
     colnames(mm) <- levels(x)
     ### remove unused levels
-    mm <- mm[,colSums(mm) > 0,drop = FALSE]
+    mm <- mm[,colSums(mm, na.rm = TRUE) > 0,drop = FALSE]
     ### the two-sample situations
     if (ncol(mm) == 2) mm <- mm[,-2,drop = FALSE]
     return(mm)

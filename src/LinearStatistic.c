@@ -3,7 +3,7 @@
     Linear statistics for conditional inference
     *\file LinearStatistic.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/10/13 12:45:01 $
+    *\date $Date: 2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) $
 */
     
 #include "CI_common.h"
@@ -481,137 +481,6 @@ SEXP R_PermutedLinearStatistic(SEXP x, SEXP y, SEXP indx, SEXP perm) {
     C_PermutedLinearStatistic(REAL(x), p, REAL(y), q, n, nperm,
                  iindx, iperm, REAL(ans));
     
-    UNPROTECT(1);
-    return(ans);
-}
-
-
-/**
-    Score matrix for a linear combination of a linear statistic 
-    from the left\n
-    *\param x score vector of length p
-    *\param p length of x
-    *\param q dimension of the influence function
-    *\param ans return value; a pointer to a q x (pq) matrix 
-*/ 
-
-void C_scmatleft(const double *x, const int p, 
-                 const int q, double *ans) {
-
-    /*
-     *
-     *    The basic difficulty is that the statistic itself is
-     *    L ~ (p, q) but we only look at vec(L)
-     *    
-     *    The function creates a score matrix A in order to
-     *    compute A %*% vec(L) == x %*% L
-     *
-     *    pq is the length of vec(L) (and p is determined from 
-     *    the length of x)
-     */
-    
-    int k, j, pq;
-    
-    pq = p * q;
-    for (j = 0; j < q; j++) {
-            for (k = 0; k < p; k++) {
-                ans[pq * j + q*k +  j] = x[k];
-            }
-    }
-}
-
-
-/**
-    R-interface to C_scmatleft
-    *\param x score vector of length p
-    *\param pq dimension of the linear statistic
-*/ 
-
-SEXP R_scmatleft(SEXP x, SEXP pq) {
-
-    SEXP ans;
-    double *dans, *dx;
-    int p, q, i;
-    
-    if (!isReal(x)) error("R_scmatleft: x not of type REALSXP");
-    if (!isInteger(pq)) error("R_scmatleft: pq not of type INTSXP");
-    
-    dx = REAL(x);
-    p = LENGTH(x);
-    q = INTEGER(pq)[0] / p;
-    
-    PROTECT(ans = allocMatrix(REALSXP, q, p*q));
-    dans = REAL(ans);
-    for (i = 0; i < q*p*q; i++) dans[i] = 0.0;
-    
-    C_scmatleft(dx, p, q, dans);
-    
-    UNPROTECT(1);
-    return(ans);
-}
-
-
-/**
-    Score matrix for a linear combination of a linear statistic 
-    from the right\n
-    *\param x score vector of length q
-    *\param p dimension of the transformation
-    *\param q length of x 
-    *\param ans return value; a pointer to a p x (pq) matrix 
-*/ 
-
-void C_scmatright(const double *x, const int p, 
-                 const int q, double *ans) { 
-
-    /* 
-     *
-     *    The basic difficulty is that the statistic itself is
-     *    L ~ (p, q) but we only look at vec(L)
-     *    
-     *    The function creates a score matrix A in order to
-     *    compute A %*% vec(L) == L %*% x
-     *
-     *    pq is the length of vec(L) (and q is determined from 
-     *    the length of x)
-     *
-     */ 
-
-    int i, k, pp;
-    
-    pp = p * p;
-    for (k = 0; k < q; k++) {
-        for (i = 0; i < p; i++) {
-            ans[pp * k + i * p   + i] = x[k];
-        }
-    }
-}
-
-/**
-    R-interface to C_scmatright
-    *\param x score vector of length q
-    *\param pq dimension of the linear statistic
-*/ 
-
-SEXP R_scmatright(SEXP x, SEXP pq) {
-
-    SEXP ans;
-    double *dans, *dx;
-    int p, q, i;
-    
-    if (!isReal(x)) error("R_scmatright: x not of type REALSXP");
-    if (!isInteger(pq)) error("R_scmatright: pq not of type INTSXP");
-    
-    dx = REAL(x);
-    q = LENGTH(x);
-    p = INTEGER(pq)[0] / q;
-    
-    PROTECT(ans = allocMatrix(REALSXP, p, p*q));
-    dans = REAL(ans);
-    
-    for (i = 0; i < p*p*q; i++) dans[i] = 0.0;
-    
-    C_scmatright(dx, p, q, dans);
-
     UNPROTECT(1);
     return(ans);
 }

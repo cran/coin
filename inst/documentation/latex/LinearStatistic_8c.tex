@@ -33,14 +33,6 @@ SEXP \hyperlink{LinearStatistic_8c_a7}{R\_\-Linear\-Statistic} (SEXP x, SEXP y, 
 void \hyperlink{LinearStatistic_8c_a8}{C\_\-Permuted\-Linear\-Statistic} (const double $\ast$x, const int p, const double $\ast$y, const int q, const int n, const int nperm, const int $\ast$indx, const int $\ast$perm, double $\ast$ans)
 \item 
 SEXP \hyperlink{LinearStatistic_8c_a9}{R\_\-Permuted\-Linear\-Statistic} (SEXP x, SEXP y, SEXP indx, SEXP perm)
-\item 
-void \hyperlink{LinearStatistic_8c_a10}{C\_\-scmatleft} (const double $\ast$x, const int p, const int q, double $\ast$ans)
-\item 
-SEXP \hyperlink{LinearStatistic_8c_a11}{R\_\-scmatleft} (SEXP x, SEXP pq)
-\item 
-void \hyperlink{LinearStatistic_8c_a12}{C\_\-scmatright} (const double $\ast$x, const int p, const int q, double $\ast$ans)
-\item 
-SEXP \hyperlink{LinearStatistic_8c_a13}{R\_\-scmatright} (SEXP x, SEXP pq)
 \end{CompactItemize}
 
 
@@ -53,7 +45,7 @@ Linear statistics for conditional inference
 \end{Desc}
 \begin{Desc}
 \item[Date:]\begin{Desc}
-\item[Date]2005/10/13 12:45:01 \end{Desc}
+\item[Date]2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) \end{Desc}
 \end{Desc}
 
 
@@ -157,41 +149,7 @@ Linear Statistic with permuted indices\par
 
 Definition at line 409 of file Linear\-Statistic.c.
 
-Referenced by R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a10}{
-\index{LinearStatistic.c@{Linear\-Statistic.c}!C_scmatleft@{C\_\-scmatleft}}
-\index{C_scmatleft@{C\_\-scmatleft}!LinearStatistic.c@{Linear\-Statistic.c}}
-\subsubsection[C\_\-scmatleft]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-scmatleft (const double $\ast$ {\em x}, const int {\em p}, const int {\em q}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a10}
-
-
-Score matrix for a linear combination of a linear statistic from the left\par
- \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em x}]score vector of length p \item[{\em p}]length of x \item[{\em q}]dimension of the influence function \item[{\em ans}]return value; a pointer to a q x (pq) matrix \end{description}
-\end{Desc}
-
-
-Definition at line 498 of file Linear\-Statistic.c.
-
-Referenced by R\_\-scmatleft().\hypertarget{LinearStatistic_8c_a12}{
-\index{LinearStatistic.c@{Linear\-Statistic.c}!C_scmatright@{C\_\-scmatright}}
-\index{C_scmatright@{C\_\-scmatright}!LinearStatistic.c@{Linear\-Statistic.c}}
-\subsubsection[C\_\-scmatright]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-scmatright (const double $\ast$ {\em x}, const int {\em p}, const int {\em q}, double $\ast$ {\em ans})}}
-\label{LinearStatistic_8c_a12}
-
-
-Score matrix for a linear combination of a linear statistic from the right\par
- \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em x}]score vector of length q \item[{\em p}]dimension of the transformation \item[{\em q}]length of x \item[{\em ans}]return value; a pointer to a p x (pq) matrix \end{description}
-\end{Desc}
-
-
-Definition at line 563 of file Linear\-Statistic.c.
-
-Referenced by R\_\-scmatright().\hypertarget{LinearStatistic_8c_a3}{
+Referenced by R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{LinearStatistic_8c_a3}{
 \index{LinearStatistic.c@{Linear\-Statistic.c}!R_ExpectCovarInfluence@{R\_\-ExpectCovarInfluence}}
 \index{R_ExpectCovarInfluence@{R\_\-ExpectCovarInfluence}!LinearStatistic.c@{Linear\-Statistic.c}}
 \subsubsection[R\_\-ExpectCovarInfluence]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Expect\-Covar\-Influence (SEXP {\em y}, SEXP {\em weights})}}
@@ -314,53 +272,5 @@ Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=185pt]{LinearStatistic_8c_a9_cgraph}
-\end{center}
-\end{figure}
-\hypertarget{LinearStatistic_8c_a11}{
-\index{LinearStatistic.c@{Linear\-Statistic.c}!R_scmatleft@{R\_\-scmatleft}}
-\index{R_scmatleft@{R\_\-scmatleft}!LinearStatistic.c@{Linear\-Statistic.c}}
-\subsubsection[R\_\-scmatleft]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-scmatleft (SEXP {\em x}, SEXP {\em pq})}}
-\label{LinearStatistic_8c_a11}
-
-
-R-interface to C\_\-scmatleft \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em x}]score vector of length p \item[{\em pq}]dimension of the linear statistic \end{description}
-\end{Desc}
-
-
-Definition at line 530 of file Linear\-Statistic.c.
-
-References C\_\-scmatleft().
-
-Here is the call graph for this function:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=113pt]{LinearStatistic_8c_a11_cgraph}
-\end{center}
-\end{figure}
-\hypertarget{LinearStatistic_8c_a13}{
-\index{LinearStatistic.c@{Linear\-Statistic.c}!R_scmatright@{R\_\-scmatright}}
-\index{R_scmatright@{R\_\-scmatright}!LinearStatistic.c@{Linear\-Statistic.c}}
-\subsubsection[R\_\-scmatright]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-scmatright (SEXP {\em x}, SEXP {\em pq})}}
-\label{LinearStatistic_8c_a13}
-
-
-R-interface to C\_\-scmatright \begin{Desc}
-\item[Parameters:]
-\begin{description}
-\item[{\em x}]score vector of length q \item[{\em pq}]dimension of the linear statistic \end{description}
-\end{Desc}
-
-
-Definition at line 595 of file Linear\-Statistic.c.
-
-References C\_\-scmatright().
-
-Here is the call graph for this function:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=119pt]{LinearStatistic_8c_a13_cgraph}
 \end{center}
 \end{figure}

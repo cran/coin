@@ -11,7 +11,7 @@
 \method{maxstat_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{maxstat_test}{IndependenceProblem}(object, 
     distribution = c("asymptotic", "approximate"), 
-    teststat = c("maxtype", "quadtype"),
+    teststat = c("max", "quad"),
     minprob = 0.1, maxprob = 0.9, ...)
 }
 \arguments{
@@ -34,8 +34,8 @@
     used to specify how the exact conditional distribution of the test statistic
     should be calculated or approximated.}
   \item{teststat}{a character, the type of test statistic to be applied: a
-    maximum type statistic (\code{maxtype}) or a quadratic form
-    (\code{quadform}).}
+    maximum type statistic (\code{max}) or a quadratic form
+    (\code{quad}).}
   \item{minprob}{a fraction between 0 and 0.5; 
     consider only cutpoints greater than 
     the \code{minprob} * 100 \% quantile of \code{x}.}

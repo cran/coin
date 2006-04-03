@@ -107,7 +107,7 @@ if (require("multcomp")) {
 
     ### all pairwise comparisons
     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
-         teststat = "maxtype",
+         teststat = "max",
          xtrafo = function(data)
              trafo(data, factor_trafo = function(x)
                  model.matrix(~ x - 1) \%*\% t(contrMat(table(x), "Tukey"))

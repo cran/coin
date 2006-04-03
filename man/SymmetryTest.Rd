@@ -11,7 +11,7 @@
 \usage{
 \method{symmetry_test}{formula}(formula, data, subset = NULL, \dots)
 \method{symmetry_test}{SymmetryProblem}(object, 
-    teststat = c("maxtype", "quadtype", "scalar"),
+    teststat = c("max", "quad", "scalar"),
     distribution = c("asymptotic", "approximate", "exact"),
     alternative = c("two.sided", "less", "greater"),
     xtrafo = trafo, ytrafo = trafo, scores = NULL, 
@@ -31,8 +31,8 @@
            object of class \code{table}.}
   \item{teststat}{a character, the type of test statistic to be applied: either a
     standardized scalar test statistic (\code{scalar}), or a
-    maximum type statistic (\code{maxtype}) or a quadratic form
-    (\code{quadform}).}
+    maximum type statistic (\code{max}) or a quadratic form
+    (\code{quad}).}
   \item{alternative}{a character, the alternative hypothesis must be
     one of \code{"two.sided"} (default), \code{"greater"} or    
     \code{"less"}.  You can specify just the initial letter.}   

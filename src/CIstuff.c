@@ -3,7 +3,7 @@
     Some additional functionality for package `coin'
     *\file CIstuff.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/11/17 12:10:42 $
+    *\date $Date: 2005-11-17 13:10:42 +0100 (Thu, 17 Nov 2005) $
 */
                 
 #include "CI_common.h"

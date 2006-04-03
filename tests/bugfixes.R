@@ -76,9 +76,18 @@ stopifnot(isequal(a, b))
 ### check for multiple ordered factors
 mydf <- data.frame(x = ordered(gl(4, 5)), y = ordered(gl(5, 4)), 
                    z = rnorm(20))
-try(independence_test(x + y ~ z , data = mydf))
-try(independence_test(x + z ~ y , data = mydf))
-try(independence_test(z ~ x + y , data = mydf))
+it1 <- independence_test(x + y ~ z , data = mydf)
+stopifnot(isequal(drop(statistic(it1, "linear")), 
+          c(statistic(independence_test(x ~ z , data = mydf), "linear"),
+            statistic(independence_test(y ~ z , data = mydf), "linear"))))
+it1 <- independence_test(x + z ~ y , data = mydf)
+stopifnot(isequal(drop(statistic(it1, "linear")),
+          c(statistic(independence_test(x ~ y , data = mydf), "linear"),
+            statistic(independence_test(z ~ y , data = mydf), "linear"))))
+it1 <- independence_test(z ~ x + y , data = mydf)
+stopifnot(isequal(drop(statistic(it1, "linear")),
+          c(statistic(independence_test(z ~ x , data = mydf), "linear"),
+            statistic(independence_test(z ~ y , data = mydf), "linear"))))
 
 ### NA's and weights
 mydf <- data.frame(x = 1:10, y = gl(2, 5), w = rep(2, 10))
@@ -104,7 +113,7 @@ YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44,
 
 it <- independence_test(length ~ site, data = YOY,
     ytrafo = function(data) trafo(data, numeric_trafo = rank),
-    teststat = "quadtype")
+    teststat = "quad")
 expectation(it)
 covariance(it)
 

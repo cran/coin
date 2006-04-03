@@ -76,56 +76,51 @@ setMethod(f = "initialize",
         .Object@ytrans <- tr$ytrafo
         .Object@xtrafo <- xtrafo
         .Object@ytrafo <- ytrafo
-        p <- ncol(.Object@xtrans)
-        q <- ncol(.Object@ytrans)
-        .Object@scores <- diag(p * q)
 
-        xORDINAL <- sapply(x, is.ordered)
-        yORDINAL <- sapply(y, is.ordered)
+        xORDINAL <- any(sapply(x, is.ordered))
+        yORDINAL <- any(sapply(y, is.ordered))
 
-        ### <FIXME> implement handling of multiple ordered factors
-        if ((any(xORDINAL) && length(xORDINAL) > 1) ||
-            (any(yORDINAL) && length(yORDINAL) > 1))
-            stop("handling of multiple ordered factors currently not implemented")
-
-        .Object@has_scores <- xORDINAL || yORDINAL
-        .Object@xordinal <- any(xORDINAL)
-        .Object@yordinal <- any(yORDINAL)
-
-        xscores <- c()
-        for (i in 1:ncol(x)) {
-            if (is.ordered(x[[i]])) {
-                sc <- attr(x[[i]], "scores")
-                if (is.null(sc)) sc <- 1:nlevels(x[[i]])
-            } else {
-                sc <- rep(0, sum(attr(tr$xtrafo, "assign") == i))
+        ### function for computing scores matrices
+        smat <- function(x, xt) {
+            S <- c()
+            for (i in 1:ncol(x)) {
+                wi <- attr(xt, "assign") == i
+                if (is.ordered(x[[i]])) {
+                    sc <- attr(x[[i]], "scores")
+                    if (is.null(sc)) sc <- 1:nlevels(x[[i]])
+                } else {
+                    sc <- rep(NA, sum(wi))
+                }
+                if (any(is.na(sc))) {
+                    p <- sum(is.na(sc)) 
+                    if (i == 1) { 
+                        S <- diag(p)
+                    } else {
+                        S <- cbind(S, matrix(0, nrow = nrow(S), ncol = p))
+                        S <- rbind(S, cbind(matrix(0, nrow = p, ncol = ncol(S) - p), diag(p)))
+                    }
+                    rownames(S)[-(1:(max(2, p)-1))] <- colnames(xt)[wi]
+                } else {
+                    if (i == 1) {
+                        S <- matrix(sc, nrow = 1)
+                    } else {
+                        S <- rbind(cbind(S, matrix(0, ncol = length(sc))), c(rep(0, ncol(S)), sc))                    
+                    }
+                    rownames(S)[nrow(S)] <- paste(sc, "*", abbreviate(levels(x[[i]])), 
+                                                  collapse = " + ", sep = "")
+                }
             }
-            xscores <- c(xscores, sc)
+            S
         }
 
-        yscores <- c()
-        for (i in 1:ncol(y)) {
-            if (is.ordered(y[[i]])) {
-                sc <- attr(y[[i]], "scores")
-                if (is.null(sc)) sc <- 1:nlevels(y[[i]])
-            } else {
-                sc <- rep(0, sum(attr(tr$ytrafo, "assign") == i))
-            }
-            yscores <- c(yscores, sc)
-        }
+        ### compute score matrix S and update g(x) = S %*% g(x)
+        if (xORDINAL)
+            .Object@xtrans <- t(smat(x, tr$xtrafo) %*% t(.Object@xtrans))
 
-        if (any(xORDINAL) && !any(yORDINAL))
-            .Object@scores <- .Call("R_scmatleft",
-                as.double(xscores), as.integer(p * q), 
-                PACKAGE = "coin")
-        if (any(xORDINAL) && any(yORDINAL))
-            ### grrr: class(kronecker(1:4, 1:3)) == "array"  
-            .Object@scores <- matrix(kronecker(yscores, xscores), nrow = 1)
-        if (!any(xORDINAL) && any(yORDINAL))
-            .Object@scores <- .Call("R_scmatright", 
-                    as.double(yscores), as.integer(p * q),
-                    PACKAGE = "coin")
-        ### </FIXME>
+        ### compute score matrix S and update h(y) = h(y) %*% S
+        if (yORDINAL)
+            .Object@ytrans <- .Object@ytrans %*% t(smat(y, tr$ytrafo))
+
         .Object
     }
 )
@@ -145,20 +140,12 @@ setMethod(f = "initialize",
         xtrans <- itp@xtrans
         ytrans <- itp@ytrans
         weights <- itp@weights
-        SCORES <- itp@has_scores
-        S <- itp@scores
-        varonly <- varonly && (!SCORES)
 
-        if (SCORES) {
-            .Object@linearstatistic <- drop(S %*% LinearStatistic(xtrans, 
+       .Object@linearstatistic <- drop(LinearStatistic(xtrans,
                                        ytrans, weights))
-        } else {
-            .Object@linearstatistic <- drop(LinearStatistic(xtrans,
-                                       ytrans, weights))
-        }
         
         ### <REMINDER>
-        ### for teststat = "maxtype" and distribution = "approx"
+        ### for teststat = "max" and distribution = "approx"
         ### we don't need to covariance matrix but the variances only
         ### </REMINDER>
 
@@ -182,18 +169,11 @@ setMethod(f = "initialize",
             }
         }
 
-
-        ### multiply with score matrix if necessary
-        if (SCORES) {
-            .Object@expectation <- drop(S %*% exp)
-            .Object@covariance <- new("CovarianceMatrix", S %*% cov %*% t(S))
+        .Object@expectation <- drop(exp)
+        if (varonly) {
+            .Object@covariance <- new("Variance", drop(cov))
         } else {
-            .Object@expectation <- drop(exp)
-            if (varonly) {
-                .Object@covariance <- new("Variance", drop(cov))
-            } else {
-                .Object@covariance <- new("CovarianceMatrix", cov)
-            }
+            .Object@covariance <- new("CovarianceMatrix", cov)
         }
 
         ### pretty names

@@ -236,7 +236,7 @@ if (require("multcomp")) {
         ytrafo = function(data) trafo(data, numeric_trafo = rank),
         xtrafo = function(data) trafo(data, factor_trafo = function(x)
             model.matrix(~x - 1) \%*\% t(contrMat(table(x), "Tukey"))),
-        teststat = "maxtype", distribution = approximate(B = 90000))
+        teststat = "max", distribution = approximate(B = 90000))
 
     ### global p-value
     print(pvalue(NDWD))

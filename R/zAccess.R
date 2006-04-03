@@ -218,9 +218,7 @@ setMethod(f = "statistic",
               ### <FIXME> it is not sure that object@statistic exists! </FIXME>
               object <- object@statistic
               nc <- ncol(object@ytrans)
-              if (object@yordinal) nc <- 1
               nr <- ncol(object@xtrans)
-              if (object@xordinal) nr <- 1
               type <- match.arg(type)
               dn <- statnames(object)$dimnames
               switch(type, "test" = object@teststatistic,

@@ -193,9 +193,6 @@ setMethod(f = "ApproxNullDistribution",
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
 
-              if (object@has_scores)
-                  pls <- plsraw <- object@scores %*% pls
-
               fun <- switch(object@alternative,
                   "less" = min,
                   "greater" = max,
@@ -261,9 +258,6 @@ setMethod(f = "ApproxNullDistribution",
               pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
                   object@ytrans, as.integer(object@block), as.integer(B), 
                   PACKAGE = "coin")
-
-              if (object@has_scores)
-                  pls <- plsraw <- object@scores %*% pls
 
               dcov <- object@covarianceplus
               expect <- expectation(object)

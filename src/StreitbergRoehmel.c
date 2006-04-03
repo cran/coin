@@ -5,7 +5,7 @@
 
     *\file StreitbergRoehmel.c
     *\author $Author: hothorn $
-    *\date $Date: 2005/07/28 15:04:29 $
+    *\date $Date: 2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) $
 */
 
 #include <R.h>

@@ -153,7 +153,7 @@ platalet_counts <- data.frame(
 lt <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
         cbind(rank(x), ansari_trafo(x))),
-    teststat = "quadtype", distribution = approximate(B = 9999))
+    teststat = "quad", distribution = approximate(B = 9999))
 
 lt
 
@@ -163,7 +163,7 @@ ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
                dimnames = list(1:length(x), c("Location", "Scale")))),
-    teststat = "maxtype")
+    teststat = "max")
 
 ### points to a difference in location
 pvalue(ltmax, method = "single-step")

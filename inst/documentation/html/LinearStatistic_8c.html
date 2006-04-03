@@ -42,20 +42,12 @@ Include dependency graph for LinearStatistic.c:<p><center><img src="LinearStatis
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a9">R_PermutedLinearStatistic</a> (SEXP x, SEXP y, SEXP indx, SEXP perm)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a10">C_scmatleft</a> (const double *x, const int p, const int q, double *ans)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a11">R_scmatleft</a> (SEXP x, SEXP pq)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a12">C_scmatright</a> (const double *x, const int p, const int q, double *ans)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinearStatistic_8c.html#a13">R_scmatright</a> (SEXP x, SEXP pq)</td></tr>
-
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Linear statistics for conditional inference<p>
 <dl compact><dt><b>Author:</b></dt><dd><dl compact><dt><b>Author</b></dt><dd>hothorn </dd></dl>
 </dd></dl>
-<dl compact><dt><b>Date:</b></dt><dd><dl compact><dt><b>Date</b></dt><dd>2005/10/13 12:45:01 </dd></dl>
+<dl compact><dt><b>Date:</b></dt><dd><dl compact><dt><b>Date</b></dt><dd>2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) </dd></dl>
 </dd></dl>
 
 <p>
@@ -492,130 +484,6 @@ Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00409">40
 Referenced by <a class="el" href="CIstuff_8c-source.html#l00152">R_MonteCarloIndependenceTest()</a>, and <a class="el" href="LinearStatistic_8c-source.html#l00442">R_PermutedLinearStatistic()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10" doxytag="LinearStatistic.c::C_scmatleft"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">void C_scmatleft           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const double *&nbsp;</td>
-          <td class="mdname" nowrap> <em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>const int&nbsp;</td>
-          <td class="mdname" nowrap> <em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>const int&nbsp;</td>
-          <td class="mdname" nowrap> <em>q</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>double *&nbsp;</td>
-          <td class="mdname" nowrap> <em>ans</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Score matrix for a linear combination of a linear statistic from the left<br>
- <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>score vector of length p </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>p</em>&nbsp;</td><td>length of x </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>q</em>&nbsp;</td><td>dimension of the influence function </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ans</em>&nbsp;</td><td>return value; a pointer to a q x (pq) matrix </td></tr>
-  </table>
-</dl>
-
-<p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00498">498</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
-<p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00530">R_scmatleft()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a12" doxytag="LinearStatistic.c::C_scmatright"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">void C_scmatright           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const double *&nbsp;</td>
-          <td class="mdname" nowrap> <em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>const int&nbsp;</td>
-          <td class="mdname" nowrap> <em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>const int&nbsp;</td>
-          <td class="mdname" nowrap> <em>q</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>double *&nbsp;</td>
-          <td class="mdname" nowrap> <em>ans</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Score matrix for a linear combination of a linear statistic from the right<br>
- <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>score vector of length q </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>p</em>&nbsp;</td><td>dimension of the transformation </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>q</em>&nbsp;</td><td>length of x </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ans</em>&nbsp;</td><td>return value; a pointer to a p x (pq) matrix </td></tr>
-  </table>
-</dl>
-
-<p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00563">563</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
-<p>
-Referenced by <a class="el" href="LinearStatistic_8c-source.html#l00595">R_scmatright()</a>.    </td>
-  </tr>
-</table>
 <a class="anchor" name="a3" doxytag="LinearStatistic.c::R_ExpectCovarInfluence"></a><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -932,113 +800,7 @@ Here is the call graph for this function:<p><center><img src="LinearStatistic_8c
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11" doxytag="LinearStatistic.c::R_scmatleft"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">SEXP R_scmatleft           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">SEXP&nbsp;</td>
-          <td class="mdname" nowrap> <em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>SEXP&nbsp;</td>
-          <td class="mdname" nowrap> <em>pq</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-R-interface to C_scmatleft <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>score vector of length p </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pq</em>&nbsp;</td><td>dimension of the linear statistic </td></tr>
-  </table>
-</dl>
-
-<p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00530">530</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
-<p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00498">C_scmatleft()</a>.
-<p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a11_cgraph.png" border="0" usemap="#LinearStatistic_8c_a11_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a11_cgraph_map">
-<area href="LinearStatistic_8c.html#a10" shape="rect" coords="142,7,220,30" alt="">
-</map>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="a13" doxytag="LinearStatistic.c::R_scmatright"></a><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">SEXP R_scmatright           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">SEXP&nbsp;</td>
-          <td class="mdname" nowrap> <em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>SEXP&nbsp;</td>
-          <td class="mdname" nowrap> <em>pq</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-R-interface to C_scmatright <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>score vector of length q </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pq</em>&nbsp;</td><td>dimension of the linear statistic </td></tr>
-  </table>
-</dl>
-
-<p>
-Definition at line <a class="el" href="LinearStatistic_8c-source.html#l00595">595</a> of file <a class="el" href="LinearStatistic_8c-source.html">LinearStatistic.c</a>.
-<p>
-References <a class="el" href="LinearStatistic_8c-source.html#l00563">C_scmatright()</a>.
-<p>
-Here is the call graph for this function:<p><center><img src="LinearStatistic_8c_a13_cgraph.png" border="0" usemap="#LinearStatistic_8c_a13_cgraph_map" alt=""></center>
-<map name="LinearStatistic_8c_a13_cgraph_map">
-<area href="LinearStatistic_8c.html#a12" shape="rect" coords="150,7,236,30" alt="">
-</map>
-    </td>
-  </tr>
-</table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Nov 17 15:36:20 2005 for coin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Apr 12 09:05:30 2006 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.2 </small></address>
 </body>

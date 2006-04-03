@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "17 Nov 2005" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "12 Apr 2006" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -42,18 +42,6 @@ LinearStatistic.c \-
 .ti -1c
 .RI "SEXP \fBR_PermutedLinearStatistic\fP (SEXP x, SEXP y, SEXP indx, SEXP perm)"
 .br
-.ti -1c
-.RI "void \fBC_scmatleft\fP (const double *x, const int p, const int q, double *ans)"
-.br
-.ti -1c
-.RI "SEXP \fBR_scmatleft\fP (SEXP x, SEXP pq)"
-.br
-.ti -1c
-.RI "void \fBC_scmatright\fP (const double *x, const int p, const int q, double *ans)"
-.br
-.ti -1c
-.RI "SEXP \fBR_scmatright\fP (SEXP x, SEXP pq)"
-.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -70,7 +58,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2005/10/13 12:45:01 
+2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) 
 .RE
 .PP
 .RE
@@ -226,50 +214,6 @@ Linear Statistic with permuted indices
 Definition at line 409 of file LinearStatistic.c.
 .PP
 Referenced by R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
-.SS "void C_scmatleft (const double * x, const int p, const int q, double * ans)"
-.PP
-Score matrix for a linear combination of a linear statistic from the left
-.br
- 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP score vector of length p 
-.br
-\fIp\fP length of x 
-.br
-\fIq\fP dimension of the influence function 
-.br
-\fIans\fP return value; a pointer to a q x (pq) matrix 
-.RE
-.PP
-
-.PP
-Definition at line 498 of file LinearStatistic.c.
-.PP
-Referenced by R_scmatleft().
-.SS "void C_scmatright (const double * x, const int p, const int q, double * ans)"
-.PP
-Score matrix for a linear combination of a linear statistic from the right
-.br
- 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP score vector of length q 
-.br
-\fIp\fP dimension of the transformation 
-.br
-\fIq\fP length of x 
-.br
-\fIans\fP return value; a pointer to a p x (pq) matrix 
-.RE
-.PP
-
-.PP
-Definition at line 563 of file LinearStatistic.c.
-.PP
-Referenced by R_scmatright().
 .SS "SEXP R_ExpectCovarInfluence (SEXP y, SEXP weights)"
 .PP
 R-interface to C_ExpectCovarInfluence
@@ -370,38 +314,6 @@ Linear Statistic with permuted indices
 Definition at line 442 of file LinearStatistic.c.
 .PP
 References C_PermutedLinearStatistic(), ncol(), and nrow().
-.SS "SEXP R_scmatleft (SEXP x, SEXP pq)"
-.PP
-R-interface to C_scmatleft 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP score vector of length p 
-.br
-\fIpq\fP dimension of the linear statistic 
-.RE
-.PP
-
-.PP
-Definition at line 530 of file LinearStatistic.c.
-.PP
-References C_scmatleft().
-.SS "SEXP R_scmatright (SEXP x, SEXP pq)"
-.PP
-R-interface to C_scmatright 
-.PP
-\fBParameters:\fP
-.RS 4
-\fIx\fP score vector of length q 
-.br
-\fIpq\fP dimension of the linear statistic 
-.RE
-.PP
-
-.PP
-Definition at line 595 of file LinearStatistic.c.
-.PP
-References C_scmatright().
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for coin from the source code.

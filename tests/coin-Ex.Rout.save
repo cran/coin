@@ -1,6 +1,6 @@
 
-R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.1  (2005-12-20 r36812)
+R : Copyright 2006, The R Foundation for Statistical Computing
+Version 2.3.0 alpha (2006-04-04 r37647)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -401,7 +401,7 @@ T = 22.8524, p-value < 2.2e-16
 +         ytrafo = function(data) trafo(data, numeric_trafo = rank),
 +         xtrafo = function(data) trafo(data, factor_trafo = function(x)
 +             model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))),
-+         teststat = "maxtype", distribution = approximate(B = 90000))
++         teststat = "max", distribution = approximate(B = 90000))
 + 
 +     ### global p-value
 +     print(pvalue(NDWD))
@@ -614,7 +614,7 @@ alternative hypothesis: true mu is not equal to 1
 > lt <- independence_test(counts ~ treatment, data = platalet_counts,
 +     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
 +         cbind(rank(x), ansari_trafo(x))),
-+     teststat = "quadtype", distribution = approximate(B = 9999))
++     teststat = "quad", distribution = approximate(B = 9999))
 > 
 > lt
 
@@ -630,7 +630,7 @@ T = 9.3384, p-value = 0.0042
 +     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
 +         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
 +                dimnames = list(1:length(x), c("Location", "Scale")))),
-+     teststat = "maxtype")
++     teststat = "max")
 > 
 > ### points to a difference in location
 > pvalue(ltmax, method = "single-step")
@@ -807,7 +807,7 @@ T = 11.1429, df = 2, p-value = 0.003805
 + 
 +     ### all pairwise comparisons
 +     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
-+          teststat = "maxtype",
++          teststat = "max",
 +          xtrafo = function(data)
 +              trafo(data, factor_trafo = function(x)
 +                  model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))
@@ -1750,7 +1750,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  34.1 0.64 34.87 0 0 
+Time elapsed:  30.76 0.94 31.83 0 0 
 > grDevices::dev.off()
 null device 
           1 

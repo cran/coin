@@ -53,7 +53,7 @@ independence_test.table <- function(object,
 }
 
 independence_test.IndependenceProblem <- function(object,
-    teststat = c("maxtype", "quadtype", "scalar"),
+    teststat = c("max", "quad", "scalar"),
     distribution = c("asymptotic", "approximate", "exact"), 
     alternative = c("two.sided", "less", "greater"), 
     xtrafo = trafo, ytrafo = trafo, scores = NULL, check = NULL, ...) {
@@ -64,6 +64,11 @@ independence_test.IndependenceProblem <- function(object,
                 paste(names(addargs), collapse = ", "),
                 " will be ignored")
 
+    ### just for backward compatibility
+    teststat <- match.arg(teststat, choices = c("maxtype", "quadtype", "scalar"), 
+                          several.ok = TRUE)
+    if (teststat[1] == "maxtype") teststat <- "max"
+    if (teststat[1] == "quadtype") teststat <- "quad"
     teststat <- match.arg(teststat)
     alternative <- match.arg(alternative)
     distribution <- check_distribution_arg(distribution)
@@ -90,20 +95,20 @@ independence_test.IndependenceProblem <- function(object,
     if (!scalar) {
         if (teststat == "scalar") {
             warning("Length linear statistic > 1, using ",
-                    sQuote("maxtype"), " test statistic")
-            teststat <- "maxtype"
+                    sQuote("max"), "-type test statistic")
+            teststat <- "max"
         }
     } else {
-        if (teststat == "maxtype") teststat <- "scalar"
+        if (teststat == "max") teststat <- "scalar"
     }
-    if (alternative != "two.sided" && teststat == "quadtype")
+    if (alternative != "two.sided" && teststat == "quad")
         warning(sQuote("alternative"), " is ignored for ", 
                 teststat, " type test statistics")
 
     ### compute linear statistic, conditional expectation and
     ### conditional covariance
     its <- new("IndependenceTestStatistic", itp, 
-        varonly = class(distribution) == "approximate" && teststat == "maxtype")
+        varonly = class(distribution) == "approximate" && teststat == "max")
 
     ### compute test statistic and corresponding null distribution
     RET <- switch(teststat,
@@ -121,7 +126,7 @@ independence_test.IndependenceProblem <- function(object,
             )
             new("ScalarIndependenceTest", statistic = ts, distribution = nd)
         },
-        "maxtype" = {
+        "max" = {
             ts <- new("MaxTypeIndependenceTestStatistic", its, 
                       alternative = alternative)
             nd <- switch(class(distribution),
@@ -134,7 +139,7 @@ independence_test.IndependenceProblem <- function(object,
                       )
             new("MaxTypeIndependenceTest", statistic = ts, distribution = nd)
         },
-        "quadtype" = {
+        "quad" = {
             ts <- new("QuadTypeIndependenceTestStatistic", its)
             nd <- switch(class(distribution),
                 "asymptotic" = do.call("AsymptNullDistribution", 
@@ -370,7 +375,7 @@ surv_test.IndependenceProblem <- function(object,
     if (is.factor(object@x[[1]])) scalar <- nlevels(object@x[[1]]) == 2
 
     RET <- independence_test(object, 
-        teststat = ifelse(scalar, "scalar", "quadtype"), 
+        teststat = ifelse(scalar, "scalar", "quad"), 
         distribution = distribution, check = check, ytrafo = ytrafo, 
         ...)
  
@@ -407,7 +412,7 @@ kruskal_test.IndependenceProblem <- function(object,
         values = c("asymptotic", "approximate"))
 
     RET <- independence_test(object, 
-        distribution = distribution, teststat = "quadtype",
+        distribution = distribution, teststat = "quad",
         ytrafo = function(data) trafo(data, numeric_trafo = rank), 
         check = check, ...)
 
@@ -448,7 +453,7 @@ fligner_test.IndependenceProblem <- function(object,
         tapply(object@y[[1]], object@x[[1]], median)[object@x[[1]]]
 
     RET <- independence_test(object,  
-        distribution = distribution, teststat = "quadtype",
+        distribution = distribution, teststat = "quad",
         ytrafo = function(data) trafo(data, numeric_trafo = function(x)
             fligner_trafo(x, ties.method = ties.method)), 
         check = check, ...)
@@ -549,7 +554,7 @@ cmh_test.IndependenceProblem <- function(object,
         values = c("asymptotic", "approximate"))
 
     RET <- independence_test(object, 
-        teststat = "quadtype", distribution = distribution, check = check, 
+        teststat = "quad", distribution = distribution, check = check, 
         ...)
 
     if (is_ordered(RET@statistic)) 
@@ -618,7 +623,7 @@ chisq_test.IndependenceProblem <- function(object,
         values = c("asymptotic", "approximate"))
 
     RET <- independence_test(object, 
-        teststat = "quadtype", distribution = "asymptotic", check = check, ...)
+        teststat = "quad", distribution = "asymptotic", check = check, ...)
 
     ### use the classical chisq statistic based on Pearson 
     ### residuals (O - E)^2 / E
@@ -719,7 +724,7 @@ lbl_test.IndependenceProblem <- function(object,
         values = c("asymptotic", "approximate"))
 
     RET <- do.call("independence_test", 
-        c(list(object = object, teststat = "quadtype", distribution = distribution, 
+        c(list(object = object, teststat = "quad", distribution = distribution, 
                check = check), list(...)))
 
     RET@method <- "Linear-by-Linear Association Test"
@@ -755,7 +760,7 @@ oneway_test.IndependenceProblem <- function(object,
 
     if (is_scalar(RET@statistic))
         RET@nullvalue <- 0
-    RET@method <- paste(ifelse(is_scalar(RET@statistic), "2-", "K-"), 
+    RET@method <- paste(ifelse(length(table(object@x[[1]])) == 2, "2-", "K-"), 
                         paste("Sample Permutation Test"), sep = "")
     return(RET)
 }
@@ -788,7 +793,7 @@ contrast_test.IndependenceProblem <- function(object,
 
     xtrafo <- function(data) trafo(data) %*% cmatrix
 
-    RET <- independence_test(object, teststat = "maxtype",
+    RET <- independence_test(object, teststat = "max",
         distribution = distribution, xtrafo = xtrafo, ...)
     RET@method <- "General Contrast Test"
     
@@ -807,7 +812,7 @@ maxstat_test.formula <- function(formula, data = list(), subset = NULL,
 
 maxstat_test.IndependenceProblem <- function(object, 
     distribution = c("asymptotic", "approximate"), 
-    teststat = c("maxtype", "quadtype"), 
+    teststat = c("max", "quad"), 
     minprob = 0.1, maxprob = 0.9, ...) {
 
     check <- function(object) {
@@ -854,7 +859,7 @@ symmetry_test.formula <- function(formula, data = list(), subset = NULL,
 }
 
 symmetry_test.SymmetryProblem <- function(object,
-    teststat = c("maxtype", "quadtype", "scalar"),
+    teststat = c("max", "quad", "scalar"),
     distribution = c("asymptotic", "approximate", "exact"), 
     alternative = c("two.sided", "less", "greater"), 
     xtrafo = trafo, ytrafo = trafo, scores = NULL, 
@@ -892,7 +897,7 @@ friedman_test.SymmetryProblem <- function(object,
         values = c("asymptotic", "approximate"))
 
     RET <- symmetry_test(object, 
-        distribution = distribution, teststat = "quadtype", 
+        distribution = distribution, teststat = "quad", 
         ytrafo = function(data) 
             trafo(data, numeric_trafo = rank, block = object@block), 
         ...)
@@ -944,7 +949,7 @@ mh_test.SymmetryProblem <- function(object,
  
     RET <- do.call("symmetry_test", 
         c(list(object = object, distribution = distribution, 
-               teststat = "quadtype", scores = scores), addargs))
+               teststat = "quad", scores = scores), addargs))
 
     if (is_ordered(RET@statistic))  
         RET@method <- "Marginal-Homogenity Test for Ordered Data"

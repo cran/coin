@@ -28,6 +28,9 @@ stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "greater")
 
 stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
+### check direct supply of a function via ytrafo
+stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
+    ytrafo = rank)), ptwo))
 stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
     alternative = "less")), pless))
@@ -86,7 +89,7 @@ pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx",
 pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact", 
                    alternative = "greater"))
 
-### sanify checks
+### sanity checks
 try(wilcox_test(x ~ y, data = dat))
 try(wilcox_test(x ~ y | y, data = dat))
 
@@ -150,7 +153,7 @@ rgreater <- pvalue(ansari_test(y ~ x, data = dat, alternative = "greater",
 
 ### <FIXME> add block examples </FIXME>
 
-### sanify checks
+### sanity checks
 try(ansari_test(x ~ y, data = dat))
 try(ansari_test(x ~ y | y, data = dat))
 

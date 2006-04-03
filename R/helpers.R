@@ -198,15 +198,19 @@ setscores <- function(x, scores) {
     return(x)
 }
 
+### user-supplied trafo functions may return a vector or matrices
+### with NROW being equal for the x and y variables
 check_trafo <- function(tx, ty) {
 
-    if (!is.matrix(tx))
-        stop(sQuote("xtrafo"), " does not return a matrix")
-    if (!is.matrix(ty))
-        stop(sQuote("ytrafo"), " does not return a matrix")
-    if (nrow(tx) != nrow(ty))
+    if (!(is.numeric(tx) || is.logical(tx)))
+        stop(sQuote("xtrafo"), " does not return a numeric or logical vector")
+    if (!(is.numeric(ty) || is.logical(ty)))
+        stop(sQuote("ytrafo"), " does not return a numeric or logical vector")
+    if (NROW(tx) != NROW(ty))
         stop("Dimensions of returns of ", sQuote("xtrafo"), " and ",
              sQuote("ytrafo"), " don't match")
+    if (!is.matrix(tx)) tx <- matrix(tx, ncol = 1)
+    if (!is.matrix(ty)) ty <- matrix(ty, ncol = 1)
     storage.mode(tx) <- "double"
     storage.mode(ty) <- "double"
     list(xtrafo = tx, ytrafo = ty)
@@ -271,7 +275,8 @@ is_contingency <- function(object) {
     values <- (ncol(y) == 1 && is.factor(y[[1]]))
     trans <- all(rowSums(object@xtrans) %in% c(0,1)) && 
              all(rowSums(object@ytrans) %in% c(0, 1))
-    return((groups && values) && trans)       
+    ### hm, two ordinal variables are a contingency problem as well (???)
+    return((groups && values)) ### && trans)       
 }
 
 is_ordered <- function(object) {
@@ -332,22 +337,6 @@ statnames <- function(object) {
                colnames(object@ytrans))
     if (is.null(dn[[1]])) dn[[1]] <- ""
     if (is.null(dn[[2]])) dn[[2]] <- ""
-    if (object@has_scores) {
-        if (object@xordinal) {
-            x <- object@x[[1]]
-            nr <- 1
-            dn[[1]] <- paste(attr(x, "scores"), "*",
-                             abbreviate(levels(x)),
-                             collapse = " + ", sep = "")
-        }
-        if (object@yordinal) {
-            y <- object@y[[1]] 
-            nc <- 1
-            dn[[2]] <- paste(attr(y, "scores"), "*",  
-                             abbreviate(levels(y)), 
-                             collapse = " + ", sep = "")
-            }
-    }
     list(dimnames = dn, 
          names = paste(rep((dn[[1]]), nc), 
                        rep((dn[[2]]), rep(nr, nc)), 

@@ -494,7 +494,7 @@ tox <- data.frame(response = c(0,  1,  8, 10,
 mta <- independence_test(response ~ drug, data = tox,
                          ytrafo = function(data) 
                              trafo(data, numeric_trafo = median_trafo),
-                         teststat = "quadtype")
+                         teststat = "quad")
 
 # StatXact reports results of scaled Pearson statistic!
 a <- factor(tox$response <= 7)
@@ -509,7 +509,7 @@ stopifnot(isequal(round(pvalue(mta), 4), 0.3648))
 mtMC <- independence_test(response ~ drug, data = tox,
                           ytrafo = function(data) 
                               trafo(data, numeric_trafo = median_trafo),
-                          teststat = "quadtype",
+                          teststat = "quad",
                           distribution = approximate(B = 10000))
 
 pci <- attr(pvalue(mtMC), "conf.int")
@@ -526,7 +526,7 @@ stopifnot(isequal(round(statistic(kta), 3), 9.415))
 # asymptotic p-value, page 493
 stopifnot(isequal(round(pvalue(kta), 4), 0.0515))
 
-pta <- oneway_test(response ~ drug, data = tox, teststat = "quadtype")
+pta <- oneway_test(response ~ drug, data = tox, teststat = "quad")
 
 # test statistic, page 508
 stopifnot(isequal(round(statistic(pta), 2), 10.98))
@@ -570,7 +570,7 @@ oring <- data.frame(temp = c(66, 67, 67, 67, 68, 68, 70, 70, 72,
 pta <- oneway_test(temp ~ incidents, data = oring)
 
 # test statistic, page 524
-stopifnot(isequal(round(statistic(pta), 3), 2.698))
+stopifnot(isequal(round(statistic(pta), 3), -2.698))
 
 stopifnot(isequal(round(pvalue(pta), 4), 0.007))
 

@@ -415,7 +415,7 @@ for a $c_\text{quad}$-type test statistic (\Rcmd{teststat}) as follows:
 \begin{Sinput}
 R> independence_test(elevel ~ alength, data = alpha, 
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
-+     teststat = "quadtype")
++     teststat = "quad")
 \end{Sinput}
 \begin{Soutput}
 	Asymptotic General Independence Test
@@ -467,6 +467,7 @@ R> independence_test(elevel ~ alength, data = alpha,
 data:  elevel by
 	 groups short < intermediate < long 
 T = 2.9263, p-value = 0.003430
+alternative hypothesis: two.sided 
 \end{Soutput}
 \end{Schunk}
 The smaller $p$-value corresponds well with Figure~\ref{alpha-box}, i.e., 
@@ -524,7 +525,7 @@ Cochran-Mantel-Haenszel test:
 \begin{Schunk}
 \begin{Sinput}
 R> it_alz <- independence_test(disease ~ smoking | gender, 
-+     data = alzheimer, teststat = "quadtype")
++     data = alzheimer, teststat = "quad")
 R> it_alz
 \end{Sinput}
 \begin{Soutput}
@@ -568,14 +569,14 @@ occured
 \begin{Sinput}
 R> females <- alzheimer$gender == "Female"
 R> pvalue(independence_test(disease ~ smoking, data = alzheimer, 
-+     subset = females, teststat = "quadtype"))
++     subset = females, teststat = "quad"))
 \end{Sinput}
 \begin{Soutput}
 [1] 0.09060652
 \end{Soutput}
 \begin{Sinput}
 R> pvalue(independence_test(disease ~ smoking, data = alzheimer, 
-+     subset = !females, teststat = "quadtype"))
++     subset = !females, teststat = "quad"))
 \end{Sinput}
 \begin{Soutput}
 [1] 3.169418e-06
@@ -592,7 +593,7 @@ standardized contingency table via
 \begin{Schunk}
 \begin{Sinput}
 R> it_alzmax <- independence_test(disease ~ smoking, 
-+     data = alzheimer, subset = !females, teststat = "maxtype")
++     data = alzheimer, subset = !females, teststat = "max")
 R> it_alzmax
 \end{Sinput}
 \begin{Soutput}

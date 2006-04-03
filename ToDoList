@@ -1,4 +1,6 @@
 
+o       more checks on direct `ytrafo = foo' constructs
+
 o       improve error messages
 
 o       add checks on achieved alpha in confint (see wilcox.test changes by

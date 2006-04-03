@@ -1,6 +1,6 @@
 
-R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.0  (2005-10-06 r35749)
+R : Copyright 2006, The R Foundation for Statistical Computing
+Version 2.3.0 alpha (2006-04-04 r37647)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > 
@@ -49,6 +49,9 @@ Loading required package: modeltools
 > 
 > stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
+> ### check direct supply of a function via ytrafo
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
++     ytrafo = rank)), ptwo))
 > stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
 +     alternative = "less")), pless))
@@ -127,11 +130,11 @@ Loading required package: modeltools
 +                    alternative = "greater"))
 [1] 0.9098776
 > 
-> ### sanify checks
+> ### sanity checks
 > try(wilcox_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a two sample problem
+Error in check(itp) : ‘object’ does not represent a two sample problem
 > try(wilcox_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : 'block' is not a factor
+Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > ### Ansari-Bradley Test 
 > 
@@ -200,11 +203,11 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### <FIXME> add block examples </FIXME>
 > 
-> ### sanify checks
+> ### sanity checks
 > try(ansari_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a two sample problem
+Error in check(itp) : ‘object’ does not represent a two sample problem
 > try(ansari_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : 'block' is not a factor
+Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > ### the remaining three candidates
 > ### asymptotic distribution

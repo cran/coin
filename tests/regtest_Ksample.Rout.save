@@ -1,6 +1,6 @@
 
-R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.0  (2005-10-06 r35749)
+R : Copyright 2006, The R Foundation for Statistical Computing
+Version 2.3.0 alpha (2006-04-04 r37647)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > 
@@ -39,7 +39,7 @@ Loading required package: modeltools
 > stopifnot(isequal(pvalue(kruskal_test(y ~ x, data = dat)), ptwo))
 > 
 > stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+                                    teststat = "quadtype",
++                                    teststat = "quad",
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
 > 
 > ### approximated distribution
@@ -49,11 +49,11 @@ Loading required package: modeltools
 > 
 > ### <FIXME> add block examples </FIXME>
 > 
-> ### sanify checks
+> ### sanity checks
 > try(kruskal_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a K sample problem
+Error in check(itp) : ‘object’ does not represent a K sample problem
 > try(kruskal_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : 'block' is not a factor
+Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > ### Fligner Test 
 > 
@@ -64,7 +64,7 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > dat$yy <- dat$y - tapply(dat$y, dat$x, median)[dat$x]
 > stopifnot(isequal(pvalue(oneway_test(yy ~ x, data = dat, distribution = "asympt", 
-+                                    teststat = "quadtype",
++                                    teststat = "quad",
 +     ytrafo = function(data) trafo(data, numeric_trafo = fligner_trafo))), ptwo))
 > 
 > ### approximated distribution
@@ -74,10 +74,10 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### <FIXME> add block examples </FIXME>
 > 
-> ### sanify checks
+> ### sanity checks
 > try(fligner_test(x ~ y, data = dat)) 
 Error in FUN(X[[1]], ...) : need numeric data
 > try(fligner_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : 'block' is not a factor
+Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > 

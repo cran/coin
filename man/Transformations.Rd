@@ -83,7 +83,8 @@ f_trafo(x)
 \value{
 
   A named matrix with \code{nrow(data)} rows and 
-  arbitrary number of columns.
+  arbitrary number of columns. User-supplied transformations must
+  return a numeric vector or matrix.
 
 }
 \examples{

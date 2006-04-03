@@ -446,7 +446,7 @@ influence function is specified via the \Rcmd{ytrafo} argument and we ask
 for a $c_\text{quad}$-type test statistic (\Rcmd{teststat}) as follows:
 <<alpha-kruskal, echo = TRUE>>=
 independence_test(elevel ~ alength, data = alpha, ytrafo = function(data)
-                  trafo(data, numeric_trafo = rank), teststat = "quadtype")
+                  trafo(data, numeric_trafo = rank), teststat = "quad")
 @
 The results are equivalent to the results reported by \Rcmd{kruskal.test},
 the `classical' interface to the Kruskal-Wallis test in \RR{}
@@ -557,7 +557,7 @@ block factor, can be tested with a $c_\text{quad}$-type test statistic, i.e., th
 Cochran-Mantel-Haenszel test:
 <<alzheimer-mantelhaen, echo = TRUE>>=
 it_alz <- independence_test(disease ~ smoking | gender, data = alzheimer, 
-                            teststat = "quadtype")
+                            teststat = "quad")
 it_alz
 @
 which suggests that there is a clear deviation from independence. 
@@ -582,9 +582,9 @@ occured
 <<alzheimer-men, echo = TRUE>>=
 females <- alzheimer$gender == "Female"
 pvalue(independence_test(disease ~ smoking, data = alzheimer,
-       subset = females, teststat = "quadtype"))
+       subset = females, teststat = "quad"))
 pvalue(independence_test(disease ~ smoking, data = alzheimer,
-       subset = !females, teststat = "quadtype"))
+       subset = !females, teststat = "quad"))
 @
 where it turns out that the association is due to the male patients only
 (see also Figure~\ref{alz-plot}). Thus, we focus on the male patients in 
@@ -596,7 +596,7 @@ Instead, we define the test statistic as the maximum of the
 standardized contingency table via
 <<alzheimer-max, echo = TRUE>>=
 it_alzmax <- independence_test(disease ~ smoking, data = alzheimer,
-       subset = !females, teststat = "maxtype")
+       subset = !females, teststat = "max")
 it_alzmax
 @
 where the underlying standardized contingency table highlights the cells with
