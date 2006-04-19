@@ -1,4 +1,16 @@
 
+		CHANGES in `coin' VERSION 0.4-7
+
+    o    improve `maxstat_trafo': some potential cutpoints could have been
+         overlooked in case of ties equal to the maxprob and minprob sample
+         quantiles.
+
+    o    reproduce two examples from Hothorn and Lausen (2003) in
+         ?maxstat_test (and added `hohnloser' data set)
+
+    o    add more regression tests on `maxstat_test'
+
+
 		CHANGES in `coin' VERSION 0.4-6
 
     o    updated `LegoCondInf' vignette

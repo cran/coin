@@ -312,9 +312,22 @@ flush(stderr()); flush(stdout())
 ### ** Examples
 
 
+### analysis of the tree pipit data in Mueller and Hothorn (2004)
 data("treepipit", package = "coin")
-
 maxstat_test(counts ~ coverstorey, data = treepipit)
+
+### reproduce applications in Sections 7.2 and 7.3 
+### of Hothorn & Lausen (2003) with limiting distribution
+
+data("hohnloser", package = "coin")
+maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
+    ytrafo = function(data) trafo(data, surv_trafo = function(x) 
+       logrank_trafo(x, ties = "HL")))
+
+data("sphase", package = "coin")
+maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
+    ytrafo = function(data) trafo(data, surv_trafo = function(x)
+       logrank_trafo(x, ties = "HL")))
 
 
 
@@ -814,6 +827,27 @@ surv_test(Surv(time, event) ~ group | histology, data = glioma,
 
 
 graphics::par(get("par.postscript", env = .CheckExEnv))
+cleanEx(); ..nameEx <- "hohnloser"
+
+### * hohnloser
+
+flush(stderr()); flush(stdout())
+
+### Name: hohnloser
+### Title: Left ventricular ejection fraction of patients with malignant
+###   ventricular tachyarrhythmias.
+### Aliases: hohnloser
+### Keywords: datasets
+
+### ** Examples
+
+
+  data("hohnloser", package = "coin")
+  maxstat_test(Surv(time, event) ~ EF, data = hohnloser)
+
+
+
+
 cleanEx(); ..nameEx <- "jobsatisfaction"
 
 ### * jobsatisfaction

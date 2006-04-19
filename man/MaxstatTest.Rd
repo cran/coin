@@ -78,12 +78,32 @@
    Martin Schumacher (2004), Optimally Selected Prognostic Factors.
    \emph{Biometrical Journal} \bold{46}, 364--374.
 
+   J{\"o}rg M{\"u}ller and Torsten Hothorn (2004),
+   Maximally Selected Two-Sample Statistics as a new Tool for
+   the Identification and Assessment of Habitat Factors with
+   an Application to Breeding Bird Communities in Oak Forests.
+   \emph{European Journal of Forest Research}, \bold{123}, 
+   218--228.
+
 }
 \examples{
 
+### analysis of the tree pipit data in Mueller and Hothorn (2004)
 data("treepipit", package = "coin")
-
 maxstat_test(counts ~ coverstorey, data = treepipit)
+
+### reproduce applications in Sections 7.2 and 7.3 
+### of Hothorn & Lausen (2003) with limiting distribution
+
+data("hohnloser", package = "coin")
+maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
+    ytrafo = function(data) trafo(data, surv_trafo = function(x) 
+       logrank_trafo(x, ties = "HL")))
+
+data("sphase", package = "coin")
+maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
+    ytrafo = function(data) trafo(data, surv_trafo = function(x)
+       logrank_trafo(x, ties = "HL")))
 
 }
 \keyword{htest}

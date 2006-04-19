@@ -351,7 +351,7 @@ is the number of permutations $\sigma \in S$ of the data
 with corresponding test statistic not exceeding $z$ divided by the total number
 of permutations in $S$. For some special forms of the
 multivariate linear statistic the exact distribution of some 
-test statistics is trackable for small and moderate sample sizes.
+test statistics is tractable for small and moderate sample sizes.
 %%For two-sample problems, the shift-algorithm by \cite{axact-dist:1986} 
 %%and \cite{exakte-ver:1987} and the split-up algorithm by 
 %%\cite{vdWiel2001} are implemented as part of the package.

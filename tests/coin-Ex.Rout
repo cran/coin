@@ -506,14 +506,14 @@ cutpoint in  coverstorey
 > ### reproduce applications in Sections 7.2 and 7.3 
 > ### of Hothorn & Lausen (2003) with limiting distribution
 > 
-> data("hohnloser", package = "maxstat")
-> maxstat_test(Surv(month, cens) ~  EF, data = hohnloser, 
+> data("hohnloser", package = "coin")
+> maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
 +     ytrafo = function(data) trafo(data, surv_trafo = function(x) 
 +        logrank_trafo(x, ties = "HL")))
 
 	Asymptotic Maxstat Test
 
-data:  Surv(month, cens) by EF 
+data:  Surv(time, event) by EF 
 maxT = 3.5691, p-value = 0.002938
 sample estimates:
 cutpoint in  EF 
@@ -1811,7 +1811,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  34.841 0.544 35.487 0 0 
+Time elapsed:  42.041 0.656 43.769 0 0 
 > grDevices::dev.off()
 null device 
           1 

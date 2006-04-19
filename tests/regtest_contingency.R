@@ -55,4 +55,11 @@ if (compareVersion(thisversion, "2.1.0") >= 0) {
     stopifnot(isequal(pvalue(cmh_test(table(dat$y, dat$x, dat$block))), ptwo))
 }
 
+### 2x2 table and maxstat
+x <- c(rep(1,51), rep(2,49))
+y <- factor(c(rep(0,49), rep(1,51)))[sample(1:100)]
+stopifnot(isequal(as.vector(statistic(independence_test(table(x, y)))),
+as.vector(statistic(maxstat_test(y ~ x )))))
+
+
 ### see `comparison.R' for more regression tests
