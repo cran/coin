@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 alpha (2006-04-04 r37647)
+R version 2.4.0 Under development (unstable) (2006-04-18 r37840)
+Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -89,7 +89,7 @@ Loading required package: modeltools
 
 data:  Job.Satisfaction by
 	 groups <5000, 5000-15000, 15000-25000, >25000 
-T = 6.8203, p-value = 0.6891
+chi-squared = 6.8203, p-value = 0.6891
 
 > 
 > ### both Income and Job.Satisfaction unordered
@@ -100,7 +100,7 @@ T = 6.8203, p-value = 0.6891
 data:  Job.Satisfaction by
 	 groups <5000, 5000-15000, 15000-25000, >25000 
 	 stratified by Gender 
-T = 10.2001, df = 9, p-value = 0.3345
+chi-squared = 10.2001, df = 9, p-value = 0.3345
 
 > 
 > ### both Income and Job.Satisfaction ordered, default scores
@@ -111,7 +111,7 @@ T = 10.2001, df = 9, p-value = 0.3345
 data:  Job.Satisfaction (ordered) by
 	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
 	 stratified by Gender 
-T = 6.6235, df = 1, p-value = 0.01006
+chi-squared = 6.6235, df = 1, p-value = 0.01006
 
 > 
 > ### both Income and Job.Satisfaction ordered, alternative scores
@@ -123,7 +123,7 @@ T = 6.6235, df = 1, p-value = 0.01006
 data:  Job.Satisfaction (ordered) by
 	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
 	 stratified by Gender 
-T = 6.1563, df = 1, p-value = 0.01309
+chi-squared = 6.1563, df = 1, p-value = 0.01309
 
 > 
 > ### the same, null distribution approximated
@@ -136,7 +136,7 @@ T = 6.1563, df = 1, p-value = 0.01309
 data:  Job.Satisfaction (ordered) by
 	 groups <5000 < 5000-15000 < 15000-25000 < >25000 
 	 stratified by Gender 
-T = 6.1563, p-value = 0.0123
+chi-squared = 6.1563, p-value = 0.0123
 
 > 
 > ### Smoking and HDL cholesterin status
@@ -155,7 +155,7 @@ T = 6.1563, p-value = 0.0123
 	Asymptotic Linear-by-Linear Association Test
 
 data:  HDL (ordered) by groups none < < 5 < < 10 < >=10 
-T = 9.8557, df = 1, p-value = 0.001693
+chi-squared = 9.8557, df = 1, p-value = 0.001693
 
 > 
 > ### Cochran-Armitage trend test for proportions
@@ -180,7 +180,7 @@ T = 9.8557, df = 1, p-value = 0.001693
 	Asymptotic General Independence Test
 
 data:  tumor by dose 
-T = 10.6381, df = 1, p-value = 0.001108
+chi-squared = 10.6381, df = 1, p-value = 0.001108
 
 > 
 > ### linear-by-linear association test with scores 0, 1, 2
@@ -192,7 +192,7 @@ T = 10.6381, df = 1, p-value = 0.001108
 	Asymptotic General Independence Test
 
 data:  tumor by groups 0 < 1 < 2 
-T = 10.6381, df = 1, p-value = 0.001108
+chi-squared = 10.6381, df = 1, p-value = 0.001108
 
 > 
 > 
@@ -235,7 +235,7 @@ T = 10.6381, df = 1, p-value = 0.001108
 	Exact General Independence Test
 
 data:  asat by groups Compound, Control 
-T = 1.4269, p-value = 0.07809
+Z = 1.4269, p-value = 0.07809
 alternative hypothesis: greater 
 
 > 
@@ -246,7 +246,7 @@ alternative hypothesis: greater
 	Exact Normal Quantile (van der Waerden) Test
 
 data:  asat by groups Compound, Control 
-T = 1.4269, p-value = 0.07809
+Z = 1.4269, p-value = 0.07809
 alternative hypothesis: true mu is greater than 0 
 
 > 
@@ -289,7 +289,7 @@ alternative hypothesis: true mu is greater than 0
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  pd by groups 12-26 Weeks, At term 
-T = -1.2247, p-value = 0.2544
+Z = -1.2247, p-value = 0.2544
 alternative hypothesis: true mu is not equal to 0 
 95 percent confidence interval:
  -0.76  0.15 
@@ -327,7 +327,7 @@ difference in location
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  pd by groups 12-26 Weeks, At term 
-T = 1.2247, p-value = 0.2544
+Z = 1.2247, p-value = 0.2544
 alternative hypothesis: true mu is not equal to 0 
 95 percent confidence interval:
  -0.15  0.76 
@@ -342,7 +342,7 @@ difference in location
 	Asymptotic 2-Sample Permutation Test
 
 data:  pd by groups 12-26 Weeks, At term 
-T = -1.5225, p-value = 0.1279
+Z = -1.5225, p-value = 0.1279
 alternative hypothesis: true mu is not equal to 0 
 
 > 
@@ -384,7 +384,7 @@ alternative hypothesis: true mu is not equal to 0
 	Approximative Kruskal-Wallis Test
 
 data:  length by groups I, II, III, IV 
-T = 22.8524, p-value < 2.2e-16
+chi-squared = 22.8524, p-value < 2.2e-16
 
 > pvalue(kw)
 [1] 0
@@ -458,7 +458,7 @@ IV-III 0.9998777778
 data:  response by
 	 groups ExtramaritalSex, PremaritalSex 
 	 stratified by block 
-T = 271.9222, df = 3, p-value < 2.2e-16
+chi-squared = 271.9222, df = 3, p-value < 2.2e-16
 
 > 
 > ### and as ordinal
@@ -469,7 +469,7 @@ T = 271.9222, df = 3, p-value < 2.2e-16
 data:  response (ordered) by
 	 groups ExtramaritalSex, PremaritalSex 
 	 stratified by block 
-T = 270.7402, df = 1, p-value < 2.2e-16
+chi-squared = 270.7402, df = 1, p-value < 2.2e-16
 
 > 
 > 
@@ -497,7 +497,7 @@ T = 270.7402, df = 1, p-value < 2.2e-16
 	Asymptotic Maxstat Test
 
 data:  counts by coverstorey 
-T = 4.3139, p-value = 0.0001951
+maxT = 4.3139, p-value = 0.0001951
 sample estimates:
 cutpoint in  coverstorey 
                       40 
@@ -589,7 +589,7 @@ cutpoint in  coverstorey
 	Asymptotic Ansari-Bradley Test
 
 data:  serum by groups Ramsay, Jung-Parekh 
-T = -1.3363, p-value = 0.1815
+Z = -1.3363, p-value = 0.1815
 alternative hypothesis: true mu is not equal to 1 
 
 > 
@@ -599,7 +599,7 @@ alternative hypothesis: true mu is not equal to 1
 	Exact Ansari-Bradley Test
 
 data:  serum by groups Ramsay, Jung-Parekh 
-T = -1.3363, p-value = 0.1881
+Z = -1.3363, p-value = 0.1881
 alternative hypothesis: true mu is not equal to 1 
 
 > 
@@ -621,7 +621,7 @@ alternative hypothesis: true mu is not equal to 1
 	Approximative General Independence Test
 
 data:  counts by groups Control, Prednisone 
-T = 9.3384, p-value = 0.0042
+chi-squared = 9.3384, p-value = 0.0042
 
 > 
 > ### where did the rejection come from? Use maximum statistic
@@ -668,7 +668,7 @@ Control:Scale                   0            21
 	Asymptotic Spearman Correlation Test
 
 data:  CONT by INTG 
-T = -1.1437, p-value = 0.2527
+Z = -1.1437, p-value = 0.2527
 alternative hypothesis: true mu is not equal to 0 
 
 > 
@@ -696,7 +696,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Logrank Test
 
 data:  Surv(time, event) by groups II, IIA 
-T = -2.3373, p-value = 0.01942
+Z = -2.3373, p-value = 0.01942
 alternative hypothesis: two.sided 
 
 > survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
@@ -730,7 +730,7 @@ group=1 8        8     5.16      1.56      3.76
 	Exact Logrank Test
 
 data:  Surv(time, event) by groups 0, 1 
-T = -1.9201, p-value = 0.0505
+Z = -1.9201, p-value = 0.0505
 alternative hypothesis: two.sided 
 
 > 
@@ -790,7 +790,7 @@ alternative hypothesis: two.sided
 data:  times by
 	 groups Narrow Angle, Round Out, Wide Angle 
 	 stratified by block 
-T = 11.1429, df = 2, p-value = 0.003805
+chi-squared = 11.1429, df = 2, p-value = 0.003805
 
 > 
 > ### parallel coordinates plot
@@ -849,7 +849,7 @@ Wide Angle-Round Out    0.003398077
 data:  strength by
 	 groups 36 < 54 < 72 < 108 < 144 
 	 stratified by block 
-T = 7.0533, df = 1, p-value = 0.007912
+chi-squared = 7.0533, df = 1, p-value = 0.007912
 
 > 
 > ### one-sided p-value
@@ -1022,7 +1022,7 @@ attr(,"assign")
 	Asymptotic Kruskal-Wallis Test
 
 data:  elevel by groups short, intermediate, long 
-T = 8.8302, df = 2, p-value = 0.01209
+chi-squared = 8.8302, df = 2, p-value = 0.01209
 
 > 
 > 
@@ -1059,7 +1059,7 @@ T = 8.8302, df = 2, p-value = 0.01209
 data:  disease by
 	 groups None, <10, 10-20, >20 
 	 stratified by gender 
-T = 23.3163, df = 6, p-value = 0.0006972
+chi-squared = 23.3163, df = 6, p-value = 0.0006972
 
 > 
 > 
@@ -1224,7 +1224,7 @@ attr(,"conf.level")
 	Exact Logrank Test
 
 data:  Surv(time, event) by groups Control, RIT 
-T = 2.1711, p-value = 0.02877
+Z = 2.1711, p-value = 0.02877
 alternative hypothesis: two.sided 
 
 > 
@@ -1245,7 +1245,7 @@ alternative hypothesis: two.sided
 	Exact Logrank Test
 
 data:  Surv(time, event) by groups Control, RIT 
-T = 3.2215, p-value = 0.0001588
+Z = 3.2215, p-value = 0.0001588
 alternative hypothesis: two.sided 
 
 > 
@@ -1258,7 +1258,7 @@ alternative hypothesis: two.sided
 data:  Surv(time, event) by
 	 groups Control, RIT 
 	 stratified by histology 
-T = 3.6704, p-value < 2.2e-16
+Z = 3.6704, p-value < 2.2e-16
 alternative hypothesis: two.sided 
 
 > 
@@ -1290,7 +1290,7 @@ alternative hypothesis: two.sided
 data:  Job.Satisfaction by
 	 groups <5000, 5000-15000, 15000-25000, >25000 
 	 stratified by Gender 
-T = 10.2001, df = 9, p-value = 0.3345
+chi-squared = 10.2001, df = 9, p-value = 0.3345
 
 > 
 > 
@@ -1354,7 +1354,7 @@ control 3097.954
 	Exact General Independence Test
 
 data:  mercury, abnormal, ccells by groups control, exposed 
-T = -4.2581, p-value = 4.486e-06
+Z = -4.2581, p-value = 4.486e-06
 alternative hypothesis: two.sided 
 
 > 
@@ -1400,7 +1400,7 @@ control 0.007191719 0.01705445 0.03836982
 	Exact 2-Sample Permutation Test
 
 data:  pain by groups control, treat 
-T = -1.3191, p-value = 0.09589
+Z = -1.3191, p-value = 0.09589
 alternative hypothesis: true mu is less than 0 
 
 > 
@@ -1410,7 +1410,7 @@ alternative hypothesis: true mu is less than 0
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  pain by groups control, treat 
-T = -0.9817, p-value = 0.1654
+Z = -0.9817, p-value = 0.1654
 alternative hypothesis: true mu is less than 0 
 
 > 
@@ -1422,7 +1422,7 @@ alternative hypothesis: true mu is less than 0
 	Approximative 2-Sample Permutation Test
 
 data:  pain by groups control, treat 
-T = -1.8683, p-value = 0.0284
+Z = -1.8683, p-value = 0.0284
 alternative hypothesis: true mu is less than 0 
 
 > 
@@ -1539,7 +1539,7 @@ C             0.000            0.0000 0.9988
 	Exact Ansari-Bradley Test
 
 data:  y by groups 1, 2 
-T = 0.4553, p-value = 0.7102
+Z = 0.4553, p-value = 0.7102
 alternative hypothesis: true mu is not equal to 1 
 
 > 
@@ -1591,7 +1591,7 @@ alternative hypothesis: true mu is not equal to 1
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  time by groups control, treatment 
-T = 2.4389, p-value = 0.01863
+Z = 2.4389, p-value = 0.01863
 alternative hypothesis: true mu is greater than 0 
 
 > ### two-sided exact (0.0373)
@@ -1600,7 +1600,7 @@ alternative hypothesis: true mu is greater than 0
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  time by groups control, treatment 
-T = 2.4389, p-value = 0.03727
+Z = 2.4389, p-value = 0.03727
 alternative hypothesis: true mu is not equal to 0 
 
 > ### two-sided asymptotical (0.0147)
@@ -1609,7 +1609,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
 
 data:  time by groups control, treatment 
-T = 2.4389, p-value = 0.01473
+Z = 2.4389, p-value = 0.01473
 alternative hypothesis: true mu is not equal to 0 
 
 > 
@@ -1636,7 +1636,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-T = 2.3966, p-value = 0.1582
+maxT = 2.3966, p-value = 0.1582
 sample estimates:
 cutpoint in  SPF 
              107 
@@ -1650,7 +1650,7 @@ cutpoint in  SPF
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-T = 2.4033, p-value = 0.1557
+maxT = 2.4033, p-value = 0.1557
 sample estimates:
 cutpoint in  SPF 
              107 
@@ -1738,7 +1738,7 @@ cutpoint in  SPF
 
 data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree 
-T = 4.3139, p-value = 0.0008564
+maxT = 4.3139, p-value = 0.0008564
 sample estimates:
 cutpoint in  coverstorey 
                       40 
@@ -1750,7 +1750,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  30.76 0.94 31.83 0 0 
+Time elapsed:  31.245 0.409 38.908 0 0 
 > grDevices::dev.off()
 null device 
           1 

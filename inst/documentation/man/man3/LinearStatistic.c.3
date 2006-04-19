@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "12 Apr 2006" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "24 Apr 2006" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -84,7 +84,7 @@ Conditional expectation and covariance of the influence function
 .br
 \fIn\fP number of observations 
 .br
-\fIans\fP return value; an object of class `ExpectCovarInfluence' 
+\fIans\fP return value; an object of class `ExpectCovarInfluence'
 .RE
 .PP
 
@@ -116,7 +116,7 @@ Conditional expectation and covariance of the a linear statistic
 .br
 \fIexpcovinf\fP an object of class `ExpectCovarInfluence' 
 .br
-\fIans\fP return value; an object of class `ExpectCovar' 
+\fIans\fP return value; an object of class `ExpectCovar'
 .RE
 .PP
 
@@ -146,7 +146,7 @@ Computes the Kronecker product of two matrices
 .br
 \fIs\fP ncol(B) 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length (mr x ns) 
+\fIans\fP return value; a pointer to a REALSXP-vector of length (mr x ns)
 .RE
 .PP
 
@@ -174,7 +174,7 @@ Computes the linear statistic, formula (1) in the paper
 .br
 \fIn\fP number of observations 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length pq 
+\fIans\fP return value; a pointer to a REALSXP-vector of length pq
 .RE
 .PP
 
@@ -206,7 +206,7 @@ Linear Statistic with permuted indices
 .br
 \fIperm\fP (permuted) indices for the y-part 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length pq 
+\fIans\fP return value; a pointer to a REALSXP-vector of length pq
 .RE
 .PP
 
@@ -224,7 +224,7 @@ R-interface to C_ExpectCovarInfluence
 .RS 4
 \fIy\fP values of the influence function 
 .br
-\fIweights\fP case weights 
+\fIweights\fP case weights
 .RE
 .PP
 
@@ -246,7 +246,7 @@ R-interface to C_ExpectCovarLinearStatistic
 .br
 \fIweights\fP case weights 
 .br
-\fIexpcovinf\fP an object of class `ExpectCovarInfluence' 
+\fIexpcovinf\fP an object of class `ExpectCovarInfluence'
 .RE
 .PP
 
@@ -264,7 +264,7 @@ R-interface to C_kronecker
 .RS 4
 \fIA\fP matrix 
 .br
-\fIB\fP matrix 
+\fIB\fP matrix
 .RE
 .PP
 
@@ -284,7 +284,7 @@ R-interface to C_LinearStatistic
 .br
 \fIy\fP values of the influence function 
 .br
-\fIweights\fP case weights 
+\fIweights\fP case weights
 .RE
 .PP
 
@@ -306,7 +306,7 @@ Linear Statistic with permuted indices
 .br
 \fIindx\fP indices for the x-part 
 .br
-\fIperm\fP (permuted) indices for the y-part 
+\fIperm\fP (permuted) indices for the y-part
 .RE
 .PP
 

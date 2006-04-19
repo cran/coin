@@ -1,4 +1,12 @@
 
+		CHANGES in `coin' VERSION 0.4-6
+
+    o    updated `LegoCondInf' vignette
+
+    o    printed names of test statistics are now 
+         `chi-squared', `maxT', or `Z' instead of `T'
+
+
 		CHANGES in `coin' VERSION 0.4-5
 
     o    user-supplied transformations can return a vector which

@@ -45,7 +45,7 @@ setMethod(f = "show", signature = "QuadTypeIndependenceTest",
 
         x <- object
         stat <- x@statistic@teststatistic
-        names(stat) <- "T"
+        names(stat) <- "chi-squared"
         dist <- x@distribution
         cld <- class(dist)
         attributes(cld) <- NULL
@@ -78,7 +78,7 @@ setMethod(f = "show", signature = "MaxTypeIndependenceTest",
 
         x <- object
         stat <- x@statistic@teststatistic
-        names(stat) <- "T"
+        names(stat) <- "maxT"
         dist <- x@distribution
         cld <- class(dist)
         attributes(cld) <- NULL
@@ -106,7 +106,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTest",
           
         x <- object
         stat <- x@statistic@teststatistic
-        names(stat) <- "T"
+        names(stat) <- "Z"
 
         dataname <- varnames(x@statistic)
 
@@ -138,7 +138,7 @@ setMethod(f = "show", signature = "ScalarIndependenceTestConfint",
 
         x <- object
         stat <- x@statistic@teststatistic
-        names(stat) <- "T"
+        names(stat) <- "Z"
         dist <- x@distribution
         cld <- class(dist)
         attributes(cld) <- NULL

@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 alpha (2006-04-04 r37647)
+R version 2.4.0 Under development (unstable) (2006-04-18 r37840)
+Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -33,7 +33,7 @@ Loading required package: modeltools
 	Asymptotic General Independence Test
 
 data:  I(x1/x2) by groups 1, 2 
-T = -0.4491, p-value = 0.6534
+Z = -0.4491, p-value = 0.6534
 alternative hypothesis: two.sided 
 
 > independence_test(I(x1 < 0) ~ x3, data = df)
@@ -41,7 +41,7 @@ alternative hypothesis: two.sided
 	Asymptotic General Independence Test
 
 data:  I(x1 < 0) by groups 1, 2 
-T = 0.7966, p-value = 0.4257
+Z = 0.7966, p-value = 0.4257
 alternative hypothesis: two.sided 
 
 > 
@@ -146,7 +146,7 @@ Loading required package: multcomp
 	Asymptotic General Independence Test
 
 data:  y by x 
-T = -1, p-value = 0.3173
+Z = -1, p-value = 0.3173
 alternative hypothesis: two.sided 
 
 > independence_test(y ~ x, data = mydf, subset = c(1, 2))
@@ -154,7 +154,7 @@ alternative hypothesis: two.sided
 	Asymptotic General Independence Test
 
 data:  y by x 
-T = NaN, p-value = NA
+Z = NaN, p-value = NA
 alternative hypothesis: two.sided 
 
 Warning message:

@@ -48,11 +48,9 @@
        \texttt{Achim.Zeileis@R-project.org} 
 \newline
 
-\noindent$^3$Department of Mathematics and Computer Science \\
-              Eindhoven University of Technology \\
-              HG 9.25, P.O. Box 513 \\
-              5600 MB Eindhoven, The Netherlands \\
-              \texttt{m.a.v.d.wiel@TUE.nl}
+\noindent$^3$Department of Mathematics, Vrije Universiteit \\
+             De Boelelaan 1081a, 1081 HV Amsterdam, The Netherlands \\
+            \texttt{mark.vdwiel@vumc.nl}
 \newline
 
 <<setup, echo = FALSE, results = hide>>=
@@ -246,7 +244,7 @@ or approximated by means of quasi-randomized Monte-Carlo
 procedures in the multivariate setting \citep{numerical-:1992}. For
 quadratic forms
 $c_\text{quad}$ which follow a $\chi^2$ distribution with degrees of freedom 
-given by the rank of $\Sigma$ \citep[Theorem 6.20, ][]{Rasch1995}, exact
+given by the rank of $\Sigma$ \citep[see][Chapter 29]{johnsonkotz1970}, exact
 probabilities can be computed efficiently.
 
 \section{Illustrations and Applications}

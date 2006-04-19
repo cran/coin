@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 alpha (2006-04-04 r37647)
+R version 2.4.0 Under development (unstable) (2006-04-18 r37840)
+Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -419,7 +419,7 @@ Loading required package: modeltools
 
 data:  Surv(time, event) by groups 1, 2 
 	 stratified by gender 
-T = 1.5446, p-value = 0.1224
+Z = 1.5446, p-value = 0.1224
 alternative hypothesis: two.sided 
 
 > 
