@@ -37,11 +37,18 @@
 
   The null hypothesis of independence of row and column totals is tested.
   The corresponding test for binary factors \code{x} and \code{y} is known
-  as McNemar test.
+  as McNemar test. For larger tables, Stuart's \eqn{W_0} 
+  statistic (Stuart, 1955, Agresti, 2002, page 422, also known as Stuart-Maxwell test) 
+  is computed. The marginal homogeneity
+  statistic \eqn{W} of Bhapkar (1966) can be derived from \eqn{W_0} 
+  via \eqn{W = W_0 / (1 - W_0 / n)} (see Agresti, 2002, page 422).
 
   Scores must be a list of length one (row and column scores coincide). When
   scores are given or if \code{x} is ordered, the corresponding 
   linear association test is computed (see Agresti, 2002).
+
+  Note that for a large number of observations, this function 
+  is rather inefficient.
 
 }
 \value{
@@ -54,6 +61,13 @@
 
     Alan Agresti (2002), \emph{Categorical Data Analysis}. Hoboken, New  
     Jersey: John Wiley & Sons.
+
+    V. P. Bhapkar (1966), A note on the equivalence of two test criteria for hypotheses
+    in categorical data. \emph{Journal of the American Statistical Association} \bold{61}, 
+    228-235.
+
+    Alan Stuart (1955), A test for homogeneity of the marginal distributions in a two-way
+    classification. \emph{Biometrika} \bold{42}(3/4), 412--416.
 
 }
 \examples{
@@ -74,6 +88,17 @@ mh_test(PreExSex)
 
 ### and as ordinal
 mh_test(PreExSex, scores = list(response = 1:length(opinions)))
+
+### example taken from 
+### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+rating <- c("low", "moderate", "high")
+x <- as.table(matrix(c(20, 10,  5,
+                       3, 30, 15,
+                       0,  5, 40), 
+                     ncol = 3, byrow = TRUE,
+                     dimnames = list(Rater1 = rating, Rater2 = rating)))
+### test statistic W_0 = 13.76
+mh_test(x)
 
 }
 \keyword{htest}

@@ -61,5 +61,16 @@ y <- factor(c(rep(0,49), rep(1,51)))[sample(1:100)]
 stopifnot(isequal(as.vector(statistic(independence_test(table(x, y)))),
 as.vector(statistic(maxstat_test(y ~ x )))))
 
+### marginal homogeneity
+rating <- c("low", "moderate", "high")
+x <- as.table(matrix(c(20, 10,  5,
+                       3, 30, 15, 
+                       0,  5, 40),
+                     ncol = 3, byrow = TRUE,
+                     dimnames = list(Rater1 = rating, Rater2 = rating)))
+### test statistic W_0 = 13.76
+### see http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+stopifnot(all.equal(round(statistic(mh_test(x)), 2), 13.76))
+
 
 ### see `comparison.R' for more regression tests

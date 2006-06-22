@@ -22,7 +22,7 @@ pvalue(object, ...)
     \code{\link{IndependenceTest-class}}.}
   \item{\dots}{additional arguments: \code{method}, 
       a character specifying the type of 
-      adjustment (\code{single-step}, \code{step-down} or \code{discrete})
+      adjustment (\code{global}, \code{single-step}, \code{step-down} or \code{discrete})
       should be used. The default is \code{global}.}
 }
 \section{Methods}{

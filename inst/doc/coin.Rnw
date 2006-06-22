@@ -103,7 +103,7 @@ following test procedures are available:
 \texttt{spearman\_test} & Spearman's test \\
 \texttt{friedman\_test} & Friedman test \\
 \texttt{wilcoxsign\_test} & Wilcoxon-Signed-Rank test \\
-\texttt{mh\_test} &  marginal homogeneity test. \\
+\texttt{mh\_test} &  marginal homogeneity test (Stuart-Maxwell). \\
 \end{tabular}
 \end{center}
 
@@ -481,8 +481,12 @@ checked against results reported by \texttt{mt.maxT} from package
 For details on the test procedures we refer to
 the \textsf{R}-transcript files in directory \texttt{coin/tests}.
 
+\section{Acknowledgements}
+
+We would like to thank Helmut Strasser for discussions on the theoretical framework.
+Henric Nilsson provided clarification and examples for the Stuart-Maxwell test.
+
 \bibliographystyle{plainnat}
 \bibliography{coinrefs}
 
 \end{document}
-

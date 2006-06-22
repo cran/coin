@@ -1,4 +1,11 @@
 
+		CHANGES in `coin' VERSION 0.4-8
+
+    o    clarify that the Stuart-Maxwell test is computed by mh_test and add
+         a further example (thanks to Henric Nilsson <henric.nilsson@phadia.com>
+         for pointing this out!).
+
+
 		CHANGES in `coin' VERSION 0.4-7
 
     o    improve `maxstat_trafo': some potential cutpoints could have been
