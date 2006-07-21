@@ -112,7 +112,12 @@ anonymous <- FALSE
 
 \begin{document}
 
-\title{A Lego System for Conditional Inference}
+\title{A Lego System for Conditional Inference
+\footnote{This is a preprint of an article published in 
+The American Statistician, Volume 60, Number 3, Pages 257--263. 
+Copyright \copyright{} 2006 American Statistical Association; available online at
+\url{http://www.amstat.org/publications/tas/}.}}
+
 
 <<authors, echo = FALSE, results = tex>>=
 if(!anonymous) {
@@ -174,6 +179,7 @@ to show what one can gain from going beyond the `classical' test procedures.
 \noindent
 KEY WORDS: Permutation tests; Independence; Asymptotic distribution; Software.
 \newline
+
 
 
 %% \newpage

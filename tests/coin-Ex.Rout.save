@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 (2006-04-24)
+R version 2.4.0 Under development (unstable) (2006-07-12 r38583)
+Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -453,7 +453,7 @@ IV-III 0.9998777778
 > ### treating response as nominal
 > mh_test(PreExSex)
 
-	Asymptotic Marginal-Homogenity Test
+	Asymptotic Marginal-Homogeneity Test
 
 data:  response by
 	 groups ExtramaritalSex, PremaritalSex 
@@ -464,7 +464,7 @@ chi-squared = 271.9222, df = 3, p-value < 2.2e-16
 > ### and as ordinal
 > mh_test(PreExSex, scores = list(response = 1:length(opinions)))
 
-	Asymptotic Marginal-Homogenity Test for Ordered Data
+	Asymptotic Marginal-Homogeneity Test for Ordered Data
 
 data:  response (ordered) by
 	 groups ExtramaritalSex, PremaritalSex 
@@ -506,14 +506,14 @@ cutpoint in  coverstorey
 > ### reproduce applications in Sections 7.2 and 7.3 
 > ### of Hothorn & Lausen (2003) with limiting distribution
 > 
-> data("hohnloser", package = "maxstat")
-> maxstat_test(Surv(month, cens) ~  EF, data = hohnloser, 
+> data("hohnloser", package = "coin")
+> maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
 +     ytrafo = function(data) trafo(data, surv_trafo = function(x) 
 +        logrank_trafo(x, ties = "HL")))
 
 	Asymptotic Maxstat Test
 
-data:  Surv(month, cens) by EF 
+data:  Surv(time, event) by EF 
 maxT = 3.5691, p-value = 0.002938
 sample estimates:
 cutpoint in  EF 
@@ -1811,7 +1811,7 @@ cutpoint in  coverstorey
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  34.841 0.544 35.487 0 0 
+Time elapsed:  45.993 1.152 47.244 0 0 
 > grDevices::dev.off()
 null device 
           1 

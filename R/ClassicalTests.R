@@ -909,7 +909,7 @@ friedman_test.SymmetryProblem <- function(object,
     return(RET)
 }
 
-### Marginal-Homogenity-Test
+### Marginal-Homogeneity-Test
 mh_test <- function(object, ...) UseMethod("mh_test")
 
 mh_test.formula <- function(formula, data = list(), subset = NULL, ...)
@@ -952,9 +952,9 @@ mh_test.SymmetryProblem <- function(object,
                teststat = "quad", scores = scores), addargs))
 
     if (is_ordered(RET@statistic))  
-        RET@method <- "Marginal-Homogenity Test for Ordered Data"
+        RET@method <- "Marginal-Homogeneity Test for Ordered Data"
     else
-        RET@method <- "Marginal-Homogenity Test"
+        RET@method <- "Marginal-Homogeneity Test"
     return(RET)
 }
 

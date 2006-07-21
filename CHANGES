@@ -1,4 +1,11 @@
 
+		CHANGES in `coin' VERSION 0.4-9
+
+    o   fix typo: Homegeneity
+
+    o   add ASA copyright to `LegoCondInf' vignette
+
+
 		CHANGES in `coin' VERSION 0.4-8
 
     o    clarify that the Stuart-Maxwell test is computed by mh_test and add
