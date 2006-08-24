@@ -1,11 +1,13 @@
 
-R version 2.4.0 Under development (unstable) (2006-07-12 r38583)
+R version 2.4.0 Under development (unstable) (2006-08-22 r38955)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
@@ -18,7 +20,6 @@ Type 'q()' to quit R.
 > ### * <HEADER>
 > ###
 > attach(NULL, name = "CheckExEnv")
-> assign(".CheckExEnv", as.environment(2), pos = length(search())) # base
 > ## add some hooks to label plot pages for base and grid graphics
 > setHook("plot.new", ".newplot.hook")
 > setHook("persp", ".newplot.hook")
@@ -30,6 +31,7 @@ Type 'q()' to quit R.
 +            RNGkind("default", "default")
 + 	   set.seed(1)
 +    	   options(warn = 1)
++ 	   .CheckExEnv <- as.environment("CheckExEnv")
 + 	   delayedAssign("T", stop("T used instead of TRUE"),
 + 		  assign.env = .CheckExEnv)
 + 	   delayedAssign("F", stop("F used instead of FALSE"),
@@ -43,11 +45,11 @@ Type 'q()' to quit R.
 + 	       warning("items ", paste(missitems, collapse=", "),
 + 		       " have been removed from the search path")
 +        },
-+        env = .CheckExEnv)
-> assign("..nameEx", "__{must remake R-ex/*.R}__", env = .CheckExEnv) # for now
-> assign("ptime", proc.time(), env = .CheckExEnv)
++        pos = "CheckExEnv")
+> assign("..nameEx", "__{must remake R-ex/*.R}__", pos = "CheckExEnv") # for now
+> assign("ptime", proc.time(), pos = "CheckExEnv")
 > grDevices::postscript("coin-Ex.ps")
-> assign("par.postscript", graphics::par(no.readonly = TRUE), env = .CheckExEnv)
+> assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
 > options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
 > options(warn = 1)    
 > library('coin')
@@ -56,8 +58,8 @@ Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
 > 
-> assign(".oldSearch", search(), env = .CheckExEnv)
-> assign(".oldNS", loadedNamespaces(), env = .CheckExEnv)
+> assign(".oldSearch", search(), pos = 'CheckExEnv')
+> assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
 > cleanEx(); ..nameEx <- "ContingencyTests"
 > 
 > ### * ContingencyTests
@@ -472,6 +474,25 @@ data:  response (ordered) by
 chi-squared = 270.7402, df = 1, p-value < 2.2e-16
 
 > 
+> ### example taken from 
+> ### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+> rating <- c("low", "moderate", "high")
+> x <- as.table(matrix(c(20, 10,  5,
++                        3, 30, 15,
++                        0,  5, 40), 
++                      ncol = 3, byrow = TRUE,
++                      dimnames = list(Rater1 = rating, Rater2 = rating)))
+> ### test statistic W_0 = 13.76
+> mh_test(x)
+
+	Asymptotic Marginal-Homogeneity Test
+
+data:  response by
+	 groups Rater1, Rater2 
+	 stratified by block 
+chi-squared = 13.7647, df = 2, p-value = 0.001026
+
+> 
 > 
 > 
 > 
@@ -499,8 +520,33 @@ chi-squared = 270.7402, df = 1, p-value < 2.2e-16
 data:  counts by coverstorey 
 maxT = 4.3139, p-value = 0.0001435
 sample estimates:
-cutpoint in  coverstorey 
-                      40 
+$cutpoint
+[1] 40
+
+
+> 
+> ### and for all possible covariates (simultaneously)
+> mt <- maxstat_test(counts ~ ., data = treepipit)
+> show(mt)$estimate
+
+	Asymptotic Maxstat Test
+
+data:  counts by
+	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree, fdist 
+maxT = 4.5486, p-value = 0.0001158
+sample estimates:
+$covariable
+[1] "fdist"
+
+$cutpoint
+[1] 280
+
+
+$covariable
+[1] "fdist"
+
+$cutpoint
+[1] 280
 
 > 
 > ### reproduce applications in Sections 7.2 and 7.3 
@@ -514,10 +560,11 @@ cutpoint in  coverstorey
 	Asymptotic Maxstat Test
 
 data:  Surv(time, event) by EF 
-maxT = 3.5691, p-value = 0.002938
+maxT = 3.5691, p-value = 0.002812
 sample estimates:
-cutpoint in  EF 
-             39 
+$cutpoint
+[1] 39
+
 
 > 
 > data("sphase", package = "coin")
@@ -528,10 +575,11 @@ cutpoint in  EF
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-maxT = 2.4033, p-value = 0.1554
+maxT = 2.4033, p-value = 0.1551
 sample estimates:
-cutpoint in  SPF 
-             107 
+$cutpoint
+[1] 107
+
 
 > 
 > 
@@ -907,7 +955,8 @@ chi-squared = 7.0533, df = 1, p-value = 0.007912
 > ### Name: Transformations
 > ### Title: Functions for Data Transformations
 > ### Aliases: trafo id_trafo ansari_trafo fligner_trafo normal_trafo
-> ###   median_trafo consal_trafo maxstat_trafo logrank_trafo f_trafo
+> ###   median_trafo consal_trafo maxstat_trafo fmaxstat_trafo logrank_trafo
+> ###   f_trafo
 > ### Keywords: manip
 > 
 > ### ** Examples
@@ -1296,7 +1345,7 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
-> graphics::par(get("par.postscript", env = .CheckExEnv))
+> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 > cleanEx(); ..nameEx <- "hohnloser"
 > 
 > ### * hohnloser
@@ -1320,8 +1369,9 @@ alternative hypothesis: two.sided
 data:  Surv(time, event) by EF 
 maxT = 3.5647, p-value = 0.003539
 sample estimates:
-cutpoint in  EF 
-             39 
+$cutpoint
+[1] 39
+
 
 > 
 > 
@@ -1699,8 +1749,9 @@ alternative hypothesis: true mu is not equal to 0
 data:  Surv(RFS, event) by SPF 
 maxT = 2.3966, p-value = 0.1591
 sample estimates:
-cutpoint in  SPF 
-             107 
+$cutpoint
+[1] 107
+
 
 > 
 > ### reproduce the test statistic reported in Hothorn & Lausen (2003)
@@ -1713,8 +1764,9 @@ cutpoint in  SPF
 data:  Surv(RFS, event) by SPF 
 maxT = 2.4033, p-value = 0.1549
 sample estimates:
-cutpoint in  SPF 
-             107 
+$cutpoint
+[1] 107
+
 
 > 
 > 
@@ -1801,8 +1853,12 @@ data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree 
 maxT = 4.3139, p-value = 0.0007517
 sample estimates:
-cutpoint in  coverstorey 
-                      40 
+$covariable
+[1] "coverstorey"
+
+$cutpoint
+[1] 40
+
 
 > 
 > 
@@ -1810,8 +1866,8 @@ cutpoint in  coverstorey
 > 
 > ### * <FOOTER>
 > ###
-> cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
-Time elapsed:  45.993 1.152 47.244 0 0 
+> cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  33.783 0.553 34.456 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -27,6 +27,7 @@ export(independence_test,
        median_trafo,
        consal_trafo,
        maxstat_trafo,
+       fmaxstat_trafo,
        logrank_trafo,
        f_trafo,
        asymptotic, exact, approximate)       

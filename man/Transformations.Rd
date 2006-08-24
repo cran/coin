@@ -7,6 +7,7 @@
 \alias{median_trafo}
 \alias{consal_trafo}
 \alias{maxstat_trafo}
+\alias{fmaxstat_trafo}
 \alias{logrank_trafo}
 \alias{f_trafo}
 \title{ Functions for Data Transformations }

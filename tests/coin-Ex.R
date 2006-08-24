@@ -1,7 +1,6 @@
 ### * <HEADER>
 ###
 attach(NULL, name = "CheckExEnv")
-assign(".CheckExEnv", as.environment(2), pos = length(search())) # base
 ## add some hooks to label plot pages for base and grid graphics
 setHook("plot.new", ".newplot.hook")
 setHook("persp", ".newplot.hook")
@@ -13,6 +12,7 @@ assign("cleanEx",
            RNGkind("default", "default")
 	   set.seed(1)
    	   options(warn = 1)
+	   .CheckExEnv <- as.environment("CheckExEnv")
 	   delayedAssign("T", stop("T used instead of TRUE"),
 		  assign.env = .CheckExEnv)
 	   delayedAssign("F", stop("F used instead of FALSE"),
@@ -26,17 +26,17 @@ assign("cleanEx",
 	       warning("items ", paste(missitems, collapse=", "),
 		       " have been removed from the search path")
        },
-       env = .CheckExEnv)
-assign("..nameEx", "__{must remake R-ex/*.R}__", env = .CheckExEnv) # for now
-assign("ptime", proc.time(), env = .CheckExEnv)
+       pos = "CheckExEnv")
+assign("..nameEx", "__{must remake R-ex/*.R}__", pos = "CheckExEnv") # for now
+assign("ptime", proc.time(), pos = "CheckExEnv")
 grDevices::postscript("coin-Ex.ps")
-assign("par.postscript", graphics::par(no.readonly = TRUE), env = .CheckExEnv)
+assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
 options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
 options(warn = 1)    
 library('coin')
 
-assign(".oldSearch", search(), env = .CheckExEnv)
-assign(".oldNS", loadedNamespaces(), env = .CheckExEnv)
+assign(".oldSearch", search(), pos = 'CheckExEnv')
+assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
 cleanEx(); ..nameEx <- "ContingencyTests"
 
 ### * ContingencyTests
@@ -294,6 +294,17 @@ mh_test(PreExSex)
 ### and as ordinal
 mh_test(PreExSex, scores = list(response = 1:length(opinions)))
 
+### example taken from 
+### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+rating <- c("low", "moderate", "high")
+x <- as.table(matrix(c(20, 10,  5,
+                       3, 30, 15,
+                       0,  5, 40), 
+                     ncol = 3, byrow = TRUE,
+                     dimnames = list(Rater1 = rating, Rater2 = rating)))
+### test statistic W_0 = 13.76
+mh_test(x)
+
 
 
 
@@ -315,6 +326,10 @@ flush(stderr()); flush(stdout())
 ### analysis of the tree pipit data in Mueller and Hothorn (2004)
 data("treepipit", package = "coin")
 maxstat_test(counts ~ coverstorey, data = treepipit)
+
+### and for all possible covariates (simultaneously)
+mt <- maxstat_test(counts ~ ., data = treepipit)
+show(mt)$estimate
 
 ### reproduce applications in Sections 7.2 and 7.3 
 ### of Hothorn & Lausen (2003) with limiting distribution
@@ -608,7 +623,8 @@ flush(stderr()); flush(stdout())
 ### Name: Transformations
 ### Title: Functions for Data Transformations
 ### Aliases: trafo id_trafo ansari_trafo fligner_trafo normal_trafo
-###   median_trafo consal_trafo maxstat_trafo logrank_trafo f_trafo
+###   median_trafo consal_trafo maxstat_trafo fmaxstat_trafo logrank_trafo
+###   f_trafo
 ### Keywords: manip
 
 ### ** Examples
@@ -826,7 +842,7 @@ surv_test(Surv(time, event) ~ group | histology, data = glioma,
 
 
 
-graphics::par(get("par.postscript", env = .CheckExEnv))
+graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 cleanEx(); ..nameEx <- "hohnloser"
 
 ### * hohnloser
@@ -1182,7 +1198,7 @@ maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
 
 ### * <FOOTER>
 ###
-cat("Time elapsed: ", proc.time() - get("ptime", env = .CheckExEnv),"\n")
+cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
 grDevices::dev.off()
 ###
 ### Local variables: ***

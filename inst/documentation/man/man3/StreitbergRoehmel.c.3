@@ -1,0 +1,92 @@
+.TH "StreitbergRoehmel.c" 3 "24 Aug 2006" "coin" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+StreitbergRoehmel.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <R.h>\fP
+.br
+\fC#include <Rmath.h>\fP
+.br
+\fC#include <Rdefines.h>\fP
+.br
+
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPERM_MAX_N\fP   1000000"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "SEXP \fBR_cpermdist2\fP (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Exact Distribution of Two-Sample Permutation Tests Streitberg & Roehmel Algorithm
+.PP
+\fBAuthor:\fP
+.RS 4
+\fBAuthor\fP.RS 4
+hothorn 
+.RE
+.PP
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+\fBDate\fP.RS 4
+2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) 
+.RE
+.PP
+.RE
+.PP
+
+.PP
+Definition in file \fBStreitbergRoehmel.c\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define PERM_MAX_N   1000000"
+.PP
+Definition at line 19 of file StreitbergRoehmel.c.
+.PP
+Referenced by R_cpermdist2().
+.SH "Function Documentation"
+.PP 
+.SS "SEXP R_cpermdist2 (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)"
+.PP
+The density of the permutation distribution for the independent two sample problem.
+.PP
+REFERENCES
+.PP
+Bernd Streitberg & Joachim R\\'ohmel (1986), Exact distributions for permutations and rank tests: An introduction to some recently published algorithms. Statistical Software Newsletter 12(1), 10-17.
+.PP
+Bernd Streitberg & Joachim R\\'ohmel (1987), Exakte Verteilungen f\\'ur Rang- und Randomisierungstests im allgemeinen $c$-Stichprobenfall. EDV in Medizin und Biologie 18(1), 12-19 (in german).
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscore_a\fP score vector (typically c(1,1,...,1)) 
+.br
+\fIscore_b\fP score vector (typically ranks) 
+.br
+\fIm_a\fP integer indicating the sum of m_a elements of score_a 
+.br
+\fIm_b\fP integer indicating the sum of m_b elements of score_b 
+.br
+\fIretProb\fP logical indicating whether the density (TRUE) or the matrix of all permutations should be returned
+.RE
+.PP
+
+.PP
+Definition at line 46 of file StreitbergRoehmel.c.
+.PP
+References PERM_MAX_N.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for coin from the source code.

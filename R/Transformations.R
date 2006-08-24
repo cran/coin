@@ -80,6 +80,7 @@ consal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 }
 
 ### maximally selected (rank, chi^2, whatsoever) statistics
+### ordered x
 maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
     qx <- quantile(x, prob = c(minprob, maxprob), type = 1)
     ux <- sort(unique(x))
@@ -90,6 +91,44 @@ maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
     colnames(cm) <- paste("x <= ", round(cutpoints, 3), sep = "")
     rownames(cm) <- 1:nrow(cm)
     cm
+}
+
+### compute index matrix of all 2^(nlevel - 1) possible splits
+### code translated from package ree'
+fsplits <- function(nlevel) {
+
+    mi <- 2^(nlevel - 1)
+    index <- matrix(0, nrow = mi, ncol = nlevel)
+    index[,1] <- 1
+
+    for (i in 0:(mi-1)) {
+        ii <- i
+        for (l in 2:nlevel) {
+            index[(i + 1), l] <- (ii %% 2)
+            ii <- ii %/% 2
+        }
+    }
+    storage.mode(index) <- "logical"
+    index[-nrow(index),, drop = FALSE]
+}
+
+### set up transformation g(x) for all possible binary splits 
+### in an unordered x
+fmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
+
+    sp <- fsplits(nlevels(x))
+    lev <- levels(x)
+    tr <- matrix(0, nrow = length(x), ncol = nrow(sp))
+    cn <- vector(mode = "character", length = nrow(sp))
+    for (i in 1:nrow(sp)) {
+        tr[ ,i] <- x %in% lev[sp[i, ]]
+        cn[i] <- paste("{", paste(lev[sp[i, ]], collapse = ", "), "} vs. {",
+                       paste(lev[!sp[i, ]], collapse = ", "), "}", sep = "")
+    }
+    rownames(tr) <- 1:length(x)
+    colnames(tr) <- cn
+    tr <- tr[, colMeans(tr) >= minprob & colMeans(tr) <= maxprob]
+    tr
 }
 
 ### logrank scores; with two different methods of handling

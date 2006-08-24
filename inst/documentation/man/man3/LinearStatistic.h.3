@@ -1,0 +1,52 @@
+.TH "LinearStatistic.h" 3 "24 Aug 2006" "coin" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+LinearStatistic.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBC_PermutedLinearStatistic\fP (const double *x, const int p, const double *y, const int q, const int n, const int nperm, const int *indx, const int *perm, double *ans)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void C_PermutedLinearStatistic (const double * x, const int p, const double * y, const int q, const int n, const int nperm, const int * indx, const int * perm, double * ans)"
+.PP
+Linear Statistic with permuted indices
+.br
+ 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP values of the transformation 
+.br
+\fIp\fP dimension of the transformation 
+.br
+\fIy\fP values of the influence function 
+.br
+\fIq\fP dimension of the influence function 
+.br
+\fIn\fP number of observations 
+.br
+\fInperm\fP number of permutations 
+.br
+\fIindx\fP indices for the x-part 
+.br
+\fIperm\fP (permuted) indices for the y-part 
+.br
+\fIans\fP return value; a pointer to a REALSXP-vector of length pq
+.RE
+.PP
+
+.PP
+Definition at line 409 of file LinearStatistic.c.
+.PP
+Referenced by R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for coin from the source code.

@@ -273,8 +273,8 @@ is_contingency <- function(object) {
     groups <- (ncol(x) == 1 && is.factor(x[[1]]))
     y <- object@y
     values <- (ncol(y) == 1 && is.factor(y[[1]]))
-    trans <- all(rowSums(object@xtrans) %in% c(0,1)) && 
-             all(rowSums(object@ytrans) %in% c(0, 1))
+    ### trans <- all(rowSums(object@xtrans) %in% c(0,1)) && 
+    ###          all(rowSums(object@ytrans) %in% c(0, 1))
     ### hm, two ordinal variables are a contingency problem as well (???)
     return((groups && values)) ### && trans)       
 }

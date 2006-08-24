@@ -815,29 +815,36 @@ maxstat_test.IndependenceProblem <- function(object,
     teststat = c("max", "quad"), 
     minprob = 0.1, maxprob = 0.9, ...) {
 
-    check <- function(object) {
-        if (!is_ordered_x(object))
-            stop("all input variables need to be of class ", sQuote("ordered"),
-                 " or ", sQuote("numeric"))
-        return(TRUE)
-    }
-
     distribution <- check_distribution_arg(distribution, 
         values = c("asymptotic", "approximate"))
     teststat <- match.arg(teststat)
 
+    ORDERED <- sapply(object@x, is.ordered)
+    lev <- lapply(object@x, levels)
+    for (i in which(ORDERED)) class(object@x[[i]]) <- "numeric"
+
     mm <- function(x) maxstat_trafo(x, minprob = minprob, maxprob = maxprob)
-    xtrafo <- function(data) trafo(data, numeric_trafo = mm)
+    fmm <- function(x) fmaxstat_trafo(x, minprob = minprob, maxprob = maxprob)
+    xtrafo <- function(data) trafo(data, numeric_trafo = mm, factor_trafo = fmm)
 
     RET <- independence_test(object, teststat = teststat,
-        distribution = distribution, xtrafo = xtrafo, check = check, ...)
+        distribution = distribution, xtrafo = xtrafo, ...)
 
     ### estimate cutpoint
     wm <- which.max(apply(abs(statistic(RET, "standardized")), 1, max))
     whichvar <- attr(RET@statistic@xtrans, "assign")[wm]
     maxcontr <- RET@statistic@xtrans[,wm]
-    estimate <- max(object@x[[whichvar]][maxcontr > 0])
-    names(estimate) <- paste("cutpoint in ", colnames(object@x)[whichvar])
+    if (is.factor(object@x[[whichvar]])) {
+        estimate <- levels(object@x[[whichvar]][maxcontr > 0][, drop = TRUE])
+    } else {
+        estimate <- max(object@x[[whichvar]][maxcontr > 0])
+        if (ORDERED[whichvar]) estimate <- lev[[whichvar]][estimate]
+    }
+    if (ncol(object@x) > 1) {
+        estimate <- list(covariable = colnames(object@x)[whichvar], cutpoint = estimate)
+    } else {
+        estimate <- list(cutpoint = estimate)
+    }
     RET@statistic@estimates <- list(estimate = estimate)
     RET@method <- "Maxstat Test"
     

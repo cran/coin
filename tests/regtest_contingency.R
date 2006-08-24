@@ -61,6 +61,42 @@ y <- factor(c(rep(0,49), rep(1,51)))[sample(1:100)]
 stopifnot(isequal(as.vector(statistic(independence_test(table(x, y)))),
 as.vector(statistic(maxstat_test(y ~ x )))))
 
+### maxstat for multiple, ordered and unordered covariates
+dat <- data.frame(w = rnorm(100), x = runif(100), y = gl(4, 25)[sample(1:100)],
+                  z = ordered(gl(4, 25)[sample(1:100)]))
+
+mt <- maxstat_test(w ~ x, data = dat)
+mt
+est <- mt@statistic@estimates$estimate$cutpoint
+stopifnot(isequal(statistic(mt),
+                  abs(statistic(independence_test(w ~ (x <= est), data = dat)))))
+
+mt <- maxstat_test(w ~ y, data = dat)
+mt
+est <- mt@statistic@estimates$estimate$cutpoint
+xx <- dat$y %in% est
+stopifnot(isequal(statistic(mt), 
+                  abs(statistic(independence_test(w ~ xx, data = dat)))))
+
+mt <- maxstat_test(w ~ z, data = dat)
+mt
+est <- mt@statistic@estimates$estimate$cutpoint
+xx <- dat$z <= est
+stopifnot(isequal(statistic(mt), 
+                  abs(statistic(independence_test(w ~ xx, data = dat)))))
+
+mt <- maxstat_test(w ~ x + y + z, data = dat)
+mt
+est <- mt@statistic@estimates$estimate
+xsel <- dat[[est[[1]]]]
+if (is.factor(xsel) && !is.ordered(xsel)) {
+    xx <- xsel %in% est[2]
+} else {
+    xx <- xsel <= est[2]
+}
+stopifnot(isequal(statistic(mt), 
+                  abs(statistic(independence_test(w ~ xx, data = dat)))))
+
 ### marginal homogeneity
 rating <- c("low", "moderate", "high")
 x <- as.table(matrix(c(20, 10,  5,

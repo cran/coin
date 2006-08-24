@@ -1,0 +1,180 @@
+.TH "vandeWiel.c" 3 "24 Aug 2006" "coin" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+vandeWiel.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <R.h>\fP
+.br
+\fC#include <Rmath.h>\fP
+.br
+\fC#include <Rdefines.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBcelW\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "double \fBbinomi\fP (int m, int n)"
+.br
+.ti -1c
+.RI "\fBcelW\fP ** \fBreserveW\fP (int a, int b)"
+.br
+.ti -1c
+.RI "void \fBFreeW\fP (int a, \fBcelW\fP **W)"
+.br
+.ti -1c
+.RI "void \fBinitW\fP (int a, int b, \fBcelW\fP **W)"
+.br
+.ti -1c
+.RI "void \fBmult\fP (\fBcelW\fP *tem, int a, int b, int rank, double *rs)"
+.br
+.ti -1c
+.RI "void \fBplus\fP (\fBcelW\fP **W, \fBcelW\fP *tempie, int a, int b)"
+.br
+.ti -1c
+.RI "void \fBmymergesort\fP (\fBcelW\fP temptw, long tijd)"
+.br
+.ti -1c
+.RI "void \fBfillcell\fP (\fBcelW\fP **W, int i1, int j1, int r, double *rs)"
+.br
+.ti -1c
+.RI "void \fBmirrorW\fP (\fBcelW\fP **W, int ce, int bep, int start, double *rs)"
+.br
+.ti -1c
+.RI "void \fBmakeW\fP (\fBcelW\fP **W, int a, int b, int start, double *rs)"
+.br
+.ti -1c
+.RI "void \fBcumulcoef\fP (\fBcelW\fP **W, int i1, int j1)"
+.br
+.ti -1c
+.RI "double \fBnumbersmall\fP (int c, int b, double ob, \fBcelW\fP **W1, \fBcelW\fP **W2)"
+.br
+.ti -1c
+.RI "SEXP \fBR_split_up_2sample\fP (SEXP scores, SEXP m, SEXP obs)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Exact Distribution of Two-Sample Permutation Tests van de Wiel split-up Algorithm
+.PP
+Author: Mark van de Wiel (2001-2005) <m.a.v.d.wiel@TUE.nl> with modifications for R by Torsten Hothorn <Torsten.Hothorn@R-project.org>
+.PP
+\fBAuthor:\fP
+.RS 4
+\fBAuthor\fP.RS 4
+hothorn 
+.RE
+.PP
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+\fBDate\fP.RS 4
+2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) 
+.RE
+.PP
+.RE
+.PP
+
+.PP
+Definition in file \fBvandeWiel.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "double binomi (int m, int n)"
+.PP
+Definition at line 37 of file vandeWiel.c.
+.PP
+Referenced by R_split_up_2sample(), and reserveW().
+.SS "void cumulcoef (\fBcelW\fP ** W, int i1, int j1)"
+.PP
+Definition at line 316 of file vandeWiel.c.
+.PP
+References celW::c, and celW::length.
+.PP
+Referenced by R_split_up_2sample().
+.SS "void fillcell (\fBcelW\fP ** W, int i1, int j1, int r, double * rs)"
+.PP
+Definition at line 211 of file vandeWiel.c.
+.PP
+References celW::c, celW::length, mult(), mymergesort(), plus(), and celW::x.
+.PP
+Referenced by makeW().
+.SS "void FreeW (int a, \fBcelW\fP ** W)"
+.PP
+Definition at line 81 of file vandeWiel.c.
+.PP
+Referenced by R_split_up_2sample().
+.SS "void initW (int a, int b, \fBcelW\fP ** W)"
+.PP
+Definition at line 91 of file vandeWiel.c.
+.PP
+References celW::c, celW::length, and celW::x.
+.PP
+Referenced by R_split_up_2sample().
+.SS "void makeW (\fBcelW\fP ** W, int a, int b, int start, double * rs)"
+.PP
+Definition at line 281 of file vandeWiel.c.
+.PP
+References fillcell(), and mirrorW().
+.PP
+Referenced by R_split_up_2sample().
+.SS "void mirrorW (\fBcelW\fP ** W, int ce, int bep, int start, double * rs)"
+.PP
+Definition at line 257 of file vandeWiel.c.
+.PP
+References celW::c, celW::length, and celW::x.
+.PP
+Referenced by makeW().
+.SS "void mult (\fBcelW\fP * tem, int a, int b, int rank, double * rs)"
+.PP
+Definition at line 106 of file vandeWiel.c.
+.PP
+References celW::x.
+.PP
+Referenced by fillcell().
+.SS "void mymergesort (\fBcelW\fP temptw, long tijd)"
+.PP
+Definition at line 159 of file vandeWiel.c.
+.PP
+References celW::c, celW::length, and celW::x.
+.PP
+Referenced by fillcell().
+.SS "double numbersmall (int c, int b, double ob, \fBcelW\fP ** W1, \fBcelW\fP ** W2)"
+.PP
+Definition at line 335 of file vandeWiel.c.
+.PP
+References celW::c, and celW::length.
+.PP
+Referenced by R_split_up_2sample().
+.SS "void plus (\fBcelW\fP ** W, \fBcelW\fP * tempie, int a, int b)"
+.PP
+Definition at line 120 of file vandeWiel.c.
+.PP
+References celW::c, celW::length, and celW::x.
+.PP
+Referenced by fillcell().
+.SS "SEXP R_split_up_2sample (SEXP scores, SEXP m, SEXP obs)"
+.PP
+Definition at line 375 of file vandeWiel.c.
+.PP
+References binomi(), cumulcoef(), FreeW(), initW(), makeW(), numbersmall(), and reserveW().
+.SS "\fBcelW\fP** reserveW (int a, int b)"
+.PP
+Definition at line 51 of file vandeWiel.c.
+.PP
+References binomi(), celW::c, and celW::x.
+.PP
+Referenced by R_split_up_2sample().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for coin from the source code.

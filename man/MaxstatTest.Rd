@@ -16,9 +16,8 @@
 }
 \arguments{
   \item{formula}{a formula of the form \code{y ~ x1 + ... + xp | block} where \code{y}
-    is a variable measured at arbitrary scale and the covariates \code{x1}
-    to \code{xp} are at least of class \code{ordered}; \code{block} is an
-    optional factor for stratification.}
+    and covariates \code{x1} to \code{xp} can be variables measured at arbitrary scales; 
+    \code{block} is an optional factor for stratification.}
   \item{data}{an optional data frame containing the variables in the
     model formula.}
   \item{subset}{an optional vector specifying a subset of observations
@@ -48,6 +47,10 @@
 
   The null hypothesis of independence of all covariates to the response
   \code{y} against simple cutpoint alternatives is tested.
+
+  For an unordered covariate \code{x}, all possible partitions into two
+  groups are evaluated. The cutpoint is then a set of levels defining 
+  one of the two groups.
 
 }
 \value{
@@ -91,6 +94,10 @@
 ### analysis of the tree pipit data in Mueller and Hothorn (2004)
 data("treepipit", package = "coin")
 maxstat_test(counts ~ coverstorey, data = treepipit)
+
+### and for all possible covariates (simultaneously)
+mt <- maxstat_test(counts ~ ., data = treepipit)
+show(mt)$estimate
 
 ### reproduce applications in Sections 7.2 and 7.3 
 ### of Hothorn & Lausen (2003) with limiting distribution
