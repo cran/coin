@@ -1,6 +1,4 @@
 
-import(methods)
-
 export(independence_test,
        oneway_test,
        wilcox_test,

@@ -88,7 +88,9 @@
   levels of the factor of interest.
 
   The basis of this function is the framework for conditional inference
-  procedures by Strasser & Weber (1999). 
+  procedures by Strasser & Weber (1999). The theory and this implementation
+  are explained and illustrated in Hothorn, Hornik, van de Wiel and Zeileis 
+  (2006).
 
 }
 \value{
@@ -105,6 +107,10 @@
     Helmut Strasser & Christian Weber (1999),
     On the asymptotic theory of permutation statistics. 
     \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel & Achim Zeileis (2006).
+    A Lego System for Conditional Inference. \emph{The American Statistician},
+    \bold{60}(3), 257--263.
 
 }
 \examples{
@@ -132,6 +138,12 @@ independence_test(asat ~ group, data = asat,
 normal_test(asat ~ group, data = asat, distribution = "exact", 
             alternative = "greater")
 
+
+### if you are interested in the internals:
+\dontrun{
+    browseURL(system.file("documentation/html/index.html", 
+                          package = "coin"))
+}
 
 }
 \keyword{htest}

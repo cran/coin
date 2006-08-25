@@ -1,4 +1,16 @@
 
+		CHANGES in `coin' VERSION 0.4-12
+
+    o   add $(FLIBS) to Makevars
+
+
+		CHANGES in `coin' VERSION 0.4-11
+
+    o   include doxygen documentation for C functions
+
+    o   documentation updates
+
+
 		CHANGES in `coin' VERSION 0.4-10
 
     o   maxstat_test(y ~ x) is now able to deal with unordered x variables
