@@ -1,11 +1,39 @@
 ### * <HEADER>
 ###
 attach(NULL, name = "CheckExEnv")
-## add some hooks to label plot pages for base and grid graphics
-setHook("plot.new", ".newplot.hook")
-setHook("persp", ".newplot.hook")
-setHook("grid.newpage", ".gridplot.hook")
-
+assign("nameEx", 
+       local({
+	   s <- "__{must remake R-ex/*.R}__"
+           function(new) {
+               if(!missing(new)) s <<- new else s
+           }
+       }),
+       pos = "CheckExEnv")
+## Add some hooks to label plot pages for base and grid graphics
+assign("base_plot_hook",
+       function() {
+           pp <- par(c("mfg","mfcol","oma","mar"))
+           if(all(pp$mfg[1:2] == c(1, pp$mfcol[2]))) {
+               outer <- (oma4 <- pp$oma[4]) > 0; mar4 <- pp$mar[4]
+               mtext(sprintf("help(\"%s\")", nameEx()), side = 4,
+                     line = if(outer)max(1, oma4 - 1) else min(1, mar4 - 1),
+              outer = outer, adj = 1, cex = .8, col = "orchid", las=3)
+           }
+       },
+       pos = "CheckExEnv")
+assign("grid_plot_hook",
+       function() {
+           pushViewport(viewport(width=unit(1, "npc") - unit(1, "lines"),
+                                 x=0, just="left"))
+           grid.text(sprintf("help(\"%s\")", nameEx()),
+                     x=unit(1, "npc") + unit(0.5, "lines"),
+                     y=unit(0.8, "npc"), rot=90,
+                     gp=gpar(col="orchid"))
+       },
+       pos = "CheckExEnv")
+setHook("plot.new",     get("base_plot_hook", pos = "CheckExEnv"))
+setHook("persp",        get("base_plot_hook", pos = "CheckExEnv"))
+setHook("grid.newpage", get("grid_plot_hook", pos = "CheckExEnv"))
 assign("cleanEx",
        function(env = .GlobalEnv) {
 	   rm(list = ls(envir = env, all.names = TRUE), envir = env)
@@ -27,7 +55,6 @@ assign("cleanEx",
 		       " have been removed from the search path")
        },
        pos = "CheckExEnv")
-assign("..nameEx", "__{must remake R-ex/*.R}__", pos = "CheckExEnv") # for now
 assign("ptime", proc.time(), pos = "CheckExEnv")
 grDevices::postscript("coin-Ex.ps")
 assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
@@ -37,8 +64,7 @@ library('coin')
 
 assign(".oldSearch", search(), pos = 'CheckExEnv')
 assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
-cleanEx(); ..nameEx <- "ContingencyTests"
-
+cleanEx(); nameEx("ContingencyTests");
 ### * ContingencyTests
 
 flush(stderr()); flush(stdout())
@@ -115,8 +141,7 @@ independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
 
 
 
-cleanEx(); ..nameEx <- "IndependenceTest"
-
+cleanEx(); nameEx("IndependenceTest");
 ### * IndependenceTest
 
 flush(stderr()); flush(stdout())
@@ -153,11 +178,16 @@ independence_test(asat ~ group, data = asat,
 normal_test(asat ~ group, data = asat, distribution = "exact", 
             alternative = "greater")
 
+### if you are interested in the internals:
+## Not run: 
+##D     browseURL(system.file("documentation/html/index.html", 
+##D                           package = "coin"))
+## End(Not run)
 
 
 
-cleanEx(); ..nameEx <- "LocationTests"
 
+cleanEx(); nameEx("LocationTests");
 ### * LocationTests
 
 flush(stderr()); flush(stdout())
@@ -263,8 +293,7 @@ if (require("multcomp")) {
 
 
 
-cleanEx(); ..nameEx <- "MarginalHomogeneityTest"
-
+cleanEx(); nameEx("MarginalHomogeneityTest");
 ### * MarginalHomogeneityTest
 
 flush(stderr()); flush(stdout())
@@ -308,8 +337,7 @@ mh_test(x)
 
 
 
-cleanEx(); ..nameEx <- "MaxstatTest"
-
+cleanEx(); nameEx("MaxstatTest");
 ### * MaxstatTest
 
 flush(stderr()); flush(stdout())
@@ -347,8 +375,7 @@ maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
 
 
 
-cleanEx(); ..nameEx <- "PermutationDistribution"
-
+cleanEx(); nameEx("PermutationDistribution");
 ### * PermutationDistribution
 
 flush(stderr()); flush(stdout())
@@ -397,8 +424,7 @@ pperm(at, statistic(at))
 
 
 
-cleanEx(); ..nameEx <- "ScaleTests"
-
+cleanEx(); nameEx("ScaleTests");
 ### * ScaleTests
 
 flush(stderr()); flush(stdout())
@@ -462,8 +488,7 @@ covariance(ltmax)
 
 
 
-cleanEx(); ..nameEx <- "SpearmanTest"
-
+cleanEx(); nameEx("SpearmanTest");
 ### * SpearmanTest
 
 flush(stderr()); flush(stdout())
@@ -482,8 +507,7 @@ spearman_test(CONT ~ INTG, data = USJudgeRatings)
 
 
 
-cleanEx(); ..nameEx <- "SurvTest"
-
+cleanEx(); nameEx("SurvTest");
 ### * SurvTest
 
 flush(stderr()); flush(stdout())
@@ -514,8 +538,7 @@ surv_test(Surv(time, event) ~ group, data = exdata,
 
 
 
-cleanEx(); ..nameEx <- "SymmetryTests"
-
+cleanEx(); nameEx("SymmetryTests");
 ### * SymmetryTests
 
 flush(stderr()); flush(stdout())
@@ -614,8 +637,7 @@ pvalue(friedman_test(strength ~ potash | block, data = sc,
 
 
 
-cleanEx(); ..nameEx <- "Transformations"
-
+cleanEx(); nameEx("Transformations");
 ### * Transformations
 
 flush(stderr()); flush(stdout())
@@ -654,8 +676,7 @@ trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
 
 
 
-cleanEx(); ..nameEx <- "alpha"
-
+cleanEx(); nameEx("alpha");
 ### * alpha
 
 flush(stderr()); flush(stdout())
@@ -675,8 +696,7 @@ flush(stderr()); flush(stdout())
 
 
 
-cleanEx(); ..nameEx <- "alzheimer"
-
+cleanEx(); nameEx("alzheimer");
 ### * alzheimer
 
 flush(stderr()); flush(stdout())
@@ -704,8 +724,7 @@ flush(stderr()); flush(stdout())
 
 
 
-cleanEx(); ..nameEx <- "asat"
-
+cleanEx(); nameEx("asat");
 ### * asat
 
 flush(stderr()); flush(stdout())
@@ -731,8 +750,7 @@ exp(confint(pos)$conf.int)
 
 
 
-cleanEx(); ..nameEx <- "expectation-methods"
-
+cleanEx(); nameEx("expectation-methods");
 ### * expectation-methods
 
 flush(stderr()); flush(stdout())
@@ -789,8 +807,7 @@ statistic(ct, type = "standardized")
 
 
 
-cleanEx(); ..nameEx <- "glioma"
-
+cleanEx(); nameEx("glioma");
 ### * glioma
 
 flush(stderr()); flush(stdout())
@@ -843,8 +860,7 @@ surv_test(Surv(time, event) ~ group | histology, data = glioma,
 
 
 graphics::par(get("par.postscript", pos = 'CheckExEnv'))
-cleanEx(); ..nameEx <- "hohnloser"
-
+cleanEx(); nameEx("hohnloser");
 ### * hohnloser
 
 flush(stderr()); flush(stdout())
@@ -864,8 +880,7 @@ flush(stderr()); flush(stdout())
 
 
 
-cleanEx(); ..nameEx <- "jobsatisfaction"
-
+cleanEx(); nameEx("jobsatisfaction");
 ### * jobsatisfaction
 
 flush(stderr()); flush(stdout())
@@ -886,8 +901,7 @@ cmh_test(jobsatisfaction)
 
 
 
-cleanEx(); ..nameEx <- "mercuryfish"
-
+cleanEx(); nameEx("mercuryfish");
 ### * mercuryfish
 
 flush(stderr()); flush(stdout())
@@ -945,8 +959,7 @@ pvalue(mvtest, method = "single-step")
 
 
 
-cleanEx(); ..nameEx <- "neuropathy"
-
+cleanEx(); nameEx("neuropathy");
 ### * neuropathy
 
 flush(stderr()); flush(stdout())
@@ -976,8 +989,7 @@ oneway_test(pain ~ group, data = neuropathy,
 
 
 
-cleanEx(); ..nameEx <- "ocarcinoma"
-
+cleanEx(); nameEx("ocarcinoma");
 ### * ocarcinoma
 
 flush(stderr()); flush(stdout())
@@ -1005,8 +1017,7 @@ pvalue(lrt)
 
 
 
-cleanEx(); ..nameEx <- "photocar"
-
+cleanEx(); nameEx("photocar");
 ### * photocar
 
 flush(stderr()); flush(stdout())
@@ -1043,8 +1054,7 @@ pvalue(it, "single-step")
 
 
 
-cleanEx(); ..nameEx <- "pvalue-methods"
-
+cleanEx(); nameEx("pvalue-methods");
 ### * pvalue-methods
 
 flush(stderr()); flush(stdout())
@@ -1084,8 +1094,7 @@ pvalue(it, method = "discrete")
 
 
 
-cleanEx(); ..nameEx <- "rotarod"
-
+cleanEx(); nameEx("rotarod");
 ### * rotarod
 
 flush(stderr()); flush(stdout())
@@ -1113,8 +1122,7 @@ wilcox_test(time ~ group, data = rotarod)
 
 
 
-cleanEx(); ..nameEx <- "sphase"
-
+cleanEx(); nameEx("sphase");
 ### * sphase
 
 flush(stderr()); flush(stdout())
@@ -1138,8 +1146,7 @@ maxstat_test(Surv(RFS, event) ~ SPF, data = sphase,
 
 
 
-cleanEx(); ..nameEx <- "statistic-methods"
-
+cleanEx(); nameEx("statistic-methods");
 ### * statistic-methods
 
 flush(stderr()); flush(stdout())
@@ -1173,8 +1180,7 @@ statistic(ct, type = "standardized")
 
 
 
-cleanEx(); ..nameEx <- "treepipit"
-
+cleanEx(); nameEx("treepipit");
 ### * treepipit
 
 flush(stderr()); flush(stdout())

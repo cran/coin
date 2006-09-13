@@ -14,21 +14,21 @@ Include dependency graph for CIstuff.c:\begin{figure}[H]
 \subsection*{Functions}
 \begin{CompactItemize}
 \item 
-int \hyperlink{CIstuff_8c_a0}{nrow} (SEXP x)
+int \hyperlink{CIstuff_8c_eeb672a71c45ead28b7b354414f2427a}{nrow} (SEXP x)
 \item 
-int \hyperlink{CIstuff_8c_a1}{ncol} (SEXP x)
+int \hyperlink{CIstuff_8c_f1f46cc3e98630497a1ccb21d943fe65}{ncol} (SEXP x)
 \item 
-void \hyperlink{CIstuff_8c_a2}{C\_\-Sample\-No\-Replace} (int $\ast$x, int m, int k, int $\ast$ans)
+void \hyperlink{CIstuff_8c_f7c710920d1496d23fdabad9b1d0e18c}{C\_\-Sample\-No\-Replace} (int $\ast$x, int m, int k, int $\ast$ans)
 \item 
-SEXP \hyperlink{CIstuff_8c_a3}{R\_\-blocksetup} (SEXP block)
+SEXP \hyperlink{CIstuff_8c_877d7b2378274b833a8c14b27d7a16a1}{R\_\-blocksetup} (SEXP block)
 \item 
-void \hyperlink{CIstuff_8c_a4}{C\_\-blockperm} (SEXP blocksetup, int $\ast$ans)
+void \hyperlink{CIstuff_8c_7c6b9e02fb5bcf919c7823d497cab062}{C\_\-blockperm} (SEXP blocksetup, int $\ast$ans)
 \item 
-SEXP \hyperlink{CIstuff_8c_a5}{R\_\-blockperm} (SEXP block)
+SEXP \hyperlink{CIstuff_8c_c97588ec77f215433b2933e5632f810d}{R\_\-blockperm} (SEXP block)
 \item 
-SEXP \hyperlink{CIstuff_8c_a6}{R\_\-Monte\-Carlo\-Independence\-Test} (SEXP x, SEXP y, SEXP block, SEXP B)
+SEXP \hyperlink{CIstuff_8c_140f9859faf864060c8a8ae129bc0190}{R\_\-Monte\-Carlo\-Independence\-Test} (SEXP x, SEXP y, SEXP block, SEXP B)
 \item 
-SEXP \hyperlink{CIstuff_8c_a7}{R\_\-maxstattrafo} (SEXP x, SEXP cutpoints)
+SEXP \hyperlink{CIstuff_8c_712dc63828d311dc3be30182fccf6f0f}{R\_\-maxstattrafo} (SEXP x, SEXP cutpoints)
 \end{CompactItemize}
 
 
@@ -48,17 +48,17 @@ Some additional functionality for package `coin'
 Definition in file \hyperlink{CIstuff_8c-source}{CIstuff.c}.
 
 \subsection{Function Documentation}
-\hypertarget{CIstuff_8c_a4}{
+\hypertarget{CIstuff_8c_7c6b9e02fb5bcf919c7823d497cab062}{
 \index{CIstuff.c@{CIstuff.c}!C_blockperm@{C\_\-blockperm}}
 \index{C_blockperm@{C\_\-blockperm}!CIstuff.c@{CIstuff.c}}
 \subsubsection[C\_\-blockperm]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-blockperm (SEXP {\em blocksetup}, int $\ast$ {\em ans})}}
-\label{CIstuff_8c_a4}
+\label{CIstuff_8c_7c6b9e02fb5bcf919c7823d497cab062}
 
 
 Block permutation \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em blocksetup}]as computed by `R\_\-blocksetup' \item[{\em ans}]integer vector\end{description}
+\item[{\em blocksetup}]as computed by `R\_\-blocksetup' \item[{\em ans}]integer vector \end{description}
 \end{Desc}
 
 
@@ -71,52 +71,52 @@ Referenced by R\_\-blockperm(), and R\_\-Monte\-Carlo\-Independence\-Test().
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=130pt]{CIstuff_8c_a4_cgraph}
+\includegraphics[width=130pt]{CIstuff_8c_7c6b9e02fb5bcf919c7823d497cab062_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{CIstuff_8c_a2}{
+\hypertarget{CIstuff_8c_f7c710920d1496d23fdabad9b1d0e18c}{
 \index{CIstuff.c@{CIstuff.c}!C_SampleNoReplace@{C\_\-SampleNoReplace}}
 \index{C_SampleNoReplace@{C\_\-SampleNoReplace}!CIstuff.c@{CIstuff.c}}
 \subsubsection[C\_\-SampleNoReplace]{\setlength{\rightskip}{0pt plus 5cm}void C\_\-Sample\-No\-Replace (int $\ast$ {\em x}, int {\em m}, int {\em k}, int $\ast$ {\em ans})}}
-\label{CIstuff_8c_a2}
+\label{CIstuff_8c_f7c710920d1496d23fdabad9b1d0e18c}
 
 
 compute a permutation of a (random subset of) 0:(m-1) \begin{Desc}
 \item[Parameters:]
 \begin{description}
-\item[{\em x}]an integer vector of length m \item[{\em m}]integer \item[{\em k}]integer \item[{\em ans}]an integer vector of length k\end{description}
+\item[{\em x}]an integer vector of length m \item[{\em m}]integer \item[{\em k}]integer \item[{\em ans}]an integer vector of length k \end{description}
 \end{Desc}
 
 
 Definition at line 42 of file CIstuff.c.
 
-Referenced by C\_\-blockperm().\hypertarget{CIstuff_8c_a1}{
+Referenced by C\_\-blockperm().\hypertarget{CIstuff_8c_f1f46cc3e98630497a1ccb21d943fe65}{
 \index{CIstuff.c@{CIstuff.c}!ncol@{ncol}}
 \index{ncol@{ncol}!CIstuff.c@{CIstuff.c}}
 \subsubsection[ncol]{\setlength{\rightskip}{0pt plus 5cm}int ncol (SEXP {\em x})}}
-\label{CIstuff_8c_a1}
+\label{CIstuff_8c_f1f46cc3e98630497a1ccb21d943fe65}
 
 
 
 
 Definition at line 22 of file CIstuff.c.
 
-Referenced by R\_\-Expect\-Covar\-Influence(), R\_\-Expect\-Covar\-Linear\-Statistic(), R\_\-kronecker(), R\_\-Linear\-Statistic(), R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{CIstuff_8c_a0}{
+Referenced by R\_\-Expect\-Covar\-Influence(), R\_\-Expect\-Covar\-Linear\-Statistic(), R\_\-kronecker(), R\_\-Linear\-Statistic(), and R\_\-Monte\-Carlo\-Independence\-Test().\hypertarget{CIstuff_8c_eeb672a71c45ead28b7b354414f2427a}{
 \index{CIstuff.c@{CIstuff.c}!nrow@{nrow}}
 \index{nrow@{nrow}!CIstuff.c@{CIstuff.c}}
 \subsubsection[nrow]{\setlength{\rightskip}{0pt plus 5cm}int nrow (SEXP {\em x})}}
-\label{CIstuff_8c_a0}
+\label{CIstuff_8c_eeb672a71c45ead28b7b354414f2427a}
 
 
 
 
 Definition at line 11 of file CIstuff.c.
 
-Referenced by R\_\-Expect\-Covar\-Influence(), R\_\-Expect\-Covar\-Linear\-Statistic(), R\_\-kronecker(), R\_\-Linear\-Statistic(), R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{CIstuff_8c_a5}{
+Referenced by R\_\-Expect\-Covar\-Influence(), R\_\-Expect\-Covar\-Linear\-Statistic(), R\_\-kronecker(), R\_\-Linear\-Statistic(), R\_\-Monte\-Carlo\-Independence\-Test(), and R\_\-Permuted\-Linear\-Statistic().\hypertarget{CIstuff_8c_c97588ec77f215433b2933e5632f810d}{
 \index{CIstuff.c@{CIstuff.c}!R_blockperm@{R\_\-blockperm}}
 \index{R_blockperm@{R\_\-blockperm}!CIstuff.c@{CIstuff.c}}
 \subsubsection[R\_\-blockperm]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-blockperm (SEXP {\em block})}}
-\label{CIstuff_8c_a5}
+\label{CIstuff_8c_c97588ec77f215433b2933e5632f810d}
 
 
 
@@ -128,34 +128,34 @@ References C\_\-blockperm(), and R\_\-blocksetup().
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=187pt]{CIstuff_8c_a5_cgraph}
+\includegraphics[width=187pt]{CIstuff_8c_c97588ec77f215433b2933e5632f810d_cgraph}
 \end{center}
 \end{figure}
-\hypertarget{CIstuff_8c_a3}{
+\hypertarget{CIstuff_8c_877d7b2378274b833a8c14b27d7a16a1}{
 \index{CIstuff.c@{CIstuff.c}!R_blocksetup@{R\_\-blocksetup}}
 \index{R_blocksetup@{R\_\-blocksetup}!CIstuff.c@{CIstuff.c}}
 \subsubsection[R\_\-blocksetup]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-blocksetup (SEXP {\em block})}}
-\label{CIstuff_8c_a3}
+\label{CIstuff_8c_877d7b2378274b833a8c14b27d7a16a1}
 
 
 
 
 Definition at line 56 of file CIstuff.c.
 
-Referenced by R\_\-blockperm(), and R\_\-Monte\-Carlo\-Independence\-Test().\hypertarget{CIstuff_8c_a7}{
+Referenced by R\_\-blockperm(), and R\_\-Monte\-Carlo\-Independence\-Test().\hypertarget{CIstuff_8c_712dc63828d311dc3be30182fccf6f0f}{
 \index{CIstuff.c@{CIstuff.c}!R_maxstattrafo@{R\_\-maxstattrafo}}
 \index{R_maxstattrafo@{R\_\-maxstattrafo}!CIstuff.c@{CIstuff.c}}
 \subsubsection[R\_\-maxstattrafo]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-maxstattrafo (SEXP {\em x}, SEXP {\em cutpoints})}}
-\label{CIstuff_8c_a7}
+\label{CIstuff_8c_712dc63828d311dc3be30182fccf6f0f}
 
 
 
 
-Definition at line 202 of file CIstuff.c.\hypertarget{CIstuff_8c_a6}{
+Definition at line 202 of file CIstuff.c.\hypertarget{CIstuff_8c_140f9859faf864060c8a8ae129bc0190}{
 \index{CIstuff.c@{CIstuff.c}!R_MonteCarloIndependenceTest@{R\_\-MonteCarloIndependenceTest}}
 \index{R_MonteCarloIndependenceTest@{R\_\-MonteCarloIndependenceTest}!CIstuff.c@{CIstuff.c}}
 \subsubsection[R\_\-MonteCarloIndependenceTest]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-Monte\-Carlo\-Independence\-Test (SEXP {\em x}, SEXP {\em y}, SEXP {\em block}, SEXP {\em B})}}
-\label{CIstuff_8c_a6}
+\label{CIstuff_8c_140f9859faf864060c8a8ae129bc0190}
 
 
 
@@ -167,6 +167,6 @@ References C\_\-blockperm(), C\_\-Permuted\-Linear\-Statistic(), ncol(), nrow(),
 Here is the call graph for this function:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=260pt]{CIstuff_8c_a6_cgraph}
+\includegraphics[width=260pt]{CIstuff_8c_140f9859faf864060c8a8ae129bc0190_cgraph}
 \end{center}
 \end{figure}

@@ -1,6 +1,6 @@
 
-R : Copyright 2006, The R Foundation for Statistical Computing
-Version 2.3.0 (2006-04-24)
+R version 2.4.0 alpha (2006-09-06 r39158)
+Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -76,7 +76,7 @@ Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > ### sanity checks
 > try(fligner_test(x ~ y, data = dat)) 
-Error in FUN(X[[1]], ...) : need numeric data
+Error in median.default(X[[1]], ...) : need numeric data
 > try(fligner_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : ‘block’ is not a factor
 > 

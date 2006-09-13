@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "25 Aug 2006" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "7 Sep 2006" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -84,7 +84,7 @@ Conditional expectation and covariance of the influence function
 .br
 \fIn\fP number of observations 
 .br
-\fIans\fP return value; an object of class `ExpectCovarInfluence'
+\fIans\fP return value; an object of class `ExpectCovarInfluence' 
 .RE
 .PP
 
@@ -116,14 +116,14 @@ Conditional expectation and covariance of the a linear statistic
 .br
 \fIexpcovinf\fP an object of class `ExpectCovarInfluence' 
 .br
-\fIans\fP return value; an object of class `ExpectCovar'
+\fIans\fP return value; an object of class `ExpectCovar' 
 .RE
 .PP
 
 .PP
 Definition at line 192 of file LinearStatistic.c.
 .PP
-References C_kronecker(), CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
+References CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
 .PP
 Referenced by R_ExpectCovarLinearStatistic().
 .SS "void C_kronecker (const double * A, const int m, const int n, const double * B, const int r, const int s, double * ans)"
@@ -146,14 +146,14 @@ Computes the Kronecker product of two matrices
 .br
 \fIs\fP ncol(B) 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length (mr x ns)
+\fIans\fP return value; a pointer to a REALSXP-vector of length (mr x ns) 
 .RE
 .PP
 
 .PP
 Definition at line 22 of file LinearStatistic.c.
 .PP
-Referenced by C_ExpectCovarLinearStatistic(), and R_kronecker().
+Referenced by R_kronecker().
 .SS "void C_LinearStatistic (const double * x, const int p, const double * y, const int q, const double * weights, const int n, double * ans)"
 .PP
 Computes the linear statistic, formula (1) in the paper
@@ -174,7 +174,7 @@ Computes the linear statistic, formula (1) in the paper
 .br
 \fIn\fP number of observations 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length pq
+\fIans\fP return value; a pointer to a REALSXP-vector of length pq 
 .RE
 .PP
 
@@ -206,14 +206,14 @@ Linear Statistic with permuted indices
 .br
 \fIperm\fP (permuted) indices for the y-part 
 .br
-\fIans\fP return value; a pointer to a REALSXP-vector of length pq
+\fIans\fP return value; a pointer to a REALSXP-vector of length pq 
 .RE
 .PP
 
 .PP
 Definition at line 409 of file LinearStatistic.c.
 .PP
-Referenced by R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
+Referenced by R_MonteCarloIndependenceTest().
 .SS "SEXP R_ExpectCovarInfluence (SEXP y, SEXP weights)"
 .PP
 R-interface to C_ExpectCovarInfluence
@@ -224,7 +224,7 @@ R-interface to C_ExpectCovarInfluence
 .RS 4
 \fIy\fP values of the influence function 
 .br
-\fIweights\fP case weights
+\fIweights\fP case weights 
 .RE
 .PP
 
@@ -246,7 +246,7 @@ R-interface to C_ExpectCovarLinearStatistic
 .br
 \fIweights\fP case weights 
 .br
-\fIexpcovinf\fP an object of class `ExpectCovarInfluence'
+\fIexpcovinf\fP an object of class `ExpectCovarInfluence' 
 .RE
 .PP
 
@@ -264,7 +264,7 @@ R-interface to C_kronecker
 .RS 4
 \fIA\fP matrix 
 .br
-\fIB\fP matrix
+\fIB\fP matrix 
 .RE
 .PP
 
@@ -284,7 +284,7 @@ R-interface to C_LinearStatistic
 .br
 \fIy\fP values of the influence function 
 .br
-\fIweights\fP case weights
+\fIweights\fP case weights 
 .RE
 .PP
 
@@ -306,14 +306,14 @@ Linear Statistic with permuted indices
 .br
 \fIindx\fP indices for the x-part 
 .br
-\fIperm\fP (permuted) indices for the y-part
+\fIperm\fP (permuted) indices for the y-part 
 .RE
 .PP
 
 .PP
 Definition at line 442 of file LinearStatistic.c.
 .PP
-References C_PermutedLinearStatistic(), ncol(), and nrow().
+References nrow().
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for coin from the source code.

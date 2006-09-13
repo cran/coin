@@ -26,8 +26,5 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
-formula2data: no visible global function definition for pData
-formula2data: no visible global function definition for phenoData
-formula2data: no visible global function definition for exprs
 NULL
 > 

@@ -109,13 +109,13 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
     ### in case `data' is an exprSet object 
     if (extends(class(data), "exprSet")) {
         dat <- ModelEnvFormula(formula = formula, 
-                               data = pData(phenoData(data)),
+                               data = Biobase::pData(Biobase::phenoData(data)),
                                subset = subset, other = other,
                                na.action = na.omit, 
                                ...)
 
         ### x are _all_ expression levels, always
-        x <- as.data.frame(t(exprs(data)))
+        x <- as.data.frame(t(Biobase::exprs(data)))
 
     } else {
 

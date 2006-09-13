@@ -1,4 +1,4 @@
-all clean: refman.pdf
+all: clean refman.pdf
 
 refman.pdf: refman.tex
 	pdflatex refman.tex
