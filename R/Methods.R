@@ -202,19 +202,24 @@ setMethod(f = "ApproxNullDistribution",
               dcov <- sqrt(variance(object))
               expect <- expectation(object)
               pls <- (pls - expect) / dcov
-              pls <- switch(object@alternative,
-                  "less" = do.call("pmin", as.data.frame(t(pls))),
-                  "greater" = do.call("pmax", as.data.frame(t(pls))),
-                  "two.sided" = do.call("pmax", as.data.frame(t(abs(pls)))))
-              pls <- sort(round(pls, 10))
+              pls <- round(pls, 10)
 
               RET <- new("ApproxNullDistribution")
 
+              pmaxmin <- function() {
+                  pls <- switch(object@alternative,
+                         "less" = do.call("pmin", as.data.frame(t(pls))),
+                         "greater" = do.call("pmax", as.data.frame(t(pls))),
+                         "two.sided" = do.call("pmax", as.data.frame(t(abs(pls)))))
+                  sort(round(pls, 10))
+              }
+
               RET@p <- function(q) {
+                  q <- round(q, 10)
                   p <- switch(object@alternative,
-                      "less" = mean(pls >= round(q, 10)),
-                      "greater" = mean(pls <= round(q, 10)),
-                      "two.sided" = mean(pls <= round(q, 10))
+                      "less" = mean((colSums(pls >= q)) == nrow(pls)),
+                      "greater" = mean((colSums(pls <= q)) == nrow(pls)),
+                      "two.sided" = mean((colSums(abs(pls) <= q)) == nrow(pls))
                   )
                   attr(p, "conf.int") <- binom.test(round(p * B), B, 
                       conf.level = 0.99)$conf.int
@@ -222,16 +227,21 @@ setMethod(f = "ApproxNullDistribution",
                   p
               }
 
-              RET@q <- function(p) pls[length(pls) * p]
+              RET@q <- function(p) {
+                  pls <- pmaxmin()
+                  pls[length(pls) * p]
+              }
               RET@d <- function(x) {
+                  pls <- pmaxmin()
                   tmp <- abs(pls - x)
                   mean(tmp == tmp[which.min(tmp)])
               }
               RET@pvalue <- function(q) {
+                  q <- round(q, 10)
                   p <- switch(object@alternative,
-                      "less" = mean(pls <= round(q, 10)),
-                      "greater" = mean(pls >= round(q, 10)),
-                      "two.sided" = mean(pls >= round(q, 10))
+                      "less" = mean((colSums(pls <= q)) > 0), 
+                      "greater" = mean((colSums(pls >= q)) > 0),
+                      "two.sided" = mean((colSums(abs(pls) >= q)) > 0)
                   )
                   attr(p, "conf.int") <- binom.test(round(p * B), B,
                       conf.level = 0.99)$conf.int
@@ -241,6 +251,7 @@ setMethod(f = "ApproxNullDistribution",
 
               RET@support <- function(raw = FALSE) {
                   if (raw) return(plsraw)
+                  pls <- pmaxmin()
                   sort(unique(drop(pls)))
               }
               RET@name = "MonteCarlo distribution"

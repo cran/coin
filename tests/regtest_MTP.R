@@ -74,3 +74,29 @@ if (FALSE) {
     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
     a[order(a$index),]
 }
+
+### Monte-Carlo distribution
+
+y <- rnorm(20)
+x <- runif(20)
+
+mt <- maxstat_test(y ~ x, distribution = approximate())
+pvalue(mt)
+pperm(mt, 1)
+qperm(mt, 0.9)
+dperm(mt, qperm(mt, 0.9))
+support(mt)
+
+mt <- maxstat_test(y ~ x, distribution = approximate(), alternative = "greater")
+pvalue(mt)
+pperm(mt, 1)
+qperm(mt, 0.9)
+dperm(mt, qperm(mt, 0.9))
+support(mt)
+
+mt <- maxstat_test(y ~ x, distribution = approximate(), alternative = "less")
+pvalue(mt)
+pperm(mt, 1)
+qperm(mt, 0.9)
+dperm(mt, qperm(mt, 0.9))
+support(mt)

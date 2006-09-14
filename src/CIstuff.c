@@ -3,7 +3,7 @@
     Some additional functionality for package `coin'
     *\file CIstuff.c
     *\author $Author: hothorn $
-    *\date $Date: 2005-11-17 13:10:42 +0100 (Thu, 17 Nov 2005) $
+    *\date $Date: 2006-09-15 13:33:53 +0200 (Fri, 15 Sep 2006) $
 */
                 
 #include "CI_common.h"
@@ -193,6 +193,8 @@ SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B) {
     }
 
     PutRNGstate();
+
+    Free(index); Free(permindex);
 
     UNPROTECT(3);
     return(ans);
