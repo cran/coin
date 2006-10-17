@@ -23,6 +23,13 @@ setMethod(f = "initialize",
     signature = "IndependenceProblem", 
     definition = function(.Object, x, y, block = NULL, weights = NULL) {
 
+        if (length(x) == 0) {
+            cn <- colnames(x)
+            rn <- rownames(x)
+            x <- data.frame(x = rep(1, nrow(x)))
+            rownames(x) <- rn
+            colnames(x) <- cn
+        }
         if (any(is.na(x))) 
             stop(sQuote("x"), " contains missing values")
         if (any(is.na(y))) 

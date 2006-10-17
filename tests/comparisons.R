@@ -865,7 +865,14 @@ stopifnot(isequal(round(p, 4), 0.0505))
 ### symmetry problem, page 288
 load("AIDS.rda")
 
+tmp <- data.frame(y = c(AIDS$post, AIDS$pre), 
+                  x = gl(2, nrow(AIDS)), 
+                  block = factor(rep(1:nrow(AIDS), 2)))
+
 wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic")
+wsa2 <- wilcoxsign_test(y ~ x | block, data = tmp, distribution = "asymptotic")
+
+stopifnot(all.equal(statistic(wsa), statistic(wsa2)))
 
 # asymptotic p-value, page 290
 stopifnot(isequal(round(statistic(wsa), 3), 2.896))

@@ -51,6 +51,11 @@
   performs the Page test, scores can be altered by the \code{scores}
   argument (see \code{\link{symmetry_test}}).
 
+  For \code{wilcoxsign_test}, formulae of the form
+  \code{y ~ x | block} and \code{y ~ x} are allowed. The latter is interpreted
+  in the sense that \code{y} is the first and \code{x} the second
+  measurement on the same observation.
+
 }
 \value{
 
@@ -157,6 +162,16 @@ ft
 ### approximate null distribution via Monte-Carlo
 pvalue(friedman_test(strength ~ potash | block, data = sc, 
                      distribution = approximate(B = 9999)))
+
+### example from ?wilcox.test
+x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+wilcoxsign_test(x ~ y, alternative = "greater", distribution = exact())
+wilcox.test(x, y, paired = TRUE, alternative = "greater")
+
+### with explicit group and block information
+xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), block = factor(rep(1:length(x), 2)))
+wilcoxsign_test(y ~ x | block, data = xydat, alternative = "greater", distribution = exact())
 
 }
 \keyword{htest}

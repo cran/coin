@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 0.5-1
+
+    o    improve formula interface for wilcoxsign_test
+
+
 		CHANGES in `coin' VERSION 0.5-0
 
     o    implement exact distribution for symmetry problems (especially

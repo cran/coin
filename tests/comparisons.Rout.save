@@ -1,5 +1,5 @@
 
-R version 2.4.0 (2006-10-03)
+R version 2.5.0 Under development (unstable) (2006-10-25 r39730)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -929,7 +929,14 @@ alternative hypothesis: two.sided
 > ### symmetry problem, page 288
 > load("AIDS.rda")
 > 
+> tmp <- data.frame(y = c(AIDS$post, AIDS$pre), 
++                   x = gl(2, nrow(AIDS)), 
++                   block = factor(rep(1:nrow(AIDS), 2)))
+> 
 > wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic")
+> wsa2 <- wilcoxsign_test(y ~ x | block, data = tmp, distribution = "asymptotic")
+> 
+> stopifnot(all.equal(statistic(wsa), statistic(wsa2)))
 > 
 > # asymptotic p-value, page 290
 > stopifnot(isequal(round(statistic(wsa), 3), 2.896))

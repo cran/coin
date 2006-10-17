@@ -1,5 +1,5 @@
 
-R version 2.4.0 alpha (2006-09-13 r39286)
+R version 2.5.0 Under development (unstable) (2006-10-25 r39730)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -446,13 +446,13 @@ Loading required package: multcomp
 99 percent confidence interval:
  0.0003199269 0.0007126921 
 
-                   
-II-I   0.9469666667
-III-I  0.0089333333
-IV-I   0.0070666667
-III-II 0.0006777778
-IV-II  0.0004777778
-IV-III 0.9998777778
+                     
+II - I   0.9469666667
+III - I  0.0089333333
+IV - I   0.0070666667
+III - II 0.0006777778
+IV - II  0.0004777778
+IV - III 0.9998777778
 > 
 > 
 > 
@@ -930,10 +930,10 @@ Loading required package: multcomp
 99 percent confidence interval:
  0.003205721 0.003706108 
 
-                                   
-Round Out-Narrow Angle  0.623924061
-Wide Angle-Narrow Angle 0.053791966
-Wide Angle-Round Out    0.003398076
+                                     
+Round Out - Narrow Angle  0.623924061
+Wide Angle - Narrow Angle 0.053791966
+Wide Angle - Round Out    0.003398076
 > 
 > ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286
 > sc <- data.frame(block = factor(c(rep(1, 5), rep(2, 5), rep(3, 5))),
@@ -964,6 +964,39 @@ chi-squared = 7.0533, df = 1, p-value = 0.007912
 [1] 0.00470047
 99 percent confidence interval:
  0.003124471 0.006765311 
+
+> 
+> ### example from ?wilcox.test
+> x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+> y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+> wilcoxsign_test(x ~ y, alternative = "greater", distribution = exact())
+
+	Exact Wilcoxon-Signed-Rank Test
+
+data:  y by groups neg, pos 
+	 stratified by block 
+Z = 2.0732, p-value = 0.01953
+alternative hypothesis: true mu is greater than 0 
+
+> wilcox.test(x, y, paired = TRUE, alternative = "greater")
+
+	Wilcoxon signed rank test
+
+data:  x and y 
+V = 40, p-value = 0.01953
+alternative hypothesis: true location shift is greater than 0 
+
+> 
+> ### with explicit group and block information
+> xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), block = factor(rep(1:length(x), 2)))
+> wilcoxsign_test(y ~ x | block, data = xydat, alternative = "greater", distribution = exact())
+
+	Exact Wilcoxon-Signed-Rank Test
+
+data:  y by groups neg, pos 
+	 stratified by block 
+Z = 2.0732, p-value = 0.01953
+alternative hypothesis: true mu is greater than 0 
 
 > 
 > 
@@ -1873,7 +1906,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  51.599 1.016 72.751 0 0 
+Time elapsed:  34.294 0.488 35.016 0 0 
 > grDevices::dev.off()
 null device 
           1 

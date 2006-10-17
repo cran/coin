@@ -983,13 +983,22 @@ wilcoxsign_test.IndependenceProblem <- function(object,
 
     y <- object@y[[1]]
     x <- object@x[[1]]
-    if (!is.numeric(x))
-        stop(sQuote("x"), " is not a numeric variable")
+    block <- object@block
+
     if (!is.numeric(y))
         stop(sQuote("y"), " is not a numeric variable")
+    if (is.factor(x)) {
+        if (nlevels(x) != 2)
+            stop(sQuote("x"), " is not a factor at two levels")
+        if (!is_completeblock(object))
+            stop("Not an unreplicated complete block design")
+        diffs <- tapply(1:length(y), block, function(b) 
+            y[b][x[b] == levels(x)[1]] - y[b][x[b] == levels(x)[2]]
+        )
+    }
+    if (is.numeric(x))
+        diffs <- x - y
 
-    block <- gl(length(x), 2)
-    diffs <- x - y
     diffs <- diffs[abs(diffs) > 0]
     block <- gl(length(diffs), 2)
     pos <- rank(abs(diffs)) * (diffs > 0)
