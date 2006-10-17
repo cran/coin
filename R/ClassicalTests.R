@@ -979,7 +979,7 @@ wilcoxsign_test.formula <- function(formula, data = list(),
 }   
 
 wilcoxsign_test.IndependenceProblem <- function(object, 
-    distribution = c("asymptotic", "approximate"), ...) {
+    distribution = c("asymptotic", "approximate", "exact"), ...) {
 
     y <- object@y[[1]]
     x <- object@x[[1]]
@@ -990,13 +990,15 @@ wilcoxsign_test.IndependenceProblem <- function(object,
 
     block <- gl(length(x), 2)
     diffs <- x - y
-    pos <- rank(abs(diffs)) * (diffs > 0)[x != y]
-    neg <- rank(abs(diffs)) * (diffs < 0)[x != y]
+    diffs <- diffs[abs(diffs) > 0]
+    block <- gl(length(diffs), 2)
+    pos <- rank(abs(diffs)) * (diffs > 0)
+    neg <- rank(abs(diffs)) * (diffs < 0)
     yy <- drop(as.vector(t(cbind(pos, neg))))
-    xx <- factor(rep(c("pos", "neg"), length(x)))
+    xx <- factor(rep(c("pos", "neg"), length(diffs)))
 
     distribution <- check_distribution_arg(distribution, 
-        values = c("asymptotic", "approximate"))
+        values = c("asymptotic", "approximate", "exact"))
 
     ip <- new("IndependenceProblem", x = data.frame(x = xx), 
               y = data.frame(y = yy), block = block)

@@ -35,6 +35,8 @@ Include dependency graph for StreitbergRoehmel.c:<p><center><img src="Streitberg
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="StreitbergRoehmel_8c.html#f9a845b0ec4e288550ee071a11d42e3f">R_cpermdist2</a> (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SEXP&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="StreitbergRoehmel_8c.html#5bccf6c77bf2cabd9930b24d7fac273a">R_cpermdist1</a> (SEXP scores)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Exact Distribution of Two-Sample Permutation Tests Streitberg &amp; Roehmel Algorithm<p>
@@ -69,10 +71,51 @@ Definition in file <a class="el" href="StreitbergRoehmel_8c-source.html">Streitb
 <p>
 Definition at line <a class="el" href="StreitbergRoehmel_8c-source.html#l00019">19</a> of file <a class="el" href="StreitbergRoehmel_8c-source.html">StreitbergRoehmel.c</a>.
 <p>
-Referenced by <a class="el" href="StreitbergRoehmel_8c-source.html#l00046">R_cpermdist2()</a>.    </td>
+Referenced by <a class="el" href="StreitbergRoehmel_8c-source.html#l00204">R_cpermdist1()</a>, and <a class="el" href="StreitbergRoehmel_8c-source.html#l00046">R_cpermdist2()</a>.    </td>
   </tr>
 </table>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="5bccf6c77bf2cabd9930b24d7fac273a"></a><!-- doxytag: member="StreitbergRoehmel.c::R_cpermdist1" ref="5bccf6c77bf2cabd9930b24d7fac273a" args="(SEXP scores)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">SEXP R_cpermdist1           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">SEXP&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>scores</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The density of the permutation distribution for the one sample problem.<p>
+REFERENCES<p>
+Bernd Streitberg &amp; Joachim R\"ohmel (1986), Exact distributions for permutations and rank tests: An introduction to some recently published algorithms. Statistical Software Newsletter 12(1), 10-17.<p>
+Bernd Streitberg &amp; Joachim R\"ohmel (1987), Exakte Verteilungen f\"ur Rang- und Randomisierungstests im allgemeinen $c$-Stichprobenfall. EDV in Medizin und Biologie 18(1), 12-19 (in german).<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scores</em>&nbsp;</td><td>score vector (such as rank(abs(y)) for wilcoxsign_test) </td></tr>
+  </table>
+</dl>
+
+<p>
+Definition at line <a class="el" href="StreitbergRoehmel_8c-source.html#l00204">204</a> of file <a class="el" href="StreitbergRoehmel_8c-source.html">StreitbergRoehmel.c</a>.
+<p>
+References <a class="el" href="StreitbergRoehmel_8c-source.html#l00019">PERM_MAX_N</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="f9a845b0ec4e288550ee071a11d42e3f"></a><!-- doxytag: member="StreitbergRoehmel.c::R_cpermdist2" ref="f9a845b0ec4e288550ee071a11d42e3f" args="(SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -145,7 +188,7 @@ Definition at line <a class="el" href="StreitbergRoehmel_8c-source.html#l00046">
 References <a class="el" href="StreitbergRoehmel_8c-source.html#l00019">PERM_MAX_N</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Sep 7 13:05:42 2006 for coin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Oct 17 13:00:10 2006 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

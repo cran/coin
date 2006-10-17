@@ -13,10 +13,13 @@
 \usage{
 
 \method{friedman_test}{formula}(formula, data, subset = NULL, \dots)
-\method{friedman_test}{SymmetryProblem}(object, distribution = c("asymptotic", "approximate"), ...) 
+\method{friedman_test}{SymmetryProblem}(object, distribution = c("asymptotic", "approximate"), 
+              ...) 
 
 \method{wilcoxsign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{wilcoxsign_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate"), ...) 
+\method{wilcoxsign_test}{IndependenceProblem}(object, 
+                distribution = c("asymptotic", "approximate", "exact"), 
+                ...) 
 
 }
 \arguments{
@@ -36,7 +39,9 @@
     Alternatively, the functions 
     \code{\link{approximate}} or \code{\link{asymptotic}} can be
     used to specify how the exact conditional distribution of the test statistic
-    should be calculated or approximated.}
+    should be calculated or approximated. For the Wilcoxon signed rank test,
+    \code{\link{exact}} computes the exact distribution by means of the Streitberg-R\"ohmel
+    shift algorithm.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -58,6 +63,17 @@
         Myles Hollander & Douglas A. Wolfe (1999),  
         \emph{Nonparametric Statistical Methods, 2nd Edition}.
         New York: John Wiley & Sons.
+
+        Bernd Streitberg & Joachim R\"ohmel (1986),
+        Exact distributions for permutations and rank tests: 
+        An introduction to some recently published algorithms.
+        \emph{Statistical Software Newsletter} \bold{12}(1), 10--17.
+ 
+        Bernd Streitberg & Joachim R\"ohmel (1987),
+        Exakte Verteilungen f\"ur Rang- und Randomisierungstests
+        im allgemeinen $c$-Stichprobenfall.
+        \emph{EDV in Medizin und Biologie} \bold{18}(1), 12--19.
+
 }
 \examples{
 

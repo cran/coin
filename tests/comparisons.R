@@ -860,3 +860,50 @@ exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
 p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
           distribution = exact()))
 stopifnot(isequal(round(p, 4), 0.0505))
+
+
+### symmetry problem, page 288
+load("AIDS.rda")
+
+wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic")
+
+# asymptotic p-value, page 290
+stopifnot(isequal(round(statistic(wsa), 3), 2.896))
+
+# asymptotic p-value, page 290
+stopifnot(isequal(round(pvalue(wsa), 4), 0.0038))
+
+wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic", alternative = "greater")
+
+# asymptotic p-value, page 290
+stopifnot(isequal(round(statistic(wsa), 3), 2.896))
+
+# asymptotic p-value, page 290
+stopifnot(isequal(round(pvalue(wsa), 4), 0.0019))
+
+wse <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact")
+
+# exact p-value, page 290
+stopifnot(isequal(round(pvalue(wse), 4), 0.0021))
+
+wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact", alternative = "greater")
+
+# exact one-sided p-value, page 290
+stopifnot(isequal(round(pvalue(wsa), 4), 0.0011))
+
+### permutation test
+diff <- AIDS$pre - AIDS$post
+diff <- diff[abs(diff) > 0]
+y <- as.vector(t(cbind(abs(diff) * (diff > 0), abs(diff) * (diff <= 0))))
+block <- gl(length(diff), 2)
+x <- factor(rep(c("pos", "neg"), length(diff)))
+
+sa <- symmetry_test(y ~ x | block)
+
+# asymptotic p-value, page 300
+stopifnot(isequal(round(statistic(sa), 3), -1.707))
+stopifnot(isequal(round(pvalue(sa), 4), 0.0878))
+
+# exact p-value, page 300
+se <- symmetry_test(y ~ x | block, dist = "exact")
+stopifnot(isequal(round(pvalue(se), 4), 0.0021))   

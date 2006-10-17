@@ -94,7 +94,7 @@ maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
 }
 
 ### compute index matrix of all 2^(nlevel - 1) possible splits
-### code translated from package ree'
+### code translated from package `tree'
 fsplits <- function(nlevel) {
 
     mi <- 2^(nlevel - 1)

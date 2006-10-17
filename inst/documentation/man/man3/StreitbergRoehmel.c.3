@@ -1,4 +1,4 @@
-.TH "StreitbergRoehmel.c" 3 "7 Sep 2006" "coin" \" -*- nroff -*-
+.TH "StreitbergRoehmel.c" 3 "17 Oct 2006" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -25,6 +25,9 @@ StreitbergRoehmel.c \-
 .in +1c
 .ti -1c
 .RI "SEXP \fBR_cpermdist2\fP (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)"
+.br
+.ti -1c
+.RI "SEXP \fBR_cpermdist1\fP (SEXP scores)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -56,9 +59,29 @@ Definition in file \fBStreitbergRoehmel.c\fP.
 .PP
 Definition at line 19 of file StreitbergRoehmel.c.
 .PP
-Referenced by R_cpermdist2().
+Referenced by R_cpermdist1(), and R_cpermdist2().
 .SH "Function Documentation"
 .PP 
+.SS "SEXP R_cpermdist1 (SEXP scores)"
+.PP
+The density of the permutation distribution for the one sample problem.
+.PP
+REFERENCES
+.PP
+Bernd Streitberg & Joachim R\\'ohmel (1986), Exact distributions for permutations and rank tests: An introduction to some recently published algorithms. Statistical Software Newsletter 12(1), 10-17.
+.PP
+Bernd Streitberg & Joachim R\\'ohmel (1987), Exakte Verteilungen f\\'ur Rang- und Randomisierungstests im allgemeinen $c$-Stichprobenfall. EDV in Medizin und Biologie 18(1), 12-19 (in german).
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscores\fP score vector (such as rank(abs(y)) for wilcoxsign_test) 
+.RE
+.PP
+
+.PP
+Definition at line 204 of file StreitbergRoehmel.c.
+.PP
+References PERM_MAX_N.
 .SS "SEXP R_cpermdist2 (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)"
 .PP
 The density of the permutation distribution for the independent two sample problem.

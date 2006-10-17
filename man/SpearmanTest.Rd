@@ -31,9 +31,9 @@
     \code{asymptotic} distribution (\code{asymptotic}) 
     or via Monte-Carlo resampling (\code{approximate}).
     Alternatively, the functions 
-    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
+    \code{\link{approximate}} or \code{\link{asymptotic}} can be
     used to specify how the exact conditional distribution of the test statistic
-    should be calculated or approximated.}
+    should be approximated.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{

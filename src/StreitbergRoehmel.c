@@ -5,7 +5,7 @@
 
     *\file StreitbergRoehmel.c
     *\author $Author: hothorn $
-    *\date $Date: 2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) $
+    *\date $Date: 2006-10-17 13:17:12 +0200 (Tue, 17 Oct 2006) $
 */
 
 #include <R.h>
@@ -179,4 +179,87 @@ SEXP R_cpermdist2(SEXP score_a, SEXP score_b, SEXP m_a,  SEXP m_b,
         UNPROTECT(2);
         return(x);
     }
+}
+
+/**                             
+    The density of the permutation distribution for 
+    the one sample problem.
+                                                                  
+    REFERENCES
+
+    Bernd Streitberg & Joachim R\"ohmel (1986),
+    Exact distributions for permutations and rank tests:
+    An introduction to some recently published algorithms. 
+    Statistical Software Newsletter 12(1), 10-17.
+                         
+    Bernd Streitberg & Joachim R\"ohmel (1987),
+    Exakte Verteilungen f\"ur Rang- und Randomisierungstests
+    im allgemeinen $c$-Stichprobenfall.
+    EDV in Medizin und Biologie 18(1), 12-19 (in german).
+
+    *\param scores score vector (such as rank(abs(y)) for wilcoxsign_test)
+*/
+
+
+SEXP R_cpermdist1(SEXP scores) {
+
+    /*
+      compute the permutation distribution of the sum of the 
+      absolute values of the positive elements of `scores'
+    */ 
+
+    int n; 	/* number of observations */ 
+    SEXP H;	/* vector giving the density of statistics 0:sum(scores) */
+  
+    int i, k, sum_a = 0, s_a = 0; /* little helpers */
+    int *iscores;
+    double msum = 0.0;
+    double *dH;
+	
+    n = LENGTH(scores);
+    iscores = INTEGER(scores);
+	               
+    if (n > PERM_MAX_N)
+      error("n > %d in R_cpermdist1", PERM_MAX_N); 
+	
+    for (i = 0; i < n; i++) sum_a += iscores[i];
+
+    /*
+      Initialize H
+    */
+
+    PROTECT(H = allocVector(REALSXP, sum_a + 1));
+    dH = REAL(H);
+    for (i = 0; i <= sum_a; i++) dH[i] = 0.0;
+
+    /*
+      start the shift-algorithm with H[0] = 1.0
+    */
+		
+    dH[0] = 1.0;
+	
+    for (k = 0; k < n; k++) {
+        s_a = s_a + iscores[k];
+            for (i = s_a; i >= iscores[k]; i--)
+                dH[i] = dH[i] + dH[i - iscores[k]];
+    }
+
+
+    /* 
+        get the number of permutations
+    */
+
+    for (i = 0; i <= sum_a; i++)
+        msum += dH[i];
+	
+    /*
+        compute probabilities and return the density H to R
+        [dpq] stuff is done in R
+    */ 
+	
+    for (i = 0; i <= sum_a; i++)
+        dH[i] = dH[i]/msum;	/* 0 is a possible realization */
+
+    UNPROTECT(1);	
+    return(H);
 }

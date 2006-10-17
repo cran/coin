@@ -13,32 +13,57 @@ SR_shift_2sample <- function(object, fact = NULL) {
     if (!(max(abs(object@weights - 1.0)) < eps()))
         stop("cannot compute exact distribution with non-unity weights")
 
-    ### in case we can't map the scores into integers, use another algorithm
-    if (!any(is_integer(object@ytrans[,1])))
-        return(vdW_split_up_2sample(object))
-
     RET <- new("ExactNullDistribution")
 
-    T <- 0
-    Prob <- 1
-    for (lev in levels(object@block)) {
+    ### this is indeed the one sample case
+    if (all(tabulate(object@block) == 2)) {
+        scores <- object@ytrans[, 1]
+        ### search for equivalent integer scores with sum(scores) minimal
+        if (is.null(fact)) {
+            fact <- c(1, 2, 10, 100, 1000)
+            f <- is_integer(scores, fact = fact)
+            if (!any(f))
+                stop("cannot compute exact distribution with real valued scores")
+            fact <- min(fact[f])
+        }
+        ###  table(object$block, scores == 0) checken
+        sc <- round(scores * fact)
+        sc <- unlist(tapply(sc, object@block, function(x) {
+            if (any(x) != 0) return(x[x != 0])
+            return(0)
+        }))
+        storage.mode(sc) <- "integer"
+        Prob <- .Call("R_cpermdist1", sc, PACKAGE = "coin")
+        T <- which(Prob != 0)
+        Prob <- Prob[T]
+        ### 0 is possible
+        T <- (T - 1) / fact
+    } else {
 
-        thisblock <- (object@block == lev)
+        ### in case we can't map the scores into integers, use another algorithm
+        if (!any(is_integer(object@ytrans[,1])))
+            return(vdW_split_up_2sample(object))
 
-        ### compute distribution of scores in this block
-        scores <- object@ytrans[thisblock, 1]
-        m <- sum(object@xtrans[thisblock, 1] == 1)
+        T <- 0
+        Prob <- 1
+        for (lev in levels(object@block)) {
 
-        if (m == 0) next;
-        if (m == length(scores))
-            dens <- list(T = sum(scores), Prob = 1)
-        if (m < length(scores))
-            dens <- cSR_shift_2sample(scores, m, fact = fact)
+            thisblock <- (object@block == lev)
 
-        ### update distribution of statistic over all blocks
-        T <- as.vector(outer(dens$T, T, "+"))
-        Prob <- drop(kronecker(Prob, dens$Prob))
+            ### compute distribution of scores in this block
+            scores <- object@ytrans[thisblock, 1]
+            m <- sum(object@xtrans[thisblock, 1] == 1)
 
+            if (m == 0) next;
+            if (m == length(scores))
+                dens <- list(T = sum(scores), Prob = 1)
+            if (m < length(scores))
+                dens <- cSR_shift_2sample(scores, m, fact = fact)
+
+            ### update distribution of statistic over all blocks
+            T <- as.vector(outer(dens$T, T, "+"))
+            Prob <- drop(kronecker(Prob, dens$Prob))
+        }
     }
 
     T <- (T - expectation(object)) / sqrt(variance(object))
