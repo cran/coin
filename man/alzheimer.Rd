@@ -23,9 +23,14 @@
 }
 \source{
 
-    Emad Salib \& Valerie Hillier (1997), A case-control study of smoking
-    and Alzheimer's disease. \emph{International Journal of Geriatric
+    Emad Salib \& Valerie Hillier (1997). A case-control study of smoking
+    and Alzheimer's disease, \emph{International Journal of Geriatric
     Psychiatry} \bold{12}, 295--300.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+    A Lego system for conditional inference, \emph{The American Statistician},
+    \bold{60}(3), 257--263.
+
 
 }
 \examples{

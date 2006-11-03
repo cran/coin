@@ -59,11 +59,11 @@ pvalue(object, ...)
 }
 \references{
 
-	Peter H. Westfall & S. Stanley Young (1993),
+	Peter H. Westfall \& S. Stanley Young (1993).
         \emph{Resampling-based Multiple Testing}.
         New York: John Wiley & Sons.
 
-        Peter H. Westfall & Russell D. Wolfinger (1997), 
+        Peter H. Westfall \& Russell D. Wolfinger (1997).
         Multiple tests with discrete distributions. 
         \emph{The American Statistician} \bold{51}, 3--8.
 

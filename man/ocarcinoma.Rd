@@ -24,12 +24,12 @@ IIA.
 }
 \source{
   
-    Thomas R. Fleming, Judith R. O'Fallon, Peter C. O'Brien & David 
-    P. Harrington (1980),
+    Thomas R. Fleming, Judith R. O'Fallon, Peter C. O'Brien \& David 
+    P. Harrington (1980).
     Modified Kolmogorov-Smirnov test procedures with applications to 
     arbitrarily censored data. \emph{Biometrics} \bold{36}, 607--625.
 
-    Thomas R. Fleming, Stephanie J. Green & David P. Harrington (1984),
+    Thomas R. Fleming, Stephanie J. Green \& David P. Harrington (1984).
     Considerations of monitoring and evaluating treatment effects in clinical
     trials. \emph{Controlled Clinical Trials} \bold{5}, 55--66.
 

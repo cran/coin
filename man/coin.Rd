@@ -39,16 +39,20 @@ exact null distribution is currently available for two-sample problems only.
 }
 \references{
 
-    Helmut Strasser & Christian Weber (1999),
-    On the asymptotic theory of permutation statistics. 
+    Helmut Strasser \& Christian Weber (1999).
+    On the asymptotic theory of permutation statistics,
     \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.  
 
-    Myles Hollander & Douglas A. Wolfe (1999),  
+    Myles Hollander \& Douglas A. Wolfe (1999).
     \emph{Nonparametric Statistical Methods, 2nd Edition}.
     New York: John Wiley & Sons.
 
-    Alan Agresti (2002), \emph{Categorical Data Analysis}. Hoboken, New
+    Alan Agresti (2002). \emph{Categorical Data Analysis} Hoboken, New
     Jersey: John Wiley & Sons.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+    A Lego system for conditional inference, \emph{The American Statistician},
+    \bold{60}(3), 257--263.
 
 }
 \keyword{misc}

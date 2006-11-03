@@ -1,5 +1,5 @@
 
-R version 2.4.0 Under development (unstable) (2006-08-22 r38955)
+R version 2.5.0 Under development (unstable) (2006-11-01 r39765)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -92,7 +92,7 @@ Loading required package: modeltools
 	Asymptotic Maxstat Test
 
 data:  w by x 
-maxT = 2.3738, p-value = 0.1779
+maxT = 2.3738, p-value = 0.2087
 sample estimates:
 $cutpoint
 [1] 0.9060508
@@ -142,7 +142,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  w by x, y, z 
-maxT = 2.3738, p-value = 0.3411
+maxT = 2.3738, p-value = 0.3475
 sample estimates:
 $covariable
 [1] "x"

@@ -15,7 +15,7 @@ data("hohnloser")
 \describe{
 \item{\code{EF}}{left ventricular ejection in percent}
 \item{\code{time}}{recurrence-free month}
-\item{\code{ebent}}{censoring: 0 cencored, 1 not censored}
+\item{\code{event}}{censoring: 0 cencored, 1 not censored}
 }
 The data used here is published in Table 1 of Lausen and Schumacher (1992).
 }
@@ -27,13 +27,13 @@ the data used here is published in Table 1 of Lausen and Schumacher (1992).
 }
 \references{
 
-Hohnloser, S.H., Raeder, E.A., Podrid, P.J., Graboys, T.B. and Lown, B.
-(1987), Predictors of antiarrhythmic drug efficacy in patients with
-malignant ventricular tachyarrhythmias. \emph{American Heart Journal}
-\bold{114}, 1--7
+    S. H. Hohnloser, E. A. Raeder, P. J. Podrid, T. B. Graboys \& B. and Lown,
+    (1987). Predictors of antiarrhythmic drug efficacy in patients with
+    malignant ventricular tachyarrhythmias. \emph{American Heart Journal}
+    \bold{114}, 1--7.
 
-Lausen, B. and Schumacher, M. (1992), Maximally Selected Rank Statistics.
-\emph{Biometrics} \bold{48}, 73--85
+    Berthold Lausen \& Martin Schumacher (1992). Maximally Selected Rank Statistics.
+    \emph{Biometrics} \bold{48}, 73--85.
 
 }
 

@@ -125,3 +125,21 @@ it <- independence_test(x + y ~ z, data = mydf)
 statistic(it, "linear")
 expectation(it)
 covariance(it)
+
+### maxstat_trafo
+n <- seq(from = 5, to = 100, by = 1)
+for (i in n) {
+   x <- round(rnorm(i) * 10, 1)
+   xm <- maxstat_trafo(x)
+   stopifnot(min(c(mean(xm[,1]), 1 - mean(xm[,ncol(xm)])) - 0.1) >
+             -.Machine$double.eps)
+}
+
+### formula evaluation in `parent.frame()', spotted by Z
+foo <- function(x, y) independence_test(y ~ x)
+a <- 1:10
+b <- 1:10
+foo(a, b)
+x <- 1
+y <- 1
+foo(a, b)

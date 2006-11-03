@@ -27,10 +27,15 @@
 }
 \source{
 
-  D. B\"onsch, T. Lederer, U. Reulbach,  T. Hothorn, J. Kornhuber and S. Bleich
-  (2005), Joint Analysis of the NACP-REP1 Marker Within the Alpha
+  Dominikus B\"onsch, Thomas Lederer, Udo Reulbach,  Torsten Hothorn, 
+  Johannes Kornhuber \& Stefan Bleich (2005).
+  Joint Analysis of the NACP-REP1 Marker Within the Alpha
   Synuclein Gene Concludes Association with Alcohol Dependence.
-  \emph{Human Molecular Genetics}, \bold{14}, 7, 967--971.
+  \emph{Human Molecular Genetics}, \bold{14}(7), 967--971.
+
+  Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+  A Lego system for conditional inference, \emph{The American Statistician},
+  \bold{60}(3), 257--263.
 
 }
 \examples{

@@ -130,29 +130,29 @@
 }
 \references{
 
-        Myles Hollander & Douglas A. Wolfe (1999),  
+        Myles Hollander \& Douglas A. Wolfe (1999).
         \emph{Nonparametric Statistical Methods, 2nd Edition}. 
         New York: John Wiley & Sons.
 
-        Bernd Streitberg & Joachim R\"ohmel (1986),
+        Bernd Streitberg \& Joachim R\"ohmel (1986).
         Exact distributions for permutations and rank tests: 
         An introduction to some recently published algorithms.
         \emph{Statistical Software Newsletter} \bold{12}(1), 10--17.
 
-        Bernd Streitberg & Joachim R\"ohmel (1987),
+        Bernd Streitberg \& Joachim R\"ohmel (1987).
         Exakte Verteilungen f\"ur Rang- und Randomisierungstests
         im allgemeinen $c$-Stichprobenfall.
         \emph{EDV in Medizin und Biologie} \bold{18}(1), 12--19.
 
-        Mark A. van de Wiel (2001), The split-up algorithm: a fast 
+        Mark A. van de Wiel (2001). The split-up algorithm: a fast 
         symbolic method for computing p-values of rank statistics.
         \emph{Computational Statistics} \bold{16}, 519--538.
 
-        David F. Bauer (1972), Constructing confidence sets using 
+        David F. Bauer (1972). Constructing confidence sets using 
         rank statistics. \emph{Journal of the American Statistical Association}
         \bold{67}, 687--690.
 
-        Jaroslav Hajek, Zbynek Sidak & Pranab K. Sen (1999), 
+        Jaroslav Hajek, Zbynek Sidak \& Pranab K. Sen (1999), 
         \emph{Theory of Rank Tests}. San Diego, London: Academic Press.
 
 }

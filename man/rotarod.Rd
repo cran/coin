@@ -30,7 +30,7 @@ p-value (corrected for ties) is reported as 0.0147.
 }
 \source{
 
-    Reinhard Bergmann, John Ludbrook & Will P. J. M. Spooren (2000),
+    Reinhard Bergmann, John Ludbrook \& Will P. J. M. Spooren (2000).
     Different outcomes of the Wilcoxon-Mann-Whitney test from different 
     statistics packages. \emph{The American Statistician}
     \bold{54}(1), 72--77.
@@ -38,17 +38,17 @@ p-value (corrected for ties) is reported as 0.0147.
 }
 \examples{
 
-data("rotarod", package = "coin")
+  data("rotarod", package = "coin")
 
-### Wilcoxon-Mann-Whitney Rank Sum Test
+  ### Wilcoxon-Mann-Whitney Rank Sum Test
 
-### one-sided exact (0.0186)
-wilcox_test(time ~ group, data = rotarod, 
-    alternative = "greater", distribution = "exact")
-### two-sided exact (0.0373)
-wilcox_test(time ~ group, data = rotarod, distribution = "exact")
-### two-sided asymptotical (0.0147)
-wilcox_test(time ~ group, data = rotarod)
+  ### one-sided exact (0.0186)
+  wilcox_test(time ~ group, data = rotarod, 
+      alternative = "greater", distribution = "exact")
+  ### two-sided exact (0.0373)
+  wilcox_test(time ~ group, data = rotarod, distribution = "exact")
+  ### two-sided asymptotical (0.0147)
+  wilcox_test(time ~ group, data = rotarod)
 
 }
 \keyword{datasets}

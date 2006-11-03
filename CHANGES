@@ -1,4 +1,13 @@
 
+		CHANGES in `coin' VERSION 0.5-2
+
+    o    maxstat_trafo did not always choose the correct maximal
+         cutpoint
+
+    o    formula evaluation without `data' argument was partially broken
+         (thanks to Achim for spotting this)
+
+
 		CHANGES in `coin' VERSION 0.5-1
 
     o    improve formula interface for wilcoxsign_test

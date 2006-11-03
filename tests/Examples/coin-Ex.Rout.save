@@ -1,5 +1,5 @@
 
-R version 2.5.0 Under development (unstable) (2006-10-25 r39730)
+R version 2.5.0 Under development (unstable) (2006-11-02 r39774)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -679,17 +679,17 @@ $cutpoint
 > ### ** Examples
 > 
 > 
-> ### Serum Iron Determination Using Hyland Control Sera
-> ### Hollander & Wolfe (1999), page 147
-> sid <- data.frame(
-+     serum = c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,
-+               101, 96, 97, 102, 107, 113, 116, 113, 110, 98,
-+               107, 108, 106, 98, 105, 103, 110, 105, 104,
-+               100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99),
-+     method = factor(gl(2, 20), labels = c("Ramsay", "Jung-Parekh")))
+>   ### Serum Iron Determination Using Hyland Control Sera
+>   ### Hollander & Wolfe (1999), page 147
+>   sid <- data.frame(
++       serum = c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,
++                 101, 96, 97, 102, 107, 113, 116, 113, 110, 98,
++                 107, 108, 106, 98, 105, 103, 110, 105, 104,
++                 100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99),
++       method = factor(gl(2, 20), labels = c("Ramsay", "Jung-Parekh")))
 > 
-> ### Ansari-Bradley test, asymptotical p-value
-> ansari_test(serum ~ method, data = sid)
+>   ### Ansari-Bradley test, asymptotical p-value
+>   ansari_test(serum ~ method, data = sid)
 
 	Asymptotic Ansari-Bradley Test
 
@@ -698,8 +698,8 @@ Z = -1.3363, p-value = 0.1815
 alternative hypothesis: true mu is not equal to 1 
 
 > 
-> ### exact p-value
-> ansari_test(serum ~ method, data = sid, distribution = "exact")
+>   ### exact p-value
+>   ansari_test(serum ~ method, data = sid, distribution = "exact")
 
 	Exact Ansari-Bradley Test
 
@@ -708,20 +708,20 @@ Z = -1.3363, p-value = 0.1881
 alternative hypothesis: true mu is not equal to 1 
 
 > 
-> ### Platelet Counts of Newborn Infants
-> ### Hollander & Wolfe (1999), Table 5.4, page 171
-> platalet_counts <- data.frame(
-+     counts = c(120, 124, 215, 90, 67, 95, 190, 180, 135, 399, 
-+                12, 20, 112, 32, 60, 40),
-+     treatment = factor(c(rep("Prednisone", 10), rep("Control", 6))))
+>   ### Platelet Counts of Newborn Infants
+>   ### Hollander & Wolfe (1999), Table 5.4, page 171
+>   platalet_counts <- data.frame(
++       counts = c(120, 124, 215, 90, 67, 95, 190, 180, 135, 399, 
++                  12, 20, 112, 32, 60, 40),
++       treatment = factor(c(rep("Prednisone", 10), rep("Control", 6))))
 > 
-> ### Lepage test, Hollander & Wolfe (1999), page 172 
-> lt <- independence_test(counts ~ treatment, data = platalet_counts,
-+     ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
-+         cbind(rank(x), ansari_trafo(x))),
-+     teststat = "quad", distribution = approximate(B = 9999))
+>   ### Lepage test, Hollander & Wolfe (1999), page 172 
+>   lt <- independence_test(counts ~ treatment, data = platalet_counts,
++       ytrafo = function(data) trafo(data, numeric_trafo = function(x)       
++           cbind(rank(x), ansari_trafo(x))),
++       teststat = "quad", distribution = approximate(B = 9999))
 > 
-> lt
+>   lt
 
 	Approximative General Independence Test
 
@@ -729,23 +729,23 @@ data:  counts by groups Control, Prednisone
 chi-squared = 9.3384, p-value = 0.0042
 
 > 
-> ### where did the rejection come from? Use maximum statistic
-> ### instead of a quadratic form
-> ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
-+     ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
-+         matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
-+                dimnames = list(1:length(x), c("Location", "Scale")))),
-+     teststat = "max")
+>   ### where did the rejection come from? Use maximum statistic
+>   ### instead of a quadratic form
+>   ltmax <- independence_test(counts ~ treatment, data = platalet_counts,
++       ytrafo = function(data) trafo(data, numeric_trafo = function(x) 
++           matrix(c(rank(x), ansari_trafo(x)), ncol = 2,
++                  dimnames = list(1:length(x), c("Location", "Scale")))),
++       teststat = "max")
 > 
-> ### points to a difference in location
-> pvalue(ltmax, method = "single-step")
+>   ### points to a difference in location
+>   pvalue(ltmax, method = "single-step")
          Location     Scale
 Control 0.0067991 0.6189816
 > 
-> ### Funny: We could have used a simple Bonferroni procedure
-> ### since the correlation between the Wilcoxon and Ansari-Bradley 
-> ### test statistics is zero
-> covariance(ltmax)
+>   ### Funny: We could have used a simple Bonferroni procedure
+>   ### since the correlation between the Wilcoxon and Ansari-Bradley 
+>   ### test statistics is zero
+>   covariance(ltmax)
                  Control:Location Control:Scale
 Control:Location               85             0
 Control:Scale                   0            21
@@ -988,8 +988,10 @@ alternative hypothesis: true location shift is greater than 0
 
 > 
 > ### with explicit group and block information
-> xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), block = factor(rep(1:length(x), 2)))
-> wilcoxsign_test(y ~ x | block, data = xydat, alternative = "greater", distribution = exact())
+> xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), 
++                     block = factor(rep(1:length(x), 2)))
+> wilcoxsign_test(y ~ x | block, data = xydat, 
++                 alternative = "greater", distribution = exact())
 
 	Exact Wilcoxon-Signed-Rank Test
 
@@ -1095,17 +1097,17 @@ attr(,"assign")
 8            0           0           0           0         0          0
 9            0           0           0           0         0          0
 10           0           0           0           0         0          1
-   x <= 0.821 x <= 0.944
-1           0          0
-2           1          1
-3           1          1
-4           1          1
-5           0          0
-6           1          1
-7           1          1
-8           0          1
-9           1          1
-10          1          1
+   x <= 0.821 x <= 0.944 x <= 1.125
+1           0          0          0
+2           1          1          1
+3           1          1          1
+4           1          1          1
+5           0          0          1
+6           1          1          1
+7           1          1          1
+8           0          1          1
+9           1          1          1
+10          1          1          1
 > 
 > ### apply transformation blockwise (e.g. for Friedman test)
 > trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
@@ -1733,13 +1735,13 @@ alternative hypothesis: true mu is not equal to 1
 > ### ** Examples
 > 
 > 
-> data("rotarod", package = "coin")
+>   data("rotarod", package = "coin")
 > 
-> ### Wilcoxon-Mann-Whitney Rank Sum Test
+>   ### Wilcoxon-Mann-Whitney Rank Sum Test
 > 
-> ### one-sided exact (0.0186)
-> wilcox_test(time ~ group, data = rotarod, 
-+     alternative = "greater", distribution = "exact")
+>   ### one-sided exact (0.0186)
+>   wilcox_test(time ~ group, data = rotarod, 
++       alternative = "greater", distribution = "exact")
 
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -1747,8 +1749,8 @@ data:  time by groups control, treatment
 Z = 2.4389, p-value = 0.01863
 alternative hypothesis: true mu is greater than 0 
 
-> ### two-sided exact (0.0373)
-> wilcox_test(time ~ group, data = rotarod, distribution = "exact")
+>   ### two-sided exact (0.0373)
+>   wilcox_test(time ~ group, data = rotarod, distribution = "exact")
 
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -1756,8 +1758,8 @@ data:  time by groups control, treatment
 Z = 2.4389, p-value = 0.03727
 alternative hypothesis: true mu is not equal to 0 
 
-> ### two-sided asymptotical (0.0147)
-> wilcox_test(time ~ group, data = rotarod)
+>   ### two-sided asymptotical (0.0147)
+>   wilcox_test(time ~ group, data = rotarod)
 
 	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -1906,7 +1908,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.294 0.488 35.016 0 0 
+Time elapsed:  34.238 1.428 35.812 0 0 
 > grDevices::dev.off()
 null device 
           1 

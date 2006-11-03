@@ -38,10 +38,14 @@
 \source{
 
     Daniel F. Molefe, James J. Chen, Paul C. Howard, Barbara J. Miller,
-    Christopher P. Sambuco, P. Donald Forbes \& Ralph L. Kodell (2005), 
+    Christopher P. Sambuco, P. Donald Forbes \& Ralph L. Kodell (2005).
     Tests for effects on tumor frequency and latency in multiple dosing
     photococarcinogenicity experiments. \emph{Journal of Statistical Planning
     and Inference} \bold{129}, 39--58.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+    A Lego system for conditional inference, \emph{The American Statistician},
+    \bold{60}(3), 257--263.
 
 }
 \examples{

@@ -5,7 +5,9 @@ ft <- function(test, formula, data = list(), subset = NULL,
     d <- formula2data(formula, data, subset, weights = weights, ...)
     ip <- new("IndependenceProblem", x = d$x, y = d$y, block = d$bl,
               weights = d$w)
-    RET <- do.call(test, c(list(object = ip), list(...)))
+    args <- list(...)
+    args$frame <- NULL
+    RET <- do.call(test, c(list(object = ip), args))
     return(RET)
 }
 
@@ -15,7 +17,8 @@ independence_test <- function(object, ...) UseMethod("independence_test")
 independence_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("independence_test", formula, data, subset, weights, ...)
+    ft("independence_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }
 
 independence_test.table <- function(object, 
@@ -813,7 +816,7 @@ maxstat_test.formula <- function(formula, data = list(), subset = NULL,
 maxstat_test.IndependenceProblem <- function(object, 
     distribution = c("asymptotic", "approximate"), 
     teststat = c("max", "quad"), 
-    minprob = 0.1, maxprob = 0.9, ...) {
+    minprob = 0.1, maxprob = 1 - minprob, ...) {
 
     distribution <- check_distribution_arg(distribution, 
         values = c("asymptotic", "approximate"))
@@ -858,7 +861,7 @@ symmetry_test <- function(object, ...) UseMethod("symmetry_test")
 symmetry_test.formula <- function(formula, data = list(), subset = NULL,
     ...) {
 
-    d <- formula2data(formula, data, subset, ...)
+    d <- formula2data(formula, data, subset, frame = parent.frame(), ...)
     sp <- new("SymmetryProblem", x = d$x, y = d$y, block = d$bl)
     RET <- do.call("symmetry_test", c(list(object = sp), list(...)))
     return(RET)
@@ -888,7 +891,7 @@ friedman_test <- function(object, ...) UseMethod("friedman_test")
 
 friedman_test.formula <- function(formula, data = list(), subset = NULL, ...)
 {
-    d <- formula2data(formula, data, subset, ...)
+    d <- formula2data(formula, data, subset, frame = parent.frame(), ...)
     sp <- new("SymmetryProblem", x = d$x, y = d$y, block = d$bl)
     RET <- do.call("friedman_test", c(list(object = sp), list(...)))
     return(RET)
@@ -921,7 +924,7 @@ mh_test <- function(object, ...) UseMethod("mh_test")
 
 mh_test.formula <- function(formula, data = list(), subset = NULL, ...)
 {
-    d <- formula2data(formula, data, subset, ...)
+    d <- formula2data(formula, data, subset, frame = parent.frame(), ...)
     sp <- new("SymmetryProblem", x = d$x, y = d$y, block = d$bl)
     RET <- do.call("mh_test", c(list(object = sp), list(...)))
     return(RET)
@@ -972,7 +975,7 @@ wilcoxsign_test <- function(object, ...) UseMethod("wilcoxsign_test")
 wilcoxsign_test.formula <- function(formula, data = list(), 
                                     subset = NULL, ...)
 {
-    d <- formula2data(formula, data, subset, ...)
+    d <- formula2data(formula, data, subset, frame = parent.frame(), ...)
     ip <- new("IndependenceProblem", x = d$x, y = d$y, block = d$bl)
     RET <- do.call("wilcoxsign_test", c(list(object = ip), list(...)))
     return(RET)

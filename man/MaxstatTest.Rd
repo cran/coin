@@ -12,7 +12,7 @@
 \method{maxstat_test}{IndependenceProblem}(object, 
     distribution = c("asymptotic", "approximate"), 
     teststat = c("max", "quad"),
-    minprob = 0.1, maxprob = 0.9, ...)
+    minprob = 0.1, maxprob = 1 - minprob, ...)
 }
 \arguments{
   \item{formula}{a formula of the form \code{y ~ x1 + ... + xp | block} where \code{y}
@@ -64,24 +64,24 @@
 }
 \references{
 
-   Rupert Miller & David Siegmund (1982),
+   Rupert Miller \& David Siegmund (1982).
    Maximally Selected Chi Square Statistics. 
    \emph{Biometrics} \bold{38}, 1011--1016.
 
-   Berthold Lausen & Martin Schumacher (1992),
+   Berthold Lausen \& Martin Schumacher (1992).
    Maximally Selected Rank Statistics.
    \emph{Biometrics} \bold{48}, 73--85.
 
-   Torsten Hothorn & Berthold Lausen (2003),
+   Torsten Hothorn \& Berthold Lausen (2003).
    On the Exact Distribution of Maximally Selected Rank
    Statistics. \emph{Computational Statistics \& Data Analysis}
    \bold{43}, 121--137.
 
-   Berthold Lausen, Torsten Hothorn, Frank Bretz &
-   Martin Schumacher (2004), Optimally Selected Prognostic Factors.
+   Berthold Lausen, Torsten Hothorn, Frank Bretz \&
+   Martin Schumacher (2004). Optimally Selected Prognostic Factors.
    \emph{Biometrical Journal} \bold{46}, 364--374.
 
-   J{\"o}rg M{\"u}ller and Torsten Hothorn (2004),
+   J{\"o}rg M{\"u}ller \& Torsten Hothorn (2004).
    Maximally Selected Two-Sample Statistics as a new Tool for
    the Identification and Assessment of Habitat Factors with
    an Application to Breeding Bird Communities in Oak Forests.

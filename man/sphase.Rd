@@ -26,7 +26,7 @@
 
 
     J. Pfisterer, F. Kommoss, W. Sauerbrei, D. Menzel, M. Kiechle, E. Giese,
-    M. Hilgarth and A. Pfleiderer (1995), DNA flow cytometry in node positive
+    M. Hilgarth \& A. Pfleiderer (1995). DNA flow cytometry in node positive
     breast cancer: Prognostic value and correlation to morphological and
     clinical factors. \emph{Analytical and Quantitative Cytology and Histology}
     \bold{7}(6), 406--412.
@@ -34,7 +34,7 @@
 }
 \references{
 
-   Torsten Hothorn & Berthold Lausen (2003),
+   Torsten Hothorn & Berthold Lausen (2003).
    On the Exact Distribution of Maximally Selected Rank
    Statistics. \emph{Computational Statistics \& Data Analysis}
    \bold{43}, 121--137.

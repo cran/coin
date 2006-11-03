@@ -81,11 +81,15 @@ consal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 
 ### maximally selected (rank, chi^2, whatsoever) statistics
 ### ordered x
-maxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
+maxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
     qx <- quantile(x, prob = c(minprob, maxprob), type = 1)
     ux <- sort(unique(x))
-    ux <- ux[ux < max(x)]  ### & ux > min(x)]
-    cutpoints <- ux[ux >= qx[1] & ux < qx[2]]
+    ux <- ux[ux < max(x)]  
+    if (mean(x <= qx[2]) <= maxprob) {
+        cutpoints <- ux[ux >= qx[1] & ux <= qx[2]]
+    } else {
+        cutpoints <- ux[ux >= qx[1] & ux < qx[2]]
+    }
     cm <- .Call("R_maxstattrafo", as.double(x), as.double(cutpoints),
                 PACKAGE = "coin")
     colnames(cm) <- paste("x <= ", round(cutpoints, 3), sep = "")

@@ -65,16 +65,16 @@
 }
 \references{
 
-        Myles Hollander & Douglas A. Wolfe (1999),  
+        Myles Hollander \& Douglas A. Wolfe (1999). 
         \emph{Nonparametric Statistical Methods, 2nd Edition}.
         New York: John Wiley & Sons.
 
-        Bernd Streitberg & Joachim R\"ohmel (1986),
+        Bernd Streitberg \& Joachim R\"ohmel (1986).
         Exact distributions for permutations and rank tests: 
         An introduction to some recently published algorithms.
         \emph{Statistical Software Newsletter} \bold{12}(1), 10--17.
  
-        Bernd Streitberg & Joachim R\"ohmel (1987),
+        Bernd Streitberg \& Joachim R\"ohmel (1987).
         Exakte Verteilungen f\"ur Rang- und Randomisierungstests
         im allgemeinen $c$-Stichprobenfall.
         \emph{EDV in Medizin und Biologie} \bold{18}(1), 12--19.
@@ -170,8 +170,10 @@ wilcoxsign_test(x ~ y, alternative = "greater", distribution = exact())
 wilcox.test(x, y, paired = TRUE, alternative = "greater")
 
 ### with explicit group and block information
-xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), block = factor(rep(1:length(x), 2)))
-wilcoxsign_test(y ~ x | block, data = xydat, alternative = "greater", distribution = exact())
+xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), 
+                    block = factor(rep(1:length(x), 2)))
+wilcoxsign_test(y ~ x | block, data = xydat, 
+                alternative = "greater", distribution = exact())
 
 }
 \keyword{htest}

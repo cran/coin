@@ -104,7 +104,7 @@
 }
 \references{
 
-    Helmut Strasser & Christian Weber (1999),
+    Helmut Strasser & Christian Weber (1999).
     On the asymptotic theory of permutation statistics. 
     \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.
 

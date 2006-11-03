@@ -41,8 +41,12 @@
 }
 \references{
 
-    P. R. Rosenbaum (1994), Coherence in Observational Studies.
+    P. R. Rosenbaum (1994). Coherence in Observational Studies.
     \emph{Biometrics} \bold{50}, 368--374.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+    A Lego system for conditional inference, \emph{The American Statistician},
+    \bold{60}(3), 257--263.
 
 }
 \examples{

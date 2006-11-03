@@ -59,14 +59,14 @@
 }
 \references{
 
-    Alan Agresti (2002), \emph{Categorical Data Analysis}. Hoboken, New  
+    Alan Agresti (2002). \emph{Categorical Data Analysis}. Hoboken, New  
     Jersey: John Wiley & Sons.
 
-    V. P. Bhapkar (1966), A note on the equivalence of two test criteria for hypotheses
+    V. P. Bhapkar (1966). A note on the equivalence of two test criteria for hypotheses
     in categorical data. \emph{Journal of the American Statistical Association} \bold{61}, 
-    228-235.
+    228--235.
 
-    Alan Stuart (1955), A test for homogeneity of the marginal distributions in a two-way
+    Alan Stuart (1955). A test for homogeneity of the marginal distributions in a two-way
     classification. \emph{Biometrika} \bold{42}(3/4), 412--416.
 
 }
