@@ -1,6 +1,6 @@
 
-R version 2.5.0 Under development (unstable) (2006-11-02 r39774)
-Copyright (C) 2006 The R Foundation for Statistical Computing
+R version 2.5.0 Under development (unstable) (2007-02-04 r40641)
+Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -84,6 +84,7 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
+Loading required package: stats4
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
 > assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
@@ -107,11 +108,9 @@ Loading required package: modeltools
 >     set.seed(290875)
 > ## End Don't show
 > 
-> data("jobsatisfaction", package = "coin")
-> 
-> ### for females only
-> chisq_test(as.table(jobsatisfaction[,,"Female"]), 
-+     distribution = approximate(B = 9999))
+>   ### for females only
+>   chisq_test(as.table(jobsatisfaction[,,"Female"]), 
++       distribution = approximate(B = 9999))
 
 	Approximative Pearson's Chi-Squared Test
 
@@ -120,8 +119,8 @@ data:  Job.Satisfaction by
 chi-squared = 6.8203, p-value = 0.6891
 
 > 
-> ### both Income and Job.Satisfaction unordered
-> cmh_test(jobsatisfaction)
+>   ### both Income and Job.Satisfaction unordered
+>   cmh_test(jobsatisfaction)
 
 	Asymptotic Generalised Cochran-Mantel-Haenszel Test
 
@@ -131,8 +130,8 @@ data:  Job.Satisfaction by
 chi-squared = 10.2001, df = 9, p-value = 0.3345
 
 > 
-> ### both Income and Job.Satisfaction ordered, default scores
-> lbl_test(jobsatisfaction)
+>   ### both Income and Job.Satisfaction ordered, default scores
+>   lbl_test(jobsatisfaction)
 
 	Asymptotic Linear-by-Linear Association Test
 
@@ -142,9 +141,9 @@ data:  Job.Satisfaction (ordered) by
 chi-squared = 6.6235, df = 1, p-value = 0.01006
 
 > 
-> ### both Income and Job.Satisfaction ordered, alternative scores
-> lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
-+                                         Income = c(3, 10, 20, 35)))
+>   ### both Income and Job.Satisfaction ordered, alternative scores
+>   lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
++                                           Income = c(3, 10, 20, 35)))
 
 	Asymptotic Linear-by-Linear Association Test
 
@@ -154,10 +153,10 @@ data:  Job.Satisfaction (ordered) by
 chi-squared = 6.1563, df = 1, p-value = 0.01309
 
 > 
-> ### the same, null distribution approximated
-> cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
+>   ### the same, null distribution approximated
+>   cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
 +                                         Income = c(3, 10, 20, 35)),
-+          distribution = approximate(B = 10000))
++            distribution = approximate(B = 10000))
 
 	Approximative Linear-by-Linear Association Test
 
@@ -167,18 +166,18 @@ data:  Job.Satisfaction (ordered) by
 chi-squared = 6.1563, p-value = 0.0123
 
 > 
-> ### Smoking and HDL cholesterin status
-> ### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
-> smokingHDL <- as.table(
-+     matrix(c(15,  8, 11,  5, 
-+               3,  4,  6,  1, 
-+               6,  7, 15, 11, 
-+               1,  2,  3,  5), ncol = 4,
-+            dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
-+                            HDL = c("normal", "low", "borderline", "abnormal"))
-+     ))
-> ### use interval mid-points as scores for smoking
-> lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
+>   ### Smoking and HDL cholesterin status
+>   ### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
+>   smokingHDL <- as.table(
++       matrix(c(15,  8, 11,  5, 
++                 3,  4,  6,  1, 
++                 6,  7, 15, 11, 
++                 1,  2,  3,  5), ncol = 4,
++              dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
++                              HDL = c("normal", "low", "borderline", "abnormal"))
++   ))
+>   ### use interval mid-points as scores for smoking
+>   lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
 
 	Asymptotic Linear-by-Linear Association Test
 
@@ -186,24 +185,24 @@ data:  HDL (ordered) by groups none < < 5 < < 10 < >=10
 chi-squared = 9.8557, df = 1, p-value = 0.001693
 
 > 
-> ### Cochran-Armitage trend test for proportions
-> ### Lung tumors in female mice exposed to 1,2-dichloroethane
-> ### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
-> ### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
-> lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
-+                         tumor = c(rep(c(0, 1), c(38, 2)),
-+                                   rep(c(0, 1), c(43, 7)),
-+                                   rep(c(0, 1), c(33, 15))))
-> table(lungtumor$dose, lungtumor$tumor)
+>   ### Cochran-Armitage trend test for proportions
+>   ### Lung tumors in female mice exposed to 1,2-dichloroethane
+>   ### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
+>   ### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
+>   lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
++                           tumor = c(rep(c(0, 1), c(38, 2)),
++                                     rep(c(0, 1), c(43, 7)),
++                                     rep(c(0, 1), c(33, 15))))
+>   table(lungtumor$dose, lungtumor$tumor)
    
      0  1
   0 38  2
   1 43  7
   2 33 15
 > 
-> ### Cochran-Armitage test (permutation equivalent to correlation 
-> ### between dose and tumor), cf. Table 2 for results
-> independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
+>   ### Cochran-Armitage test (permutation equivalent to correlation 
+>   ### between dose and tumor), cf. Table 2 for results
+>   independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
 
 	Asymptotic General Independence Test
 
@@ -211,11 +210,11 @@ data:  tumor by dose
 chi-squared = 10.6381, df = 1, p-value = 0.001108
 
 > 
-> ### linear-by-linear association test with scores 0, 1, 2
-> ### is identical with Cochran-Armitage test
-> lungtumor$dose <- ordered(lungtumor$dose)
-> independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
-+                   scores = list(dose = c(0, 1, 2)))
+>   ### linear-by-linear association test with scores 0, 1, 2
+>   ### is identical with Cochran-Armitage test
+>   lungtumor$dose <- ordered(lungtumor$dose)
+>   independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
++                     scores = list(dose = c(0, 1, 2)))
 
 	Asymptotic General Independence Test
 
@@ -240,10 +239,8 @@ chi-squared = 10.6381, df = 1, p-value = 0.001108
 > ### ** Examples
 > 
 > 
-> data("asat", package = "coin")
-> 
-> ### independence of asat and group via normal scores test
-> independence_test(asat ~ group, data = asat,
+>   ### independence of asat and group via normal scores test
+>   independence_test(asat ~ group, data = asat,
 + 
 +     ### exact null distribution
 +     distribution = "exact", 
@@ -257,7 +254,7 @@ chi-squared = 10.6381, df = 1, p-value = 0.001108
 +     ### indicator matrix of 1st level of group
 +     xtrafo = function(data) trafo(data, factor_trafo = function(x)
 +         matrix(x == levels(x)[1], ncol = 1))
-+ )
++   )
 
 	Exact General Independence Test
 
@@ -266,9 +263,9 @@ Z = 1.4269, p-value = 0.07809
 alternative hypothesis: greater 
 
 > 
-> ### same as
-> normal_test(asat ~ group, data = asat, distribution = "exact", 
-+             alternative = "greater")
+>   ### same as
+>   normal_test(asat ~ group, data = asat, distribution = "exact", 
++               alternative = "greater")
 
 	Exact Normal Quantile (van der Waerden) Test
 
@@ -277,10 +274,11 @@ Z = 1.4269, p-value = 0.07809
 alternative hypothesis: true mu is greater than 0 
 
 > 
-> ### if you are interested in the internals:
-> ## Not run: 
-> ##D     browseURL(system.file("documentation/html/index.html", 
-> ##D                           package = "coin"))
+>   ### if you are interested in the internals:
+>   ## Not run: 
+> ##D       browseURL(system.file("documentation/html/index.html", 
+> ##D                             package = "coin"))
+> ##D   
 > ## End(Not run)
 > 
 > 
@@ -304,19 +302,19 @@ alternative hypothesis: true mu is greater than 0
 > ### ** Examples
 > 
 > 
-> ### Tritiated Water Diffusion Across Human Chorioamnion
-> ### Hollander & Wolfe (1999), Table 4.1, page 110
-> water_transfer <- data.frame(
-+     pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46,
-+            1.15, 0.88, 0.90, 0.74, 1.21),
-+     age = factor(c(rep("At term", 10), rep("12-26 Weeks", 5))))
+>   ### Tritiated Water Diffusion Across Human Chorioamnion
+>   ### Hollander & Wolfe (1999), Table 4.1, page 110
+>   water_transfer <- data.frame(
++       pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46,
++              1.15, 0.88, 0.90, 0.74, 1.21),
++       age = factor(c(rep("At term", 10), rep("12-26 Weeks", 5))))
 > 
-> ### Wilcoxon-Mann-Whitney test, cf. Hollander & Wolfe (1999), page 111
-> ### exact p-value and confidence interval for the difference in location
-> ### (At term - 12-26 Weeks)
-> wt <- wilcox_test(pd ~ age, data = water_transfer, 
-+             distribution = "exact", conf.int = TRUE)
-> print(wt)
+>   ### Wilcoxon-Mann-Whitney test, cf. Hollander & Wolfe (1999), page 111
+>   ### exact p-value and confidence interval for the difference in location
+>   ### (At term - 12-26 Weeks)
+>   wt <- wilcox_test(pd ~ age, data = water_transfer, 
++                     distribution = "exact", conf.int = TRUE)
+>   print(wt)
 
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -330,31 +328,32 @@ difference in location
                 -0.305 
 
 > 
-> ### extract observed Wilcoxon statistic, i.e, the sum of the
-> ### ranks for age = "12-26 Weeks"
-> statistic(wt, "linear")
+>   ### extract observed Wilcoxon statistic, i.e, the sum of the
+>   ### ranks for age = "12-26 Weeks"
+>   statistic(wt, "linear")
               
 12-26 Weeks 30
 > 
-> ### its expectation
-> expectation(wt)
+>   ### its expectation
+>   expectation(wt)
 12-26 Weeks 
          40 
 > 
-> ### and variance
-> covariance(wt)
+>   ### and variance
+>   covariance(wt)
             12-26 Weeks
 12-26 Weeks    66.66667
 > 
-> ### and, finally, the exact two-sided p-value
-> pvalue(wt)
+>   ### and, finally, the exact two-sided p-value
+>   pvalue(wt)
 [1] 0.2544123
 > 
-> ### Confidence interval for difference (12-26 Weeks - At term)
-> wilcox_test(pd ~ age, data = water_transfer, 
-+     xtrafo = function(data) 
-+         trafo(data, factor_trafo = function(x) as.numeric(x == levels(x)[2])),
-+         distribution = "exact", conf.int = TRUE)
+>   ### Confidence interval for difference (12-26 Weeks - At term)
+>   wilcox_test(pd ~ age, data = water_transfer, 
++               xtrafo = function(data) 
++                   trafo(data, factor_trafo = function(x) 
++                       as.numeric(x == levels(x)[2])),
++               distribution = "exact", conf.int = TRUE)
 
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -368,8 +367,8 @@ difference in location
                  0.305 
 
 > 
-> ### Permutation test, asymptotic p-value
-> oneway_test(pd ~ age, data = water_transfer)
+>   ### Permutation test, asymptotic p-value
+>   oneway_test(pd ~ age, data = water_transfer)
 
 	Asymptotic 2-Sample Permutation Test
 
@@ -378,56 +377,56 @@ Z = -1.5225, p-value = 0.1279
 alternative hypothesis: true mu is not equal to 0 
 
 > 
-> ### approximate p-value (with 99% confidence interval)
-> pvalue(oneway_test(pd ~ age, data = water_transfer, 
-+                  distribution = approximate(B = 9999)))
+>   ### approximate p-value (with 99% confidence interval)
+>   pvalue(oneway_test(pd ~ age, data = water_transfer, 
++                      distribution = approximate(B = 9999)))
 [1] 0.1311131
 99 percent confidence interval:
  0.1225462 0.1400337 
 
-> ### exact p-value
-> pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
-> pvalue(pt)
+>   ### exact p-value
+>   pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
+>   pvalue(pt)
 [1] 0.1318681
 > 
-> ### plot density and distribution of the standardised 
-> ### test statistic
-> layout(matrix(1:2, nrow = 2))
-> s <- support(pt)
-> d <- sapply(s, function(x) dperm(pt, x))
-> p <- sapply(s, function(x) pperm(pt, x))
-> plot(s, d, type = "S", xlab = "Teststatistic", ylab = "Density")
-> plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
+>   ### plot density and distribution of the standardised 
+>   ### test statistic
+>   layout(matrix(1:2, nrow = 2))
+>   s <- support(pt)
+>   d <- sapply(s, function(x) dperm(pt, x))
+>   p <- sapply(s, function(x) pperm(pt, x))
+>   plot(s, d, type = "S", xlab = "Teststatistic", ylab = "Density")
+>   plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
 > 
-> ### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
-> ### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
-> YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
-+                              42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
-+                              38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
-+                              31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
-+                   site = factor(c(rep("I", 10), rep("II", 10),
-+                                   rep("III", 10), rep("IV", 10))))
+>   ### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
+>   ### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
+>   YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
++                                42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
++                                38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
++                                31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
++                     site = factor(c(rep("I", 10), rep("II", 10),
++                                     rep("III", 10), rep("IV", 10))))
 > 
-> ### Kruskal-Wallis test, approximate exact p-value
-> kw <- kruskal_test(length ~ site, data = YOY, 
-+              distribution = approximate(B = 9999))
-> kw
+>   ### Kruskal-Wallis test, approximate exact p-value
+>   kw <- kruskal_test(length ~ site, data = YOY, 
++                      distribution = approximate(B = 9999))
+>   kw
 
 	Approximative Kruskal-Wallis Test
 
 data:  length by groups I, II, III, IV 
 chi-squared = 22.8524, p-value < 2.2e-16
 
-> pvalue(kw)
+>   pvalue(kw)
 [1] 0
 99 percent confidence interval:
  0.0000000000 0.0005297444 
 
 > 
-> ### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
-> ### Hollander & Wolfe (1999), page 244 
-> ### (where Steel-Dwass results are given)
-> if (require("multcomp")) {
+>   ### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
+>   ### Hollander & Wolfe (1999), page 244 
+>   ### (where Steel-Dwass results are given)
+>   if (require("multcomp")) {
 + 
 +     NDWD <- oneway_test(length ~ site, data = YOY,
 +         ytrafo = function(data) trafo(data, numeric_trafo = rank),
@@ -440,7 +439,7 @@ chi-squared = 22.8524, p-value < 2.2e-16
 + 
 +     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
 +     print(pvalue(NDWD, method = "single-step"))
-+ }
++   }
 Loading required package: multcomp
 [1] 0.0004888889
 99 percent confidence interval:
@@ -470,19 +469,19 @@ IV - III 0.9998777778
 > ### ** Examples
 > 
 > 
-> ### Opinions on Pre- and Extramarital Sex, Agresti (2002), page 421
-> opinions <- c("always wrong", "almost always wrong", 
-+               "wrong only sometimes", "not wrong at all")
+>   ### Opinions on Pre- and Extramarital Sex, Agresti (2002), page 421
+>   opinions <- c("always wrong", "almost always wrong", 
++                 "wrong only sometimes", "not wrong at all")
 > 
-> PreExSex <- as.table(matrix(c(144, 33, 84, 126, 
-+                                 2,  4, 14,  29, 
-+                                 0,  2,  6,  25, 
-+                                 0,  0,  1,  5), nrow = 4, 
-+                             dimnames = list(PremaritalSex = opinions,
-+                                             ExtramaritalSex = opinions)))
+>   PreExSex <- as.table(matrix(c(144, 33, 84, 126, 
++                                   2,  4, 14,  29, 
++                                   0,  2,  6,  25, 
++                                   0,  0,  1,  5), nrow = 4, 
++                               dimnames = list(PremaritalSex = opinions,
++                                               ExtramaritalSex = opinions)))
 > 
-> ### treating response as nominal
-> mh_test(PreExSex)
+>   ### treating response as nominal
+>   mh_test(PreExSex)
 
 	Asymptotic Marginal-Homogeneity Test
 
@@ -492,8 +491,8 @@ data:  response by
 chi-squared = 271.9222, df = 3, p-value < 2.2e-16
 
 > 
-> ### and as ordinal
-> mh_test(PreExSex, scores = list(response = 1:length(opinions)))
+>   ### and as ordinal
+>   mh_test(PreExSex, scores = list(response = 1:length(opinions)))
 
 	Asymptotic Marginal-Homogeneity Test for Ordered Data
 
@@ -503,16 +502,16 @@ data:  response (ordered) by
 chi-squared = 270.7402, df = 1, p-value < 2.2e-16
 
 > 
-> ### example taken from 
-> ### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
-> rating <- c("low", "moderate", "high")
-> x <- as.table(matrix(c(20, 10,  5,
-+                        3, 30, 15,
-+                        0,  5, 40), 
-+                      ncol = 3, byrow = TRUE,
-+                      dimnames = list(Rater1 = rating, Rater2 = rating)))
-> ### test statistic W_0 = 13.76
-> mh_test(x)
+>   ### example taken from 
+>   ### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+>   rating <- c("low", "moderate", "high")
+>   x <- as.table(matrix(c(20, 10,  5,
++                          3, 30, 15,
++                          0,  5, 40), 
++                        ncol = 3, byrow = TRUE,
++                        dimnames = list(Rater1 = rating, Rater2 = rating)))
+>   ### test statistic W_0 = 13.76
+>   mh_test(x)
 
 	Asymptotic Marginal-Homogeneity Test
 
@@ -539,9 +538,8 @@ chi-squared = 13.7647, df = 2, p-value = 0.001026
 > ### ** Examples
 > 
 > 
-> ### analysis of the tree pipit data in Mueller and Hothorn (2004)
-> data("treepipit", package = "coin")
-> maxstat_test(counts ~ coverstorey, data = treepipit)
+>   ### analysis of the tree pipit data in Mueller and Hothorn (2004)
+>   maxstat_test(counts ~ coverstorey, data = treepipit)
 
 	Asymptotic Maxstat Test
 
@@ -553,9 +551,9 @@ $cutpoint
 
 
 > 
-> ### and for all possible covariates (simultaneously)
-> mt <- maxstat_test(counts ~ ., data = treepipit)
-> show(mt)$estimate
+>   ### and for all possible covariates (simultaneously)
+>   mt <- maxstat_test(counts ~ ., data = treepipit)
+>   show(mt)$estimate
 
 	Asymptotic Maxstat Test
 
@@ -577,13 +575,12 @@ $cutpoint
 [1] 280
 
 > 
-> ### reproduce applications in Sections 7.2 and 7.3 
-> ### of Hothorn & Lausen (2003) with limiting distribution
+>   ### reproduce applications in Sections 7.2 and 7.3 
+>   ### of Hothorn & Lausen (2003) with limiting distribution
 > 
-> data("hohnloser", package = "coin")
-> maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
-+     ytrafo = function(data) trafo(data, surv_trafo = function(x) 
-+        logrank_trafo(x, ties = "HL")))
+>   maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
++       ytrafo = function(data) trafo(data, surv_trafo = function(x) 
++          logrank_trafo(x, ties = "HL")))
 
 	Asymptotic Maxstat Test
 
@@ -595,10 +592,9 @@ $cutpoint
 
 
 > 
-> data("sphase", package = "coin")
-> maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
-+     ytrafo = function(data) trafo(data, surv_trafo = function(x)
-+        logrank_trafo(x, ties = "HL")))
+>   maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
++       ytrafo = function(data) trafo(data, surv_trafo = function(x)
++          logrank_trafo(x, ties = "HL")))
 
 	Asymptotic Maxstat Test
 
@@ -621,44 +617,34 @@ $cutpoint
 > ### Name: PermutationDistribution
 > ### Title: Permutation Distribution of Conditional Independence Tests
 > ### Aliases: pperm pperm-methods pperm,NullDistribution-method
-> ###   pperm,IndependenceTest-method pperm,ScalarIndependenceTest-method
-> ###   pperm,MaxTypeIndependenceTest-method
-> ###   pperm,QuadTypeIndependenceTest-method qperm qperm-methods
-> ###   qperm,NullDistribution-method qperm,IndependenceTest-method
-> ###   qperm,ScalarIndependenceTest-method
-> ###   qperm,MaxTypeIndependenceTest-method
-> ###   qperm,QuadTypeIndependenceTest-method dperm dperm-methods
-> ###   dperm,NullDistribution-method dperm,IndependenceTest-method
-> ###   dperm,ScalarIndependenceTest-method
-> ###   dperm,MaxTypeIndependenceTest-method
-> ###   dperm,QuadTypeIndependenceTest-method support support-methods
+> ###   pperm,IndependenceTest-method qperm qperm-methods
+> ###   qperm,NullDistribution-method qperm,IndependenceTest-method dperm
+> ###   dperm-methods dperm,NullDistribution-method
+> ###   dperm,IndependenceTest-method support support-methods
 > ###   support,NullDistribution-method support,IndependenceTest-method
-> ###   support,ScalarIndependenceTest-method
-> ###   support,MaxTypeIndependenceTest-method
-> ###   support,QuadTypeIndependenceTest-method
 > ### Keywords: methods htest
 > 
 > ### ** Examples
 > 
 > 
-> ### artificial 2-sample problem
-> df <- data.frame(y = rnorm(20), x = gl(2, 10))
+>   ### artificial 2-sample problem
+>   df <- data.frame(y = rnorm(20), x = gl(2, 10))
 > 
-> ### Ansari-Bradley test
-> at <- ansari_test(y ~ x, data = df, distribution = "exact")
+>   ### Ansari-Bradley test
+>   at <- ansari_test(y ~ x, data = df, distribution = "exact")
 > 
-> ### density of the exact distribution of the Ansari-Bradley statistic
-> dens <- sapply(support(at), dperm, object = at)
+>   ### density of the exact distribution of the Ansari-Bradley statistic
+>   dens <- sapply(support(at), dperm, object = at)
 > 
-> ### plot density
-> plot(support(at), dens, type = "s")
+>   ### plot density
+>   plot(support(at), dens, type = "s")
 > 
-> ### 95% quantile
-> qperm(at, 0.95)
+>   ### 95% quantile
+>   qperm(at, 0.95)
 [1] 1.669331
 > 
-> ### one-sided p-value
-> pperm(at, statistic(at))
+>   ### one-sided p-value
+>   pperm(at, statistic(at))
 [1] 0.698635
 > 
 > 
@@ -767,7 +753,7 @@ Control:Scale                   0            21
 > ### ** Examples
 > 
 > 
-> spearman_test(CONT ~ INTG, data = USJudgeRatings)
+>   spearman_test(CONT ~ INTG, data = USJudgeRatings)
 
 	Asymptotic Spearman Correlation Test
 
@@ -792,9 +778,8 @@ alternative hypothesis: true mu is not equal to 0
 > ### ** Examples
 > 
 > 
-> ### asymptotic tests for carcinoma data
-> data(ocarcinoma, package = "coin")
-> surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
+>   ### asymptotic tests for carcinoma data
+>   surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
 
 	Asymptotic Logrank Test
 
@@ -802,7 +787,7 @@ data:  Surv(time, event) by groups II, IIA
 Z = -2.3373, p-value = 0.01942
 alternative hypothesis: two.sided 
 
-> survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
+>   survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
 Call:
 survdiff(formula = Surv(time, event) ~ stadium, data = ocarcinoma)
 
@@ -812,12 +797,12 @@ stadium=IIA 20       16     10.7      2.67      5.57
 
  Chisq= 5.6  on 1 degrees of freedom, p= 0.0183 
 > 
-> ### example data given in Callaert (2003)
-> exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
-+                      event = rep(TRUE, 15),
-+                      group = factor(c(rep(0, 7), rep(1, 8))))
-> ### p = 0.0523
-> survdiff(Surv(time, event) ~ group, data = exdata)
+>   ### example data given in Callaert (2003)
+>   exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
++                        event = rep(TRUE, 15),
++                        group = factor(c(rep(0, 7), rep(1, 8))))
+>   ### p = 0.0523
+>   survdiff(Surv(time, event) ~ group, data = exdata)
 Call:
 survdiff(formula = Surv(time, event) ~ group, data = exdata)
 
@@ -826,9 +811,9 @@ group=0 7        7     9.84      0.82      3.76
 group=1 8        8     5.16      1.56      3.76
 
  Chisq= 3.8  on 1 degrees of freedom, p= 0.0523 
-> ### p = 0.0505
-> surv_test(Surv(time, event) ~ group, data = exdata, 
-+           distribution = exact())
+>   ### p = 0.0505
+>   surv_test(Surv(time, event) ~ group, data = exdata, 
++             distribution = exact())
 
 	Exact Logrank Test
 
@@ -855,37 +840,37 @@ alternative hypothesis: two.sided
 > ### ** Examples
 > 
 > 
-> ### Hollander & Wolfe (1999), Table 7.1, page 274
-> ### Comparison of three methods ("round out", "narrow angle", and
-> ###  "wide angle") for rounding first base. 
-> RoundingTimes <- data.frame(
-+     times = c(5.40, 5.50, 5.55,
-+               5.85, 5.70, 5.75,
-+               5.20, 5.60, 5.50,
-+               5.55, 5.50, 5.40,
-+               5.90, 5.85, 5.70,
-+               5.45, 5.55, 5.60,
-+               5.40, 5.40, 5.35,
-+               5.45, 5.50, 5.35,
-+               5.25, 5.15, 5.00,
-+               5.85, 5.80, 5.70,
-+               5.25, 5.20, 5.10,
-+               5.65, 5.55, 5.45,
-+               5.60, 5.35, 5.45,
-+               5.05, 5.00, 4.95,
-+               5.50, 5.50, 5.40,
-+               5.45, 5.55, 5.50,
-+               5.55, 5.55, 5.35,
-+               5.45, 5.50, 5.55,
-+               5.50, 5.45, 5.25,
-+               5.65, 5.60, 5.40,
-+               5.70, 5.65, 5.55,
-+               6.30, 6.30, 6.25),
-+     methods = factor(rep(c("Round Out", "Narrow Angle", "Wide Angle"), 22)),
-+     block = factor(rep(1:22, rep(3, 22))))
+>   ### Hollander & Wolfe (1999), Table 7.1, page 274
+>   ### Comparison of three methods ("round out", "narrow angle", and
+>   ###  "wide angle") for rounding first base. 
+>   RoundingTimes <- data.frame(
++       times = c(5.40, 5.50, 5.55,
++                 5.85, 5.70, 5.75,
++                 5.20, 5.60, 5.50,
++                 5.55, 5.50, 5.40,
++                 5.90, 5.85, 5.70,
++                 5.45, 5.55, 5.60,
++                 5.40, 5.40, 5.35,
++                 5.45, 5.50, 5.35,
++                 5.25, 5.15, 5.00,
++                 5.85, 5.80, 5.70,
++                 5.25, 5.20, 5.10,
++                 5.65, 5.55, 5.45,
++                 5.60, 5.35, 5.45,
++                 5.05, 5.00, 4.95,
++                 5.50, 5.50, 5.40,
++                 5.45, 5.55, 5.50,
++                 5.55, 5.55, 5.35,
++                 5.45, 5.50, 5.55,
++                 5.50, 5.45, 5.25,
++                 5.65, 5.60, 5.40,
++                 5.70, 5.65, 5.55,
++                 6.30, 6.30, 6.25),
++       methods = factor(rep(c("Round Out", "Narrow Angle", "Wide Angle"), 22)),
++       block = factor(rep(1:22, rep(3, 22))))
 > 
-> ### classical global test
-> friedman_test(times ~ methods | block, data = RoundingTimes)
+>   ### classical global test
+>   friedman_test(times ~ methods | block, data = RoundingTimes)
 
 	Asymptotic Friedman Test
 
@@ -895,35 +880,35 @@ data:  times by
 chi-squared = 11.1429, df = 2, p-value = 0.003805
 
 > 
-> ### parallel coordinates plot
-> matplot(t(matrix(RoundingTimes$times, ncol = 3, byrow = TRUE)), 
-+         type = "l", col = 1, lty = 1, axes = FALSE, ylab = "Time", 
-+         xlim = c(0.5, 3.5))
-> axis(1, at = 1:3, labels = levels(RoundingTimes$methods))
-> axis(2)
+>   ### parallel coordinates plot
+>   matplot(t(matrix(RoundingTimes$times, ncol = 3, byrow = TRUE)), 
++           type = "l", col = 1, lty = 1, axes = FALSE, ylab = "Time", 
++           xlim = c(0.5, 3.5))
+>   axis(1, at = 1:3, labels = levels(RoundingTimes$methods))
+>   axis(2)
 > 
-> ### where do the differences come from?
-> ### Wilcoxon-Nemenyi-McDonald-Thompson test
-> ### Hollander & Wolfe (1999), page 295
-> if (require("multcomp")) {
+>   ### where do the differences come from?
+>   ### Wilcoxon-Nemenyi-McDonald-Thompson test
+>   ### Hollander & Wolfe (1999), page 295
+>   if (require("multcomp")) {
 + 
-+     ### all pairwise comparisons
-+     rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
-+          teststat = "max",
-+          xtrafo = function(data)
-+              trafo(data, factor_trafo = function(x)
-+                  model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))
-+              ),
-+          ytrafo = function(data)
-+              trafo(data, numeric_trafo = rank, block = RoundingTimes$block)
-+     )
++       ### all pairwise comparisons
++       rtt <- symmetry_test(times ~ methods | block, data = RoundingTimes,
++            teststat = "max",
++            xtrafo = function(data)
++                trafo(data, factor_trafo = function(x)
++                    model.matrix(~ x - 1) %*% t(contrMat(table(x), "Tukey"))
++                ),
++            ytrafo = function(data)
++                trafo(data, numeric_trafo = rank, block = RoundingTimes$block)
++       )
 + 
-+     ### a global test, again
-+     print(pvalue(rtt))
++       ### a global test, again
++       print(pvalue(rtt))
 + 
-+     ### simultaneous P-values for all pair comparisons
-+     ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
-+     print(pvalue(rtt, method = "single-step"))
++       ### simultaneous P-values for all pair comparisons
++       ### Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, page 296)
++       print(pvalue(rtt, method = "single-step"))
 + }
 Loading required package: multcomp
 [1] 0.003455915
@@ -935,16 +920,16 @@ Round Out - Narrow Angle  0.623924061
 Wide Angle - Narrow Angle 0.053791966
 Wide Angle - Round Out    0.003398076
 > 
-> ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286
-> sc <- data.frame(block = factor(c(rep(1, 5), rep(2, 5), rep(3, 5))),
-+                  potash = ordered(rep(c(144, 108, 72, 54, 36), 3)),
-+                  strength = c(7.46, 7.17, 7.76, 8.14, 7.63,
-+                               7.68, 7.57, 7.73, 8.15, 8.00,
-+                               7.21, 7.80, 7.74, 7.87, 7.93))
+>   ### Strength Index of Cotton, Hollander & Wolfe (1999), Table 7.5, page 286
+>   sc <- data.frame(block = factor(c(rep(1, 5), rep(2, 5), rep(3, 5))),
++                    potash = ordered(rep(c(144, 108, 72, 54, 36), 3)),
++                    strength = c(7.46, 7.17, 7.76, 8.14, 7.63,
++                                 7.68, 7.57, 7.73, 8.15, 8.00,
++                                 7.21, 7.80, 7.74, 7.87, 7.93))
 > 
-> ### Page test for ordered alternatives
-> ft <- friedman_test(strength ~ potash | block, data = sc)
-> ft
+>   ### Page test for ordered alternatives
+>   ft <- friedman_test(strength ~ potash | block, data = sc)
+>   ft
 
 	Asymptotic Page Test
 
@@ -954,22 +939,22 @@ data:  strength by
 chi-squared = 7.0533, df = 1, p-value = 0.007912
 
 > 
-> ### one-sided p-value
-> 1 - pnorm(sqrt(statistic(ft)))
+>   ### one-sided p-value
+>   1 - pnorm(sqrt(statistic(ft)))
 [1] 0.003955894
 > 
-> ### approximate null distribution via Monte-Carlo
-> pvalue(friedman_test(strength ~ potash | block, data = sc, 
-+                      distribution = approximate(B = 9999)))
+>   ### approximate null distribution via Monte-Carlo
+>   pvalue(friedman_test(strength ~ potash | block, data = sc, 
++                        distribution = approximate(B = 9999)))
 [1] 0.00470047
 99 percent confidence interval:
  0.003124471 0.006765311 
 
 > 
-> ### example from ?wilcox.test
-> x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
-> y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
-> wilcoxsign_test(x ~ y, alternative = "greater", distribution = exact())
+>   ### example from ?wilcox.test
+>   x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+>   y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+>   wilcoxsign_test(x ~ y, alternative = "greater", distribution = exact())
 
 	Exact Wilcoxon-Signed-Rank Test
 
@@ -978,7 +963,7 @@ data:  y by groups neg, pos
 Z = 2.0732, p-value = 0.01953
 alternative hypothesis: true mu is greater than 0 
 
-> wilcox.test(x, y, paired = TRUE, alternative = "greater")
+>   wilcox.test(x, y, paired = TRUE, alternative = "greater")
 
 	Wilcoxon signed rank test
 
@@ -987,11 +972,11 @@ V = 40, p-value = 0.01953
 alternative hypothesis: true location shift is greater than 0 
 
 > 
-> ### with explicit group and block information
-> xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), 
-+                     block = factor(rep(1:length(x), 2)))
-> wilcoxsign_test(y ~ x | block, data = xydat, 
-+                 alternative = "greater", distribution = exact())
+>   ### with explicit group and block information
+>   xydat <- data.frame(y = c(y, x), x = gl(2, length(x)), 
++                       block = factor(rep(1:length(x), 2)))
+>   wilcoxsign_test(y ~ x | block, data = xydat, 
++                   alternative = "greater", distribution = exact())
 
 	Exact Wilcoxon-Signed-Rank Test
 
@@ -1019,8 +1004,8 @@ alternative hypothesis: true mu is greater than 0
 > ### ** Examples
 > 
 > 
-> ### dummy matrices, 2-sample problem (only one column)
-> f_trafo(y <- gl(2, 5))
+>   ### dummy matrices, 2-sample problem (only one column)
+>   f_trafo(y <- gl(2, 5))
    1
 1  1
 2  1
@@ -1033,8 +1018,8 @@ alternative hypothesis: true mu is greater than 0
 9  0
 10 0
 > 
-> ### K-sample problem (K columns)
-> f_trafo(y <- gl(5, 2))
+>   ### K-sample problem (K columns)
+>   f_trafo(y <- gl(5, 2))
    1 2 3 4 5
 1  1 0 0 0 0
 2  1 0 0 0 0
@@ -1046,14 +1031,20 @@ alternative hypothesis: true mu is greater than 0
 8  0 0 0 1 0
 9  0 0 0 0 1
 10 0 0 0 0 1
+attr(,"assign")
+[1] 1 1 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$x
+[1] "contr.treatment"
+
 > 
-> ### normal scores
-> normal_trafo(x <- rnorm(10))
+>   ### normal scores
+>   normal_trafo(x <- rnorm(10))
  [1] -0.6045853 -0.1141853 -1.3351777  1.3351777  0.1141853 -0.9084579
  [7]  0.3487557  0.9084579  0.6045853 -0.3487557
 > 
-> ### and now together
-> trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
+>   ### and now together
+>   trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
             x y.1 y.2 y.3 y.4 y.5
 1  -0.6045853   1   0   0   0   0
 2  -0.1141853   1   0   0   0   0
@@ -1068,8 +1059,8 @@ alternative hypothesis: true mu is greater than 0
 attr(,"assign")
 [1] 1 2 2 2 2 2
 > 
-> ### the same, more flexible when multiple variables are in play
-> trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
+>   ### the same, more flexible when multiple variables are in play
+>   trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
             x y.1 y.2 y.3 y.4 y.5
 1  -0.6045853   1   0   0   0   0
 2  -0.1141853   1   0   0   0   0
@@ -1084,8 +1075,8 @@ attr(,"assign")
 attr(,"assign")
 [1] 1 2 2 2 2 2
 > 
-> ### maximally selected statistics
-> maxstat_trafo(rnorm(10))
+>   ### maximally selected statistics
+>   maxstat_trafo(rnorm(10))
    x <= -2.215 x <= -0.621 x <= -0.045 x <= -0.016 x <= 0.39 x <= 0.594
 1            0           0           0           0         0          0
 2            0           0           0           0         1          1
@@ -1109,8 +1100,8 @@ attr(,"assign")
 9           1          1          1
 10          1          1          1
 > 
-> ### apply transformation blockwise (e.g. for Friedman test)
-> trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
+>   ### apply transformation blockwise (e.g. for Friedman test)
+>   trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
        
  [1,] 1
  [2,] 2
@@ -1151,7 +1142,6 @@ attr(,"assign")
 > ### ** Examples
 > 
 > 
->   data("alpha", package = "coin")
 >   boxplot(elevel ~ alength, data = alpha)
 >   kruskal_test(elevel ~ alength, data = alpha)
 
@@ -1176,8 +1166,6 @@ chi-squared = 8.8302, df = 2, p-value = 0.01209
 > 
 > ### ** Examples
 > 
-> 
->   data("alzheimer", package = "coin")
 > 
 >   ### spineplots
 >   layout(matrix(1:2, ncol = 2))
@@ -1213,15 +1201,13 @@ chi-squared = 23.3163, df = 6, p-value = 0.0006972
 > ### ** Examples
 > 
 > 
-> data("asat", package = "coin")
+>   ### proof-of-safety based on ratio of medians
+>   pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
++                      conf.int = TRUE, distribution = "exact")
 > 
-> ### proof-of-safety based on ratio of medians
-> pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
-+                    conf.int = TRUE, distribution = "exact")
-> 
-> ### one-sided confidence set. Safety cannot be concluded since the effect of
-> ### the compound exceeds 20% of the control median
-> exp(confint(pos)$conf.int)
+>   ### one-sided confidence set. Safety cannot be concluded since the effect of
+>   ### the compound exceeds 20% of the control median
+>   exp(confint(pos)$conf.int)
 [1] 0.000000 1.337778
 attr(,"conf.level")
 [1] 0.95
@@ -1239,51 +1225,42 @@ attr(,"conf.level")
 > ###   Statistics
 > ### Aliases: expectation expectation-methods
 > ###   expectation,IndependenceTest-method
-> ###   expectation,IndependenceTestStatistic-method
-> ###   expectation,ScalarIndependenceTestStatistic-method
-> ###   expectation,MaxTypeIndependenceTestStatistic-method
-> ###   expectation,QuadTypeIndependenceTestStatistic-method covariance
+> ###   expectation,IndependenceTestStatistic-method covariance
 > ###   covariance-methods covariance,CovarianceMatrix-method
 > ###   covariance,IndependenceTest-method
-> ###   covariance,IndependenceTestStatistic-method
-> ###   covariance,ScalarIndependenceTestStatistic-method
-> ###   covariance,MaxTypeIndependenceTestStatistic-method
-> ###   covariance,QuadTypeIndependenceTestStatistic-method variance
-> ###   variance-methods variance,Variance-method
-> ###   variance,CovarianceMatrix-method variance,IndependenceTest-method
+> ###   covariance,IndependenceTestStatistic-method variance variance-methods
+> ###   variance,Variance-method variance,CovarianceMatrix-method
+> ###   variance,IndependenceTest-method
 > ###   variance,IndependenceTestStatistic-method
-> ###   variance,ScalarIndependenceTestStatistic-method
-> ###   variance,MaxTypeIndependenceTestStatistic-method
-> ###   variance,QuadTypeIndependenceTestStatistic-method
 > ### Keywords: methods
 > 
 > ### ** Examples
 > 
 > 
-> df <- data.frame(y = gl(3, 2), x = gl(3, 2)[sample(1:6)])
+>   df <- data.frame(y = gl(3, 2), x = gl(3, 2)[sample(1:6)])
 > 
-> ### Cochran-Mantel-Haenzel Test
-> ct <- cmh_test(y ~ x, data = df)
+>   ### Cochran-Mantel-Haenzel Test
+>   ct <- cmh_test(y ~ x, data = df)
 >  
-> ### the linear statistic, i.e, the contingency table
-> l <- statistic(ct, type = "linear")
-> l
+>   ### the linear statistic, i.e, the contingency table
+>   l <- statistic(ct, type = "linear")
+>   l
   1 2 3
 1 1 0 1
 2 0 2 0
 3 1 0 1
 > 
-> ### expectation
-> El <- expectation(ct)
-> El
+>   ### expectation
+>   El <- expectation(ct)
+>   El
       1:1       2:1       3:1       1:2       2:2       3:2       1:3       2:3 
 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 
       3:3 
 0.6666667 
 > 
-> ### covariance
-> Vl <- covariance(ct)
-> Vl
+>   ### covariance
+>   Vl <- covariance(ct)
+>   Vl
             1:1         2:1         3:1         1:2         2:2         3:2
 1:1  0.35555556 -0.17777778 -0.17777778 -0.17777778  0.08888889  0.08888889
 2:1 -0.17777778  0.35555556 -0.17777778  0.08888889 -0.17777778  0.08888889
@@ -1305,15 +1282,15 @@ attr(,"conf.level")
 2:3 -0.17777778  0.35555556 -0.17777778
 3:3 -0.17777778 -0.17777778  0.35555556
 > 
-> ### the standardized contingency table (hard way)
-> (l - El) / sqrt(variance(ct))
+>   ### the standardized contingency table (hard way)
+>   (l - El) / sqrt(variance(ct))
           1         2         3
 1  0.559017 -1.118034  0.559017
 2 -1.118034  2.236068 -1.118034
 3  0.559017 -1.118034  0.559017
 > 
-> ### easy way
-> statistic(ct, type = "standardized")
+>   ### easy way
+>   statistic(ct, type = "standardized")
           1         2         3
 1  0.559017 -1.118034  0.559017
 2 -1.118034  2.236068 -1.118034
@@ -1335,23 +1312,21 @@ attr(,"conf.level")
 > ### ** Examples
 > 
 > 
-> data("glioma", package = "coin")
+>   layout(matrix(1:2, ncol = 2))
 > 
-> par(mfrow=c(1,2))
+>   ### Grade III glioma
+>   g3 <- subset(glioma, histology == "Grade3")
 > 
-> ### Grade III glioma
-> g3 <- subset(glioma, histology == "Grade3")
+>   ### Plot Kaplan-Meier curves
+>   plot(survfit(Surv(time, event) ~ group, data = g3), 
++        main = "Grade III Glioma", lty = c(2,1), 
++        legend.text = c("Control", "Treated"),
++        legend.bty = 1, ylab = "Probability", 
++        xlab = "Survival Time in Month")
 > 
-> ### Plot Kaplan-Meier curves
-> plot(survfit(Surv(time, event) ~ group, data=g3), 
-+      main="Grade III Glioma", lty=c(2,1), 
-+      legend.text=c("Control", "Treated"),
-+      legend.bty=1, ylab="Probability", 
-+      xlab="Survival Time in Month")
-> 
-> ### logrank test
-> surv_test(Surv(time, event) ~ group, data = g3, 
-+              distribution = "exact")
+>   ### logrank test
+>   surv_test(Surv(time, event) ~ group, data = g3, 
++                distribution = "exact")
 
 	Exact Logrank Test
 
@@ -1360,19 +1335,19 @@ Z = 2.1711, p-value = 0.02877
 alternative hypothesis: two.sided 
 
 > 
-> ### Grade IV glioma
-> gbm <- subset(glioma, histology == "GBM")
+>   ### Grade IV glioma
+>   gbm <- subset(glioma, histology == "GBM")
 > 
-> ### Plot Kaplan-Meier curves
-> plot(survfit(Surv(time, event) ~ group, data=gbm), 
-+      main="Grade IV Glioma", lty=c(2,1), 
-+      legend.text=c("Control", "Treated"),
-+      legend.bty=1, legend.pos=1, ylab="Probability", 
-+      xlab="Survival Time in Month")
+>   ### Plot Kaplan-Meier curves
+>   plot(survfit(Surv(time, event) ~ group, data = gbm), 
++        main = "Grade IV Glioma", lty = c(2,1), 
++        legend.text = c("Control", "Treated"),
++        legend.bty = 1, legend.pos = 1, ylab = "Probability", 
++        xlab = "Survival Time in Month")
 >    
-> ### logrank test
-> surv_test(Surv(time, event) ~ group, data = gbm, 
-+              distribution = "exact")
+>   ### logrank test
+>   surv_test(Surv(time, event) ~ group, data = gbm, 
++             distribution = "exact")
 
 	Exact Logrank Test
 
@@ -1381,9 +1356,9 @@ Z = 3.2215, p-value = 0.0001588
 alternative hypothesis: two.sided 
 
 > 
-> ### stratified logrank test
-> surv_test(Surv(time, event) ~ group | histology, data = glioma,
-+              distribution = approximate(B = 10000))
+>   ### stratified logrank test
+>   surv_test(Surv(time, event) ~ group | histology, data = glioma,
++             distribution = approximate(B = 10000))
 
 	Approximative Logrank Test
 
@@ -1397,7 +1372,6 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
-> graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 > cleanEx(); nameEx("hohnloser");
 > ### * hohnloser
 > 
@@ -1412,7 +1386,6 @@ alternative hypothesis: two.sided
 > ### ** Examples
 > 
 > 
->   data("hohnloser", package = "coin")
 >   maxstat_test(Surv(time, event) ~ EF, data = hohnloser)
 
 	Asymptotic Maxstat Test
@@ -1441,10 +1414,8 @@ $cutpoint
 > ### ** Examples
 > 
 > 
-> data("jobsatisfaction", package = "coin")
-> 
-> ### Generalized Cochran-Mantel-Haenzel test
-> cmh_test(jobsatisfaction)
+>   ### Generalized Cochran-Mantel-Haenzel test
+>   cmh_test(jobsatisfaction)
 
 	Asymptotic Generalised Cochran-Mantel-Haenszel Test
 
@@ -1469,47 +1440,47 @@ chi-squared = 10.2001, df = 9, p-value = 0.3345
 > 
 > ### ** Examples
 > 
-> data("mercuryfish")
 > 
-> coherence <- function(data) {
-+     x <- as.matrix(data)
-+     matrix(apply(x, 1, function(y)
-+         sum(colSums(t(x) < y) == ncol(x)) - 
-+         sum(colSums(t(x) > y) == ncol(x))), ncol = 1)
-+ }
+>   ### coherence criterion
+>   coherence <- function(data) {
++       x <- as.matrix(data)
++       matrix(apply(x, 1, function(y)
++           sum(colSums(t(x) < y) == ncol(x)) - 
++           sum(colSums(t(x) > y) == ncol(x))), ncol = 1)
++   }
 > 
-> ### POSET-test
-> poset <- independence_test(mercury + abnormal + ccells ~ group, data =
-+                            mercuryfish, ytrafo = coherence)
+>   ### POSET-test
+>   poset <- independence_test(mercury + abnormal + ccells ~ group, data =
++                              mercuryfish, ytrafo = coherence)
 > 
-> ### linear statistic (T in Rosenbaum's, 1994, notation)
-> statistic(poset, "linear")
+>   ### linear statistic (T in Rosenbaum's, 1994, notation)
+>   statistic(poset, "linear")
             
 control -237
 > 
-> ### expectation
-> expectation(poset)
+>   ### expectation
+>   expectation(poset)
 control 
       0 
 > 
-> ### variance (there is a typo in Rosenbaum, 1994, page 371, 
-> ### last paragraph Section 2)
-> covariance(poset)
+>   ### variance (there is a typo in Rosenbaum, 1994, page 371, 
+>   ### last paragraph Section 2)
+>   covariance(poset)
          control
 control 3097.954
 > 
-> ### the standardized statistic
-> statistic(poset)
+>   ### the standardized statistic
+>   statistic(poset)
   control 
 -4.258051 
 > 
-> ### and asymptotic p-value
-> pvalue(poset)
+>   ### and asymptotic p-value
+>   pvalue(poset)
 [1] 2.062169e-05
 > 
-> ### exact p-value
-> independence_test(mercury + abnormal + ccells ~ group, data =
-+                   mercuryfish, ytrafo = coherence, distribution = "exact")
+>   ### exact p-value
+>   independence_test(mercury + abnormal + ccells ~ group, data =
++                     mercuryfish, ytrafo = coherence, distribution = "exact")
 
 	Exact General Independence Test
 
@@ -1518,19 +1489,19 @@ Z = -4.2581, p-value = 4.486e-06
 alternative hypothesis: two.sided 
 
 > 
-> ### multivariate analysis
-> mvtest <- independence_test(mercury + abnormal + ccells ~ group, 
-+                             data = mercuryfish)
+>   ### multivariate analysis
+>   mvtest <- independence_test(mercury + abnormal + ccells ~ group, 
++                               data = mercuryfish)
 > 
-> ### global p-value
-> pvalue(mvtest)
+>   ### global p-value
+>   pvalue(mvtest)
 [1] 0.007050271
 99 percent confidence interval:
  0.006381220 0.007719323 
 
 > 
-> ### adjusted univariate p-value
-> pvalue(mvtest, method = "single-step")
+>   ### adjusted univariate p-value
+>   pvalue(mvtest, method = "single-step")
            mercury   abnormal     ccells
 control 0.00719172 0.01705445 0.03836982
 > 
@@ -1550,11 +1521,9 @@ control 0.00719172 0.01705445 0.03836982
 > ### ** Examples
 > 
 > 
-> data("neuropathy", package = "coin")
-> 
-> ### compare with Table 2 of Conover & Salsburg (1988)
-> oneway_test(pain ~ group, data = neuropathy, alternative = "less",
-+             distribution = "exact")
+>   ### compare with Table 2 of Conover & Salsburg (1988)
+>   oneway_test(pain ~ group, data = neuropathy, alternative = "less",
++               distribution = "exact")
 
 	Exact 2-Sample Permutation Test
 
@@ -1563,8 +1532,8 @@ Z = -1.3191, p-value = 0.09589
 alternative hypothesis: true mu is less than 0 
 
 > 
-> wilcox_test(pain ~ group, data = neuropathy, alternative = "less", 
-+             distribution = "exact")
+>   wilcox_test(pain ~ group, data = neuropathy, alternative = "less", 
++               distribution = "exact")
 
 	Exact Wilcoxon Mann-Whitney Rank Sum Test
 
@@ -1573,10 +1542,10 @@ Z = -0.9817, p-value = 0.1654
 alternative hypothesis: true mu is less than 0 
 
 > 
-> oneway_test(pain ~ group, data = neuropathy, 
-+             distribution = approximate(B = 10000),
-+             alternative = "less", ytrafo = function(data) trafo(data,
-+             numeric_trafo = consal_trafo))
+>   oneway_test(pain ~ group, data = neuropathy, 
++               distribution = approximate(B = 10000),
++               alternative = "less", ytrafo = function(data) trafo(data,
++                   numeric_trafo = consal_trafo))
 
 	Approximative 2-Sample Permutation Test
 
@@ -1601,19 +1570,17 @@ alternative hypothesis: true mu is less than 0
 > ### ** Examples
 > 
 > 
-> data("ocarcinoma", package = "coin")
+>   ### logrank test with exact two-sided p-value
+>   lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
++                    distribution = "exact")
 > 
-> ### logrank test with exact two-sided p-value
-> lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
-+                     distribution = "exact")
-> 
-> ### the test statistic
-> statistic(lrt)
+>   ### the test statistic
+>   statistic(lrt)
        II 
 -2.337284 
 > 
-> ### p-value
-> pvalue(lrt)
+>   ### p-value
+>   pvalue(lrt)
 [1] 0.01819756
 > 
 > 
@@ -1632,34 +1599,32 @@ alternative hypothesis: true mu is less than 0
 > ### ** Examples
 > 
 > 
-> data("photocar")
+>   layout(matrix(1:3, ncol = 3))
+>   plot(survfit(Surv(time, event) ~ group, data = photocar), xmax = 50, 
++        lty =  1:3, main = "Survival Time")
+>   legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+>   plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50, 
++        lty = 1:3, main = "Time to First Tumor")
+>   legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+>   boxplot(ntumor ~ group, data = photocar, main = "Number of Tumors")
 > 
-> layout(matrix(1:3, ncol = 3))
-> plot(survfit(Surv(time, event) ~ group, data = photocar), xmax = 50, lty =
-+ 1:3, main = "Survival Time")
-> legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
-> plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50, lty =
-+ 1:3, main = "Time to First Tumor")
-> legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
-> boxplot(ntumor ~ group, data = photocar, main = "Number of Tumors")
-> 
-> ### global test (all three responses)
-> fm <- Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group
-> it <- independence_test(fm, data = photocar, 
-+                         distribution = approximate(B = 10000))
-> pvalue(it)
+>   ### global test (all three responses)
+>   fm <- Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group
+>   it <- independence_test(fm, data = photocar, 
++                           distribution = approximate(B = 10000))
+>   pvalue(it)
 [1] 0
 99 percent confidence interval:
  0.0000000000 0.0005296914 
 
 > 
-> ### why was the global null hypothesis rejected?
-> statistic(it, "standardized")
+>   ### why was the global null hypothesis rejected?
+>   statistic(it, "standardized")
   Surv(time, event) Surv(dmin, tumor)     ntumor
 A         -2.327338         -2.178704  0.2642120
 B         -4.750336         -4.106039  0.1509783
 C          7.077674          6.284743 -0.4151904
-> pvalue(it, "single-step")
+>   pvalue(it, "single-step")
   Surv(time, event) Surv(dmin, tumor) ntumor
 A             0.129            0.1850 0.9999
 B             0.000            0.0003 1.0000
@@ -1684,13 +1649,12 @@ C             0.000            0.0000 0.9988
 > ### ** Examples
 > 
 > 
-> ### artificial 2-sample problem
-> df <- data.frame(y = rnorm(20), x = gl(2, 10))
+>   ### artificial 2-sample problem
+>   df <- data.frame(y = rnorm(20), x = gl(2, 10))
 >  
-> ### Ansari-Bradley test
-> at <- ansari_test(y ~ x, data = df, distribution = "exact")
-> 
-> at
+>   ### Ansari-Bradley test
+>   at <- ansari_test(y ~ x, data = df, distribution = "exact")
+>   at
 
 	Exact Ansari-Bradley Test
 
@@ -1699,23 +1663,23 @@ Z = 0.4553, p-value = 0.7102
 alternative hypothesis: true mu is not equal to 1 
 
 > 
-> pvalue(at)
+>   pvalue(at)
 [1] 0.710234
 > 
-> ### bivariate 2-sample problem
-> df <- data.frame(y1 = rnorm(20) + c(rep(0, 10), rep(1, 10)), 
-+                  y2 = rnorm(20), 
-+                  x = gl(2, 10))
+>   ### bivariate 2-sample problem
+>   df <- data.frame(y1 = rnorm(20) + c(rep(0, 10), rep(1, 10)), 
++                    y2 = rnorm(20), 
++                    x = gl(2, 10))
 > 
-> it <- independence_test(y1 + y2 ~ x, data = df, 
-+                         distribution = approximate(B = 9999))
-> pvalue(it, method = "single-step")
+>   it <- independence_test(y1 + y2 ~ x, data = df, 
++                           distribution = approximate(B = 9999))
+>   pvalue(it, method = "single-step")
          y1     y2
 1 0.0110011 0.9998
-> pvalue(it, method = "step-down")
+>   pvalue(it, method = "step-down")
          y1        y2
 1 0.0110011 0.9789979
-> pvalue(it, method = "discrete")
+>   pvalue(it, method = "discrete")
           y1       y2
 1 0.01097084 0.999559
 > 
@@ -1734,8 +1698,6 @@ alternative hypothesis: true mu is not equal to 1
 > 
 > ### ** Examples
 > 
-> 
->   data("rotarod", package = "coin")
 > 
 >   ### Wilcoxon-Mann-Whitney Rank Sum Test
 > 
@@ -1784,8 +1746,7 @@ alternative hypothesis: true mu is not equal to 0
 > ### ** Examples
 > 
 > 
-> data("sphase", package = "coin")
-> maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
+>   maxstat_test(Surv(RFS, event) ~ SPF, data = sphase)
 
 	Asymptotic Maxstat Test
 
@@ -1797,10 +1758,10 @@ $cutpoint
 
 
 > 
-> ### reproduce the test statistic reported in Hothorn & Lausen (2003)
-> maxstat_test(Surv(RFS, event) ~ SPF, data = sphase, 
-+     ytrafo = function(data) trafo(data, surv_trafo = function(x) 
-+         logrank_trafo(x, ties.method = "HL")))
+>   ### reproduce the test statistic reported in Hothorn & Lausen (2003)
+>   maxstat_test(Surv(RFS, event) ~ SPF, data = sphase, 
++       ytrafo = function(data) trafo(data, surv_trafo = function(x) 
++           logrank_trafo(x, ties.method = "HL")))
 
 	Asymptotic Maxstat Test
 
@@ -1824,22 +1785,23 @@ $cutpoint
 > ### Title: Extract Test Statistics, Linear Statistics and Standardized
 > ###   Statistics
 > ### Aliases: statistic statistic-methods statistic,IndependenceTest-method
+> ###   statistic,IndependenceTestStatistic-method
 > ### Keywords: methods
 > 
 > ### ** Examples
 > 
 > 
-> df <- data.frame(y = gl(4, 5), x = gl(5, 4))
+>   df <- data.frame(y = gl(4, 5), x = gl(5, 4))
 > 
-> ### Cochran-Mantel-Haenzel Test
-> ct <- cmh_test(y ~ x, data = df)
+>   ### Cochran-Mantel-Haenzel Test
+>   ct <- cmh_test(y ~ x, data = df)
 > 
-> ### chisq-type statistics
-> statistic(ct)
+>   ### chi-squared statistic
+>   statistic(ct)
 [1] 38
 > 
-> ### the linear statistic, i.e, the contingency table
-> statistic(ct, type = "linear")
+>   ### the linear statistic, i.e, the contingency table
+>   statistic(ct, type = "linear")
   1 2 3 4
 1 4 0 0 0
 2 1 3 0 0
@@ -1847,8 +1809,8 @@ $cutpoint
 4 0 0 3 1
 5 0 0 0 4
 > 
-> ### the same
-> table(df$x, df$y)
+>   ### the same
+>   table(df$x, df$y)
    
     1 2 3 4
   1 4 0 0 0
@@ -1857,15 +1819,16 @@ $cutpoint
   4 0 0 3 1
   5 0 0 0 4
 > 
-> ### and the standardized contingency table for illustrating
-> ### departures from the null hypothesis of independence of x and y
-> statistic(ct, type = "standardized")
+>   ### and the standardized contingency table for illustrating
+>   ### departures from the null hypothesis of independence of x and y
+>   statistic(ct, type = "standardized")
           1         2         3         4
 1  3.774917 -1.258306 -1.258306 -1.258306
 2  0.000000  2.516611 -1.258306 -1.258306
 3 -1.258306  1.258306  1.258306 -1.258306
 4 -1.258306 -1.258306  2.516611  0.000000
 5 -1.258306 -1.258306 -1.258306  3.774917
+> 
 > 
 > 
 > 
@@ -1882,11 +1845,9 @@ $cutpoint
 > ### ** Examples
 > 
 > 
-> data("treepipit", package = "coin")
-> 
-> maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
-+                       coniferous + deadtree + cbpiles + ivytree,
-+              data = treepipit)
+>   maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
++                         coniferous + deadtree + cbpiles + ivytree,
++                data = treepipit)
 
 	Asymptotic Maxstat Test
 
@@ -1908,7 +1869,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.238 1.428 35.812 0 0 
+Time elapsed:  33.63 0.748 34.618 0 0 
 > grDevices::dev.off()
 null device 
           1 

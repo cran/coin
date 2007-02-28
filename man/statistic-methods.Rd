@@ -3,6 +3,7 @@
 \alias{statistic}
 \alias{statistic-methods}
 \alias{statistic,IndependenceTest-method}
+\alias{statistic,IndependenceTestStatistic-method}
 \title{ Extract Test Statistics, Linear Statistics and Standardized
   Statistics }
 \description{
@@ -28,22 +29,23 @@ statistic(object, type = c("test", "linear", "standardized"), ...)
 }
 \examples{
 
-df <- data.frame(y = gl(4, 5), x = gl(5, 4))
+  df <- data.frame(y = gl(4, 5), x = gl(5, 4))
 
-### Cochran-Mantel-Haenzel Test
-ct <- cmh_test(y ~ x, data = df)
+  ### Cochran-Mantel-Haenzel Test
+  ct <- cmh_test(y ~ x, data = df)
 
-### chisq-type statistics
-statistic(ct)
+  ### chi-squared statistic
+  statistic(ct)
 
-### the linear statistic, i.e, the contingency table
-statistic(ct, type = "linear")
+  ### the linear statistic, i.e, the contingency table
+  statistic(ct, type = "linear")
 
-### the same
-table(df$x, df$y)
+  ### the same
+  table(df$x, df$y)
 
-### and the standardized contingency table for illustrating
-### departures from the null hypothesis of independence of x and y
-statistic(ct, type = "standardized")
+  ### and the standardized contingency table for illustrating
+  ### departures from the null hypothesis of independence of x and y
+  statistic(ct, type = "standardized")
+
 }
 \keyword{methods}

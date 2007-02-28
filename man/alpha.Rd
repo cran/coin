@@ -40,7 +40,6 @@
 }
 \examples{
 
-  data("alpha", package = "coin")
   boxplot(elevel ~ alength, data = alpha)
   kruskal_test(elevel ~ alength, data = alpha)
 

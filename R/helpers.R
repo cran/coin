@@ -1,20 +1,24 @@
 
 
 asymptotic <- function(maxpts = 25000, abseps = 0.001, releps = 0) {
-    RET <- list(maxpts = maxpts, abseps = abseps, releps = releps)
+    RET <- function(object)
+        AsymptNullDistribution(object, maxpts = maxpts, 
+                               abseps = abseps, releps = releps)
     class(RET) <- "asymptotic"
     RET
 }
 
 approximate <- function(B = 1000) {
-    RET <- list(B = B)
+    RET <- function(object)
+        ApproxNullDistribution(object, B = B)
     class(RET) <- "approximate"
     RET
 }
 
 exact <- function(algorithm = c("shift", "split-up"), fact = NULL) {
     algorithm <- match.arg(algorithm)
-    RET <- list(algorithm = algorithm, fact = fact)
+    RET <- function(object)
+        ExactNullDistribution(object, algorithm = algorithm, fact = fact)
     class(RET) <- "exact"
     RET
 }
@@ -111,6 +115,7 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
         dat <- ModelEnvFormula(formula = formula, 
                                data = Biobase::pData(Biobase::phenoData(data)),
                                subset = subset, other = other,
+                               designMatrix = FALSE, responseMatrix = FALSE,
                                na.action = na.omit, 
                                ...)
 
@@ -123,6 +128,7 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
                                data = data,
                                subset = subset, other = other, 
                                na.action = na.omit, 
+                               designMatrix = FALSE, responseMatrix = FALSE,
                                ...)
 
         ### rhs of formula
@@ -239,6 +245,20 @@ table2df_sym <- function(x) {
     y
 }
 
+table2IndependenceProblem <- function(object) {
+
+    df <- as.data.frame(object)
+    if (ncol(df) == 3)
+        ip <- new("IndependenceProblem", x = df[1], y = df[2],
+                  block = NULL, weights = df[["Freq"]])
+    if (ncol(df) == 4) {
+        attr(df[[3]], "blockname") <- colnames(df)[3]
+        ip <- new("IndependenceProblem", x = df[1], y = df[2],
+                  block = df[[3]], weights = df[["Freq"]])
+    }
+    ip
+}
+
 is_2sample <- function(object) {
     groups <- ((ncol(object@x) == 1 && is.factor(object@x[[1]])) && 
                 nlevels(object@x[[1]]) == 2)
@@ -335,8 +355,20 @@ statnames <- function(object) {
     nr <- ncol(object@xtrans)
     dn <- list(colnames(object@xtrans),
                colnames(object@ytrans))
-    if (is.null(dn[[1]])) dn[[1]] <- ""
-    if (is.null(dn[[2]])) dn[[2]] <- ""
+    if (is.null(dn[[1]])) {
+        if (nr == 1) {
+            dn[[1]] <- ""
+        } else {
+            dn[[1]] <- paste("X", 1:nr, sep = "")
+        }
+    }
+    if (is.null(dn[[2]])) {
+        if (nc == 1) {
+            dn[[2]] <- ""
+        } else {
+            dn[[2]] <- paste("Y", 1:nc, sep = "")
+        }
+    }
     list(dimnames = dn, 
          names = paste(rep((dn[[1]]), nc), 
                        rep((dn[[2]]), rep(nr, nc)), 
@@ -349,3 +381,6 @@ eps <- function() sqrt(.Machine$double.eps)
 get_weights <- function(object) object@statistic@weights
 get_xtrans <- function(object) object@statistic@xtrans
 get_ytrans <- function(object) object@statistic@ytrans
+
+chkone <- function(w)
+    !(max(abs(w - 1.0)) < eps())

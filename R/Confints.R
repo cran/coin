@@ -1,6 +1,5 @@
 
-confint_location <- function(object, nulldistr, level = 0.95, 
-                             approx = FALSE, ...) {
+confint_location <- function(object, nulldistr, level = 0.95, ...) {
 
     if (!extends(class(object), "ScalarIndependenceTestStatistic"))
         stop("Argument ", sQuote("object"), " is not of class ",
@@ -14,6 +13,7 @@ confint_location <- function(object, nulldistr, level = 0.95,
     if (!extends(class(nulldistr), "NullDistribution"))
         stop("Argument ", sQuote("nulldistr"), " is not of class ",
              sQuote("NullDistribution"))
+    approx <- inherits(nulldistr, "AsymptNullDistribution")
 
     if (nlevels(object@block) != 1 || max(abs(object@weights - 1)) > 0)
         stop("cannot compute confidence intervals with blocks or weights")

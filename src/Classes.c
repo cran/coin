@@ -3,19 +3,19 @@
     S4 classes 
     *\file Classes.c
     *\author $Author: hothorn $
-    *\date $Date: 2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) $
+    *\date $Date: 2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) $
 */
 
-#include "CI_common.h"
+#include "coin_common.h"
 
 SEXP 
-    CI_expectationSym,
-    CI_covarianceSym,
-    CI_sumweightsSym;
+    coin_expectationSym,
+    coin_covarianceSym,
+    coin_sumweightsSym;
 
 SEXP coin_init(void) {
-    CI_expectationSym = install("expectation");
-    CI_covarianceSym = install("covariance");
-    CI_sumweightsSym = install("sumweights");
+    coin_expectationSym = install("expectation");
+    coin_covarianceSym = install("covariance");
+    coin_sumweightsSym = install("sumweights");
     return(R_NilValue);
 }

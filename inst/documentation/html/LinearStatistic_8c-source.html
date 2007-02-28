@@ -20,7 +20,7 @@
 <div class="nav">
 <a class="el" href="dir_ffcd7fcaa547dc02c1b00308358d1322.html">src</a></div>
 <h1>LinearStatistic.c</h1><a href="LinearStatistic_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
-<a name="l00009"></a>00009 <span class="preprocessor">#include "<a class="code" href="CI__common_8h.html">CI_common.h</a>"</span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include "<a class="code" href="coin__common_8h.html">coin_common.h</a>"</span>
 <a name="l00010"></a>00010 
 <a name="l00022"></a><a class="code" href="LinearStatistic_8c.html#12e882779ecd0445c3a0dd9ac85dfeee">00022</a> <span class="keywordtype">void</span> <a class="code" href="LinearStatistic_8c.html#12e882779ecd0445c3a0dd9ac85dfeee">C_kronecker</a> (<span class="keyword">const</span> <span class="keywordtype">double</span> *A, <span class="keyword">const</span> <span class="keywordtype">int</span> m, <span class="keyword">const</span> <span class="keywordtype">int</span> n,
 <a name="l00023"></a>00023                   <span class="keyword">const</span> <span class="keywordtype">double</span> *B, <span class="keyword">const</span> <span class="keywordtype">int</span> r, <span class="keyword">const</span> <span class="keywordtype">int</span> s,
@@ -53,10 +53,10 @@
 <a name="l00056"></a>00056     <span class="keywordflow">if</span> (!isReal(A) || !isReal(B))
 <a name="l00057"></a>00057         error(<span class="stringliteral">"R_kronecker: A and / or B are not of type REALSXP"</span>);
 <a name="l00058"></a>00058 
-<a name="l00059"></a>00059     m = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(A);
-<a name="l00060"></a>00060     n = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(A);
-<a name="l00061"></a>00061     r = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(B);
-<a name="l00062"></a>00062     s = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(B);
+<a name="l00059"></a>00059     m = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(A);
+<a name="l00060"></a>00060     n = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(A);
+<a name="l00061"></a>00061     r = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(B);
+<a name="l00062"></a>00062     s = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(B);
 <a name="l00063"></a>00063     
 <a name="l00064"></a>00064     PROTECT(ans = allocVector(REALSXP, m * n * r * s));
 <a name="l00065"></a>00065     <a class="code" href="LinearStatistic_8c.html#12e882779ecd0445c3a0dd9ac85dfeee">C_kronecker</a>(REAL(A), m, n, REAL(B), r, s, REAL(ans));
@@ -75,13 +75,13 @@
 <a name="l00087"></a>00087     <span class="keywordtype">double</span> *dExp_y, *dCov_y, *dsweights, tmp;
 <a name="l00088"></a>00088     
 <a name="l00089"></a>00089     <span class="comment">/*  return values: set to zero initially */</span>
-<a name="l00090"></a>00090     dExp_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#5ee5f1bd8b4645ead86fc5633029874f">CI_expectationSym</a>));
+<a name="l00090"></a>00090     dExp_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#bbb9eebf67e5de25bd14a119d80547c8">coin_expectationSym</a>));
 <a name="l00091"></a>00091     <span class="keywordflow">for</span> (j = 0; j &lt; q; j++) dExp_y[j] = 0.0;
 <a name="l00092"></a>00092     
-<a name="l00093"></a>00093     dCov_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#24e590a3e139ba0eaacfa92d18deef6f">CI_covarianceSym</a>));
+<a name="l00093"></a>00093     dCov_y = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#f9d3f842579c178af113bdaae30eda44">coin_covarianceSym</a>));
 <a name="l00094"></a>00094     <span class="keywordflow">for</span> (j = 0; j &lt; q*q; j++) dCov_y[j] = 0.0;
 <a name="l00095"></a>00095     
-<a name="l00096"></a>00096     dsweights = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#39d28efb19261cbea74158bf2530c363">CI_sumweightsSym</a>));
+<a name="l00096"></a>00096     dsweights = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#acb7ca69262bcec0b61014b0a152672b">coin_sumweightsSym</a>));
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098     <span class="comment">/*  compute the sum of the weights */</span>
 <a name="l00099"></a>00099         
@@ -137,19 +137,19 @@
 <a name="l00155"></a>00155     <span class="keywordflow">if</span> (!isReal(y) || !isReal(weights))
 <a name="l00156"></a>00156         error(<span class="stringliteral">"R_ExpectCovarInfluence: arguments are not of type REALSXP"</span>);
 <a name="l00157"></a>00157     
-<a name="l00158"></a>00158     n = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
-<a name="l00159"></a>00159     q = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
+<a name="l00158"></a>00158     n = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
+<a name="l00159"></a>00159     q = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
 <a name="l00160"></a>00160     
 <a name="l00161"></a>00161     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
 <a name="l00162"></a>00162         error(<span class="stringliteral">"R_ExpectCovarInfluence: vector of case weights does not have %d elements"</span>, n);
 <a name="l00163"></a>00163 
 <a name="l00164"></a>00164     <span class="comment">/*  allocate storage for return values */</span>
 <a name="l00165"></a>00165     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovarInfluence"</span>)));
-<a name="l00166"></a>00166     SET_SLOT(ans, <a class="code" href="Classes_8c.html#5ee5f1bd8b4645ead86fc5633029874f">CI_expectationSym</a>, 
+<a name="l00166"></a>00166     SET_SLOT(ans, <a class="code" href="Classes_8c.html#bbb9eebf67e5de25bd14a119d80547c8">coin_expectationSym</a>, 
 <a name="l00167"></a>00167              PROTECT(allocVector(REALSXP, q)));
-<a name="l00168"></a>00168     SET_SLOT(ans, <a class="code" href="Classes_8c.html#24e590a3e139ba0eaacfa92d18deef6f">CI_covarianceSym</a>, 
+<a name="l00168"></a>00168     SET_SLOT(ans, <a class="code" href="Classes_8c.html#f9d3f842579c178af113bdaae30eda44">coin_covarianceSym</a>, 
 <a name="l00169"></a>00169              PROTECT(allocMatrix(REALSXP, q, q)));
-<a name="l00170"></a>00170     SET_SLOT(ans, <a class="code" href="Classes_8c.html#39d28efb19261cbea74158bf2530c363">CI_sumweightsSym</a>, 
+<a name="l00170"></a>00170     SET_SLOT(ans, <a class="code" href="Classes_8c.html#acb7ca69262bcec0b61014b0a152672b">coin_sumweightsSym</a>, 
 <a name="l00171"></a>00171              PROTECT(allocVector(REALSXP, 1)));
 <a name="l00172"></a>00172 
 <a name="l00173"></a>00173     <a class="code" href="LinearStatistic_8c.html#e2f62abe13ee5b625141b5d4a496d832">C_ExpectCovarInfluence</a>(REAL(y), q, REAL(weights), n, ans);
@@ -172,16 +172,16 @@
 <a name="l00202"></a>00202     pq   = p * q;
 <a name="l00203"></a>00203     
 <a name="l00204"></a>00204     <span class="comment">/* the expectation and covariance of the influence function */</span>
-<a name="l00205"></a>00205     dExp_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#5ee5f1bd8b4645ead86fc5633029874f">CI_expectationSym</a>));
-<a name="l00206"></a>00206     dCov_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#24e590a3e139ba0eaacfa92d18deef6f">CI_covarianceSym</a>));
-<a name="l00207"></a>00207     sweights = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#39d28efb19261cbea74158bf2530c363">CI_sumweightsSym</a>))[0];
+<a name="l00205"></a>00205     dExp_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#bbb9eebf67e5de25bd14a119d80547c8">coin_expectationSym</a>));
+<a name="l00206"></a>00206     dCov_y = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#f9d3f842579c178af113bdaae30eda44">coin_covarianceSym</a>));
+<a name="l00207"></a>00207     sweights = REAL(GET_SLOT(expcovinf, <a class="code" href="Classes_8c.html#acb7ca69262bcec0b61014b0a152672b">coin_sumweightsSym</a>))[0];
 <a name="l00208"></a>00208 
 <a name="l00209"></a>00209     <span class="keywordflow">if</span> (sweights &lt;= 1.0) 
 <a name="l00210"></a>00210         error(<span class="stringliteral">"C_ExpectCovarLinearStatistic: sum of weights is less than one"</span>);
 <a name="l00211"></a>00211 
 <a name="l00212"></a>00212     <span class="comment">/* prepare for storing the results */</span>
-<a name="l00213"></a>00213     dExp_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#5ee5f1bd8b4645ead86fc5633029874f">CI_expectationSym</a>));
-<a name="l00214"></a>00214     dCov_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#24e590a3e139ba0eaacfa92d18deef6f">CI_covarianceSym</a>));
+<a name="l00213"></a>00213     dExp_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#bbb9eebf67e5de25bd14a119d80547c8">coin_expectationSym</a>));
+<a name="l00214"></a>00214     dCov_T = REAL(GET_SLOT(ans, <a class="code" href="Classes_8c.html#f9d3f842579c178af113bdaae30eda44">coin_covarianceSym</a>));
 <a name="l00215"></a>00215 
 <a name="l00216"></a>00216     <span class="comment">/* allocate storage: all helpers, initially zero */</span>
 <a name="l00217"></a>00217     swx = Calloc(p, <span class="keywordtype">double</span>);               <span class="comment">/* p x 1  */</span>
@@ -252,20 +252,20 @@
 <a name="l00290"></a>00290 
 <a name="l00291"></a>00291     <span class="comment">/* determine the dimensions and some checks */</span>
 <a name="l00292"></a>00292 
-<a name="l00293"></a>00293     n  = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x);
-<a name="l00294"></a>00294     p  = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
-<a name="l00295"></a>00295     q  = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
+<a name="l00293"></a>00293     n  = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x);
+<a name="l00294"></a>00294     p  = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
+<a name="l00295"></a>00295     q  = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
 <a name="l00296"></a>00296     pq = p * q;
 <a name="l00297"></a>00297     
-<a name="l00298"></a>00298     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y) != n)
+<a name="l00298"></a>00298     <span class="keywordflow">if</span> (<a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y) != n)
 <a name="l00299"></a>00299         error(<span class="stringliteral">"y does not have %d rows"</span>, n);
 <a name="l00300"></a>00300     <span class="keywordflow">if</span> (LENGTH(weights) != n) 
 <a name="l00301"></a>00301         error(<span class="stringliteral">"vector of case weights does not have %d elements"</span>, n);
 <a name="l00302"></a>00302 
 <a name="l00303"></a>00303     PROTECT(ans = NEW_OBJECT(MAKE_CLASS(<span class="stringliteral">"ExpectCovar"</span>)));
-<a name="l00304"></a>00304     SET_SLOT(ans, <a class="code" href="Classes_8c.html#5ee5f1bd8b4645ead86fc5633029874f">CI_expectationSym</a>, 
+<a name="l00304"></a>00304     SET_SLOT(ans, <a class="code" href="Classes_8c.html#bbb9eebf67e5de25bd14a119d80547c8">coin_expectationSym</a>, 
 <a name="l00305"></a>00305              PROTECT(allocVector(REALSXP, pq)));
-<a name="l00306"></a>00306     SET_SLOT(ans, <a class="code" href="Classes_8c.html#24e590a3e139ba0eaacfa92d18deef6f">CI_covarianceSym</a>, 
+<a name="l00306"></a>00306     SET_SLOT(ans, <a class="code" href="Classes_8c.html#f9d3f842579c178af113bdaae30eda44">coin_covarianceSym</a>, 
 <a name="l00307"></a>00307              PROTECT(allocMatrix(REALSXP, pq, pq)));
 <a name="l00308"></a>00308 
 <a name="l00309"></a>00309     <a class="code" href="LinearStatistic_8c.html#94a0805ea258af79d426c095feee399a">C_ExpectCovarLinearStatistic</a>(REAL(x), p, REAL(y), q, 
@@ -320,12 +320,12 @@
 <a name="l00376"></a>00376     <span class="keywordflow">if</span> (!isReal(x) || !isReal(y) || !isReal(weights))
 <a name="l00377"></a>00377         error(<span class="stringliteral">"LinStat: arguments are not of type REALSXP"</span>);
 <a name="l00378"></a>00378     
-<a name="l00379"></a>00379     n = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
-<a name="l00380"></a>00380     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x) != n || LENGTH(weights) != n)
+<a name="l00379"></a>00379     n = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
+<a name="l00380"></a>00380     <span class="keywordflow">if</span> (<a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x) != n || LENGTH(weights) != n)
 <a name="l00381"></a>00381         error(<span class="stringliteral">"LinStat: dimensions don't match"</span>);
 <a name="l00382"></a>00382 
-<a name="l00383"></a>00383     q    = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
-<a name="l00384"></a>00384     p    = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
+<a name="l00383"></a>00383     q    = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
+<a name="l00384"></a>00384     p    = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
 <a name="l00385"></a>00385            
 <a name="l00386"></a>00386     PROTECT(ans = allocVector(REALSXP, p*q));
 <a name="l00387"></a>00387  
@@ -379,14 +379,14 @@
 <a name="l00456"></a>00456     <span class="keywordflow">if</span> (!isInteger(indx))
 <a name="l00457"></a>00457         error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not of type INTSXP"</span>);
 <a name="l00458"></a>00458     
-<a name="l00459"></a>00459     n = <a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
+<a name="l00459"></a>00459     n = <a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(y);
 <a name="l00460"></a>00460     nperm = LENGTH(perm);
 <a name="l00461"></a>00461     iperm = INTEGER(perm);
 <a name="l00462"></a>00462     <span class="keywordflow">if</span> (LENGTH(indx)  != nperm)
 <a name="l00463"></a>00463         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
 <a name="l00464"></a>00464     iindx = INTEGER(indx);
 <a name="l00465"></a>00465 
-<a name="l00466"></a>00466     <span class="keywordflow">if</span> (<a class="code" href="CIstuff_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x) != n)
+<a name="l00466"></a>00466     <span class="keywordflow">if</span> (<a class="code" href="Helpers_8c.html#eeb672a71c45ead28b7b354414f2427a">nrow</a>(x) != n)
 <a name="l00467"></a>00467         error(<span class="stringliteral">"R_PermutedLinearStatistic: dimensions don't match"</span>);
 <a name="l00468"></a>00468 
 <a name="l00469"></a>00469     <span class="keywordflow">for</span> (i = 0; i &lt; nperm; i++) {
@@ -396,8 +396,8 @@
 <a name="l00473"></a>00473             error(<span class="stringliteral">"R_PermutedLinearStatistic: indx is not between 1 and nobs"</span>);
 <a name="l00474"></a>00474     }
 <a name="l00475"></a>00475 
-<a name="l00476"></a>00476     q    = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
-<a name="l00477"></a>00477     p    = <a class="code" href="CIstuff_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
+<a name="l00476"></a>00476     q    = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(y);
+<a name="l00477"></a>00477     p    = <a class="code" href="Helpers_8c.html#f1f46cc3e98630497a1ccb21d943fe65">ncol</a>(x);
 <a name="l00478"></a>00478            
 <a name="l00479"></a>00479     PROTECT(ans = allocVector(REALSXP, p*q));
 <a name="l00480"></a>00480     
@@ -407,7 +407,7 @@
 <a name="l00484"></a>00484     UNPROTECT(1);
 <a name="l00485"></a>00485     <span class="keywordflow">return</span>(ans);
 <a name="l00486"></a>00486 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Oct 17 13:00:01 2006 for coin by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Feb 28 15:21:13 2007 for coin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

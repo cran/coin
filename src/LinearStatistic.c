@@ -3,10 +3,10 @@
     Linear statistics for conditional inference
     *\file LinearStatistic.c
     *\author $Author: hothorn $
-    *\date $Date: 2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) $
+    *\date $Date: 2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) $
 */
     
-#include "CI_common.h"
+#include "coin_common.h"
 
 /**
     Computes the Kronecker product of two matrices\n
@@ -87,13 +87,13 @@ void C_ExpectCovarInfluence(const double* y, const int q,
     double *dExp_y, *dCov_y, *dsweights, tmp;
     
     /*  return values: set to zero initially */
-    dExp_y = REAL(GET_SLOT(ans, CI_expectationSym));
+    dExp_y = REAL(GET_SLOT(ans, coin_expectationSym));
     for (j = 0; j < q; j++) dExp_y[j] = 0.0;
     
-    dCov_y = REAL(GET_SLOT(ans, CI_covarianceSym));
+    dCov_y = REAL(GET_SLOT(ans, coin_covarianceSym));
     for (j = 0; j < q*q; j++) dCov_y[j] = 0.0;
     
-    dsweights = REAL(GET_SLOT(ans, CI_sumweightsSym));
+    dsweights = REAL(GET_SLOT(ans, coin_sumweightsSym));
 
     /*  compute the sum of the weights */
         
@@ -163,11 +163,11 @@ SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights) {
 
     /*  allocate storage for return values */
     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("ExpectCovarInfluence")));
-    SET_SLOT(ans, CI_expectationSym, 
+    SET_SLOT(ans, coin_expectationSym, 
              PROTECT(allocVector(REALSXP, q)));
-    SET_SLOT(ans, CI_covarianceSym, 
+    SET_SLOT(ans, coin_covarianceSym, 
              PROTECT(allocMatrix(REALSXP, q, q)));
-    SET_SLOT(ans, CI_sumweightsSym, 
+    SET_SLOT(ans, coin_sumweightsSym, 
              PROTECT(allocVector(REALSXP, 1)));
 
     C_ExpectCovarInfluence(REAL(y), q, REAL(weights), n, ans);
@@ -202,16 +202,16 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
     pq   = p * q;
     
     /* the expectation and covariance of the influence function */
-    dExp_y = REAL(GET_SLOT(expcovinf, CI_expectationSym));
-    dCov_y = REAL(GET_SLOT(expcovinf, CI_covarianceSym));
-    sweights = REAL(GET_SLOT(expcovinf, CI_sumweightsSym))[0];
+    dExp_y = REAL(GET_SLOT(expcovinf, coin_expectationSym));
+    dCov_y = REAL(GET_SLOT(expcovinf, coin_covarianceSym));
+    sweights = REAL(GET_SLOT(expcovinf, coin_sumweightsSym))[0];
 
     if (sweights <= 1.0) 
         error("C_ExpectCovarLinearStatistic: sum of weights is less than one");
 
     /* prepare for storing the results */
-    dExp_T = REAL(GET_SLOT(ans, CI_expectationSym));
-    dCov_T = REAL(GET_SLOT(ans, CI_covarianceSym));
+    dExp_T = REAL(GET_SLOT(ans, coin_expectationSym));
+    dCov_T = REAL(GET_SLOT(ans, coin_covarianceSym));
 
     /* allocate storage: all helpers, initially zero */
     swx = Calloc(p, double);               /* p x 1  */
@@ -301,9 +301,9 @@ SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights,
         error("vector of case weights does not have %d elements", n);
 
     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("ExpectCovar")));
-    SET_SLOT(ans, CI_expectationSym, 
+    SET_SLOT(ans, coin_expectationSym, 
              PROTECT(allocVector(REALSXP, pq)));
-    SET_SLOT(ans, CI_covarianceSym, 
+    SET_SLOT(ans, coin_covarianceSym, 
              PROTECT(allocMatrix(REALSXP, pq, pq)));
 
     C_ExpectCovarLinearStatistic(REAL(x), p, REAL(y), q, 

@@ -4,30 +4,18 @@
 \alias{pperm-methods}
 \alias{pperm,NullDistribution-method}
 \alias{pperm,IndependenceTest-method}
-\alias{pperm,ScalarIndependenceTest-method}
-\alias{pperm,MaxTypeIndependenceTest-method}
-\alias{pperm,QuadTypeIndependenceTest-method}
 \alias{qperm}
 \alias{qperm-methods}
 \alias{qperm,NullDistribution-method}
 \alias{qperm,IndependenceTest-method}
-\alias{qperm,ScalarIndependenceTest-method}
-\alias{qperm,MaxTypeIndependenceTest-method}
-\alias{qperm,QuadTypeIndependenceTest-method}
 \alias{dperm}
 \alias{dperm-methods}
 \alias{dperm,NullDistribution-method}
 \alias{dperm,IndependenceTest-method}
-\alias{dperm,ScalarIndependenceTest-method}
-\alias{dperm,MaxTypeIndependenceTest-method}
-\alias{dperm,QuadTypeIndependenceTest-method}
 \alias{support}
 \alias{support-methods}
 \alias{support,NullDistribution-method}
 \alias{support,IndependenceTest-method}
-\alias{support,ScalarIndependenceTest-method}
-\alias{support,MaxTypeIndependenceTest-method}
-\alias{support,QuadTypeIndependenceTest-method}
 
 \title{ Permutation Distribution of Conditional Independence Tests }
 
@@ -59,23 +47,23 @@ support(object, ...)
 }
 \examples{
 
-### artificial 2-sample problem
-df <- data.frame(y = rnorm(20), x = gl(2, 10))
+  ### artificial 2-sample problem
+  df <- data.frame(y = rnorm(20), x = gl(2, 10))
 
-### Ansari-Bradley test
-at <- ansari_test(y ~ x, data = df, distribution = "exact")
+  ### Ansari-Bradley test
+  at <- ansari_test(y ~ x, data = df, distribution = "exact")
 
-### density of the exact distribution of the Ansari-Bradley statistic
-dens <- sapply(support(at), dperm, object = at)
+  ### density of the exact distribution of the Ansari-Bradley statistic
+  dens <- sapply(support(at), dperm, object = at)
 
-### plot density
-plot(support(at), dens, type = "s")
+  ### plot density
+  plot(support(at), dens, type = "s")
 
-### 95\% quantile
-qperm(at, 0.95)
+  ### 95\% quantile
+  qperm(at, 0.95)
 
-### one-sided p-value
-pperm(at, statistic(at))
+  ### one-sided p-value
+  pperm(at, statistic(at))
 
 }
 \keyword{methods}

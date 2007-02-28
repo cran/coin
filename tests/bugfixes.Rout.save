@@ -1,6 +1,6 @@
 
-R version 2.5.0 Under development (unstable) (2006-11-01 r39765)
-Copyright (C) 2006 The R Foundation for Statistical Computing
+R version 2.5.0 Under development (unstable) (2007-02-04 r40641)
+Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -24,6 +24,7 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
+Loading required package: stats4
 > isequal <- coin:::isequal
 > 
 > ### check if doxygen documentation is there
@@ -143,7 +144,7 @@ Loading required package: multcomp
 > stopifnot(s == 28)
 > 
 > ### two observations only
-> mydf <- data.frame(x = 1:10, y = gl(2, 5))
+> mydf <- data.frame(x = 1:10, y = factor(rep(c(1, 2), 5)))
 > independence_test(y ~ x, data = mydf, subset = c(1, 6))
 
 	Asymptotic General Independence Test
@@ -157,11 +158,9 @@ alternative hypothesis: two.sided
 	Asymptotic General Independence Test
 
 data:  y by x 
-Z = NaN, p-value = NA
+Z = -1, p-value = 0.3173
 alternative hypothesis: two.sided 
 
-Warning message:
-The conditional covariance matrix has zero diagonal elements in: .local(.Object, ...) 
 > try(independence_test(y ~ x, data = mydf, subset = 1))
 Error in validObject(.Object) : invalid class "IndependenceProblem" object: FALSE
 > 
@@ -230,4 +229,43 @@ data:  y by x
 Z = 3, p-value = 0.0027
 alternative hypothesis: two.sided 
 
+> 
+> ### factors with only one level
+> dat <- data.frame(y = rnorm(100), x1 = runif(100), x2 = factor(rep(0, 100)))
+> try(independence_test(y ~ x1  + x2, data = dat))
+Error in factor_trafo(x) : Can't deal with factors containing only one level
+> 
+> ### user specified g: names, MC
+> me <- as.table(matrix(c( 6,  8, 10,
++                32, 47, 20), byrow = TRUE, nrow = 2,
++     dimnames = list(group = c("In situ", "Control"),
++                     genotype = c("AA", "AG", "GG"))))
+> medf <- as.data.frame(me)
+> 
+> add <- c(0, 1, 2)
+> dom <- c(0, 1, 1)
+> rez <- c(0, 0, 1)
+> g <- function(x) {
++     x <- unlist(x)
++     cbind(add[x], dom[x], rez[x])
++ }
+> it <- independence_test(group ~ genotype, 
++     data = medf, weights = ~ Freq, xtrafo = g)
+> statistic(it, "linear")
+   In situ
+X1      28
+X2      18
+X3      10
+> 
+> it <- independence_test(group ~ genotype,
++     data = medf, weights = ~ Freq, xtrafo = g,
++     distribution = approximate(B = 49999))
+> pvalue(it)
+[1] 0.06848137
+99 percent confidence interval:
+ 0.06560306 0.07144217 
+
+> 
+> stopifnot(all.equal(statistic(independence_test(t(me), xtrafo = g), "linear"),
++                     statistic(it, "linear")))
 > 

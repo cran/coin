@@ -1,5 +1,5 @@
 base referer
-rect $CI__common_8h.html 140,56 244,80
-rect $CIstuff_8c.html 316,8 388,32
-rect $Classes_8c.html 312,56 392,80
-rect $LinearStatistic_8c.html 294,104 409,128
+rect $coin__common_8h.html 139,56 254,80
+rect $Classes_8c.html 322,8 402,32
+rect $Helpers_8c.html 323,56 401,80
+rect $LinearStatistic_8c.html 305,104 419,128

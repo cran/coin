@@ -72,33 +72,33 @@
 }
 \examples{
 
-### Opinions on Pre- and Extramarital Sex, Agresti (2002), page 421
-opinions <- c("always wrong", "almost always wrong", 
-              "wrong only sometimes", "not wrong at all")
+  ### Opinions on Pre- and Extramarital Sex, Agresti (2002), page 421
+  opinions <- c("always wrong", "almost always wrong", 
+                "wrong only sometimes", "not wrong at all")
 
-PreExSex <- as.table(matrix(c(144, 33, 84, 126, 
-                                2,  4, 14,  29, 
-                                0,  2,  6,  25, 
-                                0,  0,  1,  5), nrow = 4, 
-                            dimnames = list(PremaritalSex = opinions,
-                                            ExtramaritalSex = opinions)))
+  PreExSex <- as.table(matrix(c(144, 33, 84, 126, 
+                                  2,  4, 14,  29, 
+                                  0,  2,  6,  25, 
+                                  0,  0,  1,  5), nrow = 4, 
+                              dimnames = list(PremaritalSex = opinions,
+                                              ExtramaritalSex = opinions)))
 
-### treating response as nominal
-mh_test(PreExSex)
+  ### treating response as nominal
+  mh_test(PreExSex)
 
-### and as ordinal
-mh_test(PreExSex, scores = list(response = 1:length(opinions)))
+  ### and as ordinal
+  mh_test(PreExSex, scores = list(response = 1:length(opinions)))
 
-### example taken from 
-### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
-rating <- c("low", "moderate", "high")
-x <- as.table(matrix(c(20, 10,  5,
-                       3, 30, 15,
-                       0,  5, 40), 
-                     ncol = 3, byrow = TRUE,
-                     dimnames = list(Rater1 = rating, Rater2 = rating)))
-### test statistic W_0 = 13.76
-mh_test(x)
+  ### example taken from 
+  ### http://ourworld.compuserve.com/homepages/jsuebersax/mcnemar.htm
+  rating <- c("low", "moderate", "high")
+  x <- as.table(matrix(c(20, 10,  5,
+                         3, 30, 15,
+                         0,  5, 40), 
+                       ncol = 3, byrow = TRUE,
+                       dimnames = list(Rater1 = rating, Rater2 = rating)))
+  ### test statistic W_0 = 13.76
+  mh_test(x)
 
 }
 \keyword{htest}

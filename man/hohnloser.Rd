@@ -39,7 +39,6 @@ the data used here is published in Table 1 of Lausen and Schumacher (1992).
 
 \examples{
 
-  data("hohnloser", package = "coin")
   maxstat_test(Surv(time, event) ~ EF, data = hohnloser)
 
 }

@@ -90,26 +90,26 @@ f_trafo(x)
 }
 \examples{
 
-### dummy matrices, 2-sample problem (only one column)
-f_trafo(y <- gl(2, 5))
+  ### dummy matrices, 2-sample problem (only one column)
+  f_trafo(y <- gl(2, 5))
 
-### K-sample problem (K columns)
-f_trafo(y <- gl(5, 2))
+  ### K-sample problem (K columns)
+  f_trafo(y <- gl(5, 2))
 
-### normal scores
-normal_trafo(x <- rnorm(10))
+  ### normal scores
+  normal_trafo(x <- rnorm(10))
 
-### and now together
-trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
+  ### and now together
+  trafo(data.frame(x = x, y = y), numeric_trafo = normal_trafo)
 
-### the same, more flexible when multiple variables are in play
-trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
+  ### the same, more flexible when multiple variables are in play
+  trafo(data.frame(x = x, y = y), var_trafo = list(x = normal_trafo))
 
-### maximally selected statistics
-maxstat_trafo(rnorm(10))
+  ### maximally selected statistics
+  maxstat_trafo(rnorm(10))
 
-### apply transformation blockwise (e.g. for Friedman test)
-trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
+  ### apply transformation blockwise (e.g. for Friedman test)
+  trafo(data.frame(y = 1:20), numeric_trafo = rank, block = gl(4, 5))
 
 }
 \keyword{manip}

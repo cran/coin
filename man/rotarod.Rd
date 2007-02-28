@@ -38,8 +38,6 @@ p-value (corrected for ties) is reported as 0.0147.
 }
 \examples{
 
-  data("rotarod", package = "coin")
-
   ### Wilcoxon-Mann-Whitney Rank Sum Test
 
   ### one-sided exact (0.0186)

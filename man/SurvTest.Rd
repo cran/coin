@@ -11,8 +11,6 @@
 \method{surv_test}{formula}(formula, data, subset = NULL,  
     weights = NULL, \dots)
 \method{surv_test}{IndependenceProblem}(object, 
-    alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"), 
     ties.method = c("logrank", "HL"), ...)
 }
 \arguments{
@@ -29,17 +27,6 @@
   \item{weights}{an optional formula of the form \code{~ w} defining
       integer valued weights for the observations.}
   \item{object}{an object of class \code{IndependenceProblem}.}
-  \item{alternative}{a character, the alternative hypothesis must be
-    one of \code{"two.sided"} (default), \code{"greater"} or    
-    \code{"less"}.  You can specify just the initial letter.}   
-  \item{distribution}{a character, the null distribution of the test statistic
-    can be computed \code{exact}ly or can be approximated by its
-    asymptotic distribution (\code{asympt})  
-    or via Monte-Carlo resampling (\code{approx}).
-    Alternatively, the functions 
-    \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
-    used to specify how the exact conditional distribution of the test statistic
-    should be calculated or approximated.}
   \item{ties.method}{a character specifying the way ties are handled in the
                      definition of the logrank scores, see below.}
   \item{\dots}{further arguments to be passed to or from methods.}
@@ -90,20 +77,19 @@
 }    
 \examples{
 
-### asymptotic tests for carcinoma data
-data(ocarcinoma, package = "coin")
-surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
-survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
+  ### asymptotic tests for carcinoma data
+  surv_test(Surv(time, event) ~ stadium, data = ocarcinoma)
+  survdiff(Surv(time, event) ~ stadium, data = ocarcinoma)
 
-### example data given in Callaert (2003)
-exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
-                     event = rep(TRUE, 15),
-                     group = factor(c(rep(0, 7), rep(1, 8))))
-### p = 0.0523
-survdiff(Surv(time, event) ~ group, data = exdata)
-### p = 0.0505
-surv_test(Surv(time, event) ~ group, data = exdata, 
-          distribution = exact())
+  ### example data given in Callaert (2003)
+  exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
+                       event = rep(TRUE, 15),
+                       group = factor(c(rep(0, 7), rep(1, 8))))
+  ### p = 0.0523
+  survdiff(Surv(time, event) ~ group, data = exdata)
+  ### p = 0.0505
+  surv_test(Surv(time, event) ~ group, data = exdata, 
+            distribution = exact())
 
 }
 \keyword{htest}

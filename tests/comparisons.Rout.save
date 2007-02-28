@@ -1,6 +1,6 @@
 
-R version 2.5.0 Under development (unstable) (2006-11-01 r39765)
-Copyright (C) 2006 The R Foundation for Statistical Computing
+R version 2.5.0 Under development (unstable) (2007-02-04 r40641)
+Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -24,6 +24,7 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
+Loading required package: stats4
 > set.seed(290875)
 > isequal <- coin:::isequal
 > ### marginal homogenity
@@ -384,7 +385,7 @@ Loading required package: modeltools
 > stopifnot(isequal(round(pvalue(lte), 4), 0.0010))
 > 
 > ltel <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-+                      distribution = "exact", alternative = "less")
++                      distribution = "exact", alternative = "great")
 > 
 > # one-sided exact p-value, page 415
 > stopifnot(isequal(round(pvalue(ltel), 4), 0.0010))
@@ -398,7 +399,7 @@ Loading required package: modeltools
 > 
 > # one-sided approximated p-value
 > ltMC <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-+                      alternative = "less", 
++                      alternative = "greater", 
 +                      distribution = approximate(B = 10000))
 > pci <- attr(pvalue(ltMC), "conf.int")
 > 

@@ -1,4 +1,29 @@
 
+		CHANGES in `coin' VERSION 0.6-0
+
+    o    rename some C source files & update doxygen documentation
+
+    o    simplify some methods and the class structure
+
+    o    clean up code and simplify wrapper functions
+
+    o    documentation updates
+
+    o    deal with factors containing only one level
+
+    o    don't compute design matrices in `ModelEnvFormula'
+
+    o    expand weights if distribution = approximate()
+
+    o    assign names to user-specified transformation in case they are
+         missing
+
+    o    the `distribution' argument may now be a function with one
+         argument allowing for user-specified distributions.
+
+    o    surv_test() ignored the `alternative' argument
+
+
 		CHANGES in `coin' VERSION 0.5-2
 
     o    maxstat_trafo did not always choose the correct maximal

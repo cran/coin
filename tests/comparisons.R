@@ -353,7 +353,7 @@ lte <- surv_test(Surv(time, cens) ~ group, data = lungcancer,
 stopifnot(isequal(round(pvalue(lte), 4), 0.0010))
 
 ltel <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-                     distribution = "exact", alternative = "less")
+                     distribution = "exact", alternative = "great")
 
 # one-sided exact p-value, page 415
 stopifnot(isequal(round(pvalue(ltel), 4), 0.0010))
@@ -367,7 +367,7 @@ stopifnot(pci[1] < pvalue(lte) & pci[2] > pvalue(lte))
 
 # one-sided approximated p-value
 ltMC <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
-                     alternative = "less", 
+                     alternative = "greater", 
                      distribution = approximate(B = 10000))
 pci <- attr(pvalue(ltMC), "conf.int")
 

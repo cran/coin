@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "17 Oct 2006" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "28 Feb 2007" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,7 +6,7 @@ LinearStatistic.c \-
 .SH SYNOPSIS
 .br
 .PP
-\fC#include 'CI_common.h'\fP
+\fC#include 'coin_common.h'\fP
 .br
 
 .SS "Functions"
@@ -58,7 +58,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2006-04-04 17:22:46 +0200 (Tue, 04 Apr 2006) 
+2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) 
 .RE
 .PP
 .RE
@@ -91,7 +91,7 @@ Conditional expectation and covariance of the influence function
 .PP
 Definition at line 80 of file LinearStatistic.c.
 .PP
-References CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
+References coin_covarianceSym, coin_expectationSym, and coin_sumweightsSym.
 .PP
 Referenced by R_ExpectCovarInfluence().
 .SS "void C_ExpectCovarLinearStatistic (const double * x, const int p, const double * y, const int q, const double * weights, const int n, const SEXP expcovinf, SEXP ans)"
@@ -123,7 +123,7 @@ Conditional expectation and covariance of the a linear statistic
 .PP
 Definition at line 192 of file LinearStatistic.c.
 .PP
-References CI_covarianceSym, CI_expectationSym, and CI_sumweightsSym.
+References coin_covarianceSym, coin_expectationSym, and coin_sumweightsSym.
 .PP
 Referenced by R_ExpectCovarLinearStatistic().
 .SS "void C_kronecker (const double * A, const int m, const int n, const double * B, const int r, const int s, double * ans)"
@@ -231,7 +231,7 @@ R-interface to C_ExpectCovarInfluence
 .PP
 Definition at line 150 of file LinearStatistic.c.
 .PP
-References C_ExpectCovarInfluence(), CI_covarianceSym, CI_expectationSym, CI_sumweightsSym, ncol(), and nrow().
+References C_ExpectCovarInfluence(), coin_covarianceSym, coin_expectationSym, coin_sumweightsSym, ncol(), and nrow().
 .SS "SEXP R_ExpectCovarLinearStatistic (SEXP x, SEXP y, SEXP weights, SEXP expcovinf)"
 .PP
 R-interface to C_ExpectCovarLinearStatistic
@@ -253,7 +253,7 @@ R-interface to C_ExpectCovarLinearStatistic
 .PP
 Definition at line 285 of file LinearStatistic.c.
 .PP
-References C_ExpectCovarLinearStatistic(), CI_covarianceSym, CI_expectationSym, ncol(), and nrow().
+References C_ExpectCovarLinearStatistic(), coin_covarianceSym, coin_expectationSym, ncol(), and nrow().
 .SS "SEXP R_kronecker (SEXP A, SEXP B)"
 .PP
 R-interface to C_kronecker

@@ -126,6 +126,7 @@ setClass(Class = "ExactNullDistribution", contains = "NullDistribution")
 setClass(Class = "IndependenceTest",
     representation = representation(
         distribution = "NullDistribution",
+        statistic    = "IndependenceTestStatistic",
         method       = "character"
     )
 )
@@ -133,10 +134,12 @@ setClass(Class = "IndependenceTest",
 ### the "fitted" test for scalar linear statistics
 setClass(Class = "ScalarIndependenceTest",
     representation = representation(
-        statistic    = "ScalarIndependenceTestStatistic",
         nullvalue    = "numeric"
     ),
-    contains = "IndependenceTest"
+    contains = "IndependenceTest",
+    validity = function(object)
+        extends(class(object@statistic), 
+                "ScalarIndependenceTestStatistic")
 )
 
 ### possibly with confidence intervals
@@ -150,18 +153,18 @@ setClass(Class = "ScalarIndependenceTestConfint",
 
 ### max type test statistics
 setClass(Class = "MaxTypeIndependenceTest",
-    representation = representation(
-        statistic = "MaxTypeIndependenceTestStatistic"
-    ),
-    contains = "IndependenceTest"
+    contains = "IndependenceTest",
+    validity = function(object)
+        extends(class(object@statistic), 
+                "MaxTypeIndependenceTestStatistic")
 )
 
 ### quad form test statistics
 setClass(Class = "QuadTypeIndependenceTest",
-    representation = representation(
-        statistic = "QuadTypeIndependenceTestStatistic"
-    ),
-    contains = "IndependenceTest"
+    contains = "IndependenceTest",
+    validity = function(object)
+        extends(class(object@statistic), 
+                "QuadTypeIndependenceTestStatistic")
 )
 
 ### SymmetryProblems

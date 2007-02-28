@@ -91,26 +91,23 @@
 }
 \examples{
 
-### analysis of the tree pipit data in Mueller and Hothorn (2004)
-data("treepipit", package = "coin")
-maxstat_test(counts ~ coverstorey, data = treepipit)
+  ### analysis of the tree pipit data in Mueller and Hothorn (2004)
+  maxstat_test(counts ~ coverstorey, data = treepipit)
 
-### and for all possible covariates (simultaneously)
-mt <- maxstat_test(counts ~ ., data = treepipit)
-show(mt)$estimate
+  ### and for all possible covariates (simultaneously)
+  mt <- maxstat_test(counts ~ ., data = treepipit)
+  show(mt)$estimate
 
-### reproduce applications in Sections 7.2 and 7.3 
-### of Hothorn & Lausen (2003) with limiting distribution
+  ### reproduce applications in Sections 7.2 and 7.3 
+  ### of Hothorn & Lausen (2003) with limiting distribution
 
-data("hohnloser", package = "coin")
-maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
-    ytrafo = function(data) trafo(data, surv_trafo = function(x) 
-       logrank_trafo(x, ties = "HL")))
+  maxstat_test(Surv(time, event) ~  EF, data = hohnloser, 
+      ytrafo = function(data) trafo(data, surv_trafo = function(x) 
+         logrank_trafo(x, ties = "HL")))
 
-data("sphase", package = "coin")
-maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
-    ytrafo = function(data) trafo(data, surv_trafo = function(x)
-       logrank_trafo(x, ties = "HL")))
+  maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
+      ytrafo = function(data) trafo(data, surv_trafo = function(x)
+         logrank_trafo(x, ties = "HL")))
 
 }
 \keyword{htest}

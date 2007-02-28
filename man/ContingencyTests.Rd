@@ -99,59 +99,57 @@
     set.seed(290875)
 }
 
-data("jobsatisfaction", package = "coin")
+  ### for females only
+  chisq_test(as.table(jobsatisfaction[,,"Female"]), 
+      distribution = approximate(B = 9999))
 
-### for females only
-chisq_test(as.table(jobsatisfaction[,,"Female"]), 
-    distribution = approximate(B = 9999))
+  ### both Income and Job.Satisfaction unordered
+  cmh_test(jobsatisfaction)
 
-### both Income and Job.Satisfaction unordered
-cmh_test(jobsatisfaction)
+  ### both Income and Job.Satisfaction ordered, default scores
+  lbl_test(jobsatisfaction)
 
-### both Income and Job.Satisfaction ordered, default scores
-lbl_test(jobsatisfaction)
+  ### both Income and Job.Satisfaction ordered, alternative scores
+  lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
+                                          Income = c(3, 10, 20, 35)))
 
-### both Income and Job.Satisfaction ordered, alternative scores
-lbl_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
-                                        Income = c(3, 10, 20, 35)))
-
-### the same, null distribution approximated
-cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
+  ### the same, null distribution approximated
+  cmh_test(jobsatisfaction, scores = list(Job.Satisfaction = c(1, 3, 4, 5),
                                         Income = c(3, 10, 20, 35)),
-         distribution = approximate(B = 10000))
+           distribution = approximate(B = 10000))
 
-### Smoking and HDL cholesterin status
-### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
-smokingHDL <- as.table(
-    matrix(c(15,  8, 11,  5, 
-              3,  4,  6,  1, 
-              6,  7, 15, 11, 
-              1,  2,  3,  5), ncol = 4,
-           dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
-                           HDL = c("normal", "low", "borderline", "abnormal"))
-    ))
-### use interval mid-points as scores for smoking
-lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
+  ### Smoking and HDL cholesterin status
+  ### (from Jeong, Jhun and Kim, 2005, CSDA 48, 623-631, Table 2)
+  smokingHDL <- as.table(
+      matrix(c(15,  8, 11,  5, 
+                3,  4,  6,  1, 
+                6,  7, 15, 11, 
+                1,  2,  3,  5), ncol = 4,
+             dimnames = list(smoking = c("none", "< 5", "< 10", ">=10"), 
+                             HDL = c("normal", "low", "borderline", "abnormal"))
+  ))
+  ### use interval mid-points as scores for smoking
+  lbl_test(smokingHDL, scores = list(smoking = c(0, 2.5, 7.5, 15)))
 
-### Cochran-Armitage trend test for proportions
-### Lung tumors in female mice exposed to 1,2-dichloroethane
-### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
-### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
-lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
-                        tumor = c(rep(c(0, 1), c(38, 2)),
-                                  rep(c(0, 1), c(43, 7)),
-                                  rep(c(0, 1), c(33, 15))))
-table(lungtumor$dose, lungtumor$tumor)
+  ### Cochran-Armitage trend test for proportions
+  ### Lung tumors in female mice exposed to 1,2-dichloroethane
+  ### Encyclopedia of Biostatistics (Armitage & Colton, 1998), 
+  ### Chapter Trend Test for Counts and Proportions, page 4578, Table 2
+  lungtumor <- data.frame(dose = rep(c(0, 1, 2), c(40, 50, 48)),
+                          tumor = c(rep(c(0, 1), c(38, 2)),
+                                    rep(c(0, 1), c(43, 7)),
+                                    rep(c(0, 1), c(33, 15))))
+  table(lungtumor$dose, lungtumor$tumor)
 
-### Cochran-Armitage test (permutation equivalent to correlation 
-### between dose and tumor), cf. Table 2 for results
-independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
+  ### Cochran-Armitage test (permutation equivalent to correlation 
+  ### between dose and tumor), cf. Table 2 for results
+  independence_test(tumor ~ dose, data = lungtumor, teststat = "quad")
 
-### linear-by-linear association test with scores 0, 1, 2
-### is identical with Cochran-Armitage test
-lungtumor$dose <- ordered(lungtumor$dose)
-independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
-                  scores = list(dose = c(0, 1, 2)))
+  ### linear-by-linear association test with scores 0, 1, 2
+  ### is identical with Cochran-Armitage test
+  lungtumor$dose <- ordered(lungtumor$dose)
+  independence_test(tumor ~ dose, data = lungtumor, teststat = "quad",
+                    scores = list(dose = c(0, 1, 2)))
 
 }
 \keyword{htest}

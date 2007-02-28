@@ -13,14 +13,7 @@ setMethod(f = "pvalue",
 setMethod(f = "pvalue",
           signature = "IndependenceTest",
           definition = function(object, q, ...) {
-              pvalue(object@distribution, q = q)
-          }
-)
-
-setMethod(f = "pvalue",
-          signature = "ScalarIndependenceTest",
-          definition = function(object, ...) {
-              object@distribution@pvalue(object@statistic@teststatistic)
+              pvalue(object@distribution, object@statistic@teststatistic)
           }
 )
 
@@ -42,12 +35,6 @@ setMethod(f = "pvalue",
           }
 )
 
-setMethod(f = "pvalue",
-          signature = "QuadTypeIndependenceTest",
-          definition = function(object, ...) {
-              pvalue(object@distribution, object@statistic@teststatistic)
-          }
-)
 
 ### generic method for the permutation distribution from objects
 setGeneric("pperm", function(object, q, ...)
@@ -67,26 +54,6 @@ setMethod(f = "pperm",
           }
 )
 
-setMethod(f = "pperm",
-          signature = "ScalarIndependenceTest",
-          definition = function(object, q, ...) {
-              pperm(object@distribution, q)
-          }
-)
-
-setMethod(f = "pperm",
-          signature = "MaxTypeIndependenceTest",
-          definition = function(object, q, ...) {
-              pperm(object@distribution, q)
-          }
-)
-
-setMethod(f = "pperm",
-          signature = "QuadTypeIndependenceTest",
-          definition = function(object, q, ...) {
-              pperm(object@distribution, q)
-          }
-)
 
 ### generic method for the permutation distribution from objects
 setGeneric("qperm", function(object, p, ...)
@@ -101,27 +68,6 @@ setMethod(f = "qperm",
 
 setMethod(f = "qperm",
           signature = "IndependenceTest",
-          definition = function(object, p, ...) {
-              qperm(object@distribution, p)
-          }
-)
-
-setMethod(f = "qperm",
-          signature = "ScalarIndependenceTest",
-          definition = function(object, p, ...) {
-              qperm(object@distribution, p)
-          }
-)
-
-setMethod(f = "qperm",
-          signature = "MaxTypeIndependenceTest",
-          definition = function(object, p, ...) {
-              qperm(object@distribution, p)
-          }
-)
-
-setMethod(f = "qperm",
-          signature = "QuadTypeIndependenceTest",
           definition = function(object, p, ...) {
               qperm(object@distribution, p)
           }
@@ -145,26 +91,6 @@ setMethod(f = "dperm",
           }
 )
 
-setMethod(f = "dperm",
-          signature = "ScalarIndependenceTest",
-          definition = function(object, x, ...) {
-              dperm(object@distribution, x)
-          }
-)
-
-setMethod(f = "dperm",
-          signature = "MaxTypeIndependenceTest",
-          definition = function(object, x, ...) {
-              dperm(object@distribution, x)
-          }
-)
-
-setMethod(f = "dperm",
-          signature = "QuadTypeIndependenceTest",
-          definition = function(object, x, ...) {
-              dperm(object@distribution, x)
-          }
-)
 
 ### generic method for the permutation distribution from objects
 setGeneric("support", function(object, ...)
@@ -184,27 +110,6 @@ setMethod(f = "support",
           }
 )
 
-setMethod(f = "support",
-          signature = "ScalarIndependenceTest",
-          definition = function(object, ...) {
-              support(object@distribution, ...)
-          }
-)
-
-setMethod(f = "support",
-          signature = "MaxTypeIndependenceTest",
-          definition = function(object, ...) {
-              support(object@distribution, ...)
-          }
-)
-
-setMethod(f = "support",
-          signature = "QuadTypeIndependenceTest",
-          definition = function(object, ...) {
-              support(object@distribution, ...)
-          }
-)
-
 ### generic method for extracting statistics from objects
 setGeneric("statistic", function(object, 
     type = c("test", "linear", "standardized"), ...) 
@@ -214,9 +119,14 @@ setGeneric("statistic", function(object,
 setMethod(f = "statistic",
           signature = "IndependenceTest",
           definition = function(object, 
+              type = c("test", "linear", "standardized"), ...)
+              statistic(object@statistic, type = type)
+)
+
+setMethod(f = "statistic",
+          signature = "IndependenceTestStatistic",
+          definition = function(object, 
               type = c("test", "linear", "standardized"), ...) {
-              ### <FIXME> it is not sure that object@statistic exists! </FIXME>
-              object <- object@statistic
               nc <- ncol(object@ytrans)
               nr <- ncol(object@xtrans)
               type <- match.arg(type)
@@ -248,38 +158,6 @@ setMethod(f = "expectation",
 )
 
 
-setMethod(f = "expectation",
-          signature = "ScalarIndependenceTestStatistic",
-          definition = function(object, ...) 
-              object@expectation
-)
-
-setMethod(f = "expectation",
-          signature = "MaxTypeIndependenceTestStatistic",
-          definition = function(object, ...) {
-
-#              x <- object@expectation
-#              matrix(x, nrow = ncol(object@xtrans),
-#                        ncol = ncol(object@ytrans),
-#                        dimnames = list(colnames(object@xtrans), 
-#                                        colnames(object@ytrans)))
-               object@expectation
-          }
-)
-
-setMethod(f = "expectation",
-          signature = "QuadTypeIndependenceTestStatistic",
-          definition = function(object, ...) {
-
-#              x <- object@expectation
-#              matrix(x, nrow = ncol(object@xtrans),
-#                        ncol = ncol(object@ytrans),
-#                        dimnames = list(colnames(object@xtrans), 
-#                                        colnames(object@ytrans)))
-              object@expectation
-          }
-)
-
 ### generic method for extracting the covariance matrix from objects
 setGeneric("covariance", function(object, ...) 
     standardGeneric("covariance")
@@ -300,24 +178,6 @@ setMethod(f = "covariance",
 setMethod(f = "covariance",
           signature = "IndependenceTestStatistic",
           definition = function(object, ...) 
-              covariance(object@covariance)
-)
-
-setMethod(f = "covariance",
-          signature = "ScalarIndependenceTestStatistic",
-          definition = function(object, ...) 
-              covariance(object@covariance)
-)
-
-setMethod(f = "covariance",
-          signature = "MaxTypeIndependenceTestStatistic",
-          definition = function(object, ...)
-              covariance(object@covariance)
-)
-
-setMethod(f = "covariance",
-          signature = "QuadTypeIndependenceTestStatistic",
-          definition = function(object, ...)
               covariance(object@covariance)
 )
 
@@ -350,22 +210,3 @@ setMethod(f = "variance",
           definition = function(object, ...) 
               variance(object@covariance)
 )
-
-setMethod(f = "variance",
-          signature = "ScalarIndependenceTestStatistic",
-          definition = function(object, ...) 
-              variance(object@covariance)
-)
-
-setMethod(f = "variance",
-          signature = "MaxTypeIndependenceTestStatistic",
-          definition = function(object, ...)
-              variance(object@covariance)
-)
-
-setMethod(f = "variance",
-          signature = "QuadTypeIndependenceTestStatistic",
-          definition = function(object, ...)
-              variance(object@covariance)
-)
-

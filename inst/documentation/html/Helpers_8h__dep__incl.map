@@ -1,0 +1,5 @@
+base referer
+rect $coin__common_8h.html 137,56 252,80
+rect $Classes_8c.html 320,8 400,32
+rect $Helpers_8c.html 321,56 398,80
+rect $LinearStatistic_8c.html 302,104 417,128

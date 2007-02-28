@@ -51,7 +51,10 @@
     or via Monte-Carlo resampling (\code{approximate}). Alternatively, the functions
     \code{\link{exact}}, \code{\link{approximate}} or \code{\link{asymptotic}} can be
     used to specify how the exact conditional distribution of the test statistic 
-    should be calculated or approximated.}
+    should be calculated or approximated. It is also possible to specify a
+    function with one argument (taking objects inheriting from 
+    \code{IndependenceTestStatistic})
+    which return an object of class \code{NullDistribution}.}
   \item{xtrafo}{a function of transformations (see \code{\link{trafo}})
     to be applied to the variables on the right hand side of
     \code{formula}, see below.}
@@ -115,10 +118,8 @@
 }
 \examples{
 
-data("asat", package = "coin")
-
-### independence of asat and group via normal scores test
-independence_test(asat ~ group, data = asat,
+  ### independence of asat and group via normal scores test
+  independence_test(asat ~ group, data = asat,
 
     ### exact null distribution
     distribution = "exact", 
@@ -132,18 +133,18 @@ independence_test(asat ~ group, data = asat,
     ### indicator matrix of 1st level of group
     xtrafo = function(data) trafo(data, factor_trafo = function(x)
         matrix(x == levels(x)[1], ncol = 1))
-)
+  )
 
-### same as
-normal_test(asat ~ group, data = asat, distribution = "exact", 
-            alternative = "greater")
+  ### same as
+  normal_test(asat ~ group, data = asat, distribution = "exact", 
+              alternative = "greater")
 
 
-### if you are interested in the internals:
-\dontrun{
-    browseURL(system.file("documentation/html/index.html", 
-                          package = "coin"))
-}
+  ### if you are interested in the internals:
+  \dontrun{
+      browseURL(system.file("documentation/html/index.html", 
+                            package = "coin"))
+  }
 
 }
 \keyword{htest}

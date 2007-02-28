@@ -43,17 +43,15 @@ IIA.
 }
 \examples{
 
-data("ocarcinoma", package = "coin")
+  ### logrank test with exact two-sided p-value
+  lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
+                   distribution = "exact")
 
-### logrank test with exact two-sided p-value
-lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
-                    distribution = "exact")
+  ### the test statistic
+  statistic(lrt)
 
-### the test statistic
-statistic(lrt)
-
-### p-value
-pvalue(lrt)
+  ### p-value
+  pvalue(lrt)
 
 }
 \keyword{datasets}

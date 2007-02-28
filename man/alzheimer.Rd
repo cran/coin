@@ -35,8 +35,6 @@
 }
 \examples{
 
-  data("alzheimer", package = "coin")
-
   ### spineplots
   layout(matrix(1:2, ncol = 2))
   spineplot(disease ~ smoking, data = alzheimer, subset = gender == "Male",

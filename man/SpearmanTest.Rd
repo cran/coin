@@ -9,7 +9,6 @@
 \usage{
 \method{spearman_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{spearman_test}{IndependenceProblem}(object,
-    alternative = c("two.sided", "less", "greater"),
     distribution = c("asymptotic", "approximate"), ...) 
 }
 \arguments{
@@ -23,9 +22,6 @@
   \item{weights}{an optional formula of the form \code{~ w} defining
       integer valued weights for the observations.}
   \item{object}{an object of class \code{IndependenceProblem}.}
-  \item{alternative}{a character, the alternative hypothesis must be
-    one of \code{"two.sided"} (default), \code{"greater"} or    
-    \code{"less"}.  You can specify just the initial letter.}   
   \item{distribution}{a character, the null distribution of the test statistic
     can be approximated by its
     \code{asymptotic} distribution (\code{asymptotic}) 
@@ -53,7 +49,7 @@
 }
 \examples{
 
-spearman_test(CONT ~ INTG, data = USJudgeRatings)
+  spearman_test(CONT ~ INTG, data = USJudgeRatings)
 
 }
 \keyword{htest}

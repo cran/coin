@@ -22,27 +22,19 @@
 \usage{
 
 \method{oneway_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{oneway_test}{IndependenceProblem}(object, 
-    alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"), ...)
+\method{oneway_test}{IndependenceProblem}(object, ...)
 
 \method{wilcox_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{wilcox_test}{IndependenceProblem}(object, 
-    alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{normal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{normal_test}{IndependenceProblem}(object, 
-    alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"),
     ties.method = c("mid-ranks", "average-scores"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{median_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{median_test}{IndependenceProblem}(object, 
-    alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"),
     conf.int = FALSE, conf.level = 0.95, ...)
 
 \method{kruskal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
@@ -62,9 +54,6 @@
   \item{weights}{an optional formula of the form \code{~ w} defining
       integer valued weights for the observations.}
   \item{object}{an object of class \code{IndependenceProblem}.}
-  \item{alternative}{a character, the alternative hypothesis must be
-    one of \code{"two.sided"} (default), \code{"greater"} or
-    \code{"less"}.  You can specify just the initial letter.}
   \item{distribution}{a character, the null distribution of the test statistic
     can be computed \code{exact}ly or can be approximated by its
     asymptotic distribution (\code{asymptotic})
@@ -158,79 +147,79 @@
 }
 \examples{
 
-### Tritiated Water Diffusion Across Human Chorioamnion
-### Hollander & Wolfe (1999), Table 4.1, page 110
-water_transfer <- data.frame(
-    pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46,
-           1.15, 0.88, 0.90, 0.74, 1.21),
-    age = factor(c(rep("At term", 10), rep("12-26 Weeks", 5))))
+  ### Tritiated Water Diffusion Across Human Chorioamnion
+  ### Hollander & Wolfe (1999), Table 4.1, page 110
+  water_transfer <- data.frame(
+      pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91, 1.64, 0.73, 1.46,
+             1.15, 0.88, 0.90, 0.74, 1.21),
+      age = factor(c(rep("At term", 10), rep("12-26 Weeks", 5))))
 
-### Wilcoxon-Mann-Whitney test, cf. Hollander & Wolfe (1999), page 111
-### exact p-value and confidence interval for the difference in location
-### (At term - 12-26 Weeks)
-wt <- wilcox_test(pd ~ age, data = water_transfer, 
-            distribution = "exact", conf.int = TRUE)
-print(wt)
+  ### Wilcoxon-Mann-Whitney test, cf. Hollander & Wolfe (1999), page 111
+  ### exact p-value and confidence interval for the difference in location
+  ### (At term - 12-26 Weeks)
+  wt <- wilcox_test(pd ~ age, data = water_transfer, 
+                    distribution = "exact", conf.int = TRUE)
+  print(wt)
 
-### extract observed Wilcoxon statistic, i.e, the sum of the
-### ranks for age = "12-26 Weeks"
-statistic(wt, "linear")
+  ### extract observed Wilcoxon statistic, i.e, the sum of the
+  ### ranks for age = "12-26 Weeks"
+  statistic(wt, "linear")
 
-### its expectation
-expectation(wt)
+  ### its expectation
+  expectation(wt)
 
-### and variance
-covariance(wt)
+  ### and variance
+  covariance(wt)
 
-### and, finally, the exact two-sided p-value
-pvalue(wt)
+  ### and, finally, the exact two-sided p-value
+  pvalue(wt)
 
-### Confidence interval for difference (12-26 Weeks - At term)
-wilcox_test(pd ~ age, data = water_transfer, 
-    xtrafo = function(data) 
-        trafo(data, factor_trafo = function(x) as.numeric(x == levels(x)[2])),
-        distribution = "exact", conf.int = TRUE)
+  ### Confidence interval for difference (12-26 Weeks - At term)
+  wilcox_test(pd ~ age, data = water_transfer, 
+              xtrafo = function(data) 
+                  trafo(data, factor_trafo = function(x) 
+                      as.numeric(x == levels(x)[2])),
+              distribution = "exact", conf.int = TRUE)
+
+  ### Permutation test, asymptotic p-value
+  oneway_test(pd ~ age, data = water_transfer)
+
+  ### approximate p-value (with 99\% confidence interval)
+  pvalue(oneway_test(pd ~ age, data = water_transfer, 
+                     distribution = approximate(B = 9999)))
+  ### exact p-value
+  pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
+  pvalue(pt)
+
+  ### plot density and distribution of the standardised 
+  ### test statistic
+  layout(matrix(1:2, nrow = 2))
+  s <- support(pt)
+  d <- sapply(s, function(x) dperm(pt, x))
+  p <- sapply(s, function(x) pperm(pt, x))
+  plot(s, d, type = "S", xlab = "Teststatistic", ylab = "Density")
+  plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
 
 
-### Permutation test, asymptotic p-value
-oneway_test(pd ~ age, data = water_transfer)
+  ### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
+  ### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
+  YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
+                               42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
+                               38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
+                               31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
+                    site = factor(c(rep("I", 10), rep("II", 10),
+                                    rep("III", 10), rep("IV", 10))))
 
-### approximate p-value (with 99\% confidence interval)
-pvalue(oneway_test(pd ~ age, data = water_transfer, 
-                 distribution = approximate(B = 9999)))
-### exact p-value
-pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
-pvalue(pt)
+  ### Kruskal-Wallis test, approximate exact p-value
+  kw <- kruskal_test(length ~ site, data = YOY, 
+                     distribution = approximate(B = 9999))
+  kw
+  pvalue(kw)
 
-### plot density and distribution of the standardised 
-### test statistic
-layout(matrix(1:2, nrow = 2))
-s <- support(pt)
-d <- sapply(s, function(x) dperm(pt, x))
-p <- sapply(s, function(x) pperm(pt, x))
-plot(s, d, type = "S", xlab = "Teststatistic", ylab = "Density")
-plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
-
-
-### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
-### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
-YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
-                             42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
-                             38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
-                             31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
-                  site = factor(c(rep("I", 10), rep("II", 10),
-                                  rep("III", 10), rep("IV", 10))))
-
-### Kruskal-Wallis test, approximate exact p-value
-kw <- kruskal_test(length ~ site, data = YOY, 
-             distribution = approximate(B = 9999))
-kw
-pvalue(kw)
-
-### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
-### Hollander & Wolfe (1999), page 244 
-### (where Steel-Dwass results are given)
-if (require("multcomp")) {
+  ### Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
+  ### Hollander & Wolfe (1999), page 244 
+  ### (where Steel-Dwass results are given)
+  if (require("multcomp")) {
 
     NDWD <- oneway_test(length ~ site, data = YOY,
         ytrafo = function(data) trafo(data, numeric_trafo = rank),
@@ -243,7 +232,7 @@ if (require("multcomp")) {
 
     ### sites (I = II) != (III = IV) at alpha = 0.01 (page 244)
     print(pvalue(NDWD, method = "single-step"))
-}
+  }
 
 }
 \keyword{htest}

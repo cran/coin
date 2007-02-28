@@ -22,6 +22,7 @@ Normally, this class is only used internally.
 \section{Slots}{
   \describe{
     \item{\code{distribution}:}{Object of class \code{"NullDistribution"}.}
+    \item{\code{statistic}:}{Object of class \code{"IndependenceTestStatistic"}.}
     \item{\code{method}:}{Object of class \code{"character"}.}
   }
 }

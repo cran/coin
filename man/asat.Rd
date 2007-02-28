@@ -40,15 +40,13 @@ Hauschke et al. (1999).
 }
 \examples{
 
-data("asat", package = "coin")
+  ### proof-of-safety based on ratio of medians
+  pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
+                     conf.int = TRUE, distribution = "exact")
 
-### proof-of-safety based on ratio of medians
-pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
-                   conf.int = TRUE, distribution = "exact")
-
-### one-sided confidence set. Safety cannot be concluded since the effect of
-### the compound exceeds 20\% of the control median
-exp(confint(pos)$conf.int)
+  ### one-sided confidence set. Safety cannot be concluded since the effect of
+  ### the compound exceeds 20\% of the control median
+  exp(confint(pos)$conf.int)
 
 }
 \keyword{datasets}

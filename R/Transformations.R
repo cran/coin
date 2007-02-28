@@ -157,11 +157,15 @@ f_trafo <- function(x) {
     opt <- options()
     on.exit(options(opt))
     options(na.action = na.pass)
-    ### construct design matrix _without_ intercept
-    mm <- model.matrix(~ x - 1)
-    colnames(mm) <- levels(x)
     ### remove unused levels
-    mm <- mm[,colSums(mm, na.rm = TRUE) > 0,drop = FALSE]
+    x <- x[, drop = TRUE]
+    if (nlevels(x) == 1) {
+        stop("Can't deal with factors containing only one level")
+    } else {
+        ### construct design matrix _without_ intercept
+        mm <- model.matrix(~ x - 1)
+    }
+    colnames(mm) <- levels(x)
     ### the two-sample situations
     if (ncol(mm) == 2) mm <- mm[,-2,drop = FALSE]
     return(mm)

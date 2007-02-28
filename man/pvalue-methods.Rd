@@ -59,37 +59,36 @@ pvalue(object, ...)
 }
 \references{
 
-	Peter H. Westfall \& S. Stanley Young (1993).
-        \emph{Resampling-based Multiple Testing}.
-        New York: John Wiley & Sons.
+    Peter H. Westfall \& S. Stanley Young (1993).
+    \emph{Resampling-based Multiple Testing}.
+    New York: John Wiley & Sons.
 
-        Peter H. Westfall \& Russell D. Wolfinger (1997).
-        Multiple tests with discrete distributions. 
-        \emph{The American Statistician} \bold{51}, 3--8.
+    Peter H. Westfall \& Russell D. Wolfinger (1997).
+    Multiple tests with discrete distributions. 
+    \emph{The American Statistician} \bold{51}, 3--8.
 
 }
 \examples{
 
-### artificial 2-sample problem
-df <- data.frame(y = rnorm(20), x = gl(2, 10))
+  ### artificial 2-sample problem
+  df <- data.frame(y = rnorm(20), x = gl(2, 10))
  
-### Ansari-Bradley test
-at <- ansari_test(y ~ x, data = df, distribution = "exact")
+  ### Ansari-Bradley test
+  at <- ansari_test(y ~ x, data = df, distribution = "exact")
+  at
 
-at
+  pvalue(at)
 
-pvalue(at)
+  ### bivariate 2-sample problem
+  df <- data.frame(y1 = rnorm(20) + c(rep(0, 10), rep(1, 10)), 
+                   y2 = rnorm(20), 
+                   x = gl(2, 10))
 
-### bivariate 2-sample problem
-df <- data.frame(y1 = rnorm(20) + c(rep(0, 10), rep(1, 10)), 
-                 y2 = rnorm(20), 
-                 x = gl(2, 10))
-
-it <- independence_test(y1 + y2 ~ x, data = df, 
-                        distribution = approximate(B = 9999))
-pvalue(it, method = "single-step")
-pvalue(it, method = "step-down")
-pvalue(it, method = "discrete")
+  it <- independence_test(y1 + y2 ~ x, data = df, 
+                          distribution = approximate(B = 9999))
+  pvalue(it, method = "single-step")
+  pvalue(it, method = "step-down")
+  pvalue(it, method = "discrete")
 
 }
 \keyword{methods}

@@ -37,41 +37,39 @@
 }
 \examples{
 
-data("glioma", package = "coin")
+  layout(matrix(1:2, ncol = 2))
 
-par(mfrow=c(1,2))
+  ### Grade III glioma
+  g3 <- subset(glioma, histology == "Grade3")
 
-### Grade III glioma
-g3 <- subset(glioma, histology == "Grade3")
+  ### Plot Kaplan-Meier curves
+  plot(survfit(Surv(time, event) ~ group, data = g3), 
+       main = "Grade III Glioma", lty = c(2,1), 
+       legend.text = c("Control", "Treated"),
+       legend.bty = 1, ylab = "Probability", 
+       xlab = "Survival Time in Month")
 
-### Plot Kaplan-Meier curves
-plot(survfit(Surv(time, event) ~ group, data=g3), 
-     main="Grade III Glioma", lty=c(2,1), 
-     legend.text=c("Control", "Treated"),
-     legend.bty=1, ylab="Probability", 
-     xlab="Survival Time in Month")
+  ### logrank test
+  surv_test(Surv(time, event) ~ group, data = g3, 
+               distribution = "exact")
 
-### logrank test
-surv_test(Surv(time, event) ~ group, data = g3, 
-             distribution = "exact")
+  ### Grade IV glioma
+  gbm <- subset(glioma, histology == "GBM")
 
-### Grade IV glioma
-gbm <- subset(glioma, histology == "GBM")
-
-### Plot Kaplan-Meier curves
-plot(survfit(Surv(time, event) ~ group, data=gbm), 
-     main="Grade IV Glioma", lty=c(2,1), 
-     legend.text=c("Control", "Treated"),
-     legend.bty=1, legend.pos=1, ylab="Probability", 
-     xlab="Survival Time in Month")
+  ### Plot Kaplan-Meier curves
+  plot(survfit(Surv(time, event) ~ group, data = gbm), 
+       main = "Grade IV Glioma", lty = c(2,1), 
+       legend.text = c("Control", "Treated"),
+       legend.bty = 1, legend.pos = 1, ylab = "Probability", 
+       xlab = "Survival Time in Month")
    
-### logrank test
-surv_test(Surv(time, event) ~ group, data = gbm, 
-             distribution = "exact")
+  ### logrank test
+  surv_test(Surv(time, event) ~ group, data = gbm, 
+            distribution = "exact")
 
-### stratified logrank test
-surv_test(Surv(time, event) ~ group | histology, data = glioma,
-             distribution = approximate(B = 10000))
+  ### stratified logrank test
+  surv_test(Surv(time, event) ~ group | histology, data = glioma,
+            distribution = approximate(B = 10000))
 
 }
 \keyword{datasets}

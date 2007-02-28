@@ -50,26 +50,24 @@
 }
 \examples{
 
-data("photocar")
+  layout(matrix(1:3, ncol = 3))
+  plot(survfit(Surv(time, event) ~ group, data = photocar), xmax = 50, 
+       lty =  1:3, main = "Survival Time")
+  legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+  plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50, 
+       lty = 1:3, main = "Time to First Tumor")
+  legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
+  boxplot(ntumor ~ group, data = photocar, main = "Number of Tumors")
 
-layout(matrix(1:3, ncol = 3))
-plot(survfit(Surv(time, event) ~ group, data = photocar), xmax = 50, lty =
-1:3, main = "Survival Time")
-legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
-plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50, lty =
-1:3, main = "Time to First Tumor")
-legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
-boxplot(ntumor ~ group, data = photocar, main = "Number of Tumors")
+  ### global test (all three responses)
+  fm <- Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group
+  it <- independence_test(fm, data = photocar, 
+                          distribution = approximate(B = 10000))
+  pvalue(it)
 
-### global test (all three responses)
-fm <- Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group
-it <- independence_test(fm, data = photocar, 
-                        distribution = approximate(B = 10000))
-pvalue(it)
-
-### why was the global null hypothesis rejected?
-statistic(it, "standardized")
-pvalue(it, "single-step")
+  ### why was the global null hypothesis rejected?
+  statistic(it, "standardized")
+  pvalue(it, "single-step")
 
 }
 \keyword{datasets}

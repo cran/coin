@@ -1,5 +1,5 @@
 
 extern SEXP
-    CI_expectationSym,
-    CI_covarianceSym,
-    CI_sumweightsSym;
+    coin_expectationSym,
+    coin_covarianceSym,
+    coin_sumweightsSym;

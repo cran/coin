@@ -54,11 +54,9 @@
 }
 \examples{
 
-data("treepipit", package = "coin")
-
-maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
-                      coniferous + deadtree + cbpiles + ivytree,
-             data = treepipit)
+  maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +
+                        coniferous + deadtree + cbpiles + ivytree,
+               data = treepipit)
 
 }
 \keyword{datasets}

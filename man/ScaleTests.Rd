@@ -15,7 +15,6 @@
 \method{ansari_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{ansari_test}{IndependenceProblem}(object, 
     alternative = c("two.sided", "less", "greater"),
-    distribution = c("asymptotic", "approximate", "exact"),
     ties.method = c("mid-ranks", "average-scores"),
     conf.int = FALSE, conf.level = 0.95, ...)
 

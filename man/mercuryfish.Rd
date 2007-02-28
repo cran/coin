@@ -50,48 +50,48 @@
 
 }
 \examples{
-data("mercuryfish")
 
-coherence <- function(data) {
-    x <- as.matrix(data)
-    matrix(apply(x, 1, function(y)
-        sum(colSums(t(x) < y) == ncol(x)) - 
-        sum(colSums(t(x) > y) == ncol(x))), ncol = 1)
-}
+  ### coherence criterion
+  coherence <- function(data) {
+      x <- as.matrix(data)
+      matrix(apply(x, 1, function(y)
+          sum(colSums(t(x) < y) == ncol(x)) - 
+          sum(colSums(t(x) > y) == ncol(x))), ncol = 1)
+  }
 
-### POSET-test
-poset <- independence_test(mercury + abnormal + ccells ~ group, data =
-                           mercuryfish, ytrafo = coherence)
+  ### POSET-test
+  poset <- independence_test(mercury + abnormal + ccells ~ group, data =
+                             mercuryfish, ytrafo = coherence)
 
-### linear statistic (T in Rosenbaum's, 1994, notation)
-statistic(poset, "linear")
+  ### linear statistic (T in Rosenbaum's, 1994, notation)
+  statistic(poset, "linear")
 
-### expectation
-expectation(poset)
+  ### expectation
+  expectation(poset)
 
-### variance (there is a typo in Rosenbaum, 1994, page 371, 
-### last paragraph Section 2)
-covariance(poset)
+  ### variance (there is a typo in Rosenbaum, 1994, page 371, 
+  ### last paragraph Section 2)
+  covariance(poset)
 
-### the standardized statistic
-statistic(poset)
+  ### the standardized statistic
+  statistic(poset)
 
-### and asymptotic p-value
-pvalue(poset)
+  ### and asymptotic p-value
+  pvalue(poset)
 
-### exact p-value
-independence_test(mercury + abnormal + ccells ~ group, data =
-                  mercuryfish, ytrafo = coherence, distribution = "exact")
+  ### exact p-value
+  independence_test(mercury + abnormal + ccells ~ group, data =
+                    mercuryfish, ytrafo = coherence, distribution = "exact")
 
-### multivariate analysis
-mvtest <- independence_test(mercury + abnormal + ccells ~ group, 
-                            data = mercuryfish)
+  ### multivariate analysis
+  mvtest <- independence_test(mercury + abnormal + ccells ~ group, 
+                              data = mercuryfish)
 
-### global p-value
-pvalue(mvtest)
+  ### global p-value
+  pvalue(mvtest)
 
-### adjusted univariate p-value
-pvalue(mvtest, method = "single-step")
+  ### adjusted univariate p-value
+  pvalue(mvtest, method = "single-step")
 
 }
 \keyword{datasets}

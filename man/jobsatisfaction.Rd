@@ -8,7 +8,7 @@
 \usage{data("jobsatisfaction")}
 \format{
  A tree-dimensional contingency table with dimensions
- \description{
+ \describe{
      \item{Income}{a factor at levels \code{<5000, 5000-15000, 15000-25000}
                    and \code{>25000}.}
      \item{Job.Satisfaction}{a factor at levels \code{Very Dissatisfied, A
@@ -30,10 +30,8 @@
 }
 \examples{
 
-data("jobsatisfaction", package = "coin")
-
-### Generalized Cochran-Mantel-Haenzel test
-cmh_test(jobsatisfaction)
+  ### Generalized Cochran-Mantel-Haenzel test
+  cmh_test(jobsatisfaction)
 
 }
 \keyword{datasets}

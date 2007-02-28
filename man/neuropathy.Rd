@@ -18,27 +18,25 @@ for a control and treatment group.
 }
 \source{
 
-        William J. Conover \& David S. Salsburg (1988). Locally most powerful tests
-        for detecting treatment effects when only a subset of patients can  
-        be expected to "respond" to treatment. \emph{Biometrics} \bold{44},
-        189--196.
+    William J. Conover \& David S. Salsburg (1988). Locally most powerful tests
+    for detecting treatment effects when only a subset of patients can  
+    be expected to "respond" to treatment. \emph{Biometrics} \bold{44},
+    189--196.
 
 }
 \examples{
 
-data("neuropathy", package = "coin")
+  ### compare with Table 2 of Conover & Salsburg (1988)
+  oneway_test(pain ~ group, data = neuropathy, alternative = "less",
+              distribution = "exact")
 
-### compare with Table 2 of Conover & Salsburg (1988)
-oneway_test(pain ~ group, data = neuropathy, alternative = "less",
-            distribution = "exact")
+  wilcox_test(pain ~ group, data = neuropathy, alternative = "less", 
+              distribution = "exact")
 
-wilcox_test(pain ~ group, data = neuropathy, alternative = "less", 
-            distribution = "exact")
-
-oneway_test(pain ~ group, data = neuropathy, 
-            distribution = approximate(B = 10000),
-            alternative = "less", ytrafo = function(data) trafo(data,
-            numeric_trafo = consal_trafo))
+  oneway_test(pain ~ group, data = neuropathy, 
+              distribution = approximate(B = 10000),
+              alternative = "less", ytrafo = function(data) trafo(data,
+                  numeric_trafo = consal_trafo))
 
 }
 \keyword{datasets}

@@ -1,0 +1,133 @@
+.TH "Helpers.c" 3 "28 Feb 2007" "coin" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Helpers.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'coin_common.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBnrow\fP (SEXP x)"
+.br
+.ti -1c
+.RI "int \fBncol\fP (SEXP x)"
+.br
+.ti -1c
+.RI "void \fBC_SampleNoReplace\fP (int *x, int m, int k, int *ans)"
+.br
+.ti -1c
+.RI "SEXP \fBR_blocksetup\fP (SEXP block)"
+.br
+.ti -1c
+.RI "void \fBC_blockperm\fP (SEXP blocksetup, int *ans)"
+.br
+.ti -1c
+.RI "SEXP \fBR_blockperm\fP (SEXP block)"
+.br
+.ti -1c
+.RI "SEXP \fBR_MonteCarloIndependenceTest\fP (SEXP x, SEXP y, SEXP block, SEXP B)"
+.br
+.ti -1c
+.RI "SEXP \fBR_maxstattrafo\fP (SEXP x, SEXP cutpoints)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Some additional functionality for package `coin'
+.PP
+\fBAuthor:\fP
+.RS 4
+\fBAuthor\fP.RS 4
+hothorn 
+.RE
+.PP
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+\fBDate\fP.RS 4
+2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) 
+.RE
+.PP
+.RE
+.PP
+
+.PP
+Definition in file \fBHelpers.c\fP.
+.SH "Function Documentation"
+.PP 
+.SS "void C_blockperm (SEXP blocksetup, int * ans)"
+.PP
+Block permutation 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIblocksetup\fP as computed by `R_blocksetup' 
+.br
+\fIans\fP integer vector 
+.RE
+.PP
+
+.PP
+Definition at line 110 of file Helpers.c.
+.PP
+References C_SampleNoReplace().
+.PP
+Referenced by R_blockperm(), and R_MonteCarloIndependenceTest().
+.SS "void C_SampleNoReplace (int * x, int m, int k, int * ans)"
+.PP
+compute a permutation of a (random subset of) 0:(m-1) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP an integer vector of length m 
+.br
+\fIm\fP integer 
+.br
+\fIk\fP integer 
+.br
+\fIans\fP an integer vector of length k 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file Helpers.c.
+.PP
+Referenced by C_blockperm().
+.SS "int ncol (SEXP x)"
+.PP
+Definition at line 22 of file Helpers.c.
+.PP
+Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_kronecker(), R_LinearStatistic(), and R_MonteCarloIndependenceTest().
+.SS "int nrow (SEXP x)"
+.PP
+Definition at line 11 of file Helpers.c.
+.PP
+Referenced by R_ExpectCovarInfluence(), R_ExpectCovarLinearStatistic(), R_kronecker(), R_LinearStatistic(), R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
+.SS "SEXP R_blockperm (SEXP block)"
+.PP
+Definition at line 139 of file Helpers.c.
+.PP
+References C_blockperm(), and R_blocksetup().
+.SS "SEXP R_blocksetup (SEXP block)"
+.PP
+Definition at line 56 of file Helpers.c.
+.PP
+Referenced by R_blockperm(), and R_MonteCarloIndependenceTest().
+.SS "SEXP R_maxstattrafo (SEXP x, SEXP cutpoints)"
+.PP
+Definition at line 204 of file Helpers.c.
+.SS "SEXP R_MonteCarloIndependenceTest (SEXP x, SEXP y, SEXP block, SEXP B)"
+.PP
+Definition at line 152 of file Helpers.c.
+.PP
+References C_blockperm(), C_PermutedLinearStatistic(), ncol(), nrow(), and R_blocksetup().
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for coin from the source code.
