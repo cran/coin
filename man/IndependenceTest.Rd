@@ -142,7 +142,7 @@
 
   ### if you are interested in the internals:
   \dontrun{
-      browseURL(system.file("documentation/html/index.html", 
+      browseURL(system.file("documentation", "html", "index.html", 
                             package = "coin"))
   }
 

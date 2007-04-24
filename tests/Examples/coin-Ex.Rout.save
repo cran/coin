@@ -1,5 +1,5 @@
 
-R version 2.5.0 Under development (unstable) (2007-02-04 r40641)
+R version 2.5.0 (2007-04-23)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -276,7 +276,7 @@ alternative hypothesis: true mu is greater than 0
 > 
 >   ### if you are interested in the internals:
 >   ## Not run: 
-> ##D       browseURL(system.file("documentation/html/index.html", 
+> ##D       browseURL(system.file("documentation", "html", "index.html", 
 > ##D                             package = "coin"))
 > ##D   
 > ## End(Not run)
@@ -1869,7 +1869,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  33.63 0.748 34.618 0 0 
+Time elapsed:  42.514 0.868 44.087 0 0 
 > grDevices::dev.off()
 null device 
           1 

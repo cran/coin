@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{rotating}
 %%\usepackage[nolists]{endfloat}
+%%\usepackage{Sweave}
 
 %%\VignetteIndexEntry{A Lego System for Conditional Inference}
 
@@ -105,7 +106,7 @@ options(width = 65, prompt = "R> ", continue = "   ")
 require("coin")
 set.seed(290875)
 ### get rid of the NAMESPACE
-load(file.path(.find.package("coin"), "R", "all.rda"))
+#load(file.path(.find.package("coin"), "R", "all.rda"))
 anonymous <- FALSE
 @
 

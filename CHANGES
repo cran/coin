@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 0.6-1
+
+    o    LazyLoad: yes
+
+
 		CHANGES in `coin' VERSION 0.6-0
 
     o    rename some C source files & update doxygen documentation

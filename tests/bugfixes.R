@@ -6,7 +6,8 @@ library(coin)
 isequal <- coin:::isequal
 
 ### check if doxygen documentation is there
-stopifnot(nchar(system.file("documentation/html/index.html", package = "coin")) > 29) 
+stopifnot(nchar(system.file("documentation", "html", "index.html", 
+                            package = "coin")) > 29) 
 
 ### I() returns objects of class AsIs which caused an error in `trafo'
 df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50))
