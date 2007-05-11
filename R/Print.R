@@ -10,11 +10,12 @@ varnames <- function(object) {
 
     if (length(x) == 1) {
         if (is.ordered(x[[1]])) {
-            xnames <- paste("groups", paste(levels(x[[1]]), collapse = " < "))
+            xnames <- paste(colnames(x), " (", paste(levels(x[[1]]), collapse = " < "), 
+                            ")", sep = "")
         } else {
             if (is.factor(x[[1]])) {
-                xnames <- paste("groups", 
-                                paste(levels(x[[1]]), collapse = ", "))
+                xnames <- paste(colnames(x), " (", 
+                                paste(levels(x[[1]]), collapse = ", "), ")", sep = "")
             } else {
                 xnames <- colnames(x)
             }

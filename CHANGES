@@ -1,4 +1,11 @@
 
+		CHANGES in `coin' VERSION 0.6-2
+
+    o    print name of `x' variable and levels when `x' is a factor
+
+    o    new class IndependenceLinearStatistic
+
+
 		CHANGES in `coin' VERSION 0.6-1
 
     o    LazyLoad: yes

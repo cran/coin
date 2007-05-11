@@ -37,7 +37,7 @@ Loading required package: stats4
 
 	Asymptotic General Independence Test
 
-data:  I(x1/x2) by groups 1, 2 
+data:  I(x1/x2) by x3 (1, 2) 
 Z = -0.4491, p-value = 0.6534
 alternative hypothesis: two.sided 
 
@@ -45,7 +45,7 @@ alternative hypothesis: two.sided
 
 	Asymptotic General Independence Test
 
-data:  I(x1 < 0) by groups 1, 2 
+data:  I(x1 < 0) by x3 (1, 2) 
 Z = 0.7966, p-value = 0.4257
 alternative hypothesis: two.sided 
 

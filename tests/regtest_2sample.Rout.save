@@ -1,6 +1,6 @@
 
-R version 2.5.0 Under development (unstable) (2006-11-01 r39765)
-Copyright (C) 2006 The R Foundation for Statistical Computing
+R version 2.5.0 (2007-04-23)
+Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -26,6 +26,7 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
+Loading required package: stats4
 > isequal <- coin:::isequal
 > 
 > ### generate data
@@ -221,7 +222,7 @@ Error in .local(.Object, ...) : ‘block’ is not a factor
 
 	Asymptotic 2-Sample Permutation Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.7774, p-value = 0.4369
 alternative hypothesis: true mu is not equal to 0 
 
@@ -229,7 +230,7 @@ alternative hypothesis: true mu is not equal to 0
 
 	Asymptotic 2-Sample Permutation Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.7774, p-value = 0.2185
 alternative hypothesis: true mu is less than 0 
 
@@ -237,7 +238,7 @@ alternative hypothesis: true mu is less than 0
 
 	Asymptotic 2-Sample Permutation Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.7774, p-value = 0.7815
 alternative hypothesis: true mu is greater than 0 
 
@@ -246,7 +247,7 @@ alternative hypothesis: true mu is greater than 0
 
 	Asymptotic Normal Quantile (van der Waerden) Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.8596, p-value = 0.39
 alternative hypothesis: true mu is not equal to 0 
 
@@ -254,7 +255,7 @@ alternative hypothesis: true mu is not equal to 0
 
 	Asymptotic Normal Quantile (van der Waerden) Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.8596, p-value = 0.195
 alternative hypothesis: true mu is less than 0 
 
@@ -262,7 +263,7 @@ alternative hypothesis: true mu is less than 0
 
 	Asymptotic Normal Quantile (van der Waerden) Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = -0.8596, p-value = 0.805
 alternative hypothesis: true mu is greater than 0 
 
@@ -271,7 +272,7 @@ alternative hypothesis: true mu is greater than 0
 
 	Asymptotic Median Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = 0.8015, p-value = 0.4228
 alternative hypothesis: true mu is not equal to 0 
 
@@ -279,7 +280,7 @@ alternative hypothesis: true mu is not equal to 0
 
 	Asymptotic Median Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = 0.8015, p-value = 0.7886
 alternative hypothesis: true mu is less than 0 
 
@@ -287,7 +288,7 @@ alternative hypothesis: true mu is less than 0
 
 	Asymptotic Median Test
 
-data:  y by groups 1, 2 
+data:  y by x (1, 2) 
 Z = 0.8015, p-value = 0.2114
 alternative hypothesis: true mu is greater than 0 
 

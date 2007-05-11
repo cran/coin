@@ -55,17 +55,23 @@ setClassUnion("VarCovar", c("CovarianceMatrix", "Variance"))
 
 ### Linear statistic, expectation and covariance according to 
 ### Strasser & Weber (1999)
-setClass(Class = "IndependenceTestStatistic",
+setClass(Class = "IndependenceLinearStatistic",
     representation = representation(
         linearstatistic             = "numeric",
         expectation                 = "numeric",
-        covariance                  = "VarCovar",
+        covariance                  = "VarCovar"
+    ),
+    contains = "IndependenceTestProblem",
+)
+
+### Tests based on linear statistics
+setClass(Class = "IndependenceTestStatistic",
+    representation = representation(
         estimates                   = "list",
         teststatistic               = "numeric",
         standardizedlinearstatistic = "numeric"
     ),
-    contains = "IndependenceTestProblem",
-
+    contains = "IndependenceLinearStatistic",
 )
 
 ### teststatistic = standardizedlinearstatistic
