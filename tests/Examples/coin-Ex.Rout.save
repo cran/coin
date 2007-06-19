@@ -122,7 +122,7 @@ chi-squared = 6.8203, p-value = 0.6891
 >   ### both Income and Job.Satisfaction unordered
 >   cmh_test(jobsatisfaction)
 
-	Asymptotic Generalised Cochran-Mantel-Haenszel Test
+	Asymptotic Generalized Cochran-Mantel-Haenszel Test
 
 data:  Job.Satisfaction by
 	 Income (<5000, 5000-15000, 15000-25000, >25000) 
@@ -389,7 +389,7 @@ alternative hypothesis: true mu is not equal to 0
 >   pvalue(pt)
 [1] 0.1318681
 > 
->   ### plot density and distribution of the standardised 
+>   ### plot density and distribution of the standardized 
 >   ### test statistic
 >   layout(matrix(1:2, nrow = 2))
 >   s <- support(pt)
@@ -1177,7 +1177,7 @@ chi-squared = 8.8302, df = 2, p-value = 0.01209
 >   ### Cochran-Mantel-Haenszel test
 >   cmh_test(disease ~ smoking | gender, data = alzheimer)
 
-	Asymptotic Generalised Cochran-Mantel-Haenszel Test
+	Asymptotic Generalized Cochran-Mantel-Haenszel Test
 
 data:  disease by
 	 smoking (None, <10, 10-20, >20) 
@@ -1417,7 +1417,7 @@ $cutpoint
 >   ### Generalized Cochran-Mantel-Haenzel test
 >   cmh_test(jobsatisfaction)
 
-	Asymptotic Generalised Cochran-Mantel-Haenszel Test
+	Asymptotic Generalized Cochran-Mantel-Haenszel Test
 
 data:  Job.Satisfaction by
 	 Income (<5000, 5000-15000, 15000-25000, >25000) 
@@ -1869,7 +1869,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  43.298 1.444 45.997 0 0 
+Time elapsed:  44.026 0.884 45.064 0 0 
 > grDevices::dev.off()
 null device 
           1 

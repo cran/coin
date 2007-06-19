@@ -310,7 +310,7 @@ spearman_test.IndependenceProblem <- function(object,
 }
 
 
-### Generalised Cochran-Mantel-Haenzel Test
+### Generalized Cochran-Mantel-Haenzel Test
 cmh_test <- function(object, ...) UseMethod("cmh_test")
 
 cmh_test.formula <- function(formula, data = list(), subset = NULL, 
@@ -349,7 +349,7 @@ cmh_test.IndependenceProblem <- function(object,
     if (is_ordered(RET@statistic)) 
         RET@method <- "Linear-by-Linear Association Test"
     else
-        RET@method <- "Generalised Cochran-Mantel-Haenszel Test"
+        RET@method <- "Generalized Cochran-Mantel-Haenszel Test"
     return(RET)
 }
 

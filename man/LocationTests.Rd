@@ -191,7 +191,7 @@
   pt <- oneway_test(pd ~ age, data = water_transfer, distribution = "exact")
   pvalue(pt)
 
-  ### plot density and distribution of the standardised 
+  ### plot density and distribution of the standardized 
   ### test statistic
   layout(matrix(1:2, nrow = 2))
   s <- support(pt)
