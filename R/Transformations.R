@@ -171,9 +171,17 @@ f_trafo <- function(x) {
     return(mm)
 }
 
+### ordered factors
+of_trafo <- function(x) {
+    scores <- attr(x, "scores")
+    if (is.null(scores)) scores <- 1:nlevels(x)
+    return(matrix(scores[x], ncol = 1))
+}
+
 ### transformation function
 trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo, 
-                 surv_trafo = logrank_trafo, var_trafo = NULL, block = NULL) {
+                  ordered_trafo = of_trafo, surv_trafo = logrank_trafo, 
+                  var_trafo = NULL, block = NULL) {
 
     if (!(is.data.frame(data) || is.list(data)))
         stop(sQuote("data"), " is not a data.frame or list")
@@ -190,7 +198,7 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
         ### apply trafo to each block separately
         for (lev in levels(block)) {
             ret[block == lev, ] <- trafo(data[block == lev, ,drop = FALSE], 
-                numeric_trafo, factor_trafo, surv_trafo)
+                numeric_trafo, factor_trafo, ordered_trafo, surv_trafo)
         }
         return(ret)
     }
@@ -218,6 +226,10 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
             } else {
                 class(x) <- class(x)[-1]
             }
+        }
+        if (is.ordered(x)) {
+            tr[[nm]] <- as.matrix(ordered_trafo(x))
+            next()
         }
         if (is.factor(x) || is.logical(x)) {
             tr[[nm]] <- as.matrix(factor_trafo(x))

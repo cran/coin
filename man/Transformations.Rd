@@ -10,13 +10,14 @@
 \alias{fmaxstat_trafo}
 \alias{logrank_trafo}
 \alias{f_trafo}
+\alias{of_trafo}
 \title{ Functions for Data Transformations }
 \description{
   Rank-transformations for numerical data or dummy codings of factors.
 }
 \usage{
-trafo(data, numeric_trafo = id_trafo, 
-    factor_trafo = f_trafo, surv_trafo = logrank_trafo, 
+trafo(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
+    ordered_trafo = of_trafo, surv_trafo = logrank_trafo, 
     var_trafo = NULL, block = NULL)
 id_trafo(x)
 ansari_trafo(x, ties.method = c("mid-ranks", "average-scores"))
@@ -27,6 +28,7 @@ consal_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 maxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
 logrank_trafo(x, ties.method = c("logrank", "HL"))
 f_trafo(x)
+of_trafo(x)
 }
 \arguments{
   \item{data}{an object of class \code{data.frame}.}
@@ -37,6 +39,9 @@ f_trafo(x)
     elements of \code{data} returning a matrix with \code{nrow(data)}
     rows and an arbitrary number of columns (usually a dummy or contrast 
     matrix).}
+  \item{ordered_trafo}{a function to by applied to \code{ordered}
+    elements of \code{data} returning a matrix with \code{nrow(data)}
+    rows and an arbitrary number of columns (usually some scores).}
   \item{surv_trafo}{a function to by applied to 
     elements of class \code{Surv} of \code{data} returning a 
     matrix with \code{nrow(data)} rows and an arbitrary number of columns.}
@@ -44,7 +49,7 @@ f_trafo(x)
                    corresponding variables in \code{data}.}
   \item{block}{an optional factor those levels are interpreted as blocks.
     \code{trafo} is applied to each level of \code{block} separately.}
-  \item{x}{an object of classes \code{numeric}, \code{factor} or
+  \item{x}{an object of classes \code{numeric}, \code{ordered}, \code{factor} or
     \code{Surv}.}
   \item{ties.method}{two methods are available to adjust scores for ties.
     Either the score generating function is applied to \code{mid-ranks} 
@@ -92,6 +97,9 @@ f_trafo(x)
 
   ### dummy matrices, 2-sample problem (only one column)
   f_trafo(y <- gl(2, 5))
+
+  ### score matrices
+  of_trafo(y <- ordered(gl(3, 5)))
 
   ### K-sample problem (K columns)
   f_trafo(y <- gl(5, 2))

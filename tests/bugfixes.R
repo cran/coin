@@ -174,3 +174,14 @@ pvalue(it)
 
 stopifnot(all.equal(statistic(independence_test(t(me), xtrafo = g), "linear"),
                     statistic(it, "linear")))
+
+### alternative trafo for ordered variables didn't work
+### spotted by Ludwig Hothorn <hothorn@biostat.uni-hannover.de>
+tmp <- data.frame(x = ordered(sample(1:3, 20, replace = TRUE)), y = rnorm(20))
+it1 <- independence_test(y ~ x, data = tmp, scores = list(x = c(1, 1, 2)))
+g <- function(x) c(1, 1, 2)[unlist(x)]
+it2 <- independence_test(y ~ x, data = tmp, xtrafo = g)
+it3 <- independence_test(y ~ x, data = tmp, 
+    xtrafo = function(data) trafo(data, ordered_trafo = g))
+stopifnot(all.equal(statistic(it1), statistic(it2)))
+stopifnot(all.equal(statistic(it1), statistic(it3)))

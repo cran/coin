@@ -66,8 +66,7 @@ setMethod(f = "initialize",
 ### set up test problem, i.e., transformations of the data
 setMethod(f = "initialize", 
     signature = "IndependenceTestProblem",
-    definition = function(.Object, ip, xtrafo = trafo, ytrafo = trafo, 
-                          xscores = NULL, yscores = NULL, ...) {
+    definition = function(.Object, ip, xtrafo = trafo, ytrafo = trafo, ...) {
 
         if (!extends(class(ip), "IndependenceProblem"))
             stop("Argument ", sQuote("ip"), " is not of class ", 
@@ -83,50 +82,6 @@ setMethod(f = "initialize",
         .Object@ytrans <- tr$ytrafo
         .Object@xtrafo <- xtrafo
         .Object@ytrafo <- ytrafo
-
-        xORDINAL <- any(sapply(x, is.ordered))
-        yORDINAL <- any(sapply(y, is.ordered))
-
-        ### function for computing scores matrices
-        smat <- function(x, xt) {
-            S <- c()
-            for (i in 1:ncol(x)) {
-                wi <- attr(xt, "assign") == i
-                if (is.ordered(x[[i]])) {
-                    sc <- attr(x[[i]], "scores")
-                    if (is.null(sc)) sc <- 1:nlevels(x[[i]])
-                } else {
-                    sc <- rep(NA, sum(wi))
-                }
-                if (any(is.na(sc))) {
-                    p <- sum(is.na(sc)) 
-                    if (i == 1) { 
-                        S <- diag(p)
-                    } else {
-                        S <- cbind(S, matrix(0, nrow = nrow(S), ncol = p))
-                        S <- rbind(S, cbind(matrix(0, nrow = p, ncol = ncol(S) - p), diag(p)))
-                    }
-                    rownames(S)[-(1:(max(2, p)-1))] <- colnames(xt)[wi]
-                } else {
-                    if (i == 1) {
-                        S <- matrix(sc, nrow = 1)
-                    } else {
-                        S <- rbind(cbind(S, matrix(0, ncol = length(sc))), c(rep(0, ncol(S)), sc))                    
-                    }
-                    rownames(S)[nrow(S)] <- paste(sc, "*", abbreviate(levels(x[[i]])), 
-                                                  collapse = " + ", sep = "")
-                }
-            }
-            S
-        }
-
-        ### compute score matrix S and update g(x) = S %*% g(x)
-        if (xORDINAL)
-            .Object@xtrans <- t(smat(x, tr$xtrafo) %*% t(.Object@xtrans))
-
-        ### compute score matrix S and update h(y) = h(y) %*% S
-        if (yORDINAL)
-            .Object@ytrans <- .Object@ytrans %*% t(smat(y, tr$ytrafo))
 
         .Object
     }

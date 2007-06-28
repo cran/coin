@@ -998,7 +998,7 @@ alternative hypothesis: true mu is greater than 0
 > ### Title: Functions for Data Transformations
 > ### Aliases: trafo id_trafo ansari_trafo fligner_trafo normal_trafo
 > ###   median_trafo consal_trafo maxstat_trafo fmaxstat_trafo logrank_trafo
-> ###   f_trafo
+> ###   f_trafo of_trafo
 > ### Keywords: manip
 > 
 > ### ** Examples
@@ -1017,6 +1017,25 @@ alternative hypothesis: true mu is greater than 0
 8  0
 9  0
 10 0
+> 
+>   ### score matrices
+>   of_trafo(y <- ordered(gl(3, 5)))
+      [,1]
+ [1,]    1
+ [2,]    1
+ [3,]    1
+ [4,]    1
+ [5,]    1
+ [6,]    2
+ [7,]    2
+ [8,]    2
+ [9,]    2
+[10,]    2
+[11,]    3
+[12,]    3
+[13,]    3
+[14,]    3
+[15,]    3
 > 
 >   ### K-sample problem (K columns)
 >   f_trafo(y <- gl(5, 2))
@@ -1869,7 +1888,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  44.026 0.884 45.064 0 0 
+Time elapsed:  43.086 1.296 47.237 0 0 
 > grDevices::dev.off()
 null device 
           1 

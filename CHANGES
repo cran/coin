@@ -1,4 +1,11 @@
 
+		CHANGES in `coin' VERSION 0.6-4
+
+    o    add new argument `ordered_trafo' to `trafo'
+         and deal with ordered factors in a more transparent 
+         way (via a new function `of_trafo')
+
+
 		CHANGES in `coin' VERSION 0.6-3
 
     o    new vignette `MAXtest'

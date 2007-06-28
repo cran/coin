@@ -27,7 +27,7 @@ export(independence_test,
        maxstat_trafo,
        fmaxstat_trafo,
        logrank_trafo,
-       f_trafo,
+       f_trafo, of_trafo,
        asymptotic, exact, approximate)       
 
 exportClasses("IndependenceProblem", "IndependenceTest", 
