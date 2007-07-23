@@ -1,5 +1,5 @@
 
-R version 2.5.0 (2007-04-23)
+R version 2.5.1 (2007-06-27)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -544,7 +544,7 @@ chi-squared = 13.7647, df = 2, p-value = 0.001026
 	Asymptotic Maxstat Test
 
 data:  counts by coverstorey 
-maxT = 4.3139, p-value = 0.0001435
+maxT = 4.3139, p-value = 0.0001256
 sample estimates:
 $cutpoint
 [1] 40
@@ -559,7 +559,7 @@ $cutpoint
 
 data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree, fdist 
-maxT = 4.5486, p-value = 0.0001158
+maxT = 4.5486, p-value = 0.0002208
 sample estimates:
 $covariable
 [1] "fdist"
@@ -585,7 +585,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  Surv(time, event) by EF 
-maxT = 3.5691, p-value = 0.002812
+maxT = 3.5691, p-value = 0.004194
 sample estimates:
 $cutpoint
 [1] 39
@@ -599,7 +599,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-maxT = 2.4033, p-value = 0.1551
+maxT = 2.4033, p-value = 0.1554
 sample estimates:
 $cutpoint
 [1] 107
@@ -1410,7 +1410,7 @@ alternative hypothesis: two.sided
 	Asymptotic Maxstat Test
 
 data:  Surv(time, event) by EF 
-maxT = 3.5647, p-value = 0.003539
+maxT = 3.5647, p-value = 0.004554
 sample estimates:
 $cutpoint
 [1] 39
@@ -1522,7 +1522,7 @@ alternative hypothesis: two.sided
 >   ### adjusted univariate p-value
 >   pvalue(mvtest, method = "single-step")
            mercury   abnormal     ccells
-control 0.00719172 0.01705445 0.03836982
+control 0.00719172 0.01726738 0.03836982
 > 
 > 
 > 
@@ -1770,7 +1770,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-maxT = 2.3966, p-value = 0.1591
+maxT = 2.3966, p-value = 0.1588
 sample estimates:
 $cutpoint
 [1] 107
@@ -1785,7 +1785,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-maxT = 2.4033, p-value = 0.1549
+maxT = 2.4033, p-value = 0.1567
 sample estimates:
 $cutpoint
 [1] 107
@@ -1872,7 +1872,7 @@ $cutpoint
 
 data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree 
-maxT = 4.3139, p-value = 0.0007516
+maxT = 4.3139, p-value = 0.0006695
 sample estimates:
 $covariable
 [1] "coverstorey"
@@ -1888,7 +1888,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  43.086 1.296 47.237 0 0 
+Time elapsed:  47.447 0.8 49.018 0 0 
 > grDevices::dev.off()
 null device 
           1 

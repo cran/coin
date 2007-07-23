@@ -1,10 +1,13 @@
-
 \documentclass[letter]{article}
 \usepackage{amstext}
 \usepackage{amsfonts}
 \usepackage{hyperref}
 \usepackage[round]{natbib}
 \usepackage{hyperref}
+
+\let\proglang=\textsf
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+
 
 \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
@@ -31,7 +34,7 @@
 
 \begin{document}
 
-\title{\texttt{coin}: A Computational Framework for Conditional Inference}
+\title{\pkg{coin}: A Computational Framework for Conditional Inference}
 \author{Torsten Hothorn$^1$, Kurt Hornik$^2$, Mark van de Wiel$^3$ \\
         and Achim Zeileis$^2$}
 \date{}
@@ -65,12 +68,12 @@ set.seed(290875)
 
 \section{Introduction}
 
-The \texttt{coin} package implements a unified approach for conditional
+The \pkg{coin} package implements a unified approach for conditional
 inference procedures commonly known as \textit{permutation tests}.
 The theoretical basis of design and implementation is the unified 
-framework for permutation tests given by \cite{StrasserWeber1999}. For a
+framework for permutation tests given by \cite{strasserweber1999}. For a
 very flexible formulation of multivariate linear statistics,
-\cite{StrasserWeber1999} derived the conditional expectation and covariance
+\cite{strasserweber1999} derived the conditional expectation and covariance
 of the conditional (permutation) distribution as well as the multivariate 
 limiting distribution. For a more detailed overview see \cite{Hothorn:2006:AmStat}.
 
@@ -81,7 +84,7 @@ example the Cochran-Mantel-Haenszel test for independence in general
 contingency tables, linear association tests for ordered categorical 
 data, linear rank tests and multivariate permutation tests.
 
-The conceptual framework of permutation tests by \cite{StrasserWeber1999}
+The conceptual framework of permutation tests by \cite{strasserweber1999}
 for arbitrary problems is available via the generic
 \texttt{independence\_test}. Because convenience functions for the most
 prominent problems are available, users will not have to use this
@@ -104,7 +107,7 @@ following test procedures are available:
 \texttt{spearman\_test} & Spearman's test \\
 \texttt{friedman\_test} & Friedman test \\
 \texttt{wilcoxsign\_test} & Wilcoxon-Signed-Rank test \\
-\texttt{mh\_test} &  marginal homogeneity test (Stuart-Maxwell). \\
+\texttt{mh\_test} &  marginal homogeneity test (Maxwell-Stuart). \\
 \end{tabular}
 \end{center}
 
@@ -136,7 +139,7 @@ $\X$
 \begin{eqnarray*}
 H_0: D(\Y | \X) = D(\Y)
 \end{eqnarray*}
-against arbitrary alternatives. \cite{StrasserWeber1999} suggest to derive
+against arbitrary alternatives. \cite{strasserweber1999} suggest to derive
 scalar test statistics for testing $H_0$ from multivariate linear statistics
 of the form 
 \begin{eqnarray} \label{linstat}
@@ -162,7 +165,7 @@ The conditional expectation $\mu \in \R^{pq}$ and covariance
 $\Sigma \in \R^{pq \times pq}$ 
 of $\T$ under $H_0$ given
 all permutations $\sigma \in S$ of the responses are derived by
-\cite{StrasserWeber1999}:
+\cite{strasserweber1999}:
 \begin{eqnarray}
 \mu & = & \E(\T | S) = \vec \left( \left( \sum_{i = 1}^n w_i g(\X_i) \right) \E(h | S)^\top
 \right), \nonumber \\
@@ -210,7 +213,7 @@ computationally more expensive because the Moore-Penrose
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
 The definition of one- and two-sided $p$-values used for the computations in
-the \texttt{coin} package is 
+the \pkg{coin} package is 
 \begin{eqnarray*}
 P(c(\T, \mu, \Sigma) &\le& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(less)} \\
 P(c(\T, \mu, \Sigma) &\ge& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(greater)}\\
@@ -233,7 +236,7 @@ For two-sample problems, the shift-algorithm by \cite{axact-dist:1986}
 and \cite{exakte-ver:1987} and the split-up algorithm by 
 \cite{vdWiel2001} are implemented as part of the package.
 Conditional Monte-Carlo procedures can be used to approximate the exact
-distribution. \cite{StrasserWeber1999} proved (Theorem 2.3) that the   
+distribution. \cite{strasserweber1999} proved (Theorem 2.3) that the   
 conditional distribution of linear statistics $\T$ with conditional    
 expectation $\mu$ and covariance $\Sigma$ tends to a multivariate normal
 distribution with parameters $\mu$ and $\Sigma$ as $n, \ws \rightarrow
@@ -316,7 +319,7 @@ pvalue(it)
 @
 
 Life is much simpler with convenience functions very similar to those
-available in package \texttt{stats} for a long time. The exact
+available in package \pkg{stats} for a long time. The exact
 null distribution of the Kruskal-Wallis test can be approximated by $9999$
 Monte-Carlo replications via
 <<YOY-KW, echo = TRUE>>=
@@ -335,7 +338,7 @@ instead of a quadratic form.
 
 Independence in general two- or three-dimensional contingency tables can be
 tested by the Cochran-Mantel-Haenszel test. Here, both $g$ and $h$ are dummy
-matrices \citep[example data from][Table 7.8, page 288]{Agresti2002}:
+matrices \citep[example data from][Table 7.8, page 288]{agresti2002}:
 
 <<jobsatisfaction-cmh, echo = TRUE>>=
 data("jobsatisfaction", package = "coin")
@@ -451,7 +454,7 @@ and we shall have a look at an artificial example: 100 variables (from a
 normal distribution) are to be tested in a one-way classification with $n =
 40$ observations. Only the first variable shows a difference and we are
 interested in both a global test and the adjusted $p$-values. Here, the
-example is formulated within the \texttt{Biobase} \citep{PKG:Biobase} 
+example is formulated within the \pkg{Biobase} \citep{PKG:Biobase} 
 framework:
 <<biobase-resampling, echo = TRUE>>=
 if (require("Biobase")) {
@@ -476,24 +479,24 @@ if (require("Biobase")) {
 
 \section{Quality Assurance}
 
-The test procedures implemented in package \texttt{coin} are continuously checked
+The test procedures implemented in package \pkg{coin} are continuously checked
 against results obtained by the corresponding implementations in package
-\texttt{stats} (where available). In addition, the test statistics and 
+\pkg{stats} (where available). In addition, the test statistics and 
 exact, approximative and asymptotic $p$-values for data examples given in the 
-\texttt{StatXact-6} 
+\pkg{StatXact}~-6 
 user manual \citep{StatXact6} are compared with the results reported in the
-\texttt{StatXact-6} manual. Step-down multiple adjusted $p$-values have been
+\pkg{StatXact}~6 manual. Step-down multiple adjusted $p$-values have been
 checked against results reported by \texttt{mt.maxT} from package
-\texttt{multtest} \citep{PKG:multtest}. 
+\pkg{multtest} \citep{PKG:multtest}. 
 For details on the test procedures we refer to
-the \textsf{R}-transcript files in directory \texttt{coin/tests}.
+the \proglang{R} transcript files in directory \texttt{coin/tests}.
 
 \section{Acknowledgements}
 
 We would like to thank Helmut Strasser for discussions on the theoretical framework.
-Henric Nilsson provided clarification and examples for the Stuart-Maxwell test.
+Henric Nilsson provided clarification and examples for the Maxwell-Stuart test.
 
-\bibliographystyle{plainnat}
-\bibliography{coinrefs}
+\bibliographystyle{jss}
+\bibliography{coin}
 
 \end{document}

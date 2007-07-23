@@ -5,19 +5,12 @@
 
     *\file StreitbergRoehmel.c
     *\author $Author: hothorn $
-    *\date $Date: 2006-10-17 13:17:12 +0200 (Tue, 17 Oct 2006) $
+    *\date $Date: 2007-07-18 18:29:22 +0200 (Wed, 18 Jul 2007) $
 */
 
 #include <R.h>
 #include <Rmath.h>
 #include <Rdefines.h>
-
-/*
-	length(scores) <= 1.000.000 observations only.
-*/
-
-#define PERM_MAX_N 1000000
-
 
 /**                             
     The density of the permutation distribution for 
@@ -48,8 +41,8 @@ SEXP R_cpermdist2(SEXP score_a, SEXP score_b, SEXP m_a,  SEXP m_b,
     /*
       compute the joint permutation distribution of the 
       sum of the first m_a elements of score_a and score_b
-      (usualy score_a = rep(1, length(score_a)) and 
-              score_b = Data scores, Wilcoxon, Ansari ...).
+      (usually score_a = rep(1, length(score_a)) and 
+               score_b = Data scores, Wilcoxon, Ansari ...).
       In this case the exact conditional distribution 
       in the simple independent two-sample problem is computed.
     */ 
@@ -86,9 +79,6 @@ SEXP R_cpermdist2(SEXP score_a, SEXP score_b, SEXP m_a,  SEXP m_b,
 
     im_a = INTEGER(m_a)[0];  /* cosmetics only */
     im_b = INTEGER(m_b)[0];
-
-    if (n > PERM_MAX_N)
-        error("n > %d in R_cpermdistr2", PERM_MAX_N); 
 
     /* compute the total sum of the scores and check if they are >= 0 */
 	
@@ -163,9 +153,13 @@ SEXP R_cpermdist2(SEXP score_a, SEXP score_b, SEXP m_a,  SEXP m_b,
 
         isb = im_a * (sum_b + 1);
         for (j = 0; j < sum_b; j++) {
+            if (!R_FINITE(dH[isb + j + 1]))
+                error("overflow error; cannot compute exact distribution");
             dx[j] = dH[isb + j + 1];
             msum += dx[j];
         }
+        if (!R_FINITE(msum) || msum == 0.0) 
+            error("overflow error; cannot compute exact distribution");
 	
         /*
             compute probabilities and return the density x to R
@@ -219,9 +213,6 @@ SEXP R_cpermdist1(SEXP scores) {
     n = LENGTH(scores);
     iscores = INTEGER(scores);
 	               
-    if (n > PERM_MAX_N)
-      error("n > %d in R_cpermdist1", PERM_MAX_N); 
-	
     for (i = 0; i < n; i++) sum_a += iscores[i];
 
     /*
@@ -249,8 +240,13 @@ SEXP R_cpermdist1(SEXP scores) {
         get the number of permutations
     */
 
-    for (i = 0; i <= sum_a; i++)
+    for (i = 0; i <= sum_a; i++) {
+        if (!R_FINITE(dH[i]))
+            error("overflow error: cannot compute exact distribution");
         msum += dH[i];
+    }
+    if (!R_FINITE(msum) || msum == 0.0)
+        error("overflow error: cannot compute exact distribution");
 	
     /*
         compute probabilities and return the density H to R

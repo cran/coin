@@ -1,4 +1,14 @@
 
+		CHANGES in `coin' VERSION 0.6-5
+
+    o    add new vignette on technical details; update to new mvtnorm 0.8-0
+
+    o    update to new mvtnorm 0.8-0
+
+    o    check for overflow errors in StreitbergRoehmel.c 
+         (thanks for Michael Fay <mfay@niaid.nih.gov> for spotting this)
+
+
 		CHANGES in `coin' VERSION 0.6-4
 
     o    add new argument `ordered_trafo' to `trafo'
