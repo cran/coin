@@ -49,7 +49,7 @@ ita <- independence_test(I(round(x, 1)) ~ z, data = df,
 aa <- support(ita)
 da <- sapply(aa, function(x) dperm(ita, x))
 sum(da)
-mean(round(ae, 10) %in% aa)
+mean(round(ae, 10) %in% round(aa, 10))
 
 plot(aa, da, type = "s", lty = 1)
 lines(ae, de, type = "s", lty = 2)
@@ -185,3 +185,13 @@ it3 <- independence_test(y ~ x, data = tmp,
     xtrafo = function(data) trafo(data, ordered_trafo = g))
 stopifnot(all.equal(statistic(it1), statistic(it2)))
 stopifnot(all.equal(statistic(it1), statistic(it3)))
+
+### precision problems in SR algorithm, >= <= issue
+### spotted by "Fay, Michael (NIH/NIAID) [E]" <mfay@niaid.nih.gov>
+x <- c(1,2,3.1,4,5,6)
+g <- factor(c(0,0,0,1,1,1))
+it <- independence_test(x ~ g, distribution = exact())
+stopifnot(pvalue(it) == 0.1)
+itMC <- independence_test(x ~ g, distribution = approximate(99999))
+ci <- attr(pvalue(itMC), "conf.int")
+stopifnot(ci[1] < pvalue(it) && ci[2] > pvalue(it))

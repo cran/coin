@@ -68,7 +68,7 @@ SR_shift_2sample <- function(object, fact = NULL) {
 
     T <- (T - expectation(object)) / sqrt(variance(object))
 
-    RET@p <- function(q) sum(Prob[T <= q])
+    RET@p <- function(q) sum(Prob[LE(T, q)])
     RET@q <- function(p) {
         indx <- which(cumsum(Prob) < p)
         if (length(indx) == 0) indx <- 0
@@ -77,12 +77,12 @@ SR_shift_2sample <- function(object, fact = NULL) {
     RET@d <- function(x) Prob[T == x]
     RET@pvalue <- function(q) {
         switch(object@alternative, 
-            "less"      = sum(Prob[T <= q]),
-            "greater"   = sum(Prob[T >= q]),
+            "less"      = sum(Prob[LE(T, q)]),
+            "greater"   = sum(Prob[GE(T, q)]),
             "two.sided" = {
                 if (q == 0) return(1)
-                return(sum(Prob[T <= ifelse(q >  0, -q,  q)]) + 
-                       sum(Prob[T >= ifelse(q >= 0,  q, -q)]))
+                return(sum(Prob[LE(T, ifelse(q >  0, -q,  q))]) + 
+                       sum(Prob[GE(T, ifelse(q >= 0,  q, -q))]))
             }
         )
     }

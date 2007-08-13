@@ -32,7 +32,7 @@ sdmaxT <- function(pls, ts) {
         for (j in 2:ncol(q))
             q[,j] <- pmax(q[,j], q[,j-1])
     }
-    ret <- matrix(rowMeans(t(q) >= ts[rts])[rank(ts)],
+    ret <- matrix(rowMeans(GE(t(q), ts[rts]))[rank(ts)],
                   nrow = nrow(ts), ncol = ncol(ts))
     
     rownames(ret) <- rownames(ts)
@@ -96,15 +96,15 @@ dbonf <- function(object, ...) {
    ts <- (statistic(object, "standardized"))
    
    pvals <- switch(alternative,
-           "less" = rowMeans(pls <= drop(ts)),
-           "greater" = rowMeans(pls >= drop(ts)),
-           "two.sided" = rowMeans(abs(pls) >= abs(drop(ts))))
+           "less" = rowMeans(LE(pls, drop(ts))),
+           "greater" = rowMeans(GE(pls, drop(ts))),
+           "two.sided" = rowMeans(GE(abs(pls), abs(drop(ts)))))
 
    foo <- function(x, t)
        switch(alternative,
-           "less" = mean(x <= t),
-           "greater" = mean(x >= t),
-           "two.sided" = mean(abs(x) >= abs(t)))
+           "less" = mean(LE(x, t)),
+           "greater" = mean(GE(x, t)),
+           "two.sided" = mean(GE(abs(x), abs(t))))
 
    p <- vector(mode = "list", length = nrow(pls))
    for (i in 1:nrow(pls)) {

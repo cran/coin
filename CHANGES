@@ -1,4 +1,10 @@
 
+		CHANGES in `coin' VERSION 0.6-6
+
+    o    fix precision problems with exact p-values (spotted by 
+         Michael Fay <mfay@niaid.nih.gov>
+
+
 		CHANGES in `coin' VERSION 0.6-5
 
     o    add new vignette on technical details; update to new mvtnorm 0.8-0

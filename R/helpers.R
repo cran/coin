@@ -377,6 +377,12 @@ statnames <- function(object) {
 
 eps <- function() sqrt(.Machine$double.eps)
 
+GE <- function(x, y)
+    x > y | abs(x - y) < eps()
+
+LE <- function(x, y)
+    x < y | abs(x - y) < eps()
+
 ### don't use! never!
 get_weights <- function(object) object@statistic@weights
 get_xtrans <- function(object) object@statistic@xtrans
