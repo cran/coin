@@ -64,3 +64,4 @@ o	Kurt: trafo as family of transformations (see glm(..., family,...)
 
 o	should we have `distribution = "none"'?
 
+o       some trafos need to take weights into account -> ranks?

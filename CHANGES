@@ -1,4 +1,11 @@
 
+		CHANGES in `coin' VERSION 0.6-7
+
+    o    remove non_function entries from Rd files
+
+    o    disable Biobase example in vignette
+
+
 		CHANGES in `coin' VERSION 0.6-6
 
     o    fix precision problems with exact p-values (spotted by 

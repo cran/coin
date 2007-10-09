@@ -1,6 +1,6 @@
 \name{sphase}
 \alias{sphase}
-\non_function{}
+\docType{data}
 \title{ S-phase Fraction of Tumor Cells }
 \usage{data("sphase")}
 \description{

@@ -1,5 +1,5 @@
 
-R version 2.5.1 (2007-06-27)
+R version 2.6.0 (2007-10-03)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -163,7 +163,8 @@ Z = -1, p-value = 0.3173
 alternative hypothesis: two.sided 
 
 > try(independence_test(y ~ x, data = mydf, subset = 1))
-Error in validObject(.Object) : invalid class "IndependenceProblem" object: FALSE
+Error in validObject(.Object) : 
+  invalid class "IndependenceProblem" object: FALSE
 > 
 > ### names of expectation and covariance
 > YOY <- data.frame(length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44,
@@ -234,7 +235,8 @@ alternative hypothesis: two.sided
 > ### factors with only one level
 > dat <- data.frame(y = rnorm(100), x1 = runif(100), x2 = factor(rep(0, 100)))
 > try(independence_test(y ~ x1  + x2, data = dat))
-Error in factor_trafo(x) : Can't deal with factors containing only one level
+Error in factor_trafo(x) : 
+  Can't deal with factors containing only one level
 > 
 > ### user specified g: names, MC
 > me <- as.table(matrix(c( 6,  8, 10,

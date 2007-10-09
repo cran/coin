@@ -12,7 +12,6 @@
 \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
 %%\VignetteIndexEntry{coin: A Computational Framework for Conditional Inference}
-%% hm, we would need to require `Biobase' too, but this is not allowed yet
 %%\VignetteDepends{coin,multcomp}
 
 \input{head}
@@ -455,8 +454,8 @@ normal distribution) are to be tested in a one-way classification with $n =
 40$ observations. Only the first variable shows a difference and we are
 interested in both a global test and the adjusted $p$-values. Here, the
 example is formulated within the \pkg{Biobase} \citep{PKG:Biobase} 
-framework:
-<<biobase-resampling, echo = TRUE>>=
+framework (example currently not run because of dependencies problems):
+<<biobase-resampling, echo = TRUE, eval = FALSE>>=
 if (require("Biobase")) {
 
     p <- 100

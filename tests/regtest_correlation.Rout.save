@@ -1,5 +1,5 @@
 
-R version 2.5.0 (2007-04-23)
+R version 2.6.0 (2007-10-03)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -63,7 +63,8 @@ Loading required package: stats4
 > ### sanity checks, those should be errors
 > dat <- data.frame(x = gl(2, 50), y = rnorm(100), block = rnorm(100))
 > try(spearman_test(y ~ x, data = dat))
-Error in check(itp) : ‘object’ does not represent a univariate correlation problem
+Error in check(itp) : 
+  ‘object’ does not represent a univariate correlation problem
 > try(spearman_test(y ~ x | block, data = dat))
 Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
