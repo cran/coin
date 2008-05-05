@@ -335,11 +335,11 @@ confint_scale <- function(object, nulldistr, level = 0.95,
 
         srangepos <- NULL
         srangeneg <- NULL
-        if (any(x[x > 0]) && any(y[y > 0]))
+        if (any(x > 0) && any(y > 0))
             srangepos <-
                 c(min(x[x>0], na.rm=TRUE)/max(y[y>0], na.rm=TRUE),
                   max(x[x>0], na.rm=TRUE)/min(y[y>0], na.rm=TRUE))
-        if (any(x[x <= 0]) && any(y[y < 0]))
+        if (any(x <= 0) && any(y < 0))
             srangeneg <-
                 c(min(x[x<=0], na.rm=TRUE)/max(y[y<0], na.rm=TRUE),
                   max(x[x<=0], na.rm=TRUE)/min(y[y<0], na.rm=TRUE))

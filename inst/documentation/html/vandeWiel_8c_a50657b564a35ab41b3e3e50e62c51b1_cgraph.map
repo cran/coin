@@ -1,8 +1,12 @@
-base referer
-rect $vandeWiel_8c.html#dd09844ac40346e216f503f95e644970 346,154 408,178
-rect $vandeWiel_8c.html#76539410f65d0d4c5105bacf1b32f093 208,58 290,82
-rect $vandeWiel_8c.html#f72cc4501998ae01067d5555382b1609 218,106 280,130
-rect $vandeWiel_8c.html#402c3e72a2fa3d600d4a4e8ace9f040b 224,154 274,178
-rect $vandeWiel_8c.html#fb521caca26031c6fa9e92450685f5d1 216,202 282,226
-rect $vandeWiel_8c.html#14307006f6d9ec07bdfce7e853665bc5 200,250 298,274
-rect $vandeWiel_8c.html#03d7f636d17008a6fbe230458a92ddba 210,298 288,322
+<area shape="rect" href="$vandeWiel_8c.html#dd09844ac40346e216f503f95e644970" title="binomi" alt="" coords="360,107,424,133">
+<area shape="rect" href="$vandeWiel_8c.html#76539410f65d0d4c5105bacf1b32f093" title="cumulcoef" alt="" coords="209,56,297,83">
+<area shape="rect" href="$vandeWiel_8c.html#f72cc4501998ae01067d5555382b1609" title="FreeW" alt="" coords="223,107,284,133">
+<area shape="rect" href="$vandeWiel_8c.html#402c3e72a2fa3d600d4a4e8ace9f040b" title="initW" alt="" coords="228,157,279,184">
+<area shape="rect" href="$vandeWiel_8c.html#fb521caca26031c6fa9e92450685f5d1" title="makeW" alt="" coords="219,309,288,336">
+<area shape="rect" href="$vandeWiel_8c.html#14307006f6d9ec07bdfce7e853665bc5" title="numbersmall" alt="" coords="201,259,305,285">
+<area shape="rect" href="$vandeWiel_8c.html#03d7f636d17008a6fbe230458a92ddba" title="reserveW" alt="" coords="212,5,295,32">
+<area shape="rect" href="$vandeWiel_8c.html#59f513c0ee260be89ad37daacf49e7e8" title="fillcell" alt="" coords="365,335,419,361">
+<area shape="rect" href="$vandeWiel_8c.html#d0195ffa22342dfadee0abeb564931dc" title="mirrorW" alt="" coords="356,284,428,311">
+<area shape="rect" href="$vandeWiel_8c.html#e1d7e7e209f5b99745c8bca03057f761" title="mult" alt="" coords="508,284,559,311">
+<area shape="rect" href="$vandeWiel_8c.html#2f117e88849518e50d7d0eef3af07bf0" title="mymergesort" alt="" coords="479,335,588,361">
+<area shape="rect" href="$vandeWiel_8c.html#965c6db84dd8be42e1313d8c3ef9a784" title="plus" alt="" coords="511,385,556,412">

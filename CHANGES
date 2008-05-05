@@ -1,4 +1,15 @@
 
+		CHANGES in `coin' VERSION 0.6-9
+
+    o    any() was misused in one place, spotted by
+         Kasper Daniel Hansen <khansen@stat.Berkeley.EDU>
+
+
+		CHANGES in `coin' VERSION 0.6-8
+
+    o    code cosmetics by Johannes Huesing <johannes@huesing.name>
+
+
 		CHANGES in `coin' VERSION 0.6-7
 
     o    remove non_function entries from Rd files

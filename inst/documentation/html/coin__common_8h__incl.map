@@ -1,4 +1,3 @@
-base referer
-rect $Classes_8h.html 192,248 272,272
-rect $LinearStatistic_8h.html 173,296 290,320
-rect $Helpers_8h.html 193,344 270,368
+<area shape="rect" href="$Classes_8h.html" title="Classes.h" alt="" coords="541,84,624,111">
+<area shape="rect" href="$LinearStatistic_8h.html" title="LinearStatistic.h" alt="" coords="648,84,773,111">
+<area shape="rect" href="$Helpers_8h.html" title="Helpers.h" alt="" coords="797,84,880,111">

@@ -1,4 +1,4 @@
-.TH "LinearStatistic.c" 3 "24 Apr 2007" "coin" \" -*- nroff -*-
+.TH "LinearStatistic.c" 3 "5 May 2008" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -50,7 +50,7 @@ Linear statistics for conditional inference
 \fBAuthor:\fP
 .RS 4
 \fBAuthor\fP.RS 4
-hothorn 
+
 .RE
 .PP
 .RE
@@ -58,7 +58,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) 
+
 .RE
 .PP
 .RE
@@ -123,7 +123,7 @@ Conditional expectation and covariance of the a linear statistic
 .PP
 Definition at line 192 of file LinearStatistic.c.
 .PP
-References coin_covarianceSym, coin_expectationSym, and coin_sumweightsSym.
+References C_kronecker(), coin_covarianceSym, coin_expectationSym, and coin_sumweightsSym.
 .PP
 Referenced by R_ExpectCovarLinearStatistic().
 .SS "void C_kronecker (const double * A, const int m, const int n, const double * B, const int r, const int s, double * ans)"
@@ -153,7 +153,7 @@ Computes the Kronecker product of two matrices
 .PP
 Definition at line 22 of file LinearStatistic.c.
 .PP
-Referenced by R_kronecker().
+Referenced by C_ExpectCovarLinearStatistic(), and R_kronecker().
 .SS "void C_LinearStatistic (const double * x, const int p, const double * y, const int q, const double * weights, const int n, double * ans)"
 .PP
 Computes the linear statistic, formula (1) in the paper
@@ -213,7 +213,7 @@ Linear Statistic with permuted indices
 .PP
 Definition at line 409 of file LinearStatistic.c.
 .PP
-Referenced by R_MonteCarloIndependenceTest().
+Referenced by R_MonteCarloIndependenceTest(), and R_PermutedLinearStatistic().
 .SS "SEXP R_ExpectCovarInfluence (SEXP y, SEXP weights)"
 .PP
 R-interface to C_ExpectCovarInfluence
@@ -313,7 +313,7 @@ Linear Statistic with permuted indices
 .PP
 Definition at line 442 of file LinearStatistic.c.
 .PP
-References nrow().
+References C_PermutedLinearStatistic(), ncol(), and nrow().
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for coin from the source code.

@@ -3,6 +3,16 @@ o       formula interface to wilcoxsign_test is brain damaged
         y ~ 1 must be OK
         
 
+bug: 
+y<-c(1.11,2.22,3.33,0,100,1)
+x<-as.factor(c(1,1,0,0,1,0))
+
+foo <- function(f) 
+    .Call("R_split_up_2sample", f * y, as.integer(3), sum(f * y[x == "0"]), PACKAGE = "coin")
+sapply(1:100, foo)
+
+
+
 o       implement `pperm(x, q, lower.tail = TRUE)'
 
 o       more checks on direct `ytrafo = foo' constructs

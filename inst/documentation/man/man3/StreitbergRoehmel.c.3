@@ -1,4 +1,4 @@
-.TH "StreitbergRoehmel.c" 3 "24 Apr 2007" "coin" \" -*- nroff -*-
+.TH "StreitbergRoehmel.c" 3 "5 May 2008" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,13 +13,6 @@ StreitbergRoehmel.c \-
 \fC#include <Rdefines.h>\fP
 .br
 
-.SS "Defines"
-
-.in +1c
-.ti -1c
-.RI "#define \fBPERM_MAX_N\fP   1000000"
-.br
-.in -1c
 .SS "Functions"
 
 .in +1c
@@ -37,7 +30,7 @@ Exact Distribution of Two-Sample Permutation Tests Streitberg & Roehmel Algorith
 \fBAuthor:\fP
 .RS 4
 \fBAuthor\fP.RS 4
-hothorn 
+
 .RE
 .PP
 .RE
@@ -45,7 +38,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2006-10-17 13:17:12 +0200 (Tue, 17 Oct 2006) 
+
 .RE
 .PP
 .RE
@@ -53,13 +46,6 @@ hothorn
 
 .PP
 Definition in file \fBStreitbergRoehmel.c\fP.
-.SH "Define Documentation"
-.PP 
-.SS "#define PERM_MAX_N   1000000"
-.PP
-Definition at line 19 of file StreitbergRoehmel.c.
-.PP
-Referenced by R_cpermdist1(), and R_cpermdist2().
 .SH "Function Documentation"
 .PP 
 .SS "SEXP R_cpermdist1 (SEXP scores)"
@@ -79,9 +65,7 @@ Bernd Streitberg & Joachim R\\'ohmel (1987), Exakte Verteilungen f\\'ur Rang- un
 .PP
 
 .PP
-Definition at line 204 of file StreitbergRoehmel.c.
-.PP
-References PERM_MAX_N.
+Definition at line 198 of file StreitbergRoehmel.c.
 .SS "SEXP R_cpermdist2 (SEXP score_a, SEXP score_b, SEXP m_a, SEXP m_b, SEXP retProb)"
 .PP
 The density of the permutation distribution for the independent two sample problem.
@@ -107,9 +91,7 @@ Bernd Streitberg & Joachim R\\'ohmel (1987), Exakte Verteilungen f\\'ur Rang- un
 .PP
 
 .PP
-Definition at line 46 of file StreitbergRoehmel.c.
-.PP
-References PERM_MAX_N.
+Definition at line 39 of file StreitbergRoehmel.c.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for coin from the source code.

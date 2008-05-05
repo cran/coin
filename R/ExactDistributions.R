@@ -29,7 +29,7 @@ SR_shift_2sample <- function(object, fact = NULL) {
         ###  table(object$block, scores == 0) checken
         sc <- round(scores * fact)
         sc <- unlist(tapply(sc, object@block, function(x) {
-            if (any(x) != 0) return(x[x != 0])
+            if (any(x != 0)) return(x[x != 0])
             return(0)
         }))
         storage.mode(sc) <- "integer"
@@ -140,7 +140,7 @@ vdW_split_up_2sample <- function(object) {
 
     ### 2 groups as `x' variable
     groups <- ncol(object@xtrans) == 1 && all(object@xtrans[,1] %in% c(0, 1))
-    if (!groups) stop("cannot only deal with two-sample problems")
+    if (!groups) stop("cannot deal with two-sample problems")
  
     RET <- new("ExactNullDistribution")
 

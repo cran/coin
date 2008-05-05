@@ -1,5 +1,4 @@
-base referer
-rect $coin__common_8h.html 137,176 252,200
-rect $Classes_8h.html 320,248 400,272
-rect $LinearStatistic_8h.html 301,296 418,320
-rect $Helpers_8h.html 321,344 398,368
+<area shape="rect" href="$coin__common_8h.html" title="coin_common.h" alt="" coords="337,84,460,111">
+<area shape="rect" href="$Classes_8h.html" title="Classes.h" alt="" coords="541,161,624,188">
+<area shape="rect" href="$LinearStatistic_8h.html" title="LinearStatistic.h" alt="" coords="648,161,773,188">
+<area shape="rect" href="$Helpers_8h.html" title="Helpers.h" alt="" coords="797,161,880,188">

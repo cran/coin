@@ -1,4 +1,4 @@
-.TH "vandeWiel.c" 3 "24 Apr 2007" "coin" \" -*- nroff -*-
+.TH "vandeWiel.c" 3 "5 May 2008" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -72,7 +72,7 @@ Author: Mark van de Wiel (2001-2005) <m.a.v.d.wiel@TUE.nl> with modifications fo
 \fBAuthor:\fP
 .RS 4
 \fBAuthor\fP.RS 4
-hothorn 
+
 .RE
 .PP
 .RE
@@ -80,7 +80,7 @@ hothorn
 \fBDate:\fP
 .RS 4
 \fBDate\fP.RS 4
-2005-07-28 17:04:29 +0200 (Thu, 28 Jul 2005) 
+
 .RE
 .PP
 .RE
@@ -106,7 +106,9 @@ Referenced by R_split_up_2sample().
 .PP
 Definition at line 211 of file vandeWiel.c.
 .PP
-References celW::c, celW::length, and celW::x.
+References celW::c, celW::length, mult(), mymergesort(), plus(), and celW::x.
+.PP
+Referenced by makeW().
 .SS "void FreeW (int a, \fBcelW\fP ** W)"
 .PP
 Definition at line 81 of file vandeWiel.c.
@@ -116,10 +118,14 @@ Referenced by R_split_up_2sample().
 .PP
 Definition at line 91 of file vandeWiel.c.
 .PP
+References celW::c, celW::length, and celW::x.
+.PP
 Referenced by R_split_up_2sample().
 .SS "void makeW (\fBcelW\fP ** W, int a, int b, int start, double * rs)"
 .PP
 Definition at line 281 of file vandeWiel.c.
+.PP
+References fillcell(), and mirrorW().
 .PP
 Referenced by R_split_up_2sample().
 .SS "void mirrorW (\fBcelW\fP ** W, int ce, int bep, int start, double * rs)"
@@ -127,28 +133,36 @@ Referenced by R_split_up_2sample().
 Definition at line 257 of file vandeWiel.c.
 .PP
 References celW::c, celW::length, and celW::x.
+.PP
+Referenced by makeW().
 .SS "void mult (\fBcelW\fP * tem, int a, int b, int rank, double * rs)"
 .PP
 Definition at line 106 of file vandeWiel.c.
 .PP
 References celW::length.
+.PP
+Referenced by fillcell().
 .SS "void mymergesort (\fBcelW\fP temptw, long tijd)"
 .PP
 Definition at line 159 of file vandeWiel.c.
 .PP
 References celW::c, celW::length, and celW::x.
+.PP
+Referenced by fillcell().
 .SS "double numbersmall (int c, int b, double ob, \fBcelW\fP ** W1, \fBcelW\fP ** W2)"
 .PP
 Definition at line 335 of file vandeWiel.c.
 .PP
-References celW::length.
+References celW::c, and celW::length.
 .PP
 Referenced by R_split_up_2sample().
 .SS "void plus (\fBcelW\fP ** W, \fBcelW\fP * tempie, int a, int b)"
 .PP
 Definition at line 120 of file vandeWiel.c.
 .PP
-References celW::length.
+References celW::c, celW::length, and celW::x.
+.PP
+Referenced by fillcell().
 .SS "SEXP R_split_up_2sample (SEXP scores, SEXP m, SEXP obs)"
 .PP
 Definition at line 375 of file vandeWiel.c.

@@ -1,6 +1,6 @@
 
-R version 2.6.0 (2007-10-03)
-Copyright (C) 2007 The R Foundation for Statistical Computing
+R version 2.7.0 (2008-04-22)
+Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -25,6 +25,14 @@ Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
 Loading required package: stats4
+
+Attaching package: 'modeltools'
+
+
+	The following object(s) are masked from package:survival :
+
+	 cluster 
+
 > isequal <- coin:::isequal
 > 
 > ### check if doxygen documentation is there
@@ -292,4 +300,20 @@ X3      10
 > itMC <- independence_test(x ~ g, distribution = approximate(99999))
 > ci <- attr(pvalue(itMC), "conf.int")
 > stopifnot(ci[1] < pvalue(it) && ci[2] > pvalue(it))
+> 
+> ### any() not applied to logicals
+> ### spotted by R-2.7.0 and Kaspar Daniel Hansen
+> x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+> y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+> ### must not give a warning
+> wilcoxsign_test(x ~ y, alternative = "greater", 
++                 distribution = exact())
+
+	Exact Wilcoxon-Signed-Rank Test
+
+data:  y by x (neg, pos) 
+	 stratified by block 
+Z = 2.0732, p-value = 0.01953
+alternative hypothesis: true mu is greater than 0 
+
 > 

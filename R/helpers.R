@@ -260,12 +260,8 @@ table2IndependenceProblem <- function(object) {
 }
 
 is_2sample <- function(object) {
-    groups <- ((ncol(object@x) == 1 && is.factor(object@x[[1]])) && 
-                nlevels(object@x[[1]]) == 2)
-    groups <- groups && ncol(object@xtrans) == 1
-#    values <- (ncol(object@y) == 1 && ncol(object@ytrans) == 1)
-    values <- ncol(object@ytrans) == 1
-    return(groups && values)
+    groups <- nlevels(object@x[[1]]) == 2 && ncol(object@xtrans) == 1
+    return(is_Ksample(object) && groups)
 }
 
 is_Ksample <- function(object) {
