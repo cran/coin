@@ -87,10 +87,10 @@ setMethod(f = "initialize",
     }
 )
 
-### new("IndependenceTestStatistic", ...)
+### new("IndependenceLinearStatistic", ...)
 ### compute test statistics and their expectation / covariance matrix
 setMethod(f = "initialize", 
-    signature = "IndependenceTestStatistic", 
+    signature = "IndependenceLinearStatistic", 
     definition = function(.Object, itp, varonly = FALSE) {
 
         if (!extends(class(itp), "IndependenceTestProblem"))
@@ -152,6 +152,21 @@ setMethod(f = "initialize",
         if (any(variance(.Object) < eps()))
             warning("The conditional covariance matrix has ",
                     "zero diagonal elements")
+        .Object
+    }
+)
+
+
+### new("IndependenceTestStatistic", ...)
+### compute test statistics and their expectation / covariance matrix
+setMethod(f = "initialize", 
+    signature = "IndependenceTestStatistic", 
+    definition = function(.Object, itp, varonly = FALSE) {
+
+        its <- new("IndependenceLinearStatistic", itp, varonly = varonly)
+
+        .Object <- copyslots(its, .Object)
+
         .Object
     }
 )

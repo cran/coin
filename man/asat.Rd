@@ -34,7 +34,7 @@ Hauschke et al. (1999).
   \emph{Biometrical Journal} \bold{41}(3), 295--304.
 
   Rafael Pfl{\"u}ger \& Torsten Hothorn (2002).
-  Assessing Equivalence Tests with Respect to their Expected
+  Assessing equivalence tests with respect to their expected
   $p$-Value, \emph{Biometrical Journal} \bold{44}(8), 1002--1027.
 
 }

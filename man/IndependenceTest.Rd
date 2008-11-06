@@ -107,13 +107,18 @@
 }
 \references{
 
-    Helmut Strasser & Christian Weber (1999).
+    Helmut Strasser \& Christian Weber (1999).
     On the asymptotic theory of permutation statistics. 
     \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.
 
-    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel & Achim Zeileis (2006).
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
     A Lego System for Conditional Inference. \emph{The American Statistician},
     \bold{60}(3), 257--263.
+
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2008).
+    Implementing a class of permutation tests: The coin package,
+    \emph{Journal of Statistical Software}, \bold{28}(8), 1--23.
+    \url{http://www.jstatsoft.org/v28/i08/}
 
 }
 \examples{

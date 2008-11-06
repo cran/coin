@@ -4,14 +4,12 @@ asymptotic <- function(maxpts = 25000, abseps = 0.001, releps = 0) {
     RET <- function(object)
         AsymptNullDistribution(object, maxpts = maxpts, 
                                abseps = abseps, releps = releps)
-    class(RET) <- "asymptotic"
     RET
 }
 
 approximate <- function(B = 1000) {
     RET <- function(object)
         ApproxNullDistribution(object, B = B)
-    class(RET) <- "approximate"
     RET
 }
 
@@ -19,7 +17,6 @@ exact <- function(algorithm = c("shift", "split-up"), fact = NULL) {
     algorithm <- match.arg(algorithm)
     RET <- function(object)
         ExactNullDistribution(object, algorithm = algorithm, fact = fact)
-    class(RET) <- "exact"
     RET
 }
 
@@ -333,16 +330,13 @@ isequal <- function(a, b) {
     }
 }
 
-check_distribution_arg <- function(distribution, 
+check_distribution_arg <- function(distribution,
     values = c("asymptotic", "approximate", "exact")) {
     if (is.character(distribution)) {
         distribution <- match.arg(distribution[1], values)
         distribution <- eval(parse(text = 
                                    paste(distribution, "()", sep = "")))
-    }
-    if (!any(class(distribution) %in% values))
-       stop(sQuote("distribution"), " is not of classes ",
-       paste(values, collapse = ", "))
+    }  
     distribution
 }
 

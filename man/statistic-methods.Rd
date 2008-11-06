@@ -3,6 +3,7 @@
 \alias{statistic}
 \alias{statistic-methods}
 \alias{statistic,IndependenceTest-method}
+\alias{statistic,IndependenceLinearStatistic-method}
 \alias{statistic,IndependenceTestStatistic-method}
 \title{ Extract Test Statistics, Linear Statistics and Standardized
   Statistics }

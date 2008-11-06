@@ -41,7 +41,7 @@
 }
 \references{
 
-    P. R. Rosenbaum (1994). Coherence in Observational Studies.
+    P. R. Rosenbaum (1994). Coherence in observational studies.
     \emph{Biometrics} \bold{50}, 368--374.
 
     Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).

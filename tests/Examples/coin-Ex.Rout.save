@@ -1,5 +1,5 @@
 
-R version 2.7.0 (2008-04-22)
+R version 2.7.1 (2008-06-23)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -91,14 +91,6 @@ Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
 Loading required package: stats4
-
-Attaching package: 'modeltools'
-
-
-	The following object(s) are masked from package:survival :
-
-	 cluster 
-
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
 > assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
@@ -832,7 +824,7 @@ group=1 8        8     5.16      1.56      3.76
 	Exact Logrank Test
 
 data:  Surv(time, event) by group (0, 1) 
-Z = -1.9201, p-value = 0.0505
+Z = -1.9201, p-value = 0.05051
 alternative hypothesis: two.sided 
 
 > 
@@ -1258,13 +1250,13 @@ attr(,"conf.level")
 > ###   Statistics
 > ### Aliases: expectation expectation-methods
 > ###   expectation,IndependenceTest-method
-> ###   expectation,IndependenceTestStatistic-method covariance
+> ###   expectation,IndependenceLinearStatistic-method covariance
 > ###   covariance-methods covariance,CovarianceMatrix-method
 > ###   covariance,IndependenceTest-method
-> ###   covariance,IndependenceTestStatistic-method variance variance-methods
-> ###   variance,Variance-method variance,CovarianceMatrix-method
-> ###   variance,IndependenceTest-method
-> ###   variance,IndependenceTestStatistic-method
+> ###   covariance,IndependenceLinearStatistic-method variance
+> ###   variance-methods variance,Variance-method
+> ###   variance,CovarianceMatrix-method variance,IndependenceTest-method
+> ###   variance,IndependenceLinearStatistic-method
 > ### Keywords: methods
 > 
 > ### ** Examples
@@ -1818,6 +1810,7 @@ $cutpoint
 > ### Title: Extract Test Statistics, Linear Statistics and Standardized
 > ###   Statistics
 > ### Aliases: statistic statistic-methods statistic,IndependenceTest-method
+> ###   statistic,IndependenceLinearStatistic-method
 > ###   statistic,IndependenceTestStatistic-method
 > ### Keywords: methods
 > 
@@ -1902,7 +1895,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  35.074 0.328 35.527 0 0 
+Time elapsed:  34.818 0.272 35.353 0 0 
 > grDevices::dev.off()
 null device 
           1 

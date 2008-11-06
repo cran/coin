@@ -32,7 +32,7 @@ the data used here is published in Table 1 of Lausen and Schumacher (1992).
     malignant ventricular tachyarrhythmias. \emph{American Heart Journal}
     \bold{114}, 1--7.
 
-    Berthold Lausen \& Martin Schumacher (1992). Maximally Selected Rank Statistics.
+    Berthold Lausen \& Martin Schumacher (1992). Maximally selected rank statistics.
     \emph{Biometrics} \bold{48}, 73--85.
 
 }

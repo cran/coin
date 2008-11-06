@@ -9,6 +9,7 @@
 \alias{show,genericFunction-method}
 \alias{show,classRepresentation-method}
 \alias{show,ModelEnv-method}
+\alias{show,IndependenceTest-method}
 \alias{show,QuadTypeIndependenceTest-method}
 \alias{show,MaxTypeIndependenceTest-method}
 \alias{show,ScalarIndependenceTest-method}
@@ -19,6 +20,8 @@
 }
 \section{Methods}{
 \describe{
+
+\item{object = "IndependenceTest"}{ ~~describe this method here }
 
 \item{object = "QuadTypeIndependenceTest"}{ ~~describe this method here }
 

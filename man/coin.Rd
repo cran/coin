@@ -54,5 +54,10 @@ exact null distribution is currently available for two-sample problems only.
     A Lego system for conditional inference, \emph{The American Statistician},
     \bold{60}(3), 257--263.
 
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2008).
+    Implementing a class of permutation tests: The coin package,
+    \emph{Journal of Statistical Software}, \bold{28}(8), 1--23.
+    \url{http://www.jstatsoft.org/v28/i08/}
+
 }
 \keyword{misc}

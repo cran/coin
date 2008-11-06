@@ -31,13 +31,18 @@ export(independence_test,
        asymptotic, exact, approximate)       
 
 exportClasses("IndependenceProblem", "IndependenceTest", 
+              "IndependenceTestProblem","IndependenceTestStatistic",
+              "IndependenceLinearStatistic",
+              "ScalarIndependenceTestStatistic", "PValue", "NullDistribution",
               "SymmetryProblem", "ExpectCovarInfluence", "ExpectCovar",
               "QuadTypeIndependenceTest", "ScalarIndependenceTest",
-              "ScalarIndependenceTestConfint", "MaxTypeIndependenceTest")
+              "ScalarIndependenceTestConfint", "MaxTypeIndependenceTest", 
+              "MaxTypeIndependenceTestStatistic",
+              "QuadTypeIndependenceTestStatistic")
 
 exportMethods("initialize", "show", "pvalue", "statistic", 
               "pperm", "dperm", "qperm", "support", "expectation", 
-              "covariance", "variance")
+              "covariance", "variance", "ExactNullDistribution")
 
 S3method(independence_test, formula)
 S3method(independence_test, table)

@@ -590,18 +590,18 @@ maxstat_test.IndependenceProblem <- function(object,
     wm <- which.max(apply(abs(statistic(RET, "standardized")), 1, max))
     whichvar <- attr(RET@statistic@xtrans, "assign")[wm]
     maxcontr <- RET@statistic@xtrans[,wm]
-    if (is.factor(object@x[[whichvar]])) {
-        estimate <- levels(object@x[[whichvar]][maxcontr > 0][, drop = TRUE])
+    if (is.factor(RET@statistic@x[[whichvar]])) {
+        estimate <- levels(RET@statistic@x[[whichvar]][maxcontr > 0][, drop = TRUE])
     } else {
-        estimate <- max(object@x[[whichvar]][maxcontr > 0])
+        estimate <- max(RET@statistic@x[[whichvar]][maxcontr > 0])
         if (ORDERED[whichvar]) estimate <- lev[[whichvar]][estimate]
     }
     if (ncol(object@x) > 1) {
-        estimate <- list(covariable = colnames(object@x)[whichvar], cutpoint = estimate)
+        estimate <- list(covariable = colnames(RET@statistic@x)[whichvar], cutpoint = estimate)
     } else {
         estimate <- list(cutpoint = estimate)
     }
-    RET@statistic@estimates <- list(estimate = estimate)
+    RET@estimates <- list(estimate = estimate)
     RET@method <- "Maxstat Test"
     
     return(RET)

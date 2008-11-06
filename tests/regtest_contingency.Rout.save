@@ -1,5 +1,5 @@
 
-R version 2.7.0 (2008-04-22)
+R version 2.7.1 (2008-06-23)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -27,14 +27,6 @@ Loading required package: splines
 Loading required package: mvtnorm
 Loading required package: modeltools
 Loading required package: stats4
-
-Attaching package: 'modeltools'
-
-
-	The following object(s) are masked from package:survival :
-
-	 cluster 
-
 > isequal <- coin:::isequal
 > 
 > thisversion <- paste(R.version$major, R.version$minor, sep = ".")
@@ -101,13 +93,13 @@ Attaching package: 'modeltools'
 	Asymptotic Maxstat Test
 
 data:  w by x 
-maxT = 2.3738, p-value = 0.1840
+maxT = 2.3738, p-value = 0.1836
 sample estimates:
 $cutpoint
 [1] 0.9060508
 
 
-> est <- mt@statistic@estimates$estimate$cutpoint
+> est <- mt@estimates$estimate$cutpoint
 > stopifnot(isequal(statistic(mt),
 +                   abs(statistic(independence_test(w ~ (x <= est), data = dat)))))
 > 
@@ -123,7 +115,7 @@ $cutpoint
 [1] "1" "2" "3"
 
 
-> est <- mt@statistic@estimates$estimate$cutpoint
+> est <- mt@estimates$estimate$cutpoint
 > xx <- dat$y %in% est
 > stopifnot(isequal(statistic(mt), 
 +                   abs(statistic(independence_test(w ~ xx, data = dat)))))
@@ -140,7 +132,7 @@ $cutpoint
 [1] "1"
 
 
-> est <- mt@statistic@estimates$estimate$cutpoint
+> est <- mt@estimates$estimate$cutpoint
 > xx <- dat$z <= est
 > stopifnot(isequal(statistic(mt), 
 +                   abs(statistic(independence_test(w ~ xx, data = dat)))))
@@ -151,7 +143,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  w by x, y, z 
-maxT = 2.3738, p-value = 0.2879
+maxT = 2.3738, p-value = 0.2860
 sample estimates:
 $covariable
 [1] "x"
@@ -160,7 +152,7 @@ $cutpoint
 [1] 0.9060508
 
 
-> est <- mt@statistic@estimates$estimate
+> est <- mt@estimates$estimate
 > xsel <- dat[[est[[1]]]]
 > if (is.factor(xsel) && !is.ordered(xsel)) {
 +     xx <- xsel %in% est[2]

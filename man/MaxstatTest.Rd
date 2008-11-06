@@ -88,6 +88,10 @@
    \emph{European Journal of Forest Research}, \bold{123}, 
    218--228.
 
+   Torsten Hothorn \& Achim Zeileis (2009).
+   Generalized maximally selected statistics, \emph{Biometrics}, accepted.
+   
+
 }
 \examples{
 

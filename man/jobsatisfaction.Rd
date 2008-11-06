@@ -12,7 +12,7 @@
      \item{Income}{a factor at levels \code{<5000, 5000-15000, 15000-25000}
                    and \code{>25000}.}
      \item{Job.Satisfaction}{a factor at levels \code{Very Dissatisfied, A
-                             Little Dissatisfied, Moderately Satisfied} and 
+                             Little Satisfied, Moderately Satisfied} and 
                              \code{Very Satisfied}.}
      \item{Gender}{a factor at levels \code{Female} and \code{Male}.}
  }

@@ -332,7 +332,7 @@ the maximum of the absolute values of the standardized linear statistic
 or a quadratic form:
 \begin{eqnarray*}
 c_\text{max}(\T, \mu, \Sigma)  & = & \max \left| \frac{\T - \mu}{\text{diag}(\Sigma)^{1/2}} \right|, \\
-c_\text{quad}(\T, \mu, \Sigma)  & = & (\T - \mu) \Sigma^+ (\T - \mu)^\top,
+c_\text{quad}(\T, \mu, \Sigma)  & = & (\T - \mu)^\top \Sigma^+ (\T - \mu),
 \end{eqnarray*}
 involving the Moore-Penrose inverse $\Sigma^+$ of $\Sigma$.
 

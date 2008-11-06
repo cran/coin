@@ -1,0 +1,65 @@
+
+---------- Forwarded message ----------
+Date: Tue, 4 Mar 2008 08:52:47 -0800
+From: Jan de Leeuw <deleeuw@stat.ucla.edu>
+To: Kurt Hornik <Kurt.Hornik@wu-wien.ac.at>,
+     Achim Zeileis <Achim.Zeileis@wu-wien.ac.at>
+Subject: JSS 312 (coin)
+
+Accept subject to minor revisions. AE still has to spprove next version.
+---------------------------------------
+
+?
+
+Die Reports waren sinnigerweise in .doc Format, grausam. Deshalb haengen
+sie unten in plain text an. Sind beide recht harmlos und haben recht wenig
+Substanz, ein paar brauchbare Kommentare sind aber auch dabei.
+
+lg,
+Z
+
+-- Referee A -------------
+This is an excellent paper and appropriate for publication on the Journal
+of Statistical Software as it stands.
+
+However I am a bit concerned about the extent to which it goes over the
+same ground as the authors' previous paper in the American Statistician.
+The main advance appears to be that the authors have dropped the
+requirement for observations to be iid, but only to the extent of the
+fairly trivial introduction of a blocking factor.
+
+-- Referee B -------------
+The coin package implements, computationally, the theoretical ideas of the
+1999 Strasser and Weber paper that the authors reference.  This make coin
+an important and useful package, and one for which it will be useful to
+the documentation that this paper provides.  I have no criticisms that are
+of major consequence.
+
+Queries:
+1. Section 2.2 is pretty much a copy of what appears in the Amercian
+   Statistician paper (Hothorn, Hornik and Zeileis, 2006).  Is it
+   important to repeat the theory here, or would summary comments be
+   adequate, referring to the American Statistician paper for further
+   details?
+2. Sections 2.4 and 4.2 may be heavy going for anyone who does not have
+   some reasonable level of familiarity with S$ classes and methods.
+   Should some of this go into an appendix?
+
+The paper can be made more useful to users who are not deeply into R
+internals by including one or two examples of the use of
+independence_test(), either as part of the introduction, or immediately
+following the introduction.  Reference might usefully be made, at this
+point in the paper, to examples in the help page.
+
+There is repeated reference to "Monte Carlo procedures".  These surely
+involve random sampling from the relevant permutation distribution.  The
+term "Monte Carlo" seems unnecessarily vague.
+
+In a few places the wording can be improved:
+1. Insert "the" as follows: P.5, l.-9 "in the case"; p.11, l.-17 "at the C
+   level"; p.14, l.-17 and l.-16 "in the package" (or else omit
+   "package").
+2. 1st line of Section 2.2: Replace "to derive" by "deriving", or (maybe
+   better) omit "suggest to".
+
+

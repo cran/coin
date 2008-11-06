@@ -140,6 +140,25 @@ setMethod(f = "statistic",
       }
 )
 
+setMethod(f = "statistic",
+          signature = "IndependenceLinearStatistic",
+          definition = function(object, 
+              type = c("test", "linear", "standardized"), ...) {
+              nc <- ncol(object@ytrans)
+              nr <- ncol(object@xtrans)
+              type <- match.arg(type)
+              dn <- statnames(object)$dimnames
+              switch(type, "test" = stop("type = test not defined for IndependenceLinearStatistic"),
+                           "linear" = matrix(object@linearstatistic, 
+                                             nrow = nr, ncol = nc, dimnames = dn),
+                           "standardized" = matrix(object@standardizedlinearstatistic, 
+                                                   nrow = nr, ncol = nc, dimnames = dn)
+                           )
+      }
+)
+
+
+
 ### generic method for extracting expectations from objects
 setGeneric("expectation", function(object, ...) 
     standardGeneric("expectation")
@@ -152,7 +171,7 @@ setMethod(f = "expectation",
 )
 
 setMethod(f = "expectation",
-          signature = "IndependenceTestStatistic",
+          signature = "IndependenceLinearStatistic",
           definition = function(object, ...) 
               object@expectation
 )
@@ -176,9 +195,13 @@ setMethod(f = "covariance",
 )
 
 setMethod(f = "covariance",
-          signature = "IndependenceTestStatistic",
-          definition = function(object, ...) 
+          signature = "IndependenceLinearStatistic",
+          definition = function(object, ...) {
+              if (!extends(class(object@covariance), "CovarianceMatrix"))
+                  return(covariance(new("IndependenceTestStatistic", 
+                                        object, varonly = FALSE)))
               covariance(object@covariance)
+          }
 )
 
 ### generic method for extracting the variances 
@@ -206,7 +229,7 @@ setMethod(f = "variance",
 )
 
 setMethod(f = "variance",
-          signature = "IndependenceTestStatistic",
+          signature = "IndependenceLinearStatistic",
           definition = function(object, ...) 
               variance(object@covariance)
 )

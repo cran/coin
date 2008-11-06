@@ -3,18 +3,18 @@
 \alias{expectation}
 \alias{expectation-methods}
 \alias{expectation,IndependenceTest-method}
-\alias{expectation,IndependenceTestStatistic-method}
+\alias{expectation,IndependenceLinearStatistic-method}
 \alias{covariance}
 \alias{covariance-methods}
 \alias{covariance,CovarianceMatrix-method}
 \alias{covariance,IndependenceTest-method}
-\alias{covariance,IndependenceTestStatistic-method}
+\alias{covariance,IndependenceLinearStatistic-method}
 \alias{variance}
 \alias{variance-methods}
 \alias{variance,Variance-method}
 \alias{variance,CovarianceMatrix-method}
 \alias{variance,IndependenceTest-method}
-\alias{variance,IndependenceTestStatistic-method}
+\alias{variance,IndependenceLinearStatistic-method}
 \title{ Extract the Expectation and Variance / Covariance of Linear Statistics }
 \description{
 

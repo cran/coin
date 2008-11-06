@@ -6,8 +6,8 @@ setClass(Class = "IndependenceProblem",
     representation = representation(
         x       = "data.frame",
         y       = "data.frame",
-	weights = "numeric",
-        block   = "factor"
+        block   = "factor",
+	weights = "numeric"
     ),
     validity = function(object) {
         dims <- ((nrow(object@x) == nrow(object@y)) && 
@@ -67,9 +67,9 @@ setClass(Class = "IndependenceLinearStatistic",
 ### Tests based on linear statistics
 setClass(Class = "IndependenceTestStatistic",
     representation = representation(
-        estimates                   = "list",
         teststatistic               = "numeric",
         standardizedlinearstatistic = "numeric"
+
     ),
     contains = "IndependenceLinearStatistic",
 )
@@ -131,10 +131,12 @@ setClass(Class = "ExactNullDistribution", contains = "NullDistribution")
 ### the "fitted" test including data and everything
 setClass(Class = "IndependenceTest",
     representation = representation(
-        distribution = "NullDistribution",
+        distribution = "PValue", ### was: "NullDistribution",
         statistic    = "IndependenceTestStatistic",
+        estimates    = "list",
         method       = "character"
-    )
+    ),
+    prototype = list(method = "General Independence Test")
 )
 
 ### the "fitted" test for scalar linear statistics

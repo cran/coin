@@ -67,27 +67,27 @@ dat <- data.frame(w = rnorm(100), x = runif(100), y = gl(4, 25)[sample(1:100)],
 
 mt <- maxstat_test(w ~ x, data = dat)
 mt
-est <- mt@statistic@estimates$estimate$cutpoint
+est <- mt@estimates$estimate$cutpoint
 stopifnot(isequal(statistic(mt),
                   abs(statistic(independence_test(w ~ (x <= est), data = dat)))))
 
 mt <- maxstat_test(w ~ y, data = dat)
 mt
-est <- mt@statistic@estimates$estimate$cutpoint
+est <- mt@estimates$estimate$cutpoint
 xx <- dat$y %in% est
 stopifnot(isequal(statistic(mt), 
                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 
 mt <- maxstat_test(w ~ z, data = dat)
 mt
-est <- mt@statistic@estimates$estimate$cutpoint
+est <- mt@estimates$estimate$cutpoint
 xx <- dat$z <= est
 stopifnot(isequal(statistic(mt), 
                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 
 mt <- maxstat_test(w ~ x + y + z, data = dat)
 mt
-est <- mt@statistic@estimates$estimate
+est <- mt@estimates$estimate
 xsel <- dat[[est[[1]]]]
 if (is.factor(xsel) && !is.ordered(xsel)) {
     xx <- xsel %in% est[2]

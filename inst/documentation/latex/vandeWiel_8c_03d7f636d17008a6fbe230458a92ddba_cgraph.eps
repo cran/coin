@@ -1,6 +1,6 @@
 %!PS-Adobe-2.0
-%%Creator: Graphviz version 2.12 (Tue Sep  4 16:56:48 UTC 2007)
-%%For: (hothorn) Torsten Hothorn,,,
+%%Creator: Graphviz version 2.16 (Fri Feb  8 12:52:03 UTC 2008)
+%%For: (hothorn) Torsten Hothorn,,,,
 %%Title: G
 %%Pages: (atend)
 %%BoundingBox: (atend)
@@ -88,17 +88,15 @@ cleartomark
 	scalefont setfont
 } def
 
-% draw aligned label in bounding box aligned to current point
-/alignedtext {			% width adj text
+% draw text fitted to its expected width
+/alignedtext {			% width text
 	/text exch def
-	/adj exch def
 	/width exch def
 	gsave
 		width 0 gt {
-			text stringwidth pop adj mul 0 rmoveto
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
 		} if
-		[] 0 setdash
-		text show
 	grestore
 } def
 
@@ -181,94 +179,76 @@ def
 %%EndSetup
 setupLatin1
 %%Page: 1 1
-%%PageBoundingBox: 36 36 190 64
+%%PageBoundingBox: 36 36 184 62
 %%PageOrientation: Portrait
-gsave
-36 36 190 64 boxprim clip newpath
 0 0 1 beginpage
+gsave
+36 36 148 26 boxprim clip newpath
 1 1 set_scale 0 rotate 40 40 translate
-0.000 0.000 1.000 graphcolor
-newpath -4 -4 moveto
--4 24 lineto
-150 24 lineto
-150 -4 lineto
-closepath fill
-1 setlinewidth
-0.000 0.000 1.000 graphcolor
-newpath -4 -4 moveto
--4 24 lineto
-150 24 lineto
-150 -4 lineto
-closepath stroke
 % Node1
 gsave
 0.000 0.000 0.749 nodecolor
-newpath 0 -1 moveto
-0 20 lineto
-62 20 lineto
-62 -1 lineto
+newpath 1 -1 moveto
+1 18 lineto
+58 18 lineto
+58 -1 lineto
 closepath fill
 1 setlinewidth
 filled
 0.000 0.000 0.000 nodecolor
-newpath 0 -1 moveto
-0 20 lineto
-62 20 lineto
-62 -1 lineto
+newpath 1 -1 moveto
+1 18 lineto
+58 18 lineto
+58 -1 lineto
 closepath stroke
 0.000 0.000 0.000 nodecolor
-10.00 /FreeSans.ttf set_font
-31 6 moveto 46 -0.5 (reserveW) alignedtext
+10.00 /FreeSans set_font
+8.375 4.25 moveto 41.25 (reserveW) alignedtext
 grestore
 % Node2
 gsave
-[ /Rect [ 98 0 146 20 ]
-  /Border [ 0 0 0 ]
-  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#dd09844ac40346e216f503f95e644970) >>
-  /Subtype /Link
-/ANN pdfmark
-[ /Rect [ 98 0 146 20 ]
+[ /Rect [ 95 0 139 18 ]
   /Border [ 0 0 0 ]
   /Action << /Subtype /URI /URI ($vandeWiel_8c.html#dd09844ac40346e216f503f95e644970) >>
   /Subtype /Link
 /ANN pdfmark
 0.000 0.000 1.000 nodecolor
-newpath 98 -1 moveto
-98 20 lineto
-146 20 lineto
-146 -1 lineto
+newpath 95 -1 moveto
+95 18 lineto
+140 18 lineto
+140 -1 lineto
 closepath fill
 1 setlinewidth
 filled
 0.000 0.000 0.000 nodecolor
-newpath 98 -1 moveto
-98 20 lineto
-146 20 lineto
-146 -1 lineto
+newpath 95 -1 moveto
+95 18 lineto
+140 18 lineto
+140 -1 lineto
 closepath stroke
 0.000 0.000 0.000 nodecolor
-10.00 /FreeSans.ttf set_font
-122 6 moveto 32 -0.5 (binomi) alignedtext
+10.00 /FreeSans set_font
+102.75 4.25 moveto 28.5 (binomi) alignedtext
 grestore
 % Node1->Node2
 gsave
 1 setlinewidth
 solid
 0.667 0.776 0.439 edgecolor
-newpath 62 10 moveto
-70 10 79 10 88 10 curveto
+newpath 58 9 moveto
+67 9 76 9 85 9 curveto
 stroke
 0.667 0.776 0.439 edgecolor
-newpath 88 13.5001 moveto
-98 10 lineto
-88 6.5001 lineto
+newpath 85 12.5001 moveto
+95 9 lineto
+85 5.5001 lineto
 closepath fill
 1 setlinewidth
 solid
 0.667 0.776 0.439 edgecolor
-newpath 88 13.5001 moveto
-98 10 lineto
-88 6.5001 lineto
+newpath 85 12.5001 moveto
+95 9 lineto
+85 5.5001 lineto
 closepath stroke
 grestore
 endpage
@@ -278,7 +258,7 @@ grestore
 %%EndPage: 1
 %%Trailer
 %%Pages: 1
-%%BoundingBox: 36 36 190 64
+%%BoundingBox: 36 36 184 62
 end
 restore
 %%EOF

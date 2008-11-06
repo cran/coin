@@ -66,8 +66,8 @@ setMethod(f = "show", signature = "QuadTypeIndependenceTest",
             RET$parameter <- dist@parameters[[1]]
             names(RET$parameter) <- "df"
         }
-        if (length(x@statistic@estimates) > 0)
-            RET <- c(RET, x@statistic@estimates)
+        if (length(x@estimates) > 0)
+            RET <- c(RET, x@estimates)
         class(RET) <- "htest"
         print(RET)
         invisible(RET)
@@ -94,8 +94,8 @@ setMethod(f = "show", signature = "MaxTypeIndependenceTest",
                     p.value = x@distribution@pvalue(stat),
                     data.name = dataname,
                     method = paste(distname, x@method))
-        if (length(x@statistic@estimates) > 0)
-            RET <- c(RET, x@statistic@estimates)
+        if (length(x@estimates) > 0)
+            RET <- c(RET, x@estimates)
         class(RET) <- "htest"
         print(RET)
         invisible(RET)
@@ -126,8 +126,35 @@ setMethod(f = "show", signature = "ScalarIndependenceTest",
                     method = paste(distname, x@method))
         if (length(x@nullvalue > 0)) 
             RET$null.value = c(mu = x@nullvalue)
-        if (length(x@statistic@estimates) > 0)
-            RET <- c(RET, x@statistic@estimates)
+        if (length(x@estimates) > 0)
+            RET <- c(RET, x@estimates)
+        class(RET) <- "htest"
+        print(RET)
+        invisible(RET)
+    }
+)
+
+setMethod(f = "show", signature = "IndependenceTest",
+    definition = function(object) {
+          
+        x <- object
+        stat <- x@statistic@teststatistic
+        names(stat) <- "c"
+
+        dataname <- varnames(x@statistic)
+
+        dist <- x@distribution
+        cld <- class(dist)
+        attributes(cld) <- NULL
+        distname <- switch(cld,
+            "AsymptNullDistribution" = "Asymptotic",
+            "ApproxNullDistribution" = "Approximative",
+            "ExactNullDistribution" = "Exact")
+
+        RET <- list(statistic = stat,
+                    p.value = x@distribution@pvalue(stat),
+                    data.name = dataname,
+                    method = paste(distname, x@method))
         class(RET) <- "htest"
         print(RET)
         invisible(RET)
@@ -159,10 +186,10 @@ setMethod(f = "show", signature = "ScalarIndependenceTestConfint",
                     data.name = dataname,
                     conf.int = ci$conf.int,
                     estimate = ci$estimate)
-        if (length(x@nullvalue > 0)) 
+        if (length(x@nullvalue))
             RET$null.value = c(mu = x@nullvalue)
-        if (length(x@statistic@estimates) > 0)
-            RET <- c(RET, x@statistic@estimates)
+        if (length(x@estimates))
+            RET <- c(RET, x@estimates)
         class(RET) <- "htest"
         print(RET)
         invisible(RET)

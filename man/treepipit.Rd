@@ -46,9 +46,9 @@
 }
 \references{
 
-  J{\"o}rg M{\"u}ller \& Torsten Hothorn (2004). Maximally Selected Two-Sample 
-  Statistics as a new Tool for the Identification and Assessment of Habitat 
-  Factors with an Application to Breeding Bird Communities in Oak Forests. 
+  J{\"o}rg M{\"u}ller \& Torsten Hothorn (2004). Maximally selected two-sample 
+  statistics as a new tool for the identification and assessment of habitat 
+  factors with an application to breeding bird communities in oak forests. 
   \emph{European Journal of Forest Research} \bold{123}, 219--228.
 
 }

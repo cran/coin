@@ -23,6 +23,7 @@ Normally, this class is only used internally.
   \describe{
     \item{\code{distribution}:}{Object of class \code{"NullDistribution"}.}
     \item{\code{statistic}:}{Object of class \code{"IndependenceTestStatistic"}.}
+    \item{\code{estimates}:}{Object of class \code{"list"}.}
     \item{\code{method}:}{Object of class \code{"character"}.}
   }
 }

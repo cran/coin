@@ -1,4 +1,28 @@
 
+		CHANGES in `coin' VERSION 1.0-0
+
+    o    JSS paper  http://www.jstatsoft.org/v28/i08/
+         documents version 1.0-0
+
+    o    set default for <IndependenceTest>@method to
+         "General Independence Test"
+
+    o    covariance() always returns a covariance matrix
+
+    o    add show() method for <IndependenceTest> objects
+
+    o    functions supplied via `distribution = ' doesn't need
+         to have a class
+
+    o    export all classes
+
+    o    compute linear statistics, expectations and (co)variances
+         when constructing <IndependenceLinearStatistic> instead
+         of <IndependenceTestStatistic> and define methods for this class.
+
+    o    maxstat_test() with integer weights gave NA or wrong cutpoints
+
+
 		CHANGES in `coin' VERSION 0.6-9
 
     o    any() was misused in one place, spotted by

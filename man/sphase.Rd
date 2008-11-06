@@ -35,8 +35,8 @@
 \references{
 
    Torsten Hothorn & Berthold Lausen (2003).
-   On the Exact Distribution of Maximally Selected Rank
-   Statistics. \emph{Computational Statistics \& Data Analysis}
+   On the exact distribution of maximally selected rank
+   statistics. \emph{Computational Statistics \& Data Analysis}
    \bold{43}, 121--137.
 
 }

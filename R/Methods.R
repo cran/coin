@@ -119,6 +119,7 @@ setMethod(f = "ExactNullDistribution",
           definition = function(object, algorithm = c("shift", "split-up"), 
                                 ...) {
 
+              algorithm <- match.arg(algorithm)
               if (is_2sample(object)) {
                   if (algorithm == "shift")
                       return(SR_shift_2sample(object, ...))
@@ -134,16 +135,25 @@ setMethod(f = "ExactNullDistribution",
 setGeneric("ApproxNullDistribution", function(object, ...)
     standardGeneric("ApproxNullDistribution"))
 
+MCfun <- function(x, y, w, b, B) {
+
+    ### expand observations for non-unit weights
+    if (chkone(w)) {
+        indx <- rep(1:length(w), w)
+        x <- x[indx,,drop = FALSE]
+        y <- y[indx,,drop = FALSE]
+        b <- b[indx]
+    }
+    .Call("R_MonteCarloIndependenceTest", x, y, as.integer(b), as.integer(B),
+          PACKAGE = "coin")
+}
+
 setMethod(f = "ApproxNullDistribution",
           signature = "ScalarIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < eps()))
-                  stop("cannot approximate distribution with non-unity weights")
-
-              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
-                  object@ytrans, as.integer(object@block), as.integer(B), 
-                  PACKAGE = "coin")
+              pls <- plsraw <- MCfun(object@xtrans, 
+                  object@ytrans, object@weights, as.integer(object@block), as.integer(B))
 
               ### <FIXME> can transform p, q, x instead of those </FIXME>
               pls <- sort((pls - expectation(object)) / 
@@ -186,12 +196,8 @@ setMethod(f = "ApproxNullDistribution",
           signature = "MaxTypeIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < eps()))
-                  stop("cannot approximate distribution with non-unity weights")
-
-              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
-                  object@ytrans, as.integer(object@block), as.integer(B), 
-                  PACKAGE = "coin")
+              pls <- plsraw <- MCfun(object@xtrans, 
+                  object@ytrans, object@weights, as.integer(object@block), as.integer(B))
 
               fun <- switch(object@alternative,
                   "less" = min,
@@ -260,12 +266,8 @@ setMethod(f = "ApproxNullDistribution",
           signature = "QuadTypeIndependenceTestStatistic",
           definition = function(object, B = 1000, ...) {
 
-              if (!(max(abs(object@weights - 1.0)) < eps()))
-                  stop("cannot approximate distribution with non-unity weights")
-
-              pls <- plsraw <- .Call("R_MonteCarloIndependenceTest", object@xtrans, 
-                  object@ytrans, as.integer(object@block), as.integer(B), 
-                  PACKAGE = "coin")
+              pls <- plsraw <- MCfun(object@xtrans, 
+                  object@ytrans, object@weights, as.integer(object@block), as.integer(B))
 
               dcov <- object@covarianceplus
               expect <- expectation(object)

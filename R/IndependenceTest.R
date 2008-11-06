@@ -54,20 +54,6 @@ independence_test.IndependenceProblem <- function(object,
     alternative <- match.arg(alternative)
     distribution <- check_distribution_arg(distribution)
 
-    ### expand weights if conditional MC is requested
-    if (class(distribution) == "approximate") {
-        w <- object@weights
-        if (chkone(w)) {
-            indx <- rep(1:length(w), w)
-            bn <- attr(object@block, "blockname")
-            object <- new("IndependenceProblem", 
-                          x = object@x[indx,,drop = FALSE],
-                          y = object@y[indx,,drop = FALSE], 
-                          block = object@block[indx])
-            attr(object@block, "blockname") <- bn
-        }
-    }
-
     ### convert factors to ordered and attach scores if requested
     object <- setscores(object, scores)
 
@@ -102,8 +88,8 @@ independence_test.IndependenceProblem <- function(object,
 
     ### compute linear statistic, conditional expectation and
     ### conditional covariance
-    its <- new("IndependenceTestStatistic", itp, 
-        varonly = class(distribution) == "approximate" && teststat == "max")
+    its <- new("IndependenceTestStatistic", itp, varonly = TRUE) 
+#        varonly = class(distribution) == "approximate" && teststat == "max")
 
     ### compute test statistic and corresponding null distribution
     RET <- switch(teststat,
@@ -125,8 +111,6 @@ independence_test.IndependenceProblem <- function(object,
             new("QuadTypeIndependenceTest", statistic = ts, 
                 distribution = nd)
         })
-
-    RET@method <- "General Independence Test"
 
     ### return object inheriting from class `IndependenceTest'
     return(RET)
