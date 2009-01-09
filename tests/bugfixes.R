@@ -203,3 +203,16 @@ y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
 ### must not give a warning
 wilcoxsign_test(x ~ y, alternative = "greater", 
                 distribution = exact())
+
+### inconsistencies with confidence intervals
+### spotted by Fritz Scholz <fscholz@u.washington.edu>
+Route = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L,
+2L, 2L, 2L), .Label = c("A", "B"), class = "factor")
+Route.Time = c(5.8, 5.8, 5.9, 6, 6, 6, 6.3, 6.3, 6.4, 6.5, 6.5, 6.5,
+6.8, 7.1, 7.3, 10.2)
+Route2 <- factor(as.character(Route), levels = c("B", "A"))
+
+wilcox_test(Route.Time~Route,conf.int=TRUE)
+wilcox_test(Route.Time~Route2,conf.int=TRUE)
+wilcox_test(Route.Time~Route,conf.int=TRUE, distr = exact())
+wilcox_test(Route.Time~Route2,conf.int=TRUE, distr = exact())

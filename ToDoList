@@ -75,3 +75,6 @@ o	Kurt: trafo as family of transformations (see glm(..., family,...)
 o	should we have `distribution = "none"'?
 
 o       some trafos need to take weights into account -> ranks?
+
+o       permutation p-value = 0 means pval < 1 / B, not < 1e-16 (as
+        format.pval reports)

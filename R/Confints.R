@@ -46,7 +46,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
             xtmp <- sort(split(scores[thisblock], groups[thisblock])[[2]])             
             steps <- c(steps, as.vector(outer(xtmp, ytmp, foo)))
         }
-        steps <- sort(steps)
+        steps <- sort(unique(steps))
 
         ### computes the statistic under the alternative `d'
         fse <- function(d)
@@ -55,7 +55,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
         ### we need to compute the statistics just to the right of
         ### each step       
         ds <- diff(steps)
-        justright <- min(abs(ds[ds > .Machine$double.eps]))/2
+        justright <- min(abs(ds[abs(ds) > sqrt(.Machine$double.eps)]))/2
         jumps <- sapply(steps + justright, fse)
 
         ### determine if the statistics are in- or decreasing 
@@ -238,7 +238,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
             aratio <- ratio[ratio >= 0]
             steps <- c(steps, aratio)
         }
-        steps <- sort(steps)
+        steps <- sort(unique(steps))
 
         ### computes the statistic under the alternative `d'
         fse <- function(d)
@@ -247,7 +247,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         ### we need to compute the statistics just to the right of
         ### each step       
         ds <- diff(steps)
-        justright <- min(abs(ds[ds > .Machine$double.eps]))/2
+        justright <- min(abs(ds[abs(ds) > sqrt(.Machine$double.eps)]))/2
         jumps <- sapply(steps + justright, fse)
 
         ### determine if the statistics are in- or decreasing 

@@ -1,5 +1,5 @@
 
-R version 2.7.1 (2008-06-23)
+R version 2.8.1 (2008-12-22)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -307,5 +307,66 @@ data:  y by x (neg, pos)
 	 stratified by block 
 Z = 2.0732, p-value = 0.01953
 alternative hypothesis: true mu is greater than 0 
+
+> 
+> ### inconsistencies with confidence intervals
+> ### spotted by Fritz Scholz <fscholz@u.washington.edu>
+> Route = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L,
++ 2L, 2L, 2L), .Label = c("A", "B"), class = "factor")
+> Route.Time = c(5.8, 5.8, 5.9, 6, 6, 6, 6.3, 6.3, 6.4, 6.5, 6.5, 6.5,
++ 6.8, 7.1, 7.3, 10.2)
+> Route2 <- factor(as.character(Route), levels = c("B", "A"))
+> 
+> wilcox_test(Route.Time~Route,conf.int=TRUE)
+
+	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  Route.Time by Route (A, B) 
+Z = -3.0245, p-value = 0.002491
+alternative hypothesis: true mu is not equal to 0 
+95 percent confidence interval:
+ -3.6999810 -0.4999788 
+sample estimates:
+difference in location 
+            -0.9000475 
+
+> wilcox_test(Route.Time~Route2,conf.int=TRUE)
+
+	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  Route.Time by Route2 (B, A) 
+Z = 3.0245, p-value = 0.002491
+alternative hypothesis: true mu is not equal to 0 
+95 percent confidence interval:
+ 0.4999788 3.6999810 
+sample estimates:
+difference in location 
+             0.9000352 
+
+> wilcox_test(Route.Time~Route,conf.int=TRUE, distr = exact())
+
+	Exact Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  Route.Time by Route (A, B) 
+Z = -3.0245, p-value = 0.001374
+alternative hypothesis: true mu is not equal to 0 
+95 percent confidence interval:
+ -3.7 -0.5 
+sample estimates:
+difference in location 
+                  -0.9 
+
+> wilcox_test(Route.Time~Route2,conf.int=TRUE, distr = exact())
+
+	Exact Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  Route.Time by Route2 (B, A) 
+Z = 3.0245, p-value = 0.001374
+alternative hypothesis: true mu is not equal to 0 
+95 percent confidence interval:
+ 0.5 3.7 
+sample estimates:
+difference in location 
+                   0.9 
 
 > 
