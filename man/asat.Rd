@@ -33,7 +33,7 @@ Hauschke et al. (1999).
   toxicology based on the ratio of two means for normally distributed data,
   \emph{Biometrical Journal} \bold{41}(3), 295--304.
 
-  Rafael Pfl{\"u}ger \& Torsten Hothorn (2002).
+  Rafael Pfl\"uger \& Torsten Hothorn (2002).
   Assessing equivalence tests with respect to their expected
   $p$-Value, \emph{Biometrical Journal} \bold{44}(8), 1002--1027.
 

@@ -170,7 +170,7 @@ surv_test.formula <- function(formula, data = list(), subset = NULL,
 }
     
 surv_test.IndependenceProblem <- function(object,  
-    ties.method = c("logrank", "HL"), ...) {
+    ties.method = c("logrank", "HL", "average-scores"), ...) {
 
     ties.method <- match.arg(ties.method)
 

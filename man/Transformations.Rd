@@ -26,7 +26,7 @@ normal_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 median_trafo(x)
 consal_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 maxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
-logrank_trafo(x, ties.method = c("logrank", "HL"))
+logrank_trafo(x, ties.method = c("logrank", "HL", "average-scores"))
 f_trafo(x)
 of_trafo(x)
 }

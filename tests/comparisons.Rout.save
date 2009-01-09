@@ -1,5 +1,5 @@
 
-R version 2.7.1 (2008-06-23)
+R version 2.8.0 (2008-10-20)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -362,21 +362,15 @@ Loading required package: stats4
 > ### NOTE: StatXact uses another tie handling method, see Callaert (2003)
 > ### and the examples below (at the end of this file)
 > 
-> lta <- surv_test(Surv(time, cens) ~ group, data = lungcancer)
+> lta <- surv_test(Surv(time, cens) ~ group, data = lungcancer, ties = "aver")
 > 
-> # <CHECK>
 > # test statistic, page 415
-> isequal(round(statistic(lta), 3), 2.949)
-[1] 2.963
-[1] 2.949
-[1] FALSE
+> isequal(round(statistic(lta), 3), -2.949)
+[1] TRUE
 > 
 > # two-sided asymptotic p-value, page 415
 > isequal(round(pvalue(lta), 4), 0.0032)
-[1] 0.003
-[1] 0.0032
-[1] FALSE
-> # </CHECK>
+[1] TRUE
 > 
 > lte <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
 +                     distribution = "exact")
@@ -413,24 +407,25 @@ Loading required package: stats4
 +                   gender = factor(c("M", "M", "F", "F", "M", 
 +                                     "M", "M", "F", "F", "F")))
 > 
-> # <CHECK>, page 419
-> surv_test(Surv(time, event) ~ treatment | gender, data = srv)
+> # page 419
+> surv_test(Surv(time, event) ~ treatment | gender, data = srv, 
++           ties = "average")
 
 	Asymptotic Logrank Test
 
 data:  Surv(time, event) by treatment (1, 2) 
 	 stratified by gender 
-Z = 1.5446, p-value = 0.1224
+Z = -1.5446, p-value = 0.1224
 alternative hypothesis: two.sided 
 
 > 
 > pvalue(surv_test(Surv(time, event) ~ treatment | gender, data = srv, 
++               ties = "average",
 +               distribution = approximate(B = 10000)))
-[1] 0.1615
+[1] 0.1581
 99 percent confidence interval:
- 0.1521344 0.1711899 
+ 0.1488173 0.1677103 
 
-> # </CHECK>
 > 
 > 
 > ### StatXact 6 manual, page 448
@@ -558,9 +553,9 @@ alternative hypothesis: two.sided
 > 
 > pci <- attr(pvalue(mtMC), "conf.int")
 > pvalue(mtMC)
-[1] 0.4369
+[1] 0.4278
 99 percent confidence interval:
- 0.4241064 0.4497539 
+ 0.4150428 0.4406263 
 
 > 
 > stopifnot(pci[1] < 0.4289 & pci[2] > 0.4289)
@@ -777,12 +772,12 @@ alternative hypothesis: two.sided
 > 
 > # <CHECK>
 > btMC <- mh_test(endo, scores = list(response = c(0, 0.2, 0.512, 0.7)),
-+                     distribution = approximate(B = 10000))
++                     distribution = approximate(B = 90000))
 > 
 > print(pvalue(btMC))
-[1] 4e-04
+[1] 0.0001111111
 99 percent confidence interval:
- 6.722848e-05 1.258868e-03 
+ 4.130035e-05 2.377386e-04 
 
 > pci <- attr(pvalue(ltMC), "conf.int")
 > (pci[1] < 0.000112 & pci[2] > 0.000112)
@@ -925,6 +920,9 @@ alternative hypothesis: two.sided
 > p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
 +           distribution = exact()))
 > stopifnot(isequal(round(p, 4), 0.0505))
+> p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
++           distribution = exact(), ties = "average"))
+> stopifnot(isequal(round(p, 4), 0.0468))
 > 
 > 
 > ### symmetry problem, page 288

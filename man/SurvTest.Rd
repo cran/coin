@@ -11,7 +11,7 @@
 \method{surv_test}{formula}(formula, data, subset = NULL,  
     weights = NULL, \dots)
 \method{surv_test}{IndependenceProblem}(object, 
-    ties.method = c("logrank", "HL"), ...)
+    ties.method = c("logrank", "HL", "average-scores"), ...)
 }
 \arguments{
   \item{formula}{a formula of the form \code{Surv(time, event) ~ x | block} where 
@@ -38,16 +38,19 @@
 
   The test implemented here is based on the classical logrank test,
   reformulated as a linear rank test. There are several ways of dealing with
-  ties. Here, two methods are implemented. The first one (\code{ties.method = "logrank"})
-  is described in Callaert (2003) for the uncensored case and leads, in 
-  the presence of censored observations, to coefficients 
+  ties. Here, three methods are implemented. The first one (\code{ties.method = "logrank"})
+  is described, for example, in Kalbfleisch \& Prentice (2002, page 221f) or 
+  in Callaert (2003) and lead to coefficients 
   \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k < X_j\}|)}
   for a linear rank statistic \eqn{T = \sum_{i = 1}^ n a_i U_i} 
   (in two-sample situations where \eqn{U_i = 0} or \eqn{U_i = 1} denotes
-  the groups). The second method is described in Hothorn & Lausen (2003) where
+  the groups) with survival times $X_i$ and censoring indicator \eqn{\delta_i = 0}
+  for censored observations. For further details, see Kalbfleisch \& Prentice (2002).
+  The second method is described in Hothorn \& Lausen (2003) where
   the coefficients
   \deqn{a_i = \delta_i - \sum_{j: X_j \le X_i} \delta_j / (n - |\{k: X_k \le X_j\}| + 1)}
-  are suggested.
+  are suggested. Finally, average scores (as for example used in StatXact) 
+  are offered as well.
 
   Note, however, that the test statistics will differ from the results
   of \code{\link[survival]{survdiff}} since the conditional variance 
@@ -65,6 +68,10 @@
 
 }
 \references{
+
+    John D. Kalbfleisch \& Ross L. Prentice (2002),
+    \emph{The Statistical Analysis of Failure Time Data} (2nd edition).
+    John Wiley \& Sons, Hoboken, New Jersey.
 
     Herman Callaert (2003), Comparing Statistical Software Packages:
     The Case of the Logrank Test in StatXact. 
@@ -90,6 +97,29 @@
   ### p = 0.0505
   surv_test(Surv(time, event) ~ group, data = exdata, 
             distribution = exact())
+  ### p = 0.0468
+  surv_test(Surv(time, event) ~ group, data = exdata, 
+            distribution = exact(), ties = "average")
+
+  ### lung cancer example from StatXact
+  `lungcancer` <- structure(list(time = c(257, 476, 355, 1779, 355, 191, 
+          563, 242, 285, 16, 16, 16, 257, 16), 
+      event = c(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1), 
+      group = structure(c(2L, 2L, 2L, 2L, 2L, 1L, 1L, 
+          1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = c("control", "newdrug"), 
+          class = "factor")), 
+      .Names = c("time", "event", "group"), 
+      row.names = c("1", "2", "3", "4", "5", "6", "7", "8", "9", 
+                    "10", "11", "12", "13", "14"), 
+      class = "data.frame")
+
+  ### StatXact 6 manual, page 414
+  logrank_trafo(Surv(lungcancer$time, lungcancer$event), 
+                ties = "average")
+
+  ### StatXact 6 manual, page 415
+  surv_test(Surv(time, event) ~ group, data = lungcancer, 
+            ties = "average", distribution = exact())
 
 }
 \keyword{htest}

@@ -336,15 +336,13 @@ load("lungcancer.rda")
 ### NOTE: StatXact uses another tie handling method, see Callaert (2003)
 ### and the examples below (at the end of this file)
 
-lta <- surv_test(Surv(time, cens) ~ group, data = lungcancer)
+lta <- surv_test(Surv(time, cens) ~ group, data = lungcancer, ties = "aver")
 
-# <CHECK>
 # test statistic, page 415
-isequal(round(statistic(lta), 3), 2.949)
+isequal(round(statistic(lta), 3), -2.949)
 
 # two-sided asymptotic p-value, page 415
 isequal(round(pvalue(lta), 4), 0.0032)
-# </CHECK>
 
 lte <- surv_test(Surv(time, cens) ~ group, data = lungcancer, 
                     distribution = "exact")
@@ -381,12 +379,13 @@ srv <- data.frame(time = c(3, 5, 7, 8, 18, 12, 19, 20, 20, 33),
                   gender = factor(c("M", "M", "F", "F", "M", 
                                     "M", "M", "F", "F", "F")))
 
-# <CHECK>, page 419
-surv_test(Surv(time, event) ~ treatment | gender, data = srv)
+# page 419
+surv_test(Surv(time, event) ~ treatment | gender, data = srv, 
+          ties = "average")
 
 pvalue(surv_test(Surv(time, event) ~ treatment | gender, data = srv, 
+              ties = "average",
               distribution = approximate(B = 10000)))
-# </CHECK>
 
 
 ### StatXact 6 manual, page 448
@@ -717,7 +716,7 @@ stopifnot(isequal(round(pvalue(bta), 6), 0.000188))
 
 # <CHECK>
 btMC <- mh_test(endo, scores = list(response = c(0, 0.2, 0.512, 0.7)),
-                    distribution = approximate(B = 10000))
+                    distribution = approximate(B = 90000))
 
 print(pvalue(btMC))
 pci <- attr(pvalue(ltMC), "conf.int")
@@ -860,6 +859,9 @@ exdata <- data.frame(time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
 p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
           distribution = exact()))
 stopifnot(isequal(round(p, 4), 0.0505))
+p <- pvalue(surv_test(Surv(time, event) ~ group, data = exdata, 
+          distribution = exact(), ties = "average"))
+stopifnot(isequal(round(p, 4), 0.0468))
 
 
 ### symmetry problem, page 288

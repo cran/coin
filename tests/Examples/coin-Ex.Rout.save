@@ -1,5 +1,5 @@
 
-R version 2.7.1 (2008-06-23)
+R version 2.8.0 (2008-10-20)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -825,6 +825,46 @@ group=1 8        8     5.16      1.56      3.76
 
 data:  Surv(time, event) by group (0, 1) 
 Z = -1.9201, p-value = 0.05051
+alternative hypothesis: two.sided 
+
+>   ### p = 0.0468
+>   surv_test(Surv(time, event) ~ group, data = exdata, 
++             distribution = exact(), ties = "average")
+
+	Exact Logrank Test
+
+data:  Surv(time, event) by group (0, 1) 
+Z = 1.9865, p-value = 0.04678
+alternative hypothesis: two.sided 
+
+> 
+>   ### lung cancer example from StatXact
+>   `lungcancer` <- structure(list(time = c(257, 476, 355, 1779, 355, 191, 
++           563, 242, 285, 16, 16, 16, 257, 16), 
++       event = c(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1), 
++       group = structure(c(2L, 2L, 2L, 2L, 2L, 1L, 1L, 
++           1L, 1L, 1L, 1L, 1L, 1L, 1L), .Label = c("control", "newdrug"), 
++           class = "factor")), 
++       .Names = c("time", "event", "group"), 
++       row.names = c("1", "2", "3", "4", "5", "6", "7", "8", "9", 
++                     "10", "11", "12", "13", "14"), 
++       class = "data.frame")
+> 
+>   ### StatXact 6 manual, page 414
+>   logrank_trafo(Surv(lungcancer$time, lungcancer$event), 
++                 ties = "average")
+ [1]  0.65870518  1.02537185  0.02537185  1.52537185  1.02537185 -0.57740593
+ [7]  0.52537185 -0.46629482 -0.17462815 -0.80648518 -0.80648518 -0.80648518
+[13] -0.34129482 -0.80648518
+> 
+>   ### StatXact 6 manual, page 415
+>   surv_test(Surv(time, event) ~ group, data = lungcancer, 
++             ties = "average", distribution = exact())
+
+	Exact Logrank Test
+
+data:  Surv(time, event) by group (control, newdrug) 
+Z = -2.9492, p-value = 0.0004995
 alternative hypothesis: two.sided 
 
 > 
@@ -1895,7 +1935,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.818 0.272 35.353 0 0 
+Time elapsed:  34.038 0.496 34.639 0 0 
 > grDevices::dev.off()
 null device 
           1 

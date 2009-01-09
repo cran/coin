@@ -1,8 +1,7 @@
 
 ### compute average scores, see Hajek, Sidak, Sen (page 131ff)
 average_scores <- function(s, x) {
-    dup <- x[duplicated(x)]
-    for (d in dup)
+    for (d in unique(x))
         s[x == d] <- mean(s[x == d])
     return(s)
 } 
@@ -137,18 +136,35 @@ fmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
 
 ### logrank scores; with two different methods of handling
 ### ties
-logrank_trafo <- function(x, ties.method = c("logrank", "HL")) {
+logrank_trafo <-
+function (x, ties.method = c("logrank", "HL", "average-scores"))
+{
     ties.method <- match.arg(ties.method)
-    time <- x[,1]
-    event <- x[,2]
+    time <- x[, 1]
+    event <- x[, 2]
     n <- length(time)
     ot <- order(time, event)
-    rt <- rank(time, ties.method = "max")
-    mt <- rank(time, ties.method = "min") - 1
-    fact <- switch(ties.method, "logrank" = event / (n - mt),
-                                "HL" = event/(n - rt + 1)
-                  )
-    event - cumsum(fact[ot])[rt]
+
+    if (ties.method == "logrank") {
+        fact <- event/(n - rank(time, ties.method = "min") + 1)
+        return(event - cumsum(fact[ot])[rank(time, ties.method = "max")])
+    }
+    if (ties.method == "HL") {
+        rt <- rank(time, ties.method = "max")
+        fact <- event/(n - rt + 1)
+        return(event - cumsum(fact[ot])[rt])
+    }
+    if (ties.method == "average-scores") {
+        tmindiff <- min(diff(sort(time[!duplicated(time)])))
+        ### ties.method = "first" for events, "min" for censored obs.
+        jitter <- sort(runif(n, max = tmindiff / 2))[ot]
+        ot <- order(time - event * jitter)
+        rt <- rank(time - event * jitter, ties.method = "min")
+        fact <- event / (n - rt + 1)
+        sc <- cumsum(fact[ot])[rt] - event
+        ### average over events only
+        return(coin:::average_scores(sc, time + (1 - event) * runif(n)))
+    }
 }
 
 ### factor handling

@@ -1,4 +1,10 @@
 
+		CHANGES in `coin' VERSION 1.0-1
+
+    o    add average scores for logrank test
+
+    o    fix Rd problems
+
 		CHANGES in `coin' VERSION 1.0-0
 
     o    JSS paper  http://www.jstatsoft.org/v28/i08/
