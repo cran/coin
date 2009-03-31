@@ -734,11 +734,14 @@ wilcoxsign_test.formula <- function(formula, data = list(),
     return(RET)
 }   
 
-wilcoxsign_test.IndependenceProblem <- function(object, ...) {
+wilcoxsign_test.IndependenceProblem <- function(object, 
+    ties.method = c("HollanderWolfe", "Pratt"), ...) {
 
     y <- object@y[[1]]
     x <- object@x[[1]]
     block <- object@block
+    ties.method <- match.arg(ties.method)
+    HollanderWolfe <- (ties.method == "HollanderWolfe")
 
     if (!is.numeric(y))
         stop(sQuote("y"), " is not a numeric variable")
@@ -754,12 +757,18 @@ wilcoxsign_test.IndependenceProblem <- function(object, ...) {
     if (is.numeric(x))
         diffs <- x - y
 
-    diffs <- diffs[abs(diffs) > 0]
-    block <- gl(length(diffs), 2)
+    if (HollanderWolfe) 
+        diffs <- diffs[abs(diffs) > 0]
+
     pos <- rank(abs(diffs)) * (diffs > 0)
     neg <- rank(abs(diffs)) * (diffs < 0)
+    pos <- pos[abs(diffs) > 0]
+    neg <- neg[abs(diffs) > 0]
+    
     yy <- drop(as.vector(t(cbind(pos, neg))))
-    xx <- factor(rep(c("pos", "neg"), length(diffs)))
+    xx <- factor(rep(c("pos", "neg"), sum(abs(diffs) > 0)))
+    block <- gl(sum(abs(diffs) > 0), 2)
+
 
     ip <- new("IndependenceProblem", x = data.frame(x = xx), 
               y = data.frame(y = yy), block = block)

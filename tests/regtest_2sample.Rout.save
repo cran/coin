@@ -1,5 +1,5 @@
 
-R version 2.7.1 (2008-06-23)
+R version 2.8.1 (2008-12-22)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -319,4 +319,11 @@ alternative hypothesis: true mu is greater than 0
 > stopifnot(isequal(ci$conf.int, c(10, 556) / c(68, 27)))
 > stopifnot(isequal(ci$estimate, mean(c(35/30, 370 / 290))))
 > 
+> ### ties handling
+> y1 <- c(14 , 18 , 2 , 4 , -5 , 14 , -3 , -1 , 1 , 6 , 3 , 3)
+> x1 <- c(8 , 26 , -7 , -1 , 2 , 9 , 0 , -4 , 13 , 3 , 3 , 4)
+> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
+[1] 0.4741211
+> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), ties = "Pratt"))
+[1] 0.4609375
 > 

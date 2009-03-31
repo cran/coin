@@ -17,7 +17,8 @@
               ...) 
 
 \method{wilcoxsign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{wilcoxsign_test}{IndependenceProblem}(object, ...)
+\method{wilcoxsign_test}{IndependenceProblem}(object, 
+              ties.method = c("HollanderWolfe", "Pratt"), ...)
 
 }
 \arguments{
@@ -40,6 +41,7 @@
     should be calculated or approximated. For the Wilcoxon signed rank test,
     \code{\link{exact}} computes the exact distribution by means of the Streitberg-R\"ohmel
     shift algorithm.}
+  \item{ties.method}{a character specifying the way ties are handled, see below.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -52,7 +54,12 @@
   For \code{wilcoxsign_test}, formulae of the form
   \code{y ~ x | block} and \code{y ~ x} are allowed. The latter is interpreted
   in the sense that \code{y} is the first and \code{x} the second
-  measurement on the same observation.
+  measurement on the same observation. By default, zero differences are discarded 
+  first and then rank the remaining absolute differences (as explained
+  in Hollander \& Wolfe, 1999). Alternatively, following Pratt (1959),
+  we rank the absolute differences (including zeros) first, then
+  discard the ranks corresponding to zero differences, but keep the
+  other ranks as they are.
 
 }
 \value{
@@ -66,6 +73,10 @@
     Myles Hollander \& Douglas A. Wolfe (1999). 
     \emph{Nonparametric Statistical Methods, 2nd Edition}.
     New York: John Wiley & Sons.
+
+    John W. Pratt (1959). Remarks on zeros and ties in the Wilcoxon 
+    signed rank procedures. \emph{Journal of the American Statistical Association},
+    \bold{54}(287), 655--667.
 
     Bernd Streitberg \& Joachim R\"ohmel (1986).
     Exact distributions for permutations and rank tests: 
