@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 1.0-5
+
+    o    documentation updates
+
+
 		CHANGES in `coin' VERSION 1.0-4
 
     o    evaluate all formulae in xxx_test's parent.frame

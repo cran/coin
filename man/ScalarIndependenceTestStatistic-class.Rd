@@ -11,7 +11,6 @@ Objects can be created by calls of the form \code{new("ScalarIndependenceTestSta
 \section{Slots}{
 	 \describe{
     \item{\code{alternative}:}{Object of class \code{"character"} ~~ }
-    \item{\code{estimates}:}{Object of class \code{"list"} ~~ }
     \item{\code{teststatistic}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{standardizedlinearstatistic}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{linearstatistic}:}{Object of class \code{"numeric"} ~~ }

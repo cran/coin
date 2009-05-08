@@ -959,7 +959,7 @@ adequate Lego bricks.
 \renewcommand{\baselinestretch}{1}
 %%\setlength{\bibsep}{2mm}
 
-\bibliographystyle{asa}
+\bibliographystyle{jss}
 \bibliography{LegoCondInf}
 
 \clearpage

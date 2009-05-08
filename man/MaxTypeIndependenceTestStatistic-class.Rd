@@ -13,7 +13,6 @@ Objects can be created by calls of the form \code{new("MaxTypeIndependenceTestSt
     \item{\code{alternative}:}{Object of class \code{"character"} ~~ }
     \item{\code{teststatistic}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{standardizedlinearstatistic}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{estimates}:}{Object of class \code{"list"} ~~ }
     \item{\code{linearstatistic}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{expectation}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{covariance}:}{Object of class \code{"VarCovar"} ~~ }
