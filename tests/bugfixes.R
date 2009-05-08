@@ -216,3 +216,9 @@ wilcox_test(Route.Time~Route,conf.int=TRUE)
 wilcox_test(Route.Time~Route2,conf.int=TRUE)
 wilcox_test(Route.Time~Route,conf.int=TRUE, distr = exact())
 wilcox_test(Route.Time~Route2,conf.int=TRUE, distr = exact())
+
+### evaluate all formulae in xxx_tests parent.frame
+### spotted by Matthieu Dubois <matthdub@gmail.com>
+y <- as.data.frame(matrix(rnorm(200), ncol=2))
+group <- gl(2, 50)
+lapply(y, function(var) wilcox_test(var ~ group))

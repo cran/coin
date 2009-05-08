@@ -982,7 +982,7 @@ underlying correlations between the two loci as well as between the three geneti
 
 \section{Illustration and Application}
 
-\begin{table}
+\begin{table}[t!]
 \begin{center}
 \caption{Psoriasis data \label{reich}}
 \vspace*{0.5cm}

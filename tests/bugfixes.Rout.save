@@ -1,6 +1,6 @@
 
-R version 2.8.1 (2008-12-22)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.9.0 (2009-04-17)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -368,5 +368,29 @@ alternative hypothesis: true mu is not equal to 0
 sample estimates:
 difference in location 
                    0.9 
+
+> 
+> ### evaluate all formulae in xxx_tests parent.frame
+> ### spotted by Matthieu Dubois <matthdub@gmail.com>
+> y <- as.data.frame(matrix(rnorm(200), ncol=2))
+> group <- gl(2, 50)
+> lapply(y, function(var) wilcox_test(var ~ group))
+$V1
+
+	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  var by group (1, 2) 
+Z = -0.3929, p-value = 0.6944
+alternative hypothesis: true mu is not equal to 0 
+
+
+$V2
+
+	Asymptotic Wilcoxon Mann-Whitney Rank Sum Test
+
+data:  var by group (1, 2) 
+Z = 0.7997, p-value = 0.4239
+alternative hypothesis: true mu is not equal to 0 
+
 
 > 

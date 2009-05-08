@@ -6,7 +6,8 @@ wilcox_test <- function(object, ...) UseMethod("wilcox_test")
 wilcox_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("wilcox_test", formula, data, subset, weights, ...)
+    ft("wilcox_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }
 
 wilcox_test.IndependenceProblem <- function(object,  
@@ -43,8 +44,8 @@ normal_test <- function(object, ...) UseMethod("normal_test")
 normal_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("normal_test", formula, data, subset, weights, ...)
-}   
+    ft("normal_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)}   
 
 normal_test.IndependenceProblem <- function(object,  
     ties.method = c("mid-ranks", "average-scores"),
@@ -82,8 +83,8 @@ median_test <- function(object, ...) UseMethod("median_test")
 median_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("median_test", formula, data, subset, weights, ...)
-}   
+    ft("median_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)}   
 
 median_test.IndependenceProblem <- function(object,     
     conf.int = FALSE, conf.level = 0.95, ...) {
@@ -118,7 +119,8 @@ ansari_test <- function(object, ...) UseMethod("ansari_test")
 ansari_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("ansari_test", formula, data, subset, weights, ...)
+    ft("ansari_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 ansari_test.IndependenceProblem <- function(object,
@@ -166,8 +168,8 @@ surv_test <- function(object, ...) UseMethod("surv_test")
 surv_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("surv_test", formula, data, subset, weights, ...)
-}
+    ft("surv_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)}
     
 surv_test.IndependenceProblem <- function(object,  
     ties.method = c("logrank", "HL", "average-scores"), ...) {
@@ -208,7 +210,8 @@ kruskal_test <- function(object, ...) UseMethod("kruskal_test")
 kruskal_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("kruskal_test", formula, data, subset, weights, ...)
+    ft("kruskal_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 kruskal_test.IndependenceProblem <- function(object,  
@@ -242,7 +245,8 @@ fligner_test <- function(object, ...) UseMethod("fligner_test")
 fligner_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("fligner_test", formula, data, subset, weights, ...)
+    ft("fligner_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 fligner_test.IndependenceProblem <- function(object,  
@@ -281,7 +285,8 @@ spearman_test <- function(object, ...) UseMethod("spearman_test")
 spearman_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("spearman_test", formula, data, subset, weights, ...)
+    ft("spearman_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 spearman_test.IndependenceProblem <- function(object, 
@@ -316,8 +321,9 @@ cmh_test <- function(object, ...) UseMethod("cmh_test")
 cmh_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("cmh_test", formula, data, subset, weights, ...)
-}   
+    ft("cmh_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
+}
 
 cmh_test.table <- function(object, 
     distribution = c("asymptotic", "approximate"), ...) {
@@ -360,7 +366,8 @@ chisq_test <- function(object, ...) UseMethod("chisq_test")
 chisq_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("chisq_test", formula, data, subset, weights, ...)
+    ft("chisq_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 chisq_test.table <- function(object, 
@@ -443,7 +450,8 @@ lbl_test <- function(object, ...) UseMethod("lbl_test")
 lbl_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("lbl_test", formula, data, subset, weights, ...)
+    ft("lbl_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }   
 
 lbl_test.table <- function(object, 
@@ -501,7 +509,8 @@ oneway_test <- function(object, ...) UseMethod("oneway_test")
 oneway_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("oneway_test", formula, data, subset, weights, ...)
+    ft("oneway_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }
 
 oneway_test.IndependenceProblem <- function(object, ...) {
@@ -528,7 +537,8 @@ contrast_test <- function(object, ...) UseMethod("contrast_test")
 contrast_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("contrast_test", formula, data, subset, weights, ...)
+    ft("contrast_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }
 
 contrast_test.IndependenceProblem <- function(object, 
@@ -563,7 +573,8 @@ maxstat_test <- function(object, ...) UseMethod("maxstat_test")
 maxstat_test.formula <- function(formula, data = list(), subset = NULL, 
     weights = NULL, ...) {
 
-    ft("maxstat_test", formula, data, subset, weights, ...)
+    ft("maxstat_test", formula, data, subset, weights, 
+       frame = parent.frame(), ...)
 }
 
 maxstat_test.IndependenceProblem <- function(object, 

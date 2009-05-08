@@ -18,6 +18,7 @@ singlestep <- function(object, ...) {
 ### algorithm 2.8 (Free Step-Down Resampling Method) in
 ### Westfall & Young (1993), page 66 _using standardized 
 ### statistics instead of p-values_!
+### <FIXME>
 sdmaxT <- function(pls, ts) {
 
     ### order of original statistics

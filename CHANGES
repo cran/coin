@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 1.0-4
+
+    o    evaluate all formulae in xxx_test's parent.frame
+
+
 		CHANGES in `coin' VERSION 1.0-3
 
     o    add alternative ties handling to wilcoxsign_test
