@@ -1,6 +1,6 @@
 
-R version 2.8.0 (2008-10-20)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.9.0 (2009-04-17)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,7 +20,7 @@ Type 'q()' to quit R.
 > ### * <HEADER>
 > ###
 > attach(NULL, name = "CheckExEnv")
-> assign("nameEx", 
+> assign("nameEx",
 +        local({
 + 	   s <- "__{must remake R-ex/*.R}__"
 +            function(new) {
@@ -42,7 +42,7 @@ Type 'q()' to quit R.
 +        pos = "CheckExEnv")
 > assign("grid_plot_hook",
 +        function() {
-+            grid::pushViewport(grid::viewport(width=grid::unit(1, "npc") - 
++            grid::pushViewport(grid::viewport(width=grid::unit(1, "npc") -
 +                               grid::unit(1, "lines"), x=0, just="left"))
 +            grid::grid.text(sprintf("help(\"%s\")", nameEx()),
 +                            x=grid::unit(1, "npc") + grid::unit(0.5, "lines"),
@@ -81,10 +81,10 @@ Type 'q()' to quit R.
 > ## Choose a size that is close to on-screen devices, fix paper
 > ps.options(width = 7, height = 7, paper = "a4", reset = TRUE)
 > grDevices::postscript("coin-Ex.ps")
-> 		      
+> 
 > assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
 > options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
-> options(warn = 1)    
+> options(warn = 1)
 > library('coin')
 Loading required package: survival
 Loading required package: splines
@@ -864,7 +864,7 @@ alternative hypothesis: two.sided
 	Exact Logrank Test
 
 data:  Surv(time, event) by group (control, newdrug) 
-Z = -2.9492, p-value = 0.0004995
+Z = -2.9492, p-value = 0.000999
 alternative hypothesis: two.sided 
 
 > 
@@ -1388,6 +1388,25 @@ attr(,"conf.level")
 +        legend.text = c("Control", "Treated"),
 +        legend.bty = 1, ylab = "Probability", 
 +        xlab = "Survival Time in Month")
+Warning in plot.window(...) :
+  "legend.text" is not a graphical parameter
+Warning in plot.window(...) : "legend.bty" is not a graphical parameter
+Warning in plot.xy(xy, type, ...) :
+  "legend.text" is not a graphical parameter
+Warning in plot.xy(xy, type, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.text" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.text" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in box(...) : "legend.text" is not a graphical parameter
+Warning in box(...) : "legend.bty" is not a graphical parameter
+Warning in title(...) : "legend.text" is not a graphical parameter
+Warning in title(...) : "legend.bty" is not a graphical parameter
 > 
 >   ### logrank test
 >   surv_test(Surv(time, event) ~ group, data = g3, 
@@ -1409,6 +1428,34 @@ alternative hypothesis: two.sided
 +        legend.text = c("Control", "Treated"),
 +        legend.bty = 1, legend.pos = 1, ylab = "Probability", 
 +        xlab = "Survival Time in Month")
+Warning in plot.window(...) :
+  "legend.text" is not a graphical parameter
+Warning in plot.window(...) : "legend.bty" is not a graphical parameter
+Warning in plot.window(...) : "legend.pos" is not a graphical parameter
+Warning in plot.xy(xy, type, ...) :
+  "legend.text" is not a graphical parameter
+Warning in plot.xy(xy, type, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in plot.xy(xy, type, ...) :
+  "legend.pos" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.text" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.pos" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.text" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.bty" is not a graphical parameter
+Warning in axis(side = side, at = at, labels = labels, ...) :
+  "legend.pos" is not a graphical parameter
+Warning in box(...) : "legend.text" is not a graphical parameter
+Warning in box(...) : "legend.bty" is not a graphical parameter
+Warning in box(...) : "legend.pos" is not a graphical parameter
+Warning in title(...) : "legend.text" is not a graphical parameter
+Warning in title(...) : "legend.bty" is not a graphical parameter
+Warning in title(...) : "legend.pos" is not a graphical parameter
 >    
 >   ### logrank test
 >   surv_test(Surv(time, event) ~ group, data = gbm, 
@@ -1816,7 +1863,7 @@ alternative hypothesis: true mu is not equal to 0
 	Asymptotic Maxstat Test
 
 data:  Surv(RFS, event) by SPF 
-maxT = 2.3966, p-value = 0.1588
+maxT = 2.3966, p-value = 0.1591
 sample estimates:
 $cutpoint
 [1] 107
@@ -1935,7 +1982,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.038 0.496 34.639 0 0 
+Time elapsed:  34.442 0.472 34.964 0 0 
 > grDevices::dev.off()
 null device 
           1 

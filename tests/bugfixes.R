@@ -222,3 +222,12 @@ wilcox_test(Route.Time~Route2,conf.int=TRUE, distr = exact())
 y <- as.data.frame(matrix(rnorm(200), ncol=2))
 group <- gl(2, 50)
 lapply(y, function(var) wilcox_test(var ~ group))
+
+### make sure a parallel design with 
+### n = 2 isn't confused with a block design
+### spotted by Fritz Scholz <fscholz@u.washington.edu>
+dat <- data.frame(y = c(1, 2), g = gl(2, 1))
+wt <- wilcox_test(y ~ g, data = dat, distribution = exact())
+s <- support(wt)
+stopifnot(all(dperm(wt, s) == c(0.5, 0.5)))
+

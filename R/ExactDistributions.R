@@ -16,7 +16,7 @@ SR_shift_2sample <- function(object, fact = NULL) {
     RET <- new("ExactNullDistribution")
 
     ### this is indeed the one sample case
-    if (all(tabulate(object@block) == 2)) {
+    if (all(tabulate(object@block) == 2) && nlevels(object@block) > 1) {
         scores <- object@ytrans[, 1]
         ### search for equivalent integer scores with sum(scores) minimal
         if (is.null(fact)) {

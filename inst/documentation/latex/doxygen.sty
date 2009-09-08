@@ -10,8 +10,8 @@
         {\fancyplain{}{\bfseries\rightmark}}
 \rhead[\fancyplain{}{\bfseries\leftmark}]
         {\fancyplain{}{\bfseries\thepage}}
-\rfoot[\fancyplain{}{\bfseries\scriptsize Generated on Thu Nov 6 10:41:18 2008 for coin by Doxygen }]{}
-\lfoot[]{\fancyplain{}{\bfseries\scriptsize Generated on Thu Nov 6 10:41:18 2008 for coin by Doxygen }}
+\rfoot[\fancyplain{}{\bfseries\scriptsize Generated on Tue Sep 8 15:59:42 2009 for coin by Doxygen }]{}
+\lfoot[]{\fancyplain{}{\bfseries\scriptsize Generated on Tue Sep 8 15:59:42 2009 for coin by Doxygen }}
 \cfoot{}
 \newenvironment{Code}
 {\footnotesize}
@@ -76,3 +76,11 @@
 \addtocounter{secnumdepth}{1}
 \sloppy
 \usepackage[T1]{fontenc}
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{0ex}%
+   {-3.25ex plus -1ex minus -0.2ex}%
+   {1.5ex plus 0.2ex}%
+   {\normalfont\normalsize\bfseries}}
+\makeatother
+\stepcounter{secnumdepth}
+\stepcounter{tocdepth}
