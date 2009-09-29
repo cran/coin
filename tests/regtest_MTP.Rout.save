@@ -1,6 +1,6 @@
 
-R version 2.7.1 (2008-06-23)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.9.0 (2009-04-17)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -134,9 +134,6 @@ Control 0.05407491  1 0.1348184 0.9907555
 
 > pperm(mt, 1)
 [1] 0.04
-99 percent confidence interval:
- 0.02576015 0.05878644 
-
 > qperm(mt, 0.9)
 [1] 2.408471
 > dperm(mt, qperm(mt, 0.9))
@@ -276,9 +273,6 @@ Control 0.05407491  1 0.1348184 0.9907555
 
 > pperm(mt, 1)
 [1] 0.401
-99 percent confidence interval:
- 0.3611337 0.4418221 
-
 > qperm(mt, 0.9)
 [1] 2.164768
 > dperm(mt, qperm(mt, 0.9))
@@ -472,9 +466,6 @@ Control 0.05407491  1 0.1348184 0.9907555
 
 > pperm(mt, 1)
 [1] 0.003
-99 percent confidence interval:
- 0.0003381445 0.0109337774 
-
 > qperm(mt, 0.9)
 [1] -0.08613042
 > dperm(mt, qperm(mt, 0.9))

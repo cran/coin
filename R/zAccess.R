@@ -43,6 +43,13 @@ setGeneric("pperm", function(object, q, ...)
 setMethod(f = "pperm",
           signature = "NullDistribution",
           definition = function(object, q, ...) {
+              sapply(q, object@p)
+          }
+)
+
+setMethod(f = "pperm",
+          signature = "AsymptNullDistribution",
+          definition = function(object, q, ...) {
               object@p(q)
           }
 )
@@ -62,6 +69,13 @@ setGeneric("qperm", function(object, p, ...)
 setMethod(f = "qperm",
           signature = "NullDistribution",
           definition = function(object, p, ...) {
+              sapply(p, object@q)
+          }
+)
+
+setMethod(f = "qperm",
+          signature = "AsymptNullDistribution",
+          definition = function(object, p, ...) {
               object@q(p)
           }
 )
@@ -80,9 +94,17 @@ setGeneric("dperm", function(object, x, ...)
 setMethod(f = "dperm",
           signature = "NullDistribution",
           definition = function(object, x, ...) {
+              sapply(x, object@d)
+          }
+)
+
+setMethod(f = "dperm",
+          signature = "AsymptNullDistribution",
+          definition = function(object, x, ...) {
               object@d(x)
           }
 )
+
 
 setMethod(f = "dperm",
           signature = "IndependenceTest",

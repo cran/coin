@@ -3,14 +3,17 @@
 \alias{pperm}
 \alias{pperm-methods}
 \alias{pperm,NullDistribution-method}
+\alias{pperm,AsymptNullDistribution-method}
 \alias{pperm,IndependenceTest-method}
 \alias{qperm}
 \alias{qperm-methods}
 \alias{qperm,NullDistribution-method}
+\alias{qperm,AsymptNullDistribution-method}
 \alias{qperm,IndependenceTest-method}
 \alias{dperm}
 \alias{dperm-methods}
 \alias{dperm,NullDistribution-method}
+\alias{dperm,AsymptNullDistribution-method}
 \alias{dperm,IndependenceTest-method}
 \alias{support}
 \alias{support-methods}
@@ -32,9 +35,9 @@ support(object, ...)
 \arguments{
   \item{object}{an object inheriting from class
     \code{\link{IndependenceTest-class}}.}
-  \item{x}{value of a standardized statistic.}
-  \item{q}{value of a standardized statistic.}
-  \item{p}{a probability.}
+  \item{x}{vector of a standardized statistics.}
+  \item{q}{vector of a standardized statistics.}
+  \item{p}{vector of probabilities.}
   \item{\dots}{further arguments to be passed to methods.}
 }
 \section{Methods}{

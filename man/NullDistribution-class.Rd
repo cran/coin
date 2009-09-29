@@ -15,7 +15,7 @@ Objects can be created by calls of the form \code{new("NullDistribution", ...)}.
     \item{\code{parameters}:}{list of additional parameters }
     \item{\code{pvalue}:}{p value function }
     \item{\code{p}:}{distribution function }
-    \item{\code{name}:}{character, name of the distribtion }
+    \item{\code{name}:}{character, name of the distribution }
   }
 }
 \section{Extends}{

@@ -28,7 +28,7 @@
     optional factor for stratification.}
   \item{data}{an optional data frame containing the variables in the
     model formula. Alternatively, an object of class
-    \code{\link[Biobase]{exprSet}} may be specified. In this case,
+    \code{\linkS4class{exprSet}} may be specified. In this case,
     all variables in \code{formula}, except \code{.}, 
     are first evaluated in the \code{pData} data frame. The dot (\code{.}) 
     refers to the matrix of expression levels (\code{exprs} slot).}

@@ -1,4 +1,10 @@
 
+		CHANGES in `coin' VERSION 1.0-7
+
+    o    dperm, pperm and qperm are vectorized also
+         for exact and approximate null distributions
+
+
 		CHANGES in `coin' VERSION 1.0-6
 
     o    exact distribution for independent two-sample

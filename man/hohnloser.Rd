@@ -15,7 +15,7 @@ data("hohnloser")
 \describe{
 \item{\code{EF}}{left ventricular ejection in percent}
 \item{\code{time}}{recurrence-free month}
-\item{\code{event}}{censoring: 0 cencored, 1 not censored}
+\item{\code{event}}{censoring: 0 censored, 1 not censored}
 }
 The data used here is published in Table 1 of Lausen and Schumacher (1992).
 }
