@@ -1,4 +1,12 @@
 
+		CHANGES in `coin' VERSION 1.0-9
+
+
+    o    again precision problems in van de Wiel algorithm:
+         `qperm' suffered from too large tolerances of the
+         inverted probability function.
+
+
 		CHANGES in `coin' VERSION 1.0-8
 
     o    precision problems in van de Wiel algorithm

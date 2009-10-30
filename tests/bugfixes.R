@@ -242,3 +242,19 @@ pa <- pperm(wta, support(wta))
 stopifnot(max(abs(cumsum(da) - pa)) < .Machine$double.eps)
 qperm(wte, seq(from = 0.1, to = 0.9, by = 0.1))
 qperm(wta, seq(from = 0.1, to = 0.9, by = 0.1))
+
+### split-up and confint (spotted by Fritz Scholz <fscholz@u.washington.edu>)
+iseed <- 25
+n <- m <- 4
+conf.level <- 0.98
+alternative <- "greater"
+set.seed(iseed)
+x <- round(rnorm(m), 2)
+y <- round(rnorm(n, 2), 2)
+score.factor <- factor(c(rep("Y",n),rep("X",m)),
+                       levels = c("Y","X"))
+dat.fr <- data.frame(scores=c(y,x), fac = score.factor)
+it <- normal_test(scores ~ fac, data = dat.fr,
+    conf.int = TRUE, conf.level = conf.level,
+    alternative = alternative, dist = exact())
+confint(it)

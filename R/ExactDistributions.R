@@ -158,9 +158,11 @@ vdW_split_up_2sample <- function(object) {
     RET@q <- function(p) {
         f <- function(x) RET@p(x) - p
         if (p <= 0.5)
-            uniroot(f, interval = c(-10, 0))$root
+            uniroot(f, interval = c(-10, 0), 
+                    tol = sqrt(.Machine$double.eps))$root
         else
-            uniroot(f, interval = c(0, 10))$root
+            uniroot(f, interval = c(0, 10),
+                    tol = sqrt(.Machine$double.eps))$root
     }
     RET@d <- function(x) NA
 

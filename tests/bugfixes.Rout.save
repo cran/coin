@@ -418,3 +418,25 @@ alternative hypothesis: true mu is not equal to 0
 [1] -1.3125012 -0.8559791 -0.5135874 -0.2282611  0.0000000  0.2282611  0.5135874
 [8]  0.7989138  1.2554359
 > 
+> ### split-up and confint (spotted by Fritz Scholz <fscholz@u.washington.edu>)
+> iseed <- 25
+> n <- m <- 4
+> conf.level <- 0.98
+> alternative <- "greater"
+> set.seed(iseed)
+> x <- round(rnorm(m), 2)
+> y <- round(rnorm(n, 2), 2)
+> score.factor <- factor(c(rep("Y",n),rep("X",m)),
++                        levels = c("Y","X"))
+> dat.fr <- data.frame(scores=c(y,x), fac = score.factor)
+> it <- normal_test(scores ~ fac, data = dat.fr,
++     conf.int = TRUE, conf.level = conf.level,
++     alternative = alternative, dist = exact())
+> confint(it)
+98 percent confidence interval:
+ 0.71  Inf 
+sample estimates:
+difference in location 
+                  2.59 
+
+> 

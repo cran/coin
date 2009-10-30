@@ -171,8 +171,11 @@
   ### and variance
   covariance(wt)
 
-  ### and, finally, the exact two-sided p-value
+  ### and the exact two-sided p-value
   pvalue(wt)
+
+  ##d and, finally, the confidence interval
+  confint(wt)
 
   ### Confidence interval for difference (12-26 Weeks - At term)
   wilcox_test(pd ~ age, data = water_transfer, 
