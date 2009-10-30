@@ -1,6 +1,6 @@
 
-R version 2.7.1 (2008-06-23)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.10.0 (2009-10-26)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -34,11 +34,11 @@ Loading required package: stats4
 > 
 > ### not really the same, T = (rank(x) - rank(y))^2 is used here
 > cor.test(~ x + y, data = dat, method = "spearman")$p.value
-[1] 0.84738
+[1] 0.8474266
 > cor.test(~ x + y, data = dat, alternative = "less", method = "spearman")$p.value
 [1] 0.5763332
 > cor.test(~ x + y, data = dat, alternative = "greater", method = "spearman")$p.value
-[1] 0.42369
+[1] 0.4237133
 > 
 > ### without blocks
 > pvalue(spearman_test(y ~ x, data = dat))
@@ -64,7 +64,7 @@ Loading required package: stats4
 > dat <- data.frame(x = gl(2, 50), y = rnorm(100), block = rnorm(100))
 > try(spearman_test(y ~ x, data = dat))
 Error in check(itp) : 
-  ‘object’ does not represent a univariate correlation problem
+  'object' does not represent a univariate correlation problem
 > try(spearman_test(y ~ x | block, data = dat))
-Error in .local(.Object, ...) : ‘block’ is not a factor
+Error in .local(.Object, ...) : 'block' is not a factor
 > 

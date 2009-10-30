@@ -1,4 +1,4 @@
-.TH "vandeWiel.c" 3 "8 Sep 2009" "coin" \" -*- nroff -*-
+.TH "vandeWiel.c" 3 "30 Oct 2009" "coin" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -39,28 +39,28 @@ vandeWiel.c \-
 .RI "void \fBmult\fP (\fBcelW\fP *tem, int a, int b, int rank, double *rs)"
 .br
 .ti -1c
-.RI "void \fBplus\fP (\fBcelW\fP **W, \fBcelW\fP *tempie, int a, int b)"
+.RI "void \fBplus\fP (\fBcelW\fP **W, \fBcelW\fP *tempie, int a, int b, double tol)"
 .br
 .ti -1c
 .RI "void \fBmymergesort\fP (\fBcelW\fP temptw, long tijd)"
 .br
 .ti -1c
-.RI "void \fBfillcell\fP (\fBcelW\fP **W, int i1, int j1, int r, double *rs)"
+.RI "void \fBfillcell\fP (\fBcelW\fP **W, int i1, int j1, int r, double *rs, double tol)"
 .br
 .ti -1c
 .RI "void \fBmirrorW\fP (\fBcelW\fP **W, int ce, int bep, int start, double *rs)"
 .br
 .ti -1c
-.RI "void \fBmakeW\fP (\fBcelW\fP **W, int a, int b, int start, double *rs)"
+.RI "void \fBmakeW\fP (\fBcelW\fP **W, int a, int b, int start, double *rs, double tol)"
 .br
 .ti -1c
 .RI "void \fBcumulcoef\fP (\fBcelW\fP **W, int i1, int j1)"
 .br
 .ti -1c
-.RI "double \fBnumbersmall\fP (int c, int b, double ob, \fBcelW\fP **W1, \fBcelW\fP **W2)"
+.RI "double \fBnumbersmall\fP (int c, int b, double ob, \fBcelW\fP **W1, \fBcelW\fP **W2, double tol)"
 .br
 .ti -1c
-.RI "SEXP \fBR_split_up_2sample\fP (SEXP scores, SEXP m, SEXP obs)"
+.RI "SEXP \fBR_split_up_2sample\fP (SEXP scores, SEXP m, SEXP obs, SEXP tol)"
 .br
 .in -1c
 .SH "Detailed Description"
@@ -102,7 +102,7 @@ Definition at line 316 of file vandeWiel.c.
 References celW::c, and celW::length.
 .PP
 Referenced by R_split_up_2sample().
-.SS "void fillcell (\fBcelW\fP ** W, int i1, int j1, int r, double * rs)"
+.SS "void fillcell (\fBcelW\fP ** W, int i1, int j1, int r, double * rs, double tol)"
 .PP
 Definition at line 211 of file vandeWiel.c.
 .PP
@@ -121,7 +121,7 @@ Definition at line 91 of file vandeWiel.c.
 References celW::c, celW::length, and celW::x.
 .PP
 Referenced by R_split_up_2sample().
-.SS "void makeW (\fBcelW\fP ** W, int a, int b, int start, double * rs)"
+.SS "void makeW (\fBcelW\fP ** W, int a, int b, int start, double * rs, double tol)"
 .PP
 Definition at line 281 of file vandeWiel.c.
 .PP
@@ -149,23 +149,23 @@ Definition at line 159 of file vandeWiel.c.
 References celW::c, celW::length, and celW::x.
 .PP
 Referenced by fillcell().
-.SS "double numbersmall (int c, int b, double ob, \fBcelW\fP ** W1, \fBcelW\fP ** W2)"
+.SS "double numbersmall (int c, int b, double ob, \fBcelW\fP ** W1, \fBcelW\fP ** W2, double tol)"
 .PP
 Definition at line 335 of file vandeWiel.c.
 .PP
-References celW::c, and celW::length.
+References celW::c, celW::length, and celW::x.
 .PP
 Referenced by R_split_up_2sample().
-.SS "void plus (\fBcelW\fP ** W, \fBcelW\fP * tempie, int a, int b)"
+.SS "void plus (\fBcelW\fP ** W, \fBcelW\fP * tempie, int a, int b, double tol)"
 .PP
 Definition at line 120 of file vandeWiel.c.
 .PP
 References celW::c, celW::length, and celW::x.
 .PP
 Referenced by fillcell().
-.SS "SEXP R_split_up_2sample (SEXP scores, SEXP m, SEXP obs)"
+.SS "SEXP R_split_up_2sample (SEXP scores, SEXP m, SEXP obs, SEXP tol)"
 .PP
-Definition at line 375 of file vandeWiel.c.
+Definition at line 377 of file vandeWiel.c.
 .PP
 References binomi(), cumulcoef(), FreeW(), initW(), makeW(), numbersmall(), and reserveW().
 .SS "\fBcelW\fP** reserveW (int a, int b)"

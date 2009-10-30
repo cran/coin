@@ -1,6 +1,6 @@
 
-R version 2.8.1 (2008-12-22)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.10.0 (2009-10-26)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -133,9 +133,9 @@ Loading required package: stats4
 > 
 > ### sanity checks
 > try(wilcox_test(x ~ y, data = dat))
-Error in check(itp) : ‘object’ does not represent a two sample problem
+Error in check(itp) : 'object' does not represent a two sample problem
 > try(wilcox_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : ‘block’ is not a factor
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### Ansari-Bradley Test 
 > 
@@ -206,9 +206,9 @@ Error in .local(.Object, ...) : ‘block’ is not a factor
 > 
 > ### sanity checks
 > try(ansari_test(x ~ y, data = dat))
-Error in check(itp) : ‘object’ does not represent a two sample problem
+Error in check(itp) : 'object' does not represent a two sample problem
 > try(ansari_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : ‘block’ is not a factor
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### the remaining three candidates
 > ### asymptotic distribution

@@ -1,5 +1,5 @@
 
-R version 2.9.0 (2009-04-17)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -79,7 +79,7 @@ Type 'q()' to quit R.
 > ## before loading the package.
 > ## Use postscript as incomplete files may be viewable, unlike PDF.
 > ## Choose a size that is close to on-screen devices, fix paper
-> ps.options(width = 7, height = 7, paper = "a4", reset = TRUE)
+> grDevices::ps.options(width = 7, height = 7, paper = "a4", reset = TRUE)
 > grDevices::postscript("coin-Ex.ps")
 > 
 > assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
@@ -280,6 +280,7 @@ Z = 1.4269, p-value = 0.07809
 alternative hypothesis: true mu is greater than 0 
 
 > 
+> 
 >   ### if you are interested in the internals:
 >   ## Not run: 
 > ##D       browseURL(system.file("documentation", "html", "index.html", 
@@ -403,6 +404,7 @@ alternative hypothesis: true mu is not equal to 0
 >   p <- sapply(s, function(x) pperm(pt, x))
 >   plot(s, d, type = "S", xlab = "Teststatistic", ylab = "Density")
 >   plot(s, p, type = "S", xlab = "Teststatistic", ylab = "Cumm. Probability")
+> 
 > 
 >   ### Length of YOY Gizzard Shad from Kokosing Lake, Ohio,
 >   ### sampled in Summer 1984, Hollander & Wolfe (1999), Table 6.3, page 200
@@ -702,6 +704,7 @@ data:  serum by method (Ramsay, Jung-Parekh)
 Z = -1.3363, p-value = 0.1881
 alternative hypothesis: true mu is not equal to 1 
 
+> 
 > 
 >   ### Platelet Counts of Newborn Infants
 >   ### Hollander & Wolfe (1999), Table 5.4, page 171
@@ -1696,7 +1699,7 @@ alternative hypothesis: true mu is less than 0
 > 
 >   ### p-value
 >   pvalue(lrt)
-[1] 0.01819756
+[1] 0.01819758
 > 
 > 
 > 
@@ -1985,7 +1988,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.542 0.376 34.951 0 0 
+Time elapsed:  34.758 0.232 35.057 0 0 
 > grDevices::dev.off()
 null device 
           1 

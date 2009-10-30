@@ -117,7 +117,7 @@ void mult(celW *tem, int a, int b, int rank, double *rs) {
         tem[0].x[j] += rs[rank];
 }
 
-void plus(celW **W, celW *tempie, int a, int b) {
+void plus(celW **W, celW *tempie, int a, int b, double tol) {
 
     /*
 
@@ -137,8 +137,8 @@ void plus(celW **W, celW *tempie, int a, int b) {
         
         for (j = elep; j < tempie[0].length && test==1; j++) {
         
-            if (tempie[0].x[j] - 0.000001 <= W[a][b-1].x[i]
-                && W[a][b-1].x[i] <= tempie[0].x[j] + 0.000001) {
+            if (tempie[0].x[j] - tol <= W[a][b-1].x[i]
+                && W[a][b-1].x[i] <= tempie[0].x[j] + tol) {
 
                 tempie[0].c[j] += W[a][b-1].c[i];
                 test = 0;
@@ -208,7 +208,7 @@ void mymergesort(celW temptw, long tijd)
     Free(copiep.x);
 }
 
-void fillcell(celW **W, int i1, int j1, int r, double *rs) {
+void fillcell(celW **W, int i1, int j1, int r, double *rs, double tol) {
     
     /*
 
@@ -239,7 +239,7 @@ void fillcell(celW **W, int i1, int j1, int r, double *rs) {
     } else {           
         mult(&temp2, i1 - 1, j1 - 1, r, rs);                        
         tijd = temp2.length;                                
-        plus(W, &temp2, i1, j1);                            
+        plus(W, &temp2, i1, j1, tol);                            
         mymergesort(temp2, tijd);                              
     }
 
@@ -278,7 +278,7 @@ void mirrorW(celW **W,int ce, int bep, int start, double *rs) {
     }
 }
 
-void makeW(celW **W, int a, int b, int start, double *rs) {
+void makeW(celW **W, int a, int b, int start, double *rs, double tol) {
 
 
     /* 
@@ -304,7 +304,7 @@ void makeW(celW **W, int a, int b, int start, double *rs) {
         for (i=1; i <= hulp; i++) {   
             if (i <= j/2 || j == 1) {
                 rank = start+j;
-                fillcell(W, i, j, rank - 1, rs);
+                fillcell(W, i, j, rank - 1, rs, tol);
             } else {
                 mirrorW(W, i, j, start, rs);
             }                               
@@ -332,7 +332,7 @@ void cumulcoef(celW **W, int i1, int j1) {
     }
 }
 
-double numbersmall(int c, int b, double ob, celW **W1, celW **W2) {
+double numbersmall(int c, int b, double ob, celW **W1, celW **W2, double tol) {
 
 
     /*
@@ -352,6 +352,7 @@ double numbersmall(int c, int b, double ob, celW **W1, celW **W2) {
     int bp = (b+1)/2;
     int tempel = 0;
     int i, j, h;
+    double th;
     
     for (h = 0; h <= c; h++) {
 
@@ -361,18 +362,19 @@ double numbersmall(int c, int b, double ob, celW **W1, celW **W2) {
         for (i = 0; i < W1[h][be].length; i++) {
             test = 1;
             for (j = tempel; j < le && test == 1; j++) {
-                if (W1[h][be].x[i] + W2[c-h][bp].x[le-j-1] <= ob) {
+                th = W1[h][be].x[i] + W2[c-h][bp].x[le-j-1];
+                if (th < ob | th - ob < tol) {
                     tot += W1[h][be].c[i] * W2[c - h][bp].c[le - j -1];
                     tempel = j;
                     test = 0;
-                }
+                } 
             }
         }
     }
     return(tot);
 }
        
-SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs) {
+SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
 	
     /*
 
@@ -409,13 +411,13 @@ SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs) {
     W2 = reserveW(c, (b+1)/2);
     initW(c, (b+1)/2, W2);
     
-    makeW(W1, c, b/2, 0, rs);  
-    makeW(W2, c, (b+1)/2, b/2, rs);
+    makeW(W1, c, b/2, 0, rs, REAL(tol)[0]);  
+    makeW(W2, c, (b+1)/2, b/2, rs, REAL(tol)[0]);
 
     for (u = 0; u <= c; u++) cumulcoef(W2, u, (b+1)/2);
 
     /* number of permutations <= ob */
-    tot = numbersmall(c, b, ob, W1, W2);
+    tot = numbersmall(c, b, ob, W1, W2, REAL(tol)[0]);
     
     /* probability */
     prob = tot/bino; 

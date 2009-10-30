@@ -148,10 +148,11 @@ vdW_split_up_2sample <- function(object) {
     storage.mode(scores) <- "double"
     m <- sum(object@xtrans)
     storage.mode(m) <- "integer"
+    tol <- sqrt(.Machine$double.eps)
 
     RET@p <- function(q) {
         obs <- q * sqrt(variance(object)) + expectation(object)
-        .Call("R_split_up_2sample", scores, m, obs, PACKAGE = "coin")
+        .Call("R_split_up_2sample", scores, m, obs, tol, PACKAGE = "coin")
     }
 
     RET@q <- function(p) {
@@ -166,13 +167,13 @@ vdW_split_up_2sample <- function(object) {
     RET@pvalue <- function(q) {
         switch(object@alternative, 
             "less"      = RET@p(q),
-            "greater"   = 1 - RET@p(q - 1e-10),
+            "greater"   = 1 - RET@p(q - 10 * tol),
             "two.sided" = {
                 if (q == 0) return(1)
                 if (q > 0)
-                    return(RET@p(-q) + (1 - RET@p(q - 1e-10)))
+                    return(RET@p(-q) + (1 - RET@p(q - 10 * tol)))
                 else
-                    return(RET@p(q) + (1 - RET@p(- q - 1e-10)))
+                    return(RET@p(q) + (1 - RET@p(- q - 10 * tol)))
             }
         )
     }

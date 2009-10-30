@@ -1,6 +1,6 @@
 
-R version 2.7.1 (2008-06-23)
-Copyright (C) 2008 The R Foundation for Statistical Computing
+R version 2.10.0 (2009-10-26)
+Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -52,9 +52,9 @@ Loading required package: stats4
 > 
 > ### sanity checks
 > try(kruskal_test(x ~ y, data = dat))
-Error in check(itp) : ‘object’ does not represent a K sample problem
+Error in check(itp) : 'object' does not represent a K sample problem
 > try(kruskal_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : ‘block’ is not a factor
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### Fligner Test 
 > 
@@ -79,6 +79,6 @@ Error in .local(.Object, ...) : ‘block’ is not a factor
 > try(fligner_test(x ~ y, data = dat)) 
 Error in median.default(X[[1L]], ...) : need numeric data
 > try(fligner_test(x ~ y | y, data = dat))
-Error in .local(.Object, ...) : ‘block’ is not a factor
+Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > 

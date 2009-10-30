@@ -32,21 +32,21 @@ void \hyperlink{vandeWiel_8c_402c3e72a2fa3d600d4a4e8ace9f040b}{initW} (int a, in
 \item 
 void \hyperlink{vandeWiel_8c_e1d7e7e209f5b99745c8bca03057f761}{mult} (\hyperlink{structcelW}{celW} $\ast$tem, int a, int b, int rank, double $\ast$rs)
 \item 
-void \hyperlink{vandeWiel_8c_965c6db84dd8be42e1313d8c3ef9a784}{plus} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, \hyperlink{structcelW}{celW} $\ast$tempie, int a, int b)
+void \hyperlink{vandeWiel_8c_1ab2513e2af31152aeacffb5c770c7f9}{plus} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, \hyperlink{structcelW}{celW} $\ast$tempie, int a, int b, double tol)
 \item 
 void \hyperlink{vandeWiel_8c_2f117e88849518e50d7d0eef3af07bf0}{mymergesort} (\hyperlink{structcelW}{celW} temptw, long tijd)
 \item 
-void \hyperlink{vandeWiel_8c_59f513c0ee260be89ad37daacf49e7e8}{fillcell} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int i1, int j1, int r, double $\ast$rs)
+void \hyperlink{vandeWiel_8c_6bee1e9d657a3174d5a2ecafac2b1d6e}{fillcell} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int i1, int j1, int r, double $\ast$rs, double tol)
 \item 
 void \hyperlink{vandeWiel_8c_d0195ffa22342dfadee0abeb564931dc}{mirrorW} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int ce, int bep, int start, double $\ast$rs)
 \item 
-void \hyperlink{vandeWiel_8c_fb521caca26031c6fa9e92450685f5d1}{makeW} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int a, int b, int start, double $\ast$rs)
+void \hyperlink{vandeWiel_8c_b36f32483d67f870c4dca34aac14f5b9}{makeW} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int a, int b, int start, double $\ast$rs, double tol)
 \item 
 void \hyperlink{vandeWiel_8c_76539410f65d0d4c5105bacf1b32f093}{cumulcoef} (\hyperlink{structcelW}{celW} $\ast$$\ast$W, int i1, int j1)
 \item 
-double \hyperlink{vandeWiel_8c_14307006f6d9ec07bdfce7e853665bc5}{numbersmall} (int c, int b, double ob, \hyperlink{structcelW}{celW} $\ast$$\ast$W1, \hyperlink{structcelW}{celW} $\ast$$\ast$W2)
+double \hyperlink{vandeWiel_8c_69a4013a15a104d5a415806f79e189bd}{numbersmall} (int c, int b, double ob, \hyperlink{structcelW}{celW} $\ast$$\ast$W1, \hyperlink{structcelW}{celW} $\ast$$\ast$W2, double tol)
 \item 
-SEXP \hyperlink{vandeWiel_8c_a50657b564a35ab41b3e3e50e62c51b1}{R\_\-split\_\-up\_\-2sample} (SEXP scores, SEXP m, SEXP obs)
+SEXP \hyperlink{vandeWiel_8c_18f96560e9861316db1121e8fe69ef07}{R\_\-split\_\-up\_\-2sample} (SEXP scores, SEXP m, SEXP obs, SEXP tol)
 \end{CompactItemize}
 
 
@@ -92,11 +92,11 @@ Definition at line 316 of file vandeWiel.c.
 
 References celW::c, and celW::length.
 
-Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_59f513c0ee260be89ad37daacf49e7e8}{
+Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_6bee1e9d657a3174d5a2ecafac2b1d6e}{
 \index{vandeWiel.c@{vandeWiel.c}!fillcell@{fillcell}}
 \index{fillcell@{fillcell}!vandeWiel.c@{vandeWiel.c}}
-\subsubsection[{fillcell}]{\setlength{\rightskip}{0pt plus 5cm}void fillcell ({\bf celW} $\ast$$\ast$ {\em W}, \/  int {\em i1}, \/  int {\em j1}, \/  int {\em r}, \/  double $\ast$ {\em rs})}}
-\label{vandeWiel_8c_59f513c0ee260be89ad37daacf49e7e8}
+\subsubsection[{fillcell}]{\setlength{\rightskip}{0pt plus 5cm}void fillcell ({\bf celW} $\ast$$\ast$ {\em W}, \/  int {\em i1}, \/  int {\em j1}, \/  int {\em r}, \/  double $\ast$ {\em rs}, \/  double {\em tol})}}
+\label{vandeWiel_8c_6bee1e9d657a3174d5a2ecafac2b1d6e}
 
 
 
@@ -111,7 +111,7 @@ Here is the call graph for this function:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=98pt]{vandeWiel_8c_59f513c0ee260be89ad37daacf49e7e8_cgraph}
+\includegraphics[width=98pt]{vandeWiel_8c_6bee1e9d657a3174d5a2ecafac2b1d6e_cgraph}
 \end{center}
 \end{figure}
 \hypertarget{vandeWiel_8c_f72cc4501998ae01067d5555382b1609}{
@@ -138,11 +138,11 @@ Definition at line 91 of file vandeWiel.c.
 
 References celW::c, celW::length, and celW::x.
 
-Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_fb521caca26031c6fa9e92450685f5d1}{
+Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_b36f32483d67f870c4dca34aac14f5b9}{
 \index{vandeWiel.c@{vandeWiel.c}!makeW@{makeW}}
 \index{makeW@{makeW}!vandeWiel.c@{vandeWiel.c}}
-\subsubsection[{makeW}]{\setlength{\rightskip}{0pt plus 5cm}void makeW ({\bf celW} $\ast$$\ast$ {\em W}, \/  int {\em a}, \/  int {\em b}, \/  int {\em start}, \/  double $\ast$ {\em rs})}}
-\label{vandeWiel_8c_fb521caca26031c6fa9e92450685f5d1}
+\subsubsection[{makeW}]{\setlength{\rightskip}{0pt plus 5cm}void makeW ({\bf celW} $\ast$$\ast$ {\em W}, \/  int {\em a}, \/  int {\em b}, \/  int {\em start}, \/  double $\ast$ {\em rs}, \/  double {\em tol})}}
+\label{vandeWiel_8c_b36f32483d67f870c4dca34aac14f5b9}
 
 
 
@@ -157,7 +157,7 @@ Here is the call graph for this function:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=145pt]{vandeWiel_8c_fb521caca26031c6fa9e92450685f5d1_cgraph}
+\includegraphics[width=145pt]{vandeWiel_8c_b36f32483d67f870c4dca34aac14f5b9_cgraph}
 \end{center}
 \end{figure}
 \hypertarget{vandeWiel_8c_d0195ffa22342dfadee0abeb564931dc}{
@@ -199,24 +199,24 @@ Definition at line 159 of file vandeWiel.c.
 
 References celW::c, celW::length, and celW::x.
 
-Referenced by fillcell().\hypertarget{vandeWiel_8c_14307006f6d9ec07bdfce7e853665bc5}{
+Referenced by fillcell().\hypertarget{vandeWiel_8c_69a4013a15a104d5a415806f79e189bd}{
 \index{vandeWiel.c@{vandeWiel.c}!numbersmall@{numbersmall}}
 \index{numbersmall@{numbersmall}!vandeWiel.c@{vandeWiel.c}}
-\subsubsection[{numbersmall}]{\setlength{\rightskip}{0pt plus 5cm}double numbersmall (int {\em c}, \/  int {\em b}, \/  double {\em ob}, \/  {\bf celW} $\ast$$\ast$ {\em W1}, \/  {\bf celW} $\ast$$\ast$ {\em W2})}}
-\label{vandeWiel_8c_14307006f6d9ec07bdfce7e853665bc5}
+\subsubsection[{numbersmall}]{\setlength{\rightskip}{0pt plus 5cm}double numbersmall (int {\em c}, \/  int {\em b}, \/  double {\em ob}, \/  {\bf celW} $\ast$$\ast$ {\em W1}, \/  {\bf celW} $\ast$$\ast$ {\em W2}, \/  double {\em tol})}}
+\label{vandeWiel_8c_69a4013a15a104d5a415806f79e189bd}
 
 
 
 
 Definition at line 335 of file vandeWiel.c.
 
-References celW::c, and celW::length.
+References celW::c, celW::length, and celW::x.
 
-Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_965c6db84dd8be42e1313d8c3ef9a784}{
+Referenced by R\_\-split\_\-up\_\-2sample().\hypertarget{vandeWiel_8c_1ab2513e2af31152aeacffb5c770c7f9}{
 \index{vandeWiel.c@{vandeWiel.c}!plus@{plus}}
 \index{plus@{plus}!vandeWiel.c@{vandeWiel.c}}
-\subsubsection[{plus}]{\setlength{\rightskip}{0pt plus 5cm}void plus ({\bf celW} $\ast$$\ast$ {\em W}, \/  {\bf celW} $\ast$ {\em tempie}, \/  int {\em a}, \/  int {\em b})}}
-\label{vandeWiel_8c_965c6db84dd8be42e1313d8c3ef9a784}
+\subsubsection[{plus}]{\setlength{\rightskip}{0pt plus 5cm}void plus ({\bf celW} $\ast$$\ast$ {\em W}, \/  {\bf celW} $\ast$ {\em tempie}, \/  int {\em a}, \/  int {\em b}, \/  double {\em tol})}}
+\label{vandeWiel_8c_1ab2513e2af31152aeacffb5c770c7f9}
 
 
 
@@ -225,16 +225,16 @@ Definition at line 120 of file vandeWiel.c.
 
 References celW::c, celW::length, and celW::x.
 
-Referenced by fillcell().\hypertarget{vandeWiel_8c_a50657b564a35ab41b3e3e50e62c51b1}{
+Referenced by fillcell().\hypertarget{vandeWiel_8c_18f96560e9861316db1121e8fe69ef07}{
 \index{vandeWiel.c@{vandeWiel.c}!R\_\-split\_\-up\_\-2sample@{R\_\-split\_\-up\_\-2sample}}
 \index{R\_\-split\_\-up\_\-2sample@{R\_\-split\_\-up\_\-2sample}!vandeWiel.c@{vandeWiel.c}}
-\subsubsection[{R\_\-split\_\-up\_\-2sample}]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-split\_\-up\_\-2sample (SEXP {\em scores}, \/  SEXP {\em m}, \/  SEXP {\em obs})}}
-\label{vandeWiel_8c_a50657b564a35ab41b3e3e50e62c51b1}
+\subsubsection[{R\_\-split\_\-up\_\-2sample}]{\setlength{\rightskip}{0pt plus 5cm}SEXP R\_\-split\_\-up\_\-2sample (SEXP {\em scores}, \/  SEXP {\em m}, \/  SEXP {\em obs}, \/  SEXP {\em tol})}}
+\label{vandeWiel_8c_18f96560e9861316db1121e8fe69ef07}
 
 
 
 
-Definition at line 375 of file vandeWiel.c.
+Definition at line 377 of file vandeWiel.c.
 
 References binomi(), cumulcoef(), FreeW(), initW(), makeW(), numbersmall(), and reserveW().
 
@@ -242,7 +242,7 @@ Here is the call graph for this function:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=226pt]{vandeWiel_8c_a50657b564a35ab41b3e3e50e62c51b1_cgraph}
+\includegraphics[width=226pt]{vandeWiel_8c_18f96560e9861316db1121e8fe69ef07_cgraph}
 \end{center}
 \end{figure}
 \hypertarget{vandeWiel_8c_03d7f636d17008a6fbe230458a92ddba}{
