@@ -21,14 +21,14 @@
 \section{Methods}{
 \describe{
 
-\item{object = "IndependenceTest"}{ ~~describe this method here }
+\item{object = "IndependenceTest"}{}
 
-\item{object = "QuadTypeIndependenceTest"}{ ~~describe this method here }
+\item{object = "QuadTypeIndependenceTest"}{}
 
-\item{object = "MaxTypeIndependenceTest"}{ ~~describe this method here }
+\item{object = "MaxTypeIndependenceTest"}{}
 
-\item{object = "ScalarIndependenceTest"}{ ~~describe this method here }
+\item{object = "ScalarIndependenceTest"}{}
 
-\item{object = "ScalarIndependenceTestConfint"}{ ~~describe this method here }
+\item{object = "ScalarIndependenceTestConfint"}{}
 }}
 \keyword{methods}

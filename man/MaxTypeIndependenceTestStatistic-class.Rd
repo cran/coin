@@ -3,27 +3,27 @@
 \alias{MaxTypeIndependenceTestStatistic-class}
 \alias{initialize,MaxTypeIndependenceTestStatistic-method}
 
-\title{Class "MaxTypeIndependenceTestStatistic" ~~~ }
+\title{Class "MaxTypeIndependenceTestStatistic"}
 \description{ Represent a maximum-type test statistic }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("MaxTypeIndependenceTestStatistic", its, alternative)}.
 }
 \section{Slots}{
 	 \describe{
-    \item{\code{alternative}:}{Object of class \code{"character"} ~~ }
-    \item{\code{teststatistic}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{standardizedlinearstatistic}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{linearstatistic}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{expectation}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{covariance}:}{Object of class \code{"VarCovar"} ~~ }
-    \item{\code{xtrans}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{ytrans}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{xtrafo}:}{Object of class \code{"function"} ~~ }
-    \item{\code{ytrafo}:}{Object of class \code{"function"} ~~ }
-    \item{\code{x}:}{Object of class \code{"data.frame"} ~~ }
-    \item{\code{y}:}{Object of class \code{"data.frame"} ~~ }
-    \item{\code{weights}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{block}:}{Object of class \code{"factor"} ~~ }
+    \item{\code{alternative}:}{Object of class \code{"character"}}
+    \item{\code{teststatistic}:}{Object of class \code{"numeric"}}
+    \item{\code{standardizedlinearstatistic}:}{Object of class \code{"numeric"}}
+    \item{\code{linearstatistic}:}{Object of class \code{"numeric"}}
+    \item{\code{expectation}:}{Object of class \code{"numeric"}}
+    \item{\code{covariance}:}{Object of class \code{"VarCovar"}}
+    \item{\code{xtrans}:}{Object of class \code{"matrix"}}
+    \item{\code{ytrans}:}{Object of class \code{"matrix"}}
+    \item{\code{xtrafo}:}{Object of class \code{"function"}}
+    \item{\code{ytrafo}:}{Object of class \code{"function"}}
+    \item{\code{x}:}{Object of class \code{"data.frame"}}
+    \item{\code{y}:}{Object of class \code{"data.frame"}}
+    \item{\code{weights}:}{Object of class \code{"numeric"}}
+    \item{\code{block}:}{Object of class \code{"factor"}}
   }
 }
 \section{Extends}{

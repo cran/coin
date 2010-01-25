@@ -1,5 +1,5 @@
 
-R version 2.10.0 (2009-10-26)
+R version 2.10.1 (2009-12-14)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -17,73 +17,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> ### * <HEADER>
-> ###
-> attach(NULL, name = "CheckExEnv")
-> assign("nameEx",
-+        local({
-+ 	   s <- "__{must remake R-ex/*.R}__"
-+            function(new) {
-+                if(!missing(new)) s <<- new else s
-+            }
-+        }),
-+        pos = "CheckExEnv")
-> ## Add some hooks to label plot pages for base and grid graphics
-> assign("base_plot_hook",
-+        function() {
-+            pp <- par(c("mfg","mfcol","oma","mar"))
-+            if(all(pp$mfg[1:2] == c(1, pp$mfcol[2]))) {
-+                outer <- (oma4 <- pp$oma[4]) > 0; mar4 <- pp$mar[4]
-+                mtext(sprintf("help(\"%s\")", nameEx()), side = 4,
-+                      line = if(outer)max(1, oma4 - 1) else min(1, mar4 - 1),
-+                outer = outer, adj = 1, cex = .8, col = "orchid", las=3)
-+            }
-+        },
-+        pos = "CheckExEnv")
-> assign("grid_plot_hook",
-+        function() {
-+            grid::pushViewport(grid::viewport(width=grid::unit(1, "npc") -
-+                               grid::unit(1, "lines"), x=0, just="left"))
-+            grid::grid.text(sprintf("help(\"%s\")", nameEx()),
-+                            x=grid::unit(1, "npc") + grid::unit(0.5, "lines"),
-+                            y=grid::unit(0.8, "npc"), rot=90,
-+                            gp=grid::gpar(col="orchid"))
-+        },
-+        pos = "CheckExEnv")
-> setHook("plot.new",     get("base_plot_hook", pos = "CheckExEnv"))
-> setHook("persp",        get("base_plot_hook", pos = "CheckExEnv"))
-> setHook("grid.newpage", get("grid_plot_hook", pos = "CheckExEnv"))
-> assign("cleanEx",
-+        function(env = .GlobalEnv) {
-+ 	   rm(list = ls(envir = env, all.names = TRUE), envir = env)
-+            RNGkind("default", "default")
-+ 	   set.seed(1)
-+    	   options(warn = 1)
-+ 	   .CheckExEnv <- as.environment("CheckExEnv")
-+ 	   delayedAssign("T", stop("T used instead of TRUE"),
-+ 		  assign.env = .CheckExEnv)
-+ 	   delayedAssign("F", stop("F used instead of FALSE"),
-+ 		  assign.env = .CheckExEnv)
-+ 	   sch <- search()
-+ 	   newitems <- sch[! sch %in% .oldSearch]
-+ 	   for(item in rev(newitems))
-+                eval(substitute(detach(item), list(item=item)))
-+ 	   missitems <- .oldSearch[! .oldSearch %in% sch]
-+ 	   if(length(missitems))
-+ 	       warning("items ", paste(missitems, collapse=", "),
-+ 		       " have been removed from the search path")
-+        },
-+        pos = "CheckExEnv")
-> assign("ptime", proc.time(), pos = "CheckExEnv")
-> ## at least one package changes these via ps.options(), so do this
-> ## before loading the package.
-> ## Use postscript as incomplete files may be viewable, unlike PDF.
-> ## Choose a size that is close to on-screen devices, fix paper
-> grDevices::ps.options(width = 7, height = 7, paper = "a4", reset = TRUE)
-> grDevices::postscript("coin-Ex.ps")
-> 
-> assign("par.postscript", graphics::par(no.readonly = TRUE), pos = "CheckExEnv")
-> options(contrasts = c(unordered = "contr.treatment", ordered = "contr.poly"))
+> pkgname <- "coin"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
 > library('coin')
 Loading required package: survival
@@ -93,8 +28,8 @@ Loading required package: modeltools
 Loading required package: stats4
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
-> assign(".oldNS", loadedNamespaces(), pos = 'CheckExEnv')
-> cleanEx(); nameEx("ContingencyTests")
+> cleanEx()
+> nameEx("ContingencyTests")
 > ### * ContingencyTests
 > 
 > flush(stderr()); flush(stdout())
@@ -231,7 +166,8 @@ chi-squared = 10.6381, df = 1, p-value = 0.001108
 > 
 > 
 > 
-> cleanEx(); nameEx("IndependenceTest")
+> cleanEx()
+> nameEx("IndependenceTest")
 > ### * IndependenceTest
 > 
 > flush(stderr()); flush(stdout())
@@ -291,7 +227,8 @@ alternative hypothesis: true mu is greater than 0
 > 
 > 
 > 
-> cleanEx(); nameEx("LocationTests")
+> cleanEx()
+> nameEx("LocationTests")
 > ### * LocationTests
 > 
 > flush(stderr()); flush(stdout())
@@ -473,7 +410,8 @@ IV - III 0.9998777778
 > 
 > 
 > 
-> cleanEx(); nameEx("MarginalHomogeneityTest")
+> cleanEx()
+> nameEx("MarginalHomogeneityTest")
 > ### * MarginalHomogeneityTest
 > 
 > flush(stderr()); flush(stdout())
@@ -541,7 +479,8 @@ chi-squared = 13.7647, df = 2, p-value = 0.001026
 > 
 > 
 > 
-> cleanEx(); nameEx("MaxstatTest")
+> cleanEx()
+> nameEx("MaxstatTest")
 > ### * MaxstatTest
 > 
 > flush(stderr()); flush(stdout())
@@ -626,7 +565,8 @@ $cutpoint
 > 
 > 
 > 
-> cleanEx(); nameEx("PermutationDistribution")
+> cleanEx()
+> nameEx("PermutationDistribution")
 > ### * PermutationDistribution
 > 
 > flush(stderr()); flush(stdout())
@@ -670,7 +610,8 @@ $cutpoint
 > 
 > 
 > 
-> cleanEx(); nameEx("ScaleTests")
+> cleanEx()
+> nameEx("ScaleTests")
 > ### * ScaleTests
 > 
 > flush(stderr()); flush(stdout())
@@ -760,7 +701,8 @@ Control:Scale                   0            21
 > 
 > 
 > 
-> cleanEx(); nameEx("SpearmanTest")
+> cleanEx()
+> nameEx("SpearmanTest")
 > ### * SpearmanTest
 > 
 > flush(stderr()); flush(stdout())
@@ -786,7 +728,8 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > 
 > 
-> cleanEx(); nameEx("SurvTest")
+> cleanEx()
+> nameEx("SurvTest")
 > ### * SurvTest
 > 
 > flush(stderr()); flush(stdout())
@@ -886,7 +829,8 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
-> cleanEx(); nameEx("SymmetryTests")
+> cleanEx()
+> nameEx("SymmetryTests")
 > ### * SymmetryTests
 > 
 > flush(stderr()); flush(stdout())
@@ -1050,7 +994,8 @@ alternative hypothesis: true mu is greater than 0
 > 
 > 
 > 
-> cleanEx(); nameEx("Transformations")
+> cleanEx()
+> nameEx("Transformations")
 > ### * Transformations
 > 
 > flush(stderr()); flush(stdout())
@@ -1209,7 +1154,8 @@ attr(,"assign")
 > 
 > 
 > 
-> cleanEx(); nameEx("alpha")
+> cleanEx()
+> nameEx("alpha")
 > ### * alpha
 > 
 > flush(stderr()); flush(stdout())
@@ -1234,7 +1180,8 @@ chi-squared = 8.8302, df = 2, p-value = 0.01209
 > 
 > 
 > 
-> cleanEx(); nameEx("alzheimer")
+> cleanEx()
+> nameEx("alzheimer")
 > ### * alzheimer
 > 
 > flush(stderr()); flush(stdout())
@@ -1268,7 +1215,8 @@ chi-squared = 23.3163, df = 6, p-value = 0.0006972
 > 
 > 
 > 
-> cleanEx(); nameEx("asat")
+> cleanEx()
+> nameEx("asat")
 > ### * asat
 > 
 > flush(stderr()); flush(stdout())
@@ -1295,7 +1243,8 @@ attr(,"conf.level")
 > 
 > 
 > 
-> cleanEx(); nameEx("expectation-methods")
+> cleanEx()
+> nameEx("expectation-methods")
 > ### * expectation-methods
 > 
 > flush(stderr()); flush(stdout())
@@ -1379,7 +1328,8 @@ attr(,"conf.level")
 > 
 > 
 > 
-> cleanEx(); nameEx("glioma")
+> cleanEx()
+> nameEx("glioma")
 > ### * glioma
 > 
 > flush(stderr()); flush(stdout())
@@ -1499,7 +1449,8 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
-> cleanEx(); nameEx("hohnloser")
+> cleanEx()
+> nameEx("hohnloser")
 > ### * hohnloser
 > 
 > flush(stderr()); flush(stdout())
@@ -1528,7 +1479,8 @@ $cutpoint
 > 
 > 
 > 
-> cleanEx(); nameEx("jobsatisfaction")
+> cleanEx()
+> nameEx("jobsatisfaction")
 > ### * jobsatisfaction
 > 
 > flush(stderr()); flush(stdout())
@@ -1555,7 +1507,8 @@ chi-squared = 10.2001, df = 9, p-value = 0.3345
 > 
 > 
 > 
-> cleanEx(); nameEx("mercuryfish")
+> cleanEx()
+> nameEx("mercuryfish")
 > ### * mercuryfish
 > 
 > flush(stderr()); flush(stdout())
@@ -1635,7 +1588,8 @@ control 0.00719172 0.01726738 0.03836982
 > 
 > 
 > 
-> cleanEx(); nameEx("neuropathy")
+> cleanEx()
+> nameEx("neuropathy")
 > ### * neuropathy
 > 
 > flush(stderr()); flush(stdout())
@@ -1684,7 +1638,8 @@ alternative hypothesis: true mu is less than 0
 > 
 > 
 > 
-> cleanEx(); nameEx("ocarcinoma")
+> cleanEx()
+> nameEx("ocarcinoma")
 > ### * ocarcinoma
 > 
 > flush(stderr()); flush(stdout())
@@ -1713,7 +1668,8 @@ alternative hypothesis: true mu is less than 0
 > 
 > 
 > 
-> cleanEx(); nameEx("photocar")
+> cleanEx()
+> nameEx("photocar")
 > ### * photocar
 > 
 > flush(stderr()); flush(stdout())
@@ -1760,7 +1716,8 @@ C             0.000            0.0000 0.9988
 > 
 > 
 > 
-> cleanEx(); nameEx("pvalue-methods")
+> cleanEx()
+> nameEx("pvalue-methods")
 > ### * pvalue-methods
 > 
 > flush(stderr()); flush(stdout())
@@ -1813,7 +1770,8 @@ alternative hypothesis: true mu is not equal to 1
 > 
 > 
 > 
-> cleanEx(); nameEx("rotarod")
+> cleanEx()
+> nameEx("rotarod")
 > ### * rotarod
 > 
 > flush(stderr()); flush(stdout())
@@ -1860,7 +1818,8 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > 
 > 
-> cleanEx(); nameEx("sphase")
+> cleanEx()
+> nameEx("sphase")
 > ### * sphase
 > 
 > flush(stderr()); flush(stdout())
@@ -1903,7 +1862,8 @@ $cutpoint
 > 
 > 
 > 
-> cleanEx(); nameEx("statistic-methods")
+> cleanEx()
+> nameEx("statistic-methods")
 > ### * statistic-methods
 > 
 > flush(stderr()); flush(stdout())
@@ -1960,7 +1920,8 @@ $cutpoint
 > 
 > 
 > 
-> cleanEx(); nameEx("treepipit")
+> cleanEx()
+> nameEx("treepipit")
 > ### * treepipit
 > 
 > flush(stderr()); flush(stdout())
@@ -1997,7 +1958,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  35.39 0.352 35.74 0 0 
+Time elapsed:  36.914 0.316 38.638 0 0 
 > grDevices::dev.off()
 null device 
           1 

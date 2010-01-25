@@ -1,0 +1,796 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Creator: Graphviz version 2.20.2 (Wed Sep 16 11:12:11 UTC 2009)
+%%For: (hothorn) Torsten Hothorn,,,,
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 450 364
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 414 328 boxprim clip newpath
+1 1 set_scale 0 rotate 40 40 translate
+% Node1
+gsave
+0.000 0.000 0.749 nodecolor
+newpath 0 178 moveto
+0 200 lineto
+104 200 lineto
+104 178 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 0 178 moveto
+0 200 lineto
+104 200 lineto
+104 178 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+8 187 moveto 88 (R_split_up_2sample) alignedtext
+grestore
+% Node2
+gsave
+[ /Rect [ 251 199 295 221 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#add09844ac40346e216f503f95e644970) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 251 199 moveto
+251 221 lineto
+296 221 lineto
+296 199 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 251 199 moveto
+251 221 lineto
+296 221 lineto
+296 199 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+258.5 208 moveto 29 (binomi) alignedtext
+grestore
+% Node1->Node2
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 82 178 moveto
+115 168 168 156 212 169 curveto
+227 173 242 183 253 192 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 251.17 195.05 moveto
+261 199 lineto
+255.78 189.78 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 251.17 195.05 moveto
+261 199 lineto
+255.78 189.78 lineto
+closepath stroke
+grestore
+% Node3
+gsave
+[ /Rect [ 146 258 206 280 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a76539410f65d0d4c5105bacf1b32f093) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 146 258 moveto
+146 280 lineto
+207 280 lineto
+207 258 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 146 258 moveto
+146 280 lineto
+207 280 lineto
+207 258 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+153.5 267 moveto 45 (cumulcoef) alignedtext
+grestore
+% Node1->Node3
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 67 200 moveto
+85 212 114 233 140 249 curveto
+142 250 145 252 147 253 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 145.56 256.2 moveto
+156 258 lineto
+148.96 250.08 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 145.56 256.2 moveto
+156 258 lineto
+148.96 250.08 lineto
+closepath stroke
+grestore
+% Node4
+gsave
+[ /Rect [ 154 218 198 240 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#af72cc4501998ae01067d5555382b1609) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 154 218 moveto
+154 240 lineto
+198 240 lineto
+198 218 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 154 218 moveto
+154 240 lineto
+198 240 lineto
+198 218 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+162 227 moveto 28 (FreeW) alignedtext
+grestore
+% Node1->Node4
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 86 200 moveto
+104 206 126 213 144 219 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 143.42 222.48 moveto
+154 222 lineto
+145.43 215.77 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 143.42 222.48 moveto
+154 222 lineto
+145.43 215.77 lineto
+closepath stroke
+grestore
+% Node5
+gsave
+[ /Rect [ 157 178 195 200 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a402c3e72a2fa3d600d4a4e8ace9f040b) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 157 178 moveto
+157 200 lineto
+195 200 lineto
+195 178 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 157 178 moveto
+157 200 lineto
+195 200 lineto
+195 178 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+165 187 moveto 22 (initW) alignedtext
+grestore
+% Node1->Node5
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 104 189 moveto
+119 189 134 189 147 189 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 147 192.5 moveto
+157 189 lineto
+147 185.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 147 192.5 moveto
+157 189 lineto
+147 185.5 lineto
+closepath stroke
+grestore
+% Node6
+gsave
+[ /Rect [ 152 60 200 82 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#ab36f32483d67f870c4dca34aac14f5b9) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 152 60 moveto
+152 82 lineto
+201 82 lineto
+201 60 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 152 60 moveto
+152 82 lineto
+201 82 lineto
+201 60 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+159.5 69 moveto 33 (makeW) alignedtext
+grestore
+% Node1->Node6
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 60 178 moveto
+75 158 107 118 140 91 curveto
+141 90 143 89 144 88 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 146.62 90.46 moveto
+153 82 lineto
+142.74 84.63 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 146.62 90.46 moveto
+153 82 lineto
+142.74 84.63 lineto
+closepath stroke
+grestore
+% Node12
+gsave
+[ /Rect [ 140 100 212 122 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a69a4013a15a104d5a415806f79e189bd) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 140 100 moveto
+140 122 lineto
+212 122 lineto
+212 100 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 140 100 moveto
+140 122 lineto
+212 122 lineto
+212 100 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+148 109 moveto 56 (numbersmall) alignedtext
+grestore
+% Node1->Node12
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 70 178 moveto
+90 165 126 143 150 127 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 151.38 130.27 moveto
+158 122 lineto
+147.66 124.33 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 151.38 130.27 moveto
+158 122 lineto
+147.66 124.33 lineto
+closepath stroke
+grestore
+% Node13
+gsave
+[ /Rect [ 148 298 204 320 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a03d7f636d17008a6fbe230458a92ddba) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 148 298 moveto
+148 320 lineto
+205 320 lineto
+205 298 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 148 298 moveto
+148 320 lineto
+205 320 lineto
+205 298 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+155.5 307 moveto 41 (reserveW) alignedtext
+grestore
+% Node1->Node13
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 60 200 moveto
+74 220 106 261 140 289 curveto
+142 290 143 291 145 293 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 143.56 296.2 moveto
+154 298 lineto
+146.96 290.08 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 143.56 296.2 moveto
+154 298 lineto
+146.96 290.08 lineto
+closepath stroke
+grestore
+% Node7
+gsave
+[ /Rect [ 253 40 293 62 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a6bee1e9d657a3174d5a2ecafac2b1d6e) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 253 40 moveto
+253 62 lineto
+294 62 lineto
+294 40 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 253 40 moveto
+253 62 lineto
+294 62 lineto
+294 40 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+260.5 49 moveto 25 (fillcell) alignedtext
+grestore
+% Node6->Node7
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 201 66 moveto
+214 64 230 60 243 57 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 243.88 60.39 moveto
+253 55 lineto
+242.51 53.53 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 243.88 60.39 moveto
+253 55 lineto
+242.51 53.53 lineto
+closepath stroke
+grestore
+% Node11
+gsave
+[ /Rect [ 248 80 298 102 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#ad0195ffa22342dfadee0abeb564931dc) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 248 80 moveto
+248 102 lineto
+298 102 lineto
+298 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 248 80 moveto
+248 102 lineto
+298 102 lineto
+298 80 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+256 89 moveto 34 (mirrorW) alignedtext
+grestore
+% Node6->Node11
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 201 76 moveto
+212 78 226 81 238 84 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 237.51 87.47 moveto
+248 86 lineto
+238.88 80.61 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 237.51 87.47 moveto
+248 86 lineto
+238.88 80.61 lineto
+closepath stroke
+grestore
+% Node8
+gsave
+[ /Rect [ 353 80 387 102 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#ae1d7e7e209f5b99745c8bca03057f761) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 353 80 moveto
+353 102 lineto
+388 102 lineto
+388 80 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 353 80 moveto
+353 102 lineto
+388 102 lineto
+388 80 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+360.5 89 moveto 19 (mult) alignedtext
+grestore
+% Node7->Node8
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 294 60 moveto
+309 66 328 74 344 80 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 342.44 83.14 moveto
+353 84 lineto
+345.28 76.74 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 342.44 83.14 moveto
+353 84 lineto
+345.28 76.74 lineto
+closepath stroke
+grestore
+% Node9
+gsave
+[ /Rect [ 334 40 406 62 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a2f117e88849518e50d7d0eef3af07bf0) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 334 40 moveto
+334 62 lineto
+406 62 lineto
+406 40 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 334 40 moveto
+334 62 lineto
+406 62 lineto
+406 40 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+342 49 moveto 56 (mymergesort) alignedtext
+grestore
+% Node7->Node9
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 294 51 moveto
+303 51 314 51 324 51 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 324 54.5 moveto
+334 51 lineto
+324 47.5 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 324 54.5 moveto
+334 51 lineto
+324 47.5 lineto
+closepath stroke
+grestore
+% Node10
+gsave
+[ /Rect [ 353 0 387 22 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($vandeWiel_8c.html#a1ab2513e2af31152aeacffb5c770c7f9) >>
+  /Subtype /Link
+/ANN pdfmark
+0.000 0.000 1.000 nodecolor
+newpath 353 0 moveto
+353 22 lineto
+387 22 lineto
+387 0 lineto
+closepath fill
+1 setlinewidth
+filled
+0.000 0.000 0.000 nodecolor
+newpath 353 0 moveto
+353 22 lineto
+387 22 lineto
+387 0 lineto
+closepath stroke
+0.000 0.000 0.000 nodecolor
+10 /FreeSans set_font
+361 9 moveto 18 (plus) alignedtext
+grestore
+% Node7->Node10
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 294 42 moveto
+309 36 328 28 344 22 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 345.28 25.26 moveto
+353 18 lineto
+342.44 18.86 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 345.28 25.26 moveto
+353 18 lineto
+342.44 18.86 lineto
+closepath stroke
+grestore
+% Node13->Node2
+gsave
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 199 298 moveto
+204 295 208 292 212 289 curveto
+232 271 250 246 262 230 curveto
+stroke
+0.667 0.776 0.439 edgecolor
+newpath 265.2 231.44 moveto
+267 221 lineto
+259.08 228.04 lineto
+closepath fill
+1 setlinewidth
+solid
+0.667 0.776 0.439 edgecolor
+newpath 265.2 231.44 moveto
+267 221 lineto
+259.08 228.04 lineto
+closepath stroke
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+%%BoundingBox: 36 36 450 364
+end
+restore
+%%EOF

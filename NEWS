@@ -1,4 +1,10 @@
 
+		CHANGES in `coin' VERSION 1.0-10
+
+
+    o    improve upon `qperm' for van de Wiel algorithm again.
+
+
 		CHANGES in `coin' VERSION 1.0-9
 
 

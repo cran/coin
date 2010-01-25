@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" href="$Helpers_8c.html#a7c6b9e02fb5bcf919c7823d497cab062" title="C_blockperm" alt="" coords="304,5,400,35"/>
+<area shape="rect" href="$LinearStatistic_8c.html#aa34b0f12fac36231a105d6dc903bfe89" title="C_PermutedLinearStatistic" alt="" coords="264,59,440,88"/>
+<area shape="rect" href="$Helpers_8c.html#af1f46cc3e98630497a1ccb21d943fe65" title="ncol" alt="" coords="329,112,375,141"/>
+<area shape="rect" href="$Helpers_8c.html#aeeb672a71c45ead28b7b354414f2427a" title="nrow" alt="" coords="328,165,376,195"/>
+<area shape="rect" href="$Helpers_8c.html#a877d7b2378274b833a8c14b27d7a16a1" title="R_blocksetup" alt="" coords="303,219,401,248"/>
+<area shape="rect" href="$Helpers_8c.html#af7c710920d1496d23fdabad9b1d0e18c" title="C_SampleNoReplace" alt="" coords="488,5,632,35"/>
+</map>

@@ -5,11 +5,10 @@
 \alias{ExactNullDistribution,ScalarIndependenceTestStatistic-method}
 \title{ Methods for computing exact conditional reference distributions}
 \description{
- ~~ Methods for function \code{ExactNullDistribution} in Package `coin' ~~
+ Methods for computing exact conditional reference distributions.
 }
 \section{Methods}{
 \describe{
-
-\item{object = "ScalarIndependenceTestStatistic"}{ ~~describe this method here }
+\item{object = "ScalarIndependenceTestStatistic"}{computes exact conditional distribution.}
 }}
 \keyword{methods}

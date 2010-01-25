@@ -18,30 +18,30 @@
 \section{Methods}{
 \describe{
 
-\item{.Object = "ANY"}{ ~~describe this method here }
+\item{.Object = "ANY"}{}
 
-\item{.Object = "traceable"}{ ~~describe this method here }
+\item{.Object = "traceable"}{}
 
-\item{.Object = "signature"}{ ~~describe this method here }
+\item{.Object = "signature"}{}
 
-\item{.Object = "environment"}{ ~~describe this method here }
+\item{.Object = "environment"}{}
 
-\item{.Object = "ModelEnv"}{ ~~describe this method here }
+\item{.Object = "ModelEnv"}{}
 
-\item{.Object = "IndependenceProblem"}{ ~~describe this method here }
+\item{.Object = "IndependenceProblem"}{}
 
-\item{.Object = "IndependenceTestProblem"}{ ~~describe this method here }
+\item{.Object = "IndependenceTestProblem"}{}
 
-\item{.Object = "IndependenceTestStatistic"}{ ~~describe this method here }
+\item{.Object = "IndependenceTestStatistic"}{}
 
-\item{.Object = "IndependenceLinearStatistic"}{ ~~describe this method here }
+\item{.Object = "IndependenceLinearStatistic"}{}
 
-\item{.Object = "ScalarIndependenceTestStatistic"}{ ~~describe this method here }
+\item{.Object = "ScalarIndependenceTestStatistic"}{}
 
-\item{.Object = "MaxTypeIndependenceTestStatistic"}{ ~~describe this method here }
+\item{.Object = "MaxTypeIndependenceTestStatistic"}{}
 
-\item{.Object = "QuadTypeIndependenceTestStatistic"}{ ~~describe this method here }
+\item{.Object = "QuadTypeIndependenceTestStatistic"}{}
 
-\item{.Object = "SymmetryProblem"}{ ~~describe this method here }
+\item{.Object = "SymmetryProblem"}{}
 }}
 \keyword{methods}

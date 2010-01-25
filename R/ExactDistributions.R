@@ -158,11 +158,24 @@ vdW_split_up_2sample <- function(object) {
     RET@q <- function(p) {
         f <- function(x) RET@p(x) - p
         if (p <= 0.5)
-            uniroot(f, interval = c(-10, 0), 
-                    tol = sqrt(.Machine$double.eps))$root
+            rr <- uniroot(f, interval = c(-10, 1), 
+                    tol = sqrt(.Machine$double.eps))
         else
-            uniroot(f, interval = c(0, 10),
-                    tol = sqrt(.Machine$double.eps))$root
+            rr <- uniroot(f, interval = c(-1, 10),
+                    tol = sqrt(.Machine$double.eps))
+        ### make sure quantile leads to pdf >= p
+        if (rr$f.root < 0) rr$root <- rr$root + sqrt(.Machine$double.eps)
+        ### pdf is constant here
+        if (rr$estim.prec > sqrt(.Machine$double.eps))  {
+            r1 <- rr$root
+            d <- min(diff(sort(scores[!duplicated(scores)]))) / sqrt(variance(object))
+            while (d > sqrt(.Machine$double.eps)) {
+                if (f(r1 - d) >= 0) r1 <- r1 - d
+                else d <- d / 2
+            }
+            rr$root <- r1
+        }
+        rr$root
     }
     RET@d <- function(x) NA
 
