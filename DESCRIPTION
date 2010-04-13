@@ -1,7 +1,7 @@
 Package: coin
 Title: Conditional Inference Procedures in a Permutation Test Framework
-Date: 2010-01-25
-Version: 1.0-10
+Date: 2010-04-13
+Version: 1.0-11
 Author: Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel and Achim
         Zeileis
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
@@ -16,6 +16,6 @@ Enhances: Biobase
 LazyLoad: yes
 LazyData: yes
 License: GPL-2
-Packaged: 2010-01-27 14:19:28 UTC; hothorn
+Packaged: 2010-04-13 11:56:45 UTC; hothorn
 Repository: CRAN
-Date/Publication: 2010-01-27 14:45:44
+Date/Publication: 2010-04-13 12:49:05

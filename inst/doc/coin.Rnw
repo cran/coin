@@ -458,20 +458,19 @@ framework (example currently not run because of dependencies problems):
 <<biobase-resampling, echo = TRUE, eval = FALSE>>=
 if (require("Biobase")) {
 
-    p <- 100
-    pd <- new("phenoData", 
-              pData = data.frame(group = gl(2, 20)),
-              varLabels = list(group = c("1", "2")))
-    exprs <- matrix(rnorm(p * 40), nrow = p)
-    exprs[1,1:20] <- exprs[1,1:20] + 1.5
-    ex <- new("exprSet", exprs = exprs,
-                         phenoData = pd)
+   p <- 100
+   pd <- new("AnnotatedDataFrame",
+             data = data.frame(group = gl(2, 20)),
+             varMetadata = data.frame(labelDescription = "1/2"))
+   exprs <- matrix(rnorm(p * 40), nrow = p)
+   exprs[1, 1:20] <- exprs[1, 1:20] + 1.5
+   ex <- new("ExpressionSet", exprs = exprs, phenoData = pd)
 
-    it <- independence_test(group ~ ., data = ex,
-        distribution = approximate(B = 1000))
+   it <- independence_test(group ~ ., data = ex,
+                           distribution = approximate(B = 1000))
 
-    print(pvalue(it))
-    print(which(pvalue(it, method = "step-down") < 0.05))
+   print(pvalue(it))
+   print(which(pvalue(it, method = "step-down") < 0.05))
 
 }
 @

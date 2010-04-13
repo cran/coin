@@ -97,9 +97,9 @@ dbonf <- function(object, ...) {
    ts <- (statistic(object, "standardized"))
    
    pvals <- switch(alternative,
-           "less" = rowMeans(LE(pls, drop(ts))),
-           "greater" = rowMeans(GE(pls, drop(ts))),
-           "two.sided" = rowMeans(GE(abs(pls), abs(drop(ts)))))
+           "less" = rowMeans(LE(pls, as.vector(drop(ts)))),
+           "greater" = rowMeans(GE(pls, as.vector(drop(ts)))),
+           "two.sided" = rowMeans(GE(abs(pls), as.vector(abs(drop(ts))))))
 
    foo <- function(x, t)
        switch(alternative,

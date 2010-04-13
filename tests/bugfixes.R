@@ -258,3 +258,11 @@ it <- normal_test(scores ~ fac, data = dat.fr,
     conf.int = TRUE, conf.level = conf.level,
     alternative = alternative, dist = exact())
 confint(it)
+
+### discrete (spotted by Henric Winell <henric.winell@sorch.se>)
+set.seed(1)
+x <- gl(3, 5)
+y1 <- rnorm(15)
+y2 <- rnorm(15)
+it <- independence_test(y1 + y2 ~ x, distribution = approximate(B = 5))
+pvalue(it, "discrete") # didn't work

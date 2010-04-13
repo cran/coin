@@ -440,3 +440,15 @@ difference in location
                   2.59 
 
 > 
+> ### discrete (spotted by Henric Winell <henric.winell@sorch.se>)
+> set.seed(1)
+> x <- gl(3, 5)
+> y1 <- rnorm(15)
+> y2 <- rnorm(15)
+> it <- independence_test(y1 + y2 ~ x, distribution = approximate(B = 5))
+> pvalue(it, "discrete") # didn't work
+  y1       y2
+1  1 0.737856
+2  1 1.000000
+3  1 0.000000
+> 
