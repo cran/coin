@@ -771,6 +771,9 @@ wilcoxsign_test.IndependenceProblem <- function(object,
     if (HollanderWolfe) 
         diffs <- diffs[abs(diffs) > 0]
 
+    if (all(diffs < .Machine$double.eps))
+        stop("all pairwise differences equal zero")
+
     pos <- rank(abs(diffs)) * (diffs > 0)
     neg <- rank(abs(diffs)) * (diffs < 0)
     pos <- pos[abs(diffs) > 0]

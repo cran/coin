@@ -1,4 +1,10 @@
 
+
+		CHANGES in `coin' VERSION 1.0-12
+
+    o    better error message for
+         wilcoxsign_test(c(1, 1, 1) ~ c(1, 1, 1))
+
 		CHANGES in `coin' VERSION 1.0-11
 
     o    bugfix in discrete MTP adjustment
