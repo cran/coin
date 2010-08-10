@@ -107,8 +107,8 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
     other <- list()
     if (!is.null(weights)) other = list(weights = weights)
 
-    ### in case `data' is an exprSet object 
-    if (extends(class(data), "exprSet")) {
+    ### in case `data' is an ExpressionSet object 
+    if (extends(class(data), "ExpressionSet")) {
         dat <- ModelEnvFormula(formula = formula, 
                                data = Biobase::pData(Biobase::phenoData(data)),
                                subset = subset, other = other,

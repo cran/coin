@@ -23,6 +23,9 @@ setMethod(f = "initialize",
     signature = "IndependenceProblem", 
     definition = function(.Object, x, y, block = NULL, weights = NULL) {
 
+        if (NROW(x) == 0 && NROW(y) == 0)
+            stop(sQuote("x"), " and ", sQuote("y"), 
+                 " do not contain data")
         if (length(x) == 0) {
             cn <- colnames(x)
             rn <- rownames(x)

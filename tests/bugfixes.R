@@ -266,3 +266,32 @@ y1 <- rnorm(15)
 y2 <- rnorm(15)
 it <- independence_test(y1 + y2 ~ x, distribution = approximate(B = 5))
 pvalue(it, "discrete") # didn't work
+
+### error messages
+### first group completely empty
+x <- c(NA, NA, NA)
+y <- c(2,4, 3)
+z <- factor(c(1,1,1,2,2,2))
+u <- c(x,y)
+try(wilcox_test(u ~ z))
+
+### missing values
+x <- c(NA, NA, 1)
+y <- c(2,  NA, NA)
+z <- factor(c(1,1,1,2,2,2))
+u <- c(x,y)
+wilcox_test(u ~ z)
+
+x <- c(NA, 1, 2, 8)
+y <- c(2, 4, NA, 3)
+wilcoxsign_test(x ~ y)
+
+### no observations left after removing NAs
+x <- c(NA, NA)
+y <- c(1, 1)
+try(wilcoxsign_test(x ~ y))
+
+### problem in coin 1.0-12 fixed
+x <- c(1, 2, 3)
+y <- c(0, 1, 0)
+wilcoxsign_test(x ~ y)

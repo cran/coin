@@ -1,9 +1,21 @@
 
+		CHANGES in `coin' VERSION 1.0-14
+
+    o     documentation Biobase:expressionSet
+
+
+		CHANGES in `coin' VERSION 1.0-13
+
+    o    further checks and better error messages
+         for nonsense data in (paired) two-sample
+         tests
+
 
 		CHANGES in `coin' VERSION 1.0-12
 
     o    better error message for
          wilcoxsign_test(c(1, 1, 1) ~ c(1, 1, 1))
+
 
 		CHANGES in `coin' VERSION 1.0-11
 

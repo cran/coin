@@ -1,6 +1,6 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.11.1 (2010-05-31)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -411,6 +411,9 @@ IV - III 0.9998777778
 > 
 > 
 > cleanEx()
+
+detaching ‘package:multcomp’
+
 > nameEx("MarginalHomogeneityTest")
 > ### * MarginalHomogeneityTest
 > 
@@ -515,7 +518,7 @@ $cutpoint
 
 data:  counts by
 	 age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree, fdist 
-maxT = 4.5486, p-value = 0.0002208
+maxT = 4.5486, p-value = 0.0002415
 sample estimates:
 $covariable
 [1] "fdist"
@@ -995,6 +998,9 @@ alternative hypothesis: true mu is greater than 0
 > 
 > 
 > cleanEx()
+
+detaching ‘package:multcomp’
+
 > nameEx("Transformations")
 > ### * Transformations
 > 
@@ -1958,7 +1964,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  36.914 0.316 38.638 0 0 
+Time elapsed:  35.878 0.272 36.423 0 0 
 > grDevices::dev.off()
 null device 
           1 
