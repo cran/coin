@@ -1964,7 +1964,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  35.878 0.272 36.423 0 0 
+Time elapsed:  36.222 0.38 36.93 0 0 
 > grDevices::dev.off()
 null device 
           1 

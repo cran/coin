@@ -169,7 +169,7 @@ setMethod(f = "ApproxNullDistribution",
                   p
               }
 
-              RET@q <- function(p) pls[length(pls) * p]
+              RET@q <- function(p) quantile(pls, prob = p, type = 1)
               RET@d <- function(x) {
                   tmp <- abs(pls - x)
                   mean(tmp == tmp[which.min(tmp)])
@@ -233,7 +233,7 @@ setMethod(f = "ApproxNullDistribution",
 
               RET@q <- function(p) {
                   pls <- pmaxmin()
-                  pls[length(pls) * p]
+                  quantile(pls, prob = p, type = 1)
               }
               RET@d <- function(x) {
                   pls <- pmaxmin()
@@ -285,7 +285,7 @@ setMethod(f = "ApproxNullDistribution",
                   p
               }
 
-              RET@q <- function(p) pls[length(pls) * p]
+              RET@q <- function(p) quantile(pls, prob = p, type = 1)
               RET@d <- function(x) {
                   tmp <- abs(pls - x)
                   mean(tmp == tmp[which.min(tmp)])

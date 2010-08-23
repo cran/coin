@@ -746,13 +746,18 @@ wilcoxsign_test.formula <- function(formula, data = list(),
 }   
 
 wilcoxsign_test.IndependenceProblem <- function(object, 
-    ties.method = c("HollanderWolfe", "Pratt"), ...) {
+    zero.method = c("Pratt", "Wilcoxon"), ties.method = NULL, ...) {
 
     y <- object@y[[1]]
     x <- object@x[[1]]
     block <- object@block
-    ties.method <- match.arg(ties.method)
-    HollanderWolfe <- (ties.method == "HollanderWolfe")
+    zero.method <- match.arg(zero.method)
+    Wilcoxon <- (zero.method == "Wilcoxon")
+
+    if (!is.null(ties.method))
+        stop("Argument ", sQuote("ties.method"), 
+             " was replaced by ", sQuote("zero.method"), 
+             " and is no longer available")
 
     if (!is.numeric(y))
         stop(sQuote("y"), " is not a numeric variable")
@@ -761,14 +766,14 @@ wilcoxsign_test.IndependenceProblem <- function(object,
             stop(sQuote("x"), " is not a factor at two levels")
         if (!is_completeblock(object))
             stop("Not an unreplicated complete block design")
-        diffs <- tapply(1:length(y), block, function(b) 
+        diffs <- odiffs <- tapply(1:length(y), block, function(b) 
             y[b][x[b] == levels(x)[1]] - y[b][x[b] == levels(x)[2]]
         )
     }
     if (is.numeric(x))
-        diffs <- x - y
+        diffs <- odiffs <- x - y
 
-    if (HollanderWolfe) 
+    if (Wilcoxon) 
         diffs <- diffs[abs(diffs) > 0]
 
     if (all(abs(diffs) < .Machine$double.eps))
@@ -783,13 +788,19 @@ wilcoxsign_test.IndependenceProblem <- function(object,
     xx <- factor(rep(c("pos", "neg"), sum(abs(diffs) > 0)))
     block <- gl(sum(abs(diffs) > 0), 2)
 
-
     ip <- new("IndependenceProblem", x = data.frame(x = xx), 
               y = data.frame(y = yy), block = block)
 
     RET <- independence_test(ip, teststat = "scalar", ...)
 
     RET@method <- "Wilcoxon-Signed-Rank Test"
+    if (any(abs(odiffs) < .Machine$double.eps)) {
+        if (is.null(match.call()$zero.method))
+            warning("Handling of zeros defaults to ", sQuote("Pratt"),
+                    " in newer versions of coin")
+        RET@method <- paste(RET@method, " (zeros handled a la ", 
+                            zero.method, ")", sep = "")
+    }
     RET@nullvalue <- 0
     return(RET)
 }

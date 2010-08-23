@@ -1,6 +1,6 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.11.1 (2010-05-31)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -322,8 +322,12 @@ alternative hypothesis: true mu is greater than 0
 > ### ties handling
 > y1 <- c(14 , 18 , 2 , 4 , -5 , 14 , -3 , -1 , 1 , 6 , 3 , 3)
 > x1 <- c(8 , 26 , -7 , -1 , 2 , 9 , 0 , -4 , 13 , 3 , 3 , 4)
-> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
+> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), 
++                        zero.method = "Wilcoxon"))
 [1] 0.4741211
-> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), ties = "Pratt"))
+> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
 [1] 0.4609375
+Warning message:
+In wilcoxsign_test.IndependenceProblem(object = <S4 object of class "IndependenceProblem">,  :
+  Handling of zeros defaults to 'Pratt' in newer versions of coin
 > 

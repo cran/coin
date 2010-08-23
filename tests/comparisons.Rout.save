@@ -1,6 +1,6 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.11.1 (2010-05-31)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -932,8 +932,10 @@ alternative hypothesis: two.sided
 +                   x = gl(2, nrow(AIDS)), 
 +                   block = factor(rep(1:nrow(AIDS), 2)))
 > 
-> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic")
-> wsa2 <- wilcoxsign_test(y ~ x | block, data = tmp, distribution = "asymptotic")
+> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic",
++                        zero.method = "Wilcoxon")
+> wsa2 <- wilcoxsign_test(y ~ x | block, data = tmp, distribution = "asymptotic",
++                         zero.method = "Wilcoxon")
 > 
 > stopifnot(all.equal(statistic(wsa), statistic(wsa2)))
 > 
@@ -943,7 +945,8 @@ alternative hypothesis: two.sided
 > # asymptotic p-value, page 290
 > stopifnot(isequal(round(pvalue(wsa), 4), 0.0038))
 > 
-> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic", alternative = "greater")
+> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "asymptotic", alternative = "greater",
++                        zero.method = "Wilcoxon")
 > 
 > # asymptotic p-value, page 290
 > stopifnot(isequal(round(statistic(wsa), 3), 2.896))
@@ -951,12 +954,14 @@ alternative hypothesis: two.sided
 > # asymptotic p-value, page 290
 > stopifnot(isequal(round(pvalue(wsa), 4), 0.0019))
 > 
-> wse <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact")
+> wse <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact",
++                        zero.method = "Wilcoxon")
 > 
 > # exact p-value, page 290
 > stopifnot(isequal(round(pvalue(wse), 4), 0.0021))
 > 
-> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact", alternative = "greater")
+> wsa <- wilcoxsign_test(pre ~ post, data = AIDS, distribution = "exact", alternative = "greater",
++                        zero.method = "Wilcoxon")
 > 
 > # exact one-sided p-value, page 290
 > stopifnot(isequal(round(pvalue(wsa), 4), 0.0011))

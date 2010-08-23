@@ -17,8 +17,8 @@
               ...) 
 
 \method{wilcoxsign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{wilcoxsign_test}{IndependenceProblem}(object, 
-              ties.method = c("HollanderWolfe", "Pratt"), ...)
+\method{wilcoxsign_test}{IndependenceProblem}(object, zero.method = c("Pratt", "Wilcoxon"), 
+              ties.method = NULL, ...)
 
 }
 \arguments{
@@ -41,7 +41,10 @@
     should be calculated or approximated. For the Wilcoxon signed rank test,
     \code{\link{exact}} computes the exact distribution by means of the Streitberg-R\"ohmel
     shift algorithm.}
-  \item{ties.method}{a character specifying the way ties are handled, see below.}
+  \item{zero.method}{a character specifying the way zeros,
+                     for example induced by tied repeated measurements, 
+                     are handled, see below.}
+  \item{ties.method}{no defunct, see below.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{
@@ -54,13 +57,16 @@
   For \code{wilcoxsign_test}, formulae of the form
   \code{y ~ x | block} and \code{y ~ x} are allowed. The latter is interpreted
   in the sense that \code{y} is the first and \code{x} the second
-  measurement on the same observation. By default, zero differences are discarded 
-  first and then rank the remaining absolute differences (as explained
-  in Hollander \& Wolfe, 1999). Alternatively, following Pratt (1959),
+  measurement on the same observation. By default, following Pratt (1959),
   we rank the absolute differences (including zeros) first, then
   discard the ranks corresponding to zero differences, but keep the
-  other ranks as they are.
+  other ranks as they are. Alternatively, zero differences are discarded 
+  first and then rank the remaining absolute differences (the 
+  original proposal by Wilcoxon, as explained in Hollander \& Wolfe, 1999). 
 
+  The default \code{zero.method = "Pratt"} was introduced in
+  \code{coin} 1.0-16. Earlier versions had \code{ties.method = "HollanderWolfe"}
+  which is now equivalent to \code{zero.method = "Wilcoxon"}.
 }
 \value{
 

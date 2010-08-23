@@ -206,5 +206,6 @@ stopifnot(isequal(ci$estimate, mean(c(35/30, 370 / 290))))
 ### ties handling
 y1 <- c(14 , 18 , 2 , 4 , -5 , 14 , -3 , -1 , 1 , 6 , 3 , 3)
 x1 <- c(8 , 26 , -7 , -1 , 2 , 9 , 0 , -4 , 13 , 3 , 3 , 4)
+pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), 
+                       zero.method = "Wilcoxon"))
 pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
-pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), ties = "Pratt"))
