@@ -66,13 +66,13 @@ pvalue(independence_test(x1 + x2 ~ gr, alt = "greater",
                          dist = approximate(B = 10000)), "step-down")
 
 if (FALSE) {
-    library("multtest")
-    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
-    a[order(a$index),]
-    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
-    a[order(a$index),]
-    a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
-    a[order(a$index),]
+    #library("multtest")
+    #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
+    #a[order(a$index),]
+    #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
+    #a[order(a$index),]
+    #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
+    #a[order(a$index),]
 }
 
 ### Monte-Carlo distribution

@@ -8,7 +8,9 @@ singlestep <- function(object, ...) {
     } else {
         ts <- statistic(object, "standardized")
     }
+    ### <FIXME> iterate over unique(ts) only and remap
     ret <- 1 - sapply(ts, pperm, object = object, ...)  
+    ### </FIXME>
     ret <- matrix(ret, nrow = nrow(ts), ncol = ncol(ts))
     rownames(ret) <- rownames(ts)
     colnames(ret) <- colnames(ts)

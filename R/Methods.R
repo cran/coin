@@ -209,6 +209,11 @@ setMethod(f = "ApproxNullDistribution",
               expect <- expectation(object)
               pls <- (pls - expect) / dcov
 
+              ### <FIXME>
+              ### pls is a rather large object (potentially)
+              ### try not to copy it too often -- abs() kills you
+              ### </FIXME>
+
               RET <- new("ApproxNullDistribution")
 
               pmaxmin <- function() {

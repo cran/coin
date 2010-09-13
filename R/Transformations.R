@@ -82,6 +82,8 @@ consal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 ### ordered x
 maxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
     qx <- quantile(x, prob = c(minprob, maxprob), type = 1)
+    if (diff(qx) < .Machine$double.eps)
+        return(NULL)
     ux <- sort(unique(x))
     ux <- ux[ux < max(x)]  
     if (mean(x <= qx[2]) <= maxprob) {
