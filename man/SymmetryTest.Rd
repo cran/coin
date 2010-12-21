@@ -12,7 +12,7 @@
 \method{symmetry_test}{formula}(formula, data, subset = NULL, \dots)
 \method{symmetry_test}{SymmetryProblem}(object, 
     teststat = c("max", "quad", "scalar"),
-    distribution = c("asymptotic", "approximate", "exact"),
+    distribution = c("asymptotic", "approximate"),
     alternative = c("two.sided", "less", "greater"),
     xtrafo = trafo, ytrafo = trafo, scores = NULL, 
     check = NULL, ...)

@@ -1,4 +1,15 @@
 
+		CHANGES in `coin' VERSION 1.0-18
+
+    o     exact() can not work for symmetry_test; spotted
+          by LE PAPE Gilles <lepape.gilles@neuf.fr>
+
+
+		CHANGES in `coin' VERSION 1.0-17
+
+    o     add dependencies required for tests/
+
+
 		CHANGES in `coin' VERSION 1.0-16
 
     o     change `ties.method = c("HollanderWolfe", "Pratt")'

@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" href="$vandeWiel_8c.html#add09844ac40346e216f503f95e644970" title="binomi" alt="" coords="340,137,399,167"/>
-<area shape="rect" href="$vandeWiel_8c.html#a76539410f65d0d4c5105bacf1b32f093" title="cumulcoef" alt="" coords="200,59,280,88"/>
-<area shape="rect" href="$vandeWiel_8c.html#af72cc4501998ae01067d5555382b1609" title="FreeW" alt="" coords="211,112,269,141"/>
-<area shape="rect" href="$vandeWiel_8c.html#a402c3e72a2fa3d600d4a4e8ace9f040b" title="initW" alt="" coords="215,165,265,195"/>
-<area shape="rect" href="$vandeWiel_8c.html#ab36f32483d67f870c4dca34aac14f5b9" title="makeW" alt="" coords="208,323,272,352"/>
-<area shape="rect" href="$vandeWiel_8c.html#a69a4013a15a104d5a415806f79e189bd" title="numbersmall" alt="" coords="192,269,288,299"/>
-<area shape="rect" href="$vandeWiel_8c.html#a03d7f636d17008a6fbe230458a92ddba" title="reserveW" alt="" coords="203,5,277,35"/>
-<area shape="rect" href="$vandeWiel_8c.html#a6bee1e9d657a3174d5a2ecafac2b1d6e" title="fillcell" alt="" coords="343,349,396,379"/>
-<area shape="rect" href="$vandeWiel_8c.html#ad0195ffa22342dfadee0abeb564931dc" title="mirrorW" alt="" coords="336,296,403,325"/>
-<area shape="rect" href="$vandeWiel_8c.html#ae1d7e7e209f5b99745c8bca03057f761" title="mult" alt="" coords="476,296,521,325"/>
-<area shape="rect" href="$vandeWiel_8c.html#a2f117e88849518e50d7d0eef3af07bf0" title="mymergesort" alt="" coords="451,349,547,379"/>
-<area shape="rect" href="$vandeWiel_8c.html#a1ab2513e2af31152aeacffb5c770c7f9" title="plus" alt="" coords="476,403,521,432"/>
+<area shape="rect" id="node3" href="$vandeWiel_8c.html#add09844ac40346e216f503f95e644970" title="binomi" alt="" coords="361,137,425,167"/>
+<area shape="rect" id="node5" href="$vandeWiel_8c.html#a76539410f65d0d4c5105bacf1b32f093" title="cumulcoef" alt="" coords="212,59,300,88"/>
+<area shape="rect" id="node7" href="$vandeWiel_8c.html#af72cc4501998ae01067d5555382b1609" title="FreeW" alt="" coords="227,112,285,141"/>
+<area shape="rect" id="node9" href="$vandeWiel_8c.html#a402c3e72a2fa3d600d4a4e8ace9f040b" title="initW" alt="" coords="231,165,281,195"/>
+<area shape="rect" id="node11" href="$vandeWiel_8c.html#ab36f32483d67f870c4dca34aac14f5b9" title="makeW" alt="" coords="221,323,291,352"/>
+<area shape="rect" id="node23" href="$vandeWiel_8c.html#a69a4013a15a104d5a415806f79e189bd" title="numbersmall" alt="" coords="203,269,309,299"/>
+<area shape="rect" id="node25" href="$vandeWiel_8c.html#a03d7f636d17008a6fbe230458a92ddba" title="reserveW" alt="" coords="216,5,296,35"/>
+<area shape="rect" id="node13" href="$vandeWiel_8c.html#a6bee1e9d657a3174d5a2ecafac2b1d6e" title="fillcell" alt="" coords="365,349,421,379"/>
+<area shape="rect" id="node21" href="$vandeWiel_8c.html#ad0195ffa22342dfadee0abeb564931dc" title="mirrorW" alt="" coords="357,296,429,325"/>
+<area shape="rect" id="node15" href="$vandeWiel_8c.html#ae1d7e7e209f5b99745c8bca03057f761" title="mult" alt="" coords="507,296,557,325"/>
+<area shape="rect" id="node17" href="$vandeWiel_8c.html#a2f117e88849518e50d7d0eef3af07bf0" title="mymergesort" alt="" coords="477,349,587,379"/>
+<area shape="rect" id="node19" href="$vandeWiel_8c.html#a1ab2513e2af31152aeacffb5c770c7f9" title="plus" alt="" coords="508,403,556,432"/>
 </map>

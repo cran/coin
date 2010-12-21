@@ -112,13 +112,13 @@ Control 0.05407491  1 0.1348184 0.9907555
 1 0.9981 0.0057
 > 
 > if (FALSE) {
-+     library("multtest")
-+     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
-+     a[order(a$index),]
-+     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
-+     a[order(a$index),]
-+     a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
-+     a[order(a$index),]
++     #library("multtest")
++     #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1)
++     #a[order(a$index),]
++     #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "upper")
++     #a[order(a$index),]
++     #a <- mt.maxT(t(cbind(x1, x2)), as.numeric(gr) - 1, side = "lower")
++     #a[order(a$index),]
 + }
 > 
 > ### Monte-Carlo distribution

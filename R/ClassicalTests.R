@@ -634,7 +634,7 @@ symmetry_test.formula <- function(formula, data = list(), subset = NULL,
 
 symmetry_test.SymmetryProblem <- function(object,
     teststat = c("max", "quad", "scalar"),
-    distribution = c("asymptotic", "approximate", "exact"), 
+    distribution = c("asymptotic", "approximate"), 
     alternative = c("two.sided", "less", "greater"), 
     xtrafo = trafo, ytrafo = trafo, scores = NULL, 
     check = NULL, ...) {

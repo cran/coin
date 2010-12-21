@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="$LinearStatistic_8c.html#a12e882779ecd0445c3a0dd9ac85dfeee" title="C_kronecker" alt="" coords="151,5,244,35"/>
-<area shape="rect" href="$Helpers_8c.html#af1f46cc3e98630497a1ccb21d943fe65" title="ncol" alt="" coords="175,59,220,88"/>
-<area shape="rect" href="$Helpers_8c.html#aeeb672a71c45ead28b7b354414f2427a" title="nrow" alt="" coords="173,112,221,141"/>
+<area shape="rect" id="node3" href="$LinearStatistic_8c.html#a12e882779ecd0445c3a0dd9ac85dfeee" title="C_kronecker" alt="" coords="155,5,256,35"/>
+<area shape="rect" id="node5" href="$Helpers_8c.html#af1f46cc3e98630497a1ccb21d943fe65" title="ncol" alt="" coords="181,59,229,88"/>
+<area shape="rect" id="node7" href="$Helpers_8c.html#aeeb672a71c45ead28b7b354414f2427a" title="nrow" alt="" coords="180,112,231,141"/>
 </map>
