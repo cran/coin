@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -143,7 +144,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  w by x, y, z 
-maxT = 2.3738, p-value = 0.2860
+maxT = 2.3738, p-value = 0.286
 sample estimates:
 $covariable
 [1] "x"

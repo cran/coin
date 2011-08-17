@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -105,8 +106,8 @@ Loading required package: stats4
 > 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt", 
 +                    alternative = "less"))
-        1 
-0.0897446 
+         1 
+0.08974461 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx", 
 +                    alternative = "less"))
 [1] 0.099
@@ -171,7 +172,7 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > (isequal(pvalue(ansari_test(y ~ x, data = dat, distribution = "exact")), 
 +                   ptwo))
 [1] 0.2125862712
-[1] 0.2135741290
+[1] 0.213574129
 [1] FALSE
 > stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "less", 
 +                              distribution = "exact")), pless))
@@ -182,7 +183,7 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > (isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
 +     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo))), ptwo))
 [1] 0.2125862712
-[1] 0.2135741290
+[1] 0.213574129
 [1] FALSE
 > stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
 +     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo), 

@@ -9,7 +9,7 @@
       
     *\file vandeWiel.c
     *\author $Author: hothorn $
-    *\date $Date: 2009-10-30 18:34:34 +0100 (Fri, 30 Oct 2009) $
+    *\date $Date: 2011-05-06 13:46:32 +0200 (Fri, 06 May 2011) $
 */
                     
 #include <R.h>
@@ -387,7 +387,7 @@ SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
 
     */
 
-    int b, c, d, u;
+    int b, c, u;
     double tot, bino, prob;
     double ob;  
     SEXP ans;
@@ -399,7 +399,7 @@ SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
     b = LENGTH(scores);
     rs = REAL(scores);
     c = INTEGER(m)[0];
-    d = b - INTEGER(m)[0];
+    /* d = b - INTEGER(m)[0]; not used */
     ob = REAL(obs)[0];
 
     /* total number of possible permutations */

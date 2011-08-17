@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.13.0 (2011-04-13)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -79,11 +80,11 @@ Control 0.05407491  1 0.1348184 0.9907555
            x1         x2
 1 0.009466134 0.01080496
 > pvalue(independence_test(x1 + x2 ~ gr, alt = "less"), "single-step")
-           x1       x2
-1 0.004742767 0.999996
+           x1        x2
+1 0.004742767 0.9999959
 > pvalue(independence_test(x1 + x2 ~ gr, alt = "greater"), "single-step")
-        x1          x2
-1 0.999997 0.005414957
+         x1          x2
+1 0.9999969 0.005414957
 > 
 > pvalue(independence_test(x1 + x2 ~ gr, alt = "two.sided", 
 +                          dist = approximate(B = 10000)), "single-step")

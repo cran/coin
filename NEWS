@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 1.0-19
+
+    o     no require() in .onLoad()
+
+
 		CHANGES in `coin' VERSION 1.0-18
 
     o     exact() can not work for symmetry_test; spotted

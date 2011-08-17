@@ -3,7 +3,7 @@
     Some additional functionality for package `coin'
     *\file Helpers.c
     *\author $Author: hothorn $
-    *\date $Date: 2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) $
+    *\date $Date: 2011-05-06 13:46:32 +0200 (Fri, 06 May 2011) $
 */
                 
 #include "coin_common.h"
@@ -109,10 +109,10 @@ SEXP R_blocksetup (SEXP block) {
                                 
 void C_blockperm (SEXP blocksetup, int *ans) {
                   
-    int n, nlevels, l, nlev, j, *iindex, *ipindex;
+    int nlevels, l, nlev, j, *iindex, *ipindex;
     SEXP indices, dummies, pindices, index, dummy, pindex;
 
-    n = INTEGER(VECTOR_ELT(blocksetup, 0))[0];
+    /* n = INTEGER(VECTOR_ELT(blocksetup, 0))[0]; not used*/
     nlevels = INTEGER(VECTOR_ELT(blocksetup, 0))[1];
     indices = VECTOR_ELT(blocksetup, 1);
     dummies = VECTOR_ELT(blocksetup, 2);
