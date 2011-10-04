@@ -7,6 +7,13 @@ ft <- function(test, formula, data = list(), subset = NULL,
               weights = d$w)
     args <- list(...)
     args$frame <- NULL
+
+    ### warn users of weighted rank tests
+    w <- d$w
+    if (is.null(w)) w <- 1L
+    if (test %in% ranktests() & (max(abs(w - 1)) > .Machine$double.eps))
+        warning("Rank transformation doesn't take weights into account")
+
     RET <- do.call(test, c(list(object = ip), args))
     return(RET)
 }

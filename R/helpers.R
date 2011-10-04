@@ -380,3 +380,9 @@ get_ytrans <- function(object) object@statistic@ytrans
 
 chkone <- function(w)
     !(max(abs(w - 1.0)) < eps())
+
+ranktests <- function()
+    c("wilcox_test", "normal_test", "median_test",
+      "ansari_test", "surv_test", "kruskal_test",
+      "fligner_test", "spearman_test", "friedman_test",
+      "wilcoxsign_test")

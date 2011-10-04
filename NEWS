@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 1.0-20
+
+    o     report a warning for rank tests with weights
+
+
 		CHANGES in `coin' VERSION 1.0-19
 
     o     no require() in .onLoad()
