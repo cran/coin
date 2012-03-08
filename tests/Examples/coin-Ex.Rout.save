@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.14.2 (2012-02-29)
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -28,6 +29,40 @@ Loading required package: modeltools
 Loading required package: stats4
 > 
 > assign(".oldSearch", search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("CWD")
+> ### * CWD
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: CWD
+> ### Title: Coarse Woody Debris Data
+> ### Aliases: CWD
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> 
+>   data("CWD")
+>   maxstat_test(sample2 + sample3 + sample4 +
++                sample6 + sample7 + sample8 ~ trend, data = CWD,
++                distribution = approximate(1e5))
+Warning in .local(.Object, ...) :
+  The conditional covariance matrix has zero diagonal elements
+
+	Approximative Maxstat Test
+
+data:  sample2, sample3, sample4, sample6, sample7, sample8 by trend 
+maxT = 3.0793, p-value = 0.0082
+sample estimates:
+$cutpoint
+[1] 71
+
+
+> 
+> 
+> 
+> 
 > cleanEx()
 > nameEx("ContingencyTests")
 > ### * ContingencyTests
@@ -1250,6 +1285,41 @@ attr(,"conf.level")
 > 
 > 
 > cleanEx()
+> nameEx("coin")
+> ### * coin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: coin
+> ### Title: General Information on the coin Package
+> ### Aliases: coin
+> ### Keywords: misc
+> 
+> ### ** Examples
+> 
+> 
+>     ### if you are interested in the internals:
+>     ### generate doxygen documentation
+>     ## Not run: 
+> ##D 
+> ##D         ### download src package into temp dir
+> ##D         tmpdir <- tempdir()
+> ##D         tgz <- download.packages("coin", destdir = tmpdir)[2]
+> ##D         ### extract
+> ##D         untar(tgz, exdir = tmpdir)
+> ##D         wd <- setwd(file.path(tmpdir, "coin"))
+> ##D         ### run doxygen (assuming it is there)
+> ##D         system("doxygen doxygen.cfg")
+> ##D         setwd(wd)
+> ##D         ### have fun
+> ##D         browseURL(file.path(tmpdir, "coin", "inst",
+> ##D                             "documentation", "html", "index.html"))
+> ##D     
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
 > nameEx("expectation-methods")
 > ### * expectation-methods
 > 
@@ -1770,8 +1840,8 @@ alternative hypothesis: true mu is not equal to 1
          y1        y2
 1 0.0110011 0.9789979
 >   pvalue(it, method = "discrete")
-          y1       y2
-1 0.01097084 0.999559
+          y1        y2
+1 0.01097084 0.9995589
 > 
 > 
 > 
@@ -1964,7 +2034,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  36.222 0.38 36.93 0 0 
+Time elapsed:  20.085 0.66 20.774 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -33,31 +33,52 @@ exact null distribution is currently available for two-sample problems only.
     This package is written by \cr
     Torsten Hothorn <Torsten.Hothorn@R-project.org>, \cr 
     Kurt Hornik <Kurt.Hornik@R-project.org>, \cr
-    Mark van de Wiel <m.a.v.d.wiel@TUE.nl> and \cr
+    Mark van de Wiel <m.a.v.d.wiel@TUE.nl>, \cr
+    Henric Winell <henric.winell@icm.uu.se> and \cr
     Achim Zeileis <Achim.Zeileis@R-project.org>.
 
 }
 \references{
 
-    Helmut Strasser \& Christian Weber (1999).
+    Helmut Strasser & Christian Weber (1999).
     On the asymptotic theory of permutation statistics,
     \emph{Mathematical Methods of Statistics} \bold{8}, 220--250.  
 
-    Myles Hollander \& Douglas A. Wolfe (1999).
+    Myles Hollander & Douglas A. Wolfe (1999).
     \emph{Nonparametric Statistical Methods, 2nd Edition}.
     New York: John Wiley & Sons.
 
     Alan Agresti (2002). \emph{Categorical Data Analysis} Hoboken, New
     Jersey: John Wiley & Sons.
 
-    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2006).
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel & Achim Zeileis (2006).
     A Lego system for conditional inference, \emph{The American Statistician},
     \bold{60}(3), 257--263.
 
-    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel \& Achim Zeileis (2008).
+    Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel & Achim Zeileis (2008).
     Implementing a class of permutation tests: The coin package,
     \emph{Journal of Statistical Software}, \bold{28}(8), 1--23.
     \url{http://www.jstatsoft.org/v28/i08/}
 
+}
+\examples{
+
+    ### if you are interested in the internals:
+    ### generate doxygen documentation
+    \dontrun{
+
+        ### download src package into temp dir
+        tmpdir <- tempdir()
+        tgz <- download.packages("coin", destdir = tmpdir)[2]
+        ### extract
+        untar(tgz, exdir = tmpdir)
+        wd <- setwd(file.path(tmpdir, "coin"))
+        ### run doxygen (assuming it is there)
+        system("doxygen doxygen.cfg")
+        setwd(wd)
+        ### have fun
+        browseURL(file.path(tmpdir, "coin", "inst",
+                            "documentation", "html", "index.html"))
+    }
 }
 \keyword{misc}

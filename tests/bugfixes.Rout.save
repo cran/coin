@@ -1,6 +1,6 @@
 
-R version 2.13.0 (2011-04-13)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R version 2.14.2 (2012-02-29)
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
 
@@ -27,10 +27,6 @@ Loading required package: mvtnorm
 Loading required package: modeltools
 Loading required package: stats4
 > isequal <- coin:::isequal
-> 
-> ### check if doxygen documentation is there
-> stopifnot(nchar(system.file("documentation", "html", "index.html", 
-+                             package = "coin")) > 29) 
 > 
 > ### I() returns objects of class AsIs which caused an error in `trafo'
 > df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50))
