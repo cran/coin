@@ -37,6 +37,7 @@ Seasonal variability in respiration from coarse dead wood in a tropical forest.
 \examples{
 
   data("CWD")
+  CWD[1:6] <- 100 * CWD[1:6] # scaling (to avoid warning)
   maxstat_test(sample2 + sample3 + sample4 +
                sample6 + sample7 + sample8 ~ trend, data = CWD,
                distribution = approximate(1e5))

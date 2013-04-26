@@ -1,6 +1,6 @@
 
-R version 2.14.2 (2012-02-29)
-Copyright (C) 2012 The R Foundation for Statistical Computing
+R version 2.15.3 (2013-03-01) -- "Security Blanket"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
 
@@ -44,11 +44,10 @@ Loading required package: stats4
 > 
 > 
 >   data("CWD")
+>   CWD[1:6] <- 100 * CWD[1:6] # scaling (to avoid warning)
 >   maxstat_test(sample2 + sample3 + sample4 +
 +                sample6 + sample7 + sample8 ~ trend, data = CWD,
 +                distribution = approximate(1e5))
-Warning in .local(.Object, ...) :
-  The conditional covariance matrix has zero diagonal elements
 
 	Approximative Maxstat Test
 
@@ -2034,7 +2033,7 @@ $cutpoint
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  20.085 0.66 20.774 0 0 
+Time elapsed:  18.913 0.624 19.568 0 0 
 > grDevices::dev.off()
 null device 
           1 

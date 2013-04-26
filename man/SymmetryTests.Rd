@@ -44,7 +44,7 @@
   \item{zero.method}{a character specifying the way zeros,
                      for example induced by tied repeated measurements, 
                      are handled, see below.}
-  \item{ties.method}{no defunct, see below.}
+  \item{ties.method}{now defunct, see below.}
   \item{\dots}{further arguments to be passed to or from methods.}
 }
 \details{

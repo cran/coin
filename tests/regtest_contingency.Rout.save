@@ -1,6 +1,6 @@
 
-R version 2.13.0 (2011-04-13)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R version 2.15.3 (2013-03-01) -- "Security Blanket"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
 
@@ -94,7 +94,7 @@ Loading required package: stats4
 	Asymptotic Maxstat Test
 
 data:  w by x 
-maxT = 2.3738, p-value = 0.1836
+maxT = 2.3738, p-value = 0.184
 sample estimates:
 $cutpoint
 [1] 0.9060508
@@ -144,7 +144,7 @@ $cutpoint
 	Asymptotic Maxstat Test
 
 data:  w by x, y, z 
-maxT = 2.3738, p-value = 0.286
+maxT = 2.3738, p-value = 0.2879
 sample estimates:
 $covariable
 [1] "x"
@@ -177,3 +177,6 @@ $cutpoint
 > 
 > ### see `comparison.R' for more regression tests
 > 
+> proc.time()
+   user  system elapsed 
+  2.640   0.064   2.697 

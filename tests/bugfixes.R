@@ -129,7 +129,7 @@ for (i in n) {
    x <- round(rnorm(i) * 10, 1)
    xm <- maxstat_trafo(x)
    stopifnot(min(c(mean(xm[,1]), 1 - mean(xm[,ncol(xm)])) - 0.1) >
-             -.Machine$double.eps)
+             -sqrt(.Machine$double.eps))
 }
 
 ### formula evaluation in `parent.frame()', spotted by Z
@@ -232,10 +232,10 @@ wte <- wilcox_test(Route.Time ~ Route, distribution = exact())
 wta <- wilcox_test(Route.Time ~ Route, distribution = approximate())
 de <- dperm(wte, support(wte))
 pe <- pperm(wte, support(wte))
-stopifnot(max(abs(cumsum(de) - pe)) < .Machine$double.eps)
+stopifnot(max(abs(cumsum(de) - pe)) < sqrt(.Machine$double.eps))
 da <- dperm(wta, support(wta))
 pa <- pperm(wta, support(wta))
-stopifnot(max(abs(cumsum(da) - pa)) < .Machine$double.eps)
+stopifnot(max(abs(cumsum(da) - pa)) < sqrt(.Machine$double.eps))
 qperm(wte, seq(from = 0.1, to = 0.9, by = 0.1))
 qperm(wta, seq(from = 0.1, to = 0.9, by = 0.1))
 

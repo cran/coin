@@ -492,7 +492,7 @@ the \proglang{R} transcript files in directory \texttt{coin/tests}.
 \section{Acknowledgements}
 
 We would like to thank Helmut Strasser for discussions on the theoretical framework.
-Henric Nilsson provided clarification and examples for the Maxwell-Stuart test.
+Henric Winell provided clarification and examples for the Maxwell-Stuart test.
 
 \bibliographystyle{jss}
 \bibliography{coin}

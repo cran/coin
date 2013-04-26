@@ -4,7 +4,7 @@ average_scores <- function(s, x) {
     for (d in unique(x))
         s[x == d] <- mean(s[x == d])
     return(s)
-} 
+}
 
 ### identity transformation
 id_trafo <- function(x) x
@@ -12,7 +12,7 @@ id_trafo <- function(x) x
 ### Ansari-Bradley
 ansari_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method, 
+    scores <- switch(ties.method,
         "mid-ranks" = {
             r <- rank(x)
             pmin(r, length(x) - r + 1)
@@ -29,7 +29,7 @@ ansari_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 ### Fligner
 fligner_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method, 
+    scores <- switch(ties.method,
         "mid-ranks" = {
             qnorm((1 + rank(abs(x))/(length(x) + 1))/2)
         },
@@ -46,7 +46,7 @@ fligner_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 normal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
     scores <- switch(ties.method,
-        "mid-ranks" = { 
+        "mid-ranks" = {
             qnorm(rank(x)/(length(x) + 1))
         },
         "average-scores" = {
@@ -57,7 +57,7 @@ normal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     )
     return(scores)
 }
- 
+
 ### Median Scores
 median_trafo <- function(x)
     as.numeric(x <= median(x))
@@ -66,7 +66,7 @@ median_trafo <- function(x)
 consal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
     scores <- switch(ties.method,
-        "mid-ranks" = { 
+        "mid-ranks" = {
             (rank(x)/(length(x) + 1))^4
         },
         "average-scores" = {
@@ -85,7 +85,7 @@ maxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
     if (diff(qx) < .Machine$double.eps)
         return(NULL)
     ux <- sort(unique(x))
-    ux <- ux[ux < max(x)]  
+    ux <- ux[ux < max(x)]
     if (mean(x <= qx[2]) <= maxprob) {
         cutpoints <- ux[ux >= qx[1] & ux <= qx[2]]
     } else {
@@ -117,7 +117,7 @@ fsplits <- function(nlevel) {
     index[-nrow(index),, drop = FALSE]
 }
 
-### set up transformation g(x) for all possible binary splits 
+### set up transformation g(x) for all possible binary splits
 ### in an unordered x
 fmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 0.9) {
 
@@ -171,21 +171,15 @@ function (x, ties.method = c("logrank", "HL", "average-scores"))
 
 ### factor handling
 f_trafo <- function(x) {
-    ### temporarily define `na.pass' as na.action
-    opt <- options()
-    on.exit(options(opt))
-    options(na.action = na.pass)
-    ### remove unused levels
-    x <- x[, drop = TRUE]
-    if (nlevels(x) == 1) {
+    mf <- model.frame(~ x, na.action = na.pass, drop.unused.levels = TRUE)
+    if (nlevels(mf$x) == 1)
         stop("Can't deal with factors containing only one level")
-    } else {
-        ### construct design matrix _without_ intercept
-        mm <- model.matrix(~ x - 1)
-    }
-    colnames(mm) <- levels(x)
-    ### the two-sample situations
-    if (ncol(mm) == 2) mm <- mm[,-2,drop = FALSE]
+    ## construct design matrix _without_ intercept
+    mm <- model.matrix(~ x - 1, data = mf)
+    colnames(mm) <- levels(mf$x)
+    ## the two-sample situations
+    if (ncol(mm) == 2)
+        mm <- mm[, -2, drop = FALSE]
     return(mm)
 }
 
@@ -197,8 +191,8 @@ of_trafo <- function(x) {
 }
 
 ### transformation function
-trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo, 
-                  ordered_trafo = of_trafo, surv_trafo = logrank_trafo, 
+trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
+                  ordered_trafo = of_trafo, surv_trafo = logrank_trafo,
                   var_trafo = NULL, block = NULL) {
 
     if (!(is.data.frame(data) || is.list(data)))
@@ -206,16 +200,16 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
 
     if (!is.null(block)) {
         if (!is.factor(block) || length(block) != nrow(data))
-            stop(sQuote("block"), " is not a factor with ", 
+            stop(sQuote("block"), " is not a factor with ",
                  nrow(data), " elements")
 
-        ### need to check dimension of matrix returned by 
+        ### need to check dimension of matrix returned by
         ### user supplied functions
         ret <- trafo(data, numeric_trafo, factor_trafo, surv_trafo)
 
         ### apply trafo to each block separately
         for (lev in levels(block)) {
-            ret[block == lev, ] <- trafo(data[block == lev, ,drop = FALSE], 
+            ret[block == lev, ] <- trafo(data[block == lev, ,drop = FALSE],
                 numeric_trafo, factor_trafo, ordered_trafo, surv_trafo)
         }
         return(ret)
@@ -224,8 +218,8 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     if (!is.null(var_trafo)) {
         if (!is.list(var_trafo)) stop(sQuote("var_trafo"), " is not a list")
         if (!all(names(var_trafo) %in% names(data)))
-            stop("variable(s) ", 
-                 names(var_trafo)[!(names(var_trafo) %in% names(data))], 
+            stop("variable(s) ",
+                 names(var_trafo)[!(names(var_trafo) %in% names(data))],
                  " not found in ", sQuote("var_trafo"))
     }
 
@@ -266,27 +260,27 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     }
 
     ### set up a matrix of transformations
-    ### when more than one factor is in play, factor names 
+    ### when more than one factor is in play, factor names
     ### _and_ colnames of the corresponding rows are combined by `.'
     RET <- c()
     assignvar <- c()
     cn <- c()
     for (i in 1:length(tr)) {
-        if (nrow(tr[[i]]) != nrow(data)) 
-            stop("Transformation of variable ", names(tr)[i], 
+        if (nrow(tr[[i]]) != nrow(data))
+            stop("Transformation of variable ", names(tr)[i],
                  " are not of length / nrow", nrow(data))
         RET <- cbind(RET, tr[[i]])
         if (is.null(colnames(tr[[i]]))) {
-            cn <- c(cn, rep("", ncol(tr[[i]])))	
+            cn <- c(cn, rep("", ncol(tr[[i]])))
         } else {
-            cn <- c(cn, paste(ifelse(length(tr) > 1, ".", ""), 
+            cn <- c(cn, paste(ifelse(length(tr) > 1, ".", ""),
                               colnames(tr[[i]]), sep = ""))
         }
         assignvar <- c(assignvar, rep(i, ncol(tr[[i]])))
     }
     attr(RET, "assign") <- assignvar
     if (length(tr) > 1) {
-        colnames(RET) <- paste(rep(names(tr), tabulate(assignvar)), 
+        colnames(RET) <- paste(rep(names(tr), tabulate(assignvar)),
                                cn, sep = "")
     } else {
         colnames(RET) <- cn

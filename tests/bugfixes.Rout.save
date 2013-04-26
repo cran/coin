@@ -1,6 +1,6 @@
 
-R version 2.14.2 (2012-02-29)
-Copyright (C) 2012 The R Foundation for Statistical Computing
+R version 2.15.3 (2013-03-01) -- "Security Blanket"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
 
@@ -203,7 +203,7 @@ IV  -339.6795 -339.6795 -339.6795 1019.0385
 +    x <- round(rnorm(i) * 10, 1)
 +    xm <- maxstat_trafo(x)
 +    stopifnot(min(c(mean(xm[,1]), 1 - mean(xm[,ncol(xm)])) - 0.1) >
-+              -.Machine$double.eps)
++              -sqrt(.Machine$double.eps))
 + }
 > 
 > ### formula evaluation in `parent.frame()', spotted by Z
@@ -404,10 +404,10 @@ alternative hypothesis: true mu is not equal to 0
 > wta <- wilcox_test(Route.Time ~ Route, distribution = approximate())
 > de <- dperm(wte, support(wte))
 > pe <- pperm(wte, support(wte))
-> stopifnot(max(abs(cumsum(de) - pe)) < .Machine$double.eps)
+> stopifnot(max(abs(cumsum(de) - pe)) < sqrt(.Machine$double.eps))
 > da <- dperm(wta, support(wta))
 > pa <- pperm(wta, support(wta))
-> stopifnot(max(abs(cumsum(da) - pa)) < .Machine$double.eps)
+> stopifnot(max(abs(cumsum(da) - pa)) < sqrt(.Machine$double.eps))
 > qperm(wte, seq(from = 0.1, to = 0.9, by = 0.1))
 [1] -1.3125012 -0.8559791 -0.5135874 -0.2853264  0.0000000  0.2853264  0.5706527
 [8]  0.8559791  1.2554359
@@ -506,3 +506,6 @@ Z = 1.633, p-value = 0.1025
 alternative hypothesis: true mu is not equal to 0 
 
 > 
+> proc.time()
+   user  system elapsed 
+  2.768   0.208   2.969 

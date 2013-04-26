@@ -8,8 +8,8 @@
             Torsten Hothorn <Torsten.Hothorn@R-project.org>
       
     *\file vandeWiel.c
-    *\author $Author: hothorn $
-    *\date $Date: 2011-05-06 13:46:32 +0200 (Fri, 06 May 2011) $
+    *\author $Author: thothorn $
+    *\date $Date: 2012-03-15 10:32:24 +0100 (Thu, 15 Mar 2012) $
 */
                     
 #include <R.h>
@@ -363,7 +363,7 @@ double numbersmall(int c, int b, double ob, celW **W1, celW **W2, double tol) {
             test = 1;
             for (j = tempel; j < le && test == 1; j++) {
                 th = W1[h][be].x[i] + W2[c-h][bp].x[le-j-1];
-                if (th < ob | th - ob < tol) {
+                if ((th < ob) | (th - ob < tol)) {
                     tot += W1[h][be].c[i] * W2[c - h][bp].c[le - j -1];
                     tempel = j;
                     test = 0;

@@ -1069,7 +1069,7 @@ package \citep{vcd}.
 \section*{Acknowledgments}
  
 We would like to thank Helmut Strasser for discussions on the theoretical framework.
-Henric Nilsson provided clarification and examples for the Maxwell-Stuart test and helped
+Henric Winell provided clarification and examples for the Maxwell-Stuart test and helped
 identifying bugs. The work of Torsten Hothorn was supported by Deutsche Forschungsgemeinschaft (DFG) 
 under grant HO 3242/1-3.
 
