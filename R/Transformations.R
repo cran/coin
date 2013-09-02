@@ -165,7 +165,7 @@ function (x, ties.method = c("logrank", "HL", "average-scores"))
         fact <- event / (n - rt + 1)
         sc <- cumsum(fact[ot])[rt] - event
         ### average over events only
-        return(coin:::average_scores(sc, time + (1 - event) * runif(n)))
+        return(average_scores(sc, time + (1 - event) * runif(n)))
     }
 }
 

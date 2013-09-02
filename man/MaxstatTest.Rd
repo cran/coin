@@ -109,6 +109,7 @@
       ytrafo = function(data) trafo(data, surv_trafo = function(x) 
          logrank_trafo(x, ties = "HL")))
 
+  data("sphase", package = "TH.data")
   maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
       ytrafo = function(data) trafo(data, surv_trafo = function(x)
          logrank_trafo(x, ties = "HL")))

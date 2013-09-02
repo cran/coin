@@ -1,3 +1,9 @@
+useDynLib(coin)
+
+import("methods")
+importFrom("survival", is.Surv)
+importFrom("modeltools", ModelEnvFormula, has, na.omit)
+importFrom("mvtnorm", dmvnorm, pmvnorm, qmvnorm)
 
 export(independence_test,
        oneway_test,
@@ -28,20 +34,20 @@ export(independence_test,
        fmaxstat_trafo,
        logrank_trafo,
        f_trafo, of_trafo,
-       asymptotic, exact, approximate)       
+       asymptotic, exact, approximate)
 
-exportClasses("IndependenceProblem", "IndependenceTest", 
+exportClasses("IndependenceProblem", "IndependenceTest",
               "IndependenceTestProblem","IndependenceTestStatistic",
               "IndependenceLinearStatistic",
               "ScalarIndependenceTestStatistic", "PValue", "NullDistribution",
               "SymmetryProblem", "ExpectCovarInfluence", "ExpectCovar",
               "QuadTypeIndependenceTest", "ScalarIndependenceTest",
-              "ScalarIndependenceTestConfint", "MaxTypeIndependenceTest", 
+              "ScalarIndependenceTestConfint", "MaxTypeIndependenceTest",
               "MaxTypeIndependenceTestStatistic",
               "QuadTypeIndependenceTestStatistic")
 
-exportMethods("initialize", "show", "pvalue", "statistic", 
-              "pperm", "dperm", "qperm", "support", "expectation", 
+exportMethods("initialize", "show", "pvalue", "statistic",
+              "pperm", "dperm", "qperm", "support", "expectation",
               "covariance", "variance", "ExactNullDistribution")
 
 S3method(independence_test, formula)
@@ -100,5 +106,3 @@ S3method(confint, ScalarIndependenceTestConfint)
 
 S3method(print, ci)
 S3method(print, MCp)
-
-useDynLib(coin)

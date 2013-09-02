@@ -1,8 +1,7 @@
 
-R version 2.15.3 (2013-03-01) -- "Security Blanket"
+R version 3.0.1 (2013-05-16) -- "Good Sport"
 Copyright (C) 2013 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
-Platform: i686-pc-linux-gnu (32-bit)
+Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -23,9 +22,6 @@ Type 'q()' to quit R.
 > library(coin)
 Loading required package: survival
 Loading required package: splines
-Loading required package: mvtnorm
-Loading required package: modeltools
-Loading required package: stats4
 > isequal <- coin:::isequal
 > 
 > ### example from Westfall & Wolfinger (1997), Table 4
@@ -140,7 +136,7 @@ Control 0.05407491  1 0.1348184 0.9907555
 2.408471 
 > dperm(mt, qperm(mt, 0.9))
   90% 
-0.003 
+0.002 
 > #support(mt)
 > 
 > mt <- maxstat_test(y ~ x, distribution = approximate(), alternative = "greater")
@@ -177,4 +173,4 @@ Control 0.05407491  1 0.1348184 0.9907555
 > 
 > proc.time()
    user  system elapsed 
-  3.768   0.152   3.912 
+  2.076   0.040   2.113 

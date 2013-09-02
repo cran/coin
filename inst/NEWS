@@ -1,4 +1,9 @@
 
+		CHANGES in `coin' VERSION 1.0-23
+
+    o     fix DESCRIPTION and NAMESPACE issues
+
+
 		CHANGES in `coin' VERSION 1.0-22
 
     o     documentation updates
@@ -180,7 +185,7 @@
 
 		CHANGES in `coin' VERSION 0.6-6
 
-    o    fix precision problems with exact p-values (spotted by 
+    o    fix precision problems with exact p-values (spotted by
          Michael Fay <mfay@niaid.nih.gov>
 
 
@@ -190,14 +195,14 @@
 
     o    update to new mvtnorm 0.8-0
 
-    o    check for overflow errors in StreitbergRoehmel.c 
+    o    check for overflow errors in StreitbergRoehmel.c
          (thanks for Michael Fay <mfay@niaid.nih.gov> for spotting this)
 
 
 		CHANGES in `coin' VERSION 0.6-4
 
     o    add new argument `ordered_trafo' to `trafo'
-         and deal with ordered factors in a more transparent 
+         and deal with ordered factors in a more transparent
          way (via a new function `of_trafo')
 
 
@@ -331,7 +336,7 @@
 
     o    updated `LegoCondInf' vignette
 
-    o    printed names of test statistics are now 
+    o    printed names of test statistics are now
          `chi-squared', `maxT', or `Z' instead of `T'
 
 
@@ -346,10 +351,10 @@
     o    argument `teststat' may take values "max", "quad" or "scalar"
 
     o    internal reimplementation of score handling for ordered factors
-         
+
     o    handling of multiple ordered factors / ordered factors in
          multivariate sitations implemented
-         
+
 
 		CHANGES in `coin' VERSION 0.4-4
 
@@ -384,7 +389,7 @@
 
     o    remove unused setAs definitions
 
-    o    expectation(), variance() and covariance() return 
+    o    expectation(), variance() and covariance() return
          named vectors or matrices. Names for objects returned
          by statistic() have been partially improved.
 
@@ -402,17 +407,17 @@
 
     o    export `independence_test.table'
 
-    o    add `conf.level' attribute for `MCp' objects when quasi-randomized 
+    o    add `conf.level' attribute for `MCp' objects when quasi-randomized
          Monte-Carlo procedures (from `mvtnorm') have been used
 
     o    add new `var_trafo' argument to `trafo'
 
     o    documentation updates
- 
+
 
 		CHANGES in `coin' VERSION 0.3-7
 
-    o    `statistic()' now returns correct linear and standardized 
+    o    `statistic()' now returns correct linear and standardized
          statistics when scores are in play
 
     o    `alzheimer' data added
@@ -428,7 +433,7 @@
 		CHANGES in `coin' VERSION 0.3-6
 
     o    internal C function `R_MonteCarloIndependenceTest' returns
-         a (pq x B) matrix instead of a list with B elements 
+         a (pq x B) matrix instead of a list with B elements
          (the linear statistic for each random permutation of the data)
 
     o    various simplifications for the computations of adjusted p-values
@@ -436,13 +441,13 @@
     o    I() in formulae could still cause trouble with class `AsIs', now
          fixed.
 
-    o    logical variables are now allowed in formulae 
+    o    logical variables are now allowed in formulae
          (and are treated like factors)
 
 
 		CHANGES in `coin' VERSION 0.3-5
 
-    o    fix print method for marginal homogeneity tests 
+    o    fix print method for marginal homogeneity tests
          (...stratified by block...)
 
     o    R_kronecker in C now available
@@ -483,7 +488,7 @@
         for maxtype statistics as well
 
     o   one- and two-sided single-step and step-down maxT p-value
-        adjustments are now available from the appropriate 
+        adjustments are now available from the appropriate
         `pvalue' method (NOTE: those procedures have not been tested
                          carefully, yet)
 
@@ -536,11 +541,11 @@
 
     o   `expectation()' returns a vector, not a matrix
 
-    o   new generic `variance()' for extracting the variance(s) of 
+    o   new generic `variance()' for extracting the variance(s) of
         linear statistics
 
-    o   only variances (instead of the whole covariance matrix) is 
-        computed when the distribution of maximum type test statistics 
+    o   only variances (instead of the whole covariance matrix) is
+        computed when the distribution of maximum type test statistics
         is to be _approximated_.
 
     o   `data' may be an object of class `exprSet' (-> Biobase), the
