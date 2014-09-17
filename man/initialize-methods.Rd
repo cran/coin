@@ -6,6 +6,8 @@
 \alias{initialize,traceable-method}
 \alias{initialize,signature-method}
 \alias{initialize,environment-method}
+\alias{initialize,ExpectCovar-method}
+\alias{initialize,ExpectCovarInfluence-method}
 \alias{initialize,ModelEnv-method}
 \alias{initialize,CovarianceMatrix-method}
 \alias{initialize,Variance-method}
@@ -27,6 +29,10 @@
 \item{.Object = "environment"}{}
 
 \item{.Object = "ModelEnv"}{}
+
+\item{.Object = "ExpectCovar"}{}
+
+\item{.Object = "ExpectCovarInfluence"}{}
 
 \item{.Object = "IndependenceProblem"}{}
 

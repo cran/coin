@@ -1,6 +1,6 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R Under development (unstable) (2014-09-11 r66573) -- "Unsuffered Consequences"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,6 +20,18 @@ Type 'q()' to quit R.
 > pkgname <- "coin"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
+> base::assign(".ExTimings", "coin-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
 > library('coin')
 Loading required package: survival
 Loading required package: splines
@@ -31,6 +43,7 @@ Loading required package: splines
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: CWD
 > ### Title: Coarse Woody Debris Data
 > ### Aliases: CWD
@@ -58,12 +71,15 @@ $cutpoint
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("CWD", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("ContingencyTests")
 > ### * ContingencyTests
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: ContingencyTests
 > ### Title: Independence in Three-Way Contingency Tables
 > ### Aliases: chisq_test chisq_test.formula chisq_test.table
@@ -196,12 +212,15 @@ chi-squared = 10.6381, df = 1, p-value = 0.001108
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ContingencyTests", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("IndependenceTest")
 > ### * IndependenceTest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: IndependenceTest
 > ### Title: General Independence Tests
 > ### Aliases: independence_test independence_test.formula
@@ -257,12 +276,15 @@ alternative hypothesis: true mu is greater than 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("IndependenceTest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("LocationTests")
 > ### * LocationTests
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: LocationTests
 > ### Title: Independent Two- and K-Sample Location Tests
 > ### Aliases: oneway_test oneway_test.formula
@@ -426,6 +448,7 @@ chi-squared = 22.8524, p-value < 2.2e-16
 +   }
 Loading required package: multcomp
 Loading required package: mvtnorm
+Loading required package: TH.data
 [1] 0.0004888889
 99 percent confidence interval:
  0.0003199269 0.0007126921 
@@ -441,15 +464,18 @@ IV - III 0.9998777778
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("LocationTests", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
-detaching ‘package:multcomp’, ‘package:mvtnorm’
+detaching ‘package:multcomp’, ‘package:TH.data’, ‘package:mvtnorm’
 
 > nameEx("MarginalHomogeneityTest")
 > ### * MarginalHomogeneityTest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: MarginalHomogeneityTest
 > ### Title: Marginal Homogeneity Test
 > ### Aliases: mh_test mh_test.table mh_test.formula mh_test.SymmetryProblem
@@ -513,12 +539,15 @@ chi-squared = 13.7647, df = 2, p-value = 0.001026
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("MarginalHomogeneityTest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("MaxstatTest")
 > ### * MaxstatTest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: MaxstatTest
 > ### Title: Maximally Selected Statistics
 > ### Aliases: maxstat_test maxstat_test.formula
@@ -600,12 +629,15 @@ $cutpoint
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("MaxstatTest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("PermutationDistribution")
 > ### * PermutationDistribution
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: PermutationDistribution
 > ### Title: Permutation Distribution of Conditional Independence Tests
 > ### Aliases: pperm pperm-methods pperm,NullDistribution-method
@@ -645,12 +677,15 @@ $cutpoint
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("PermutationDistribution", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("ScaleTests")
 > ### * ScaleTests
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: ScaleTests
 > ### Title: Independent Two- and K-Sample Scale Tests
 > ### Aliases: ansari_test ansari_test.formula
@@ -736,12 +771,15 @@ Control:Scale                   0            21
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ScaleTests", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("SpearmanTest")
 > ### * SpearmanTest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: SpearmanTest
 > ### Title: Spearman's Test on Independence
 > ### Aliases: spearman_test spearman_test.formula
@@ -763,12 +801,15 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SpearmanTest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("SurvTest")
 > ### * SurvTest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: SurvTest
 > ### Title: Independent Two- and K-Sample Tests for Censored Data
 > ### Aliases: surv_test surv_test.formula surv_test.IndependenceProblem
@@ -864,12 +905,15 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SurvTest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("SymmetryTests")
 > ### * SymmetryTests
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: SymmetryTests
 > ### Title: Symmetry Tests
 > ### Aliases: friedman_test friedman_test.formula
@@ -952,6 +996,7 @@ chi-squared = 11.1429, df = 2, p-value = 0.003805
 + }
 Loading required package: multcomp
 Loading required package: mvtnorm
+Loading required package: TH.data
 [1] 0.003455915
 99 percent confidence interval:
  0.003205721 0.003706108 
@@ -1030,15 +1075,18 @@ alternative hypothesis: true mu is greater than 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SymmetryTests", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
-detaching ‘package:multcomp’, ‘package:mvtnorm’
+detaching ‘package:multcomp’, ‘package:TH.data’, ‘package:mvtnorm’
 
 > nameEx("Transformations")
 > ### * Transformations
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Transformations
 > ### Title: Functions for Data Transformations
 > ### Aliases: trafo id_trafo ansari_trafo fligner_trafo normal_trafo
@@ -1193,12 +1241,15 @@ attr(,"assign")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Transformations", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("alpha")
 > ### * alpha
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: alpha
 > ### Title: Genetic Components of Alcoholism
 > ### Aliases: alpha
@@ -1219,12 +1270,15 @@ chi-squared = 8.8302, df = 2, p-value = 0.01209
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("alpha", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("alzheimer")
 > ### * alzheimer
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: alzheimer
 > ### Title: Smoking and Alzheimer's Disease
 > ### Aliases: alzheimer
@@ -1254,12 +1308,15 @@ chi-squared = 23.3163, df = 6, p-value = 0.0006972
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("alzheimer", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("asat")
 > ### * asat
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: asat
 > ### Title: Toxicological Study on Female Wistar Rats
 > ### Aliases: asat
@@ -1282,12 +1339,15 @@ attr(,"conf.level")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("asat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("coin")
 > ### * coin
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: coin
 > ### Title: General Information on the coin Package
 > ### Aliases: coin
@@ -1317,12 +1377,15 @@ attr(,"conf.level")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("coin", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("expectation-methods")
 > ### * expectation-methods
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: expectation-methods
 > ### Title: Extract the Expectation and Variance / Covariance of Linear
 > ###   Statistics
@@ -1402,12 +1465,15 @@ attr(,"conf.level")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("expectation-methods", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("glioma")
 > ### * glioma
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: glioma
 > ### Title: Malignant Glioma Pilot Study
 > ### Aliases: glioma
@@ -1523,12 +1589,15 @@ alternative hypothesis: two.sided
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("glioma", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("hohnloser")
 > ### * hohnloser
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: hohnloser
 > ### Title: Left ventricular ejection fraction of patients with malignant
 > ###   ventricular tachyarrhythmias.
@@ -1553,12 +1622,15 @@ $cutpoint
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("hohnloser", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("jobsatisfaction")
 > ### * jobsatisfaction
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: jobsatisfaction
 > ### Title: Income and Job Satisfaction
 > ### Aliases: jobsatisfaction
@@ -1581,12 +1653,15 @@ chi-squared = 10.2001, df = 9, p-value = 0.3345
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("jobsatisfaction", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("mercuryfish")
 > ### * mercuryfish
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: mercuryfish
 > ### Title: Chromosomal Effects of Mercury Contaminated Fish Consumption
 > ### Aliases: mercuryfish
@@ -1662,12 +1737,15 @@ control 0.007991569 0.01726738 0.03830126
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mercuryfish", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("neuropathy")
 > ### * neuropathy
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: neuropathy
 > ### Title: Acute Painful Diabetic Neuropathy
 > ### Aliases: neuropathy
@@ -1712,12 +1790,15 @@ alternative hypothesis: true mu is less than 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("neuropathy", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("ocarcinoma")
 > ### * ocarcinoma
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: ocarcinoma
 > ### Title: Ovarian Carcinoma
 > ### Aliases: ocarcinoma
@@ -1742,12 +1823,15 @@ alternative hypothesis: true mu is less than 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ocarcinoma", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("photocar")
 > ### * photocar
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: photocar
 > ### Title: Multiple Dosing Photococarcinogenicity Experiment
 > ### Aliases: photocar
@@ -1790,12 +1874,15 @@ C             0.000            0.0000 0.9988
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("photocar", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("pvalue-methods")
 > ### * pvalue-methods
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: pvalue-methods
 > ### Title: Extract P-Values
 > ### Aliases: pvalue pvalue-methods pvalue,NullDistribution-method
@@ -1844,12 +1931,15 @@ alternative hypothesis: true mu is not equal to 1
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("pvalue-methods", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("rotarod")
 > ### * rotarod
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: rotarod
 > ### Title: Rotating Rats Data
 > ### Aliases: rotarod
@@ -1892,12 +1982,15 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("rotarod", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("statistic-methods")
 > ### * statistic-methods
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: statistic-methods
 > ### Title: Extract Test Statistics, Linear Statistics and Standardized
 > ###   Statistics
@@ -1950,12 +2043,15 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("statistic-methods", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("treepipit")
 > ### * treepipit
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: treepipit
 > ### Title: Tree Pipit (Anthus trivialis) Forest Data
 > ### Aliases: treepipit
@@ -1985,11 +2081,13 @@ $cutpoint
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("treepipit", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > ### * <FOOTER>
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  14.428 0.352 14.797 0 0 
+Time elapsed:  12.82 0.244 13.077 0 0 
 > grDevices::dev.off()
 null device 
           1 

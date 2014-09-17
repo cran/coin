@@ -1,4 +1,26 @@
 
+setMethod(f = "initialize", signature = "ExpectCovar",
+    definition = function(.Object, pq = 1) {
+        pq <- as.integer(pq)
+        .Object@expectation <- rep(0, pq)
+        .Object@covariance <- matrix(0, nrow = pq, ncol = pq)
+        .Object@dimension  <- as.integer(pq)
+        .Object
+    }
+)
+
+
+setMethod(f = "initialize", signature = "ExpectCovarInfluence",
+    definition = function(.Object, q) {
+        .Object@expectation <- rep(0, q)
+        .Object@covariance <- matrix(0, nrow = q, ncol = q)
+        .Object@dimension  <- as.integer(q)
+        .Object@sumweights <- log(1) ### was as.double(0.0) but
+                                     ### there seem to be protection issues
+        .Object
+    }
+)
+
 ### new("CovarianceMatrix", ...)
 setMethod(f = "initialize", 
     signature = "CovarianceMatrix",

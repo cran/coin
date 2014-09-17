@@ -291,3 +291,25 @@ try(wilcoxsign_test(x ~ y))
 x <- c(1, 2, 3)
 y <- c(0, 1, 0)
 wilcoxsign_test(x ~ y)
+
+### as.integer(round(x)) is safer than as.integer(x)
+ water_transfer <- data.frame(
+     pd = c(0.80, 0.83, 1.89, 1.04, 1.45, 1.38, 1.91,
+            1.64, 0.73, 1.46, 1.15, 0.88, 0.90, 0.74, 1.21) * 100 - 72,
+     age = factor(c(rep("At term", 10),
+                    rep("12-26 Weeks", 5))))
+
+### check this out
+# water_transfer$pd[11]
+# as.integer(water_transfer$pd[11])
+# as.integer(round(water_transfer$pd[11]))
+
+p1 <-  pvalue(it1 <- independence_test(pd ~ age, data = water_transfer,
+                          alternative = "less",
+                          distribution = exact(algorithm = "shift")))
+
+p2 <- pvalue(it2 <- independence_test(pd ~ age, data = water_transfer,
+                          alternative = "less",
+                          distribution = exact(algorithm = "split")))
+
+stopifnot(isequal(p1, p2))

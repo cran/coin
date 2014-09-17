@@ -113,10 +113,10 @@ cSR_shift_2sample <- function(scores, m, fact = NULL) {
     m_b <- sum(sort(scores)[(n + 1 - m):n])
 
     Prob <- .Call("R_cpermdist2", 
-                  score_a = as.integer(ones),  
-                  score_b = as.integer(scores),
+                  score_a = as.integer(round(ones)),  
+                  score_b = as.integer(round(scores)),
                   m_a = as.integer(m),  
-                  m_b = as.integer(m_b),
+                  m_b = as.integer(round(m_b)),
                   retProb = as.logical(TRUE), 
                   PACKAGE = "coin")
 
