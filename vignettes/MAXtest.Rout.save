@@ -1,0 +1,255 @@
+
+> library("coin")
+Loading required package: survival
+
+> set.seed(290875)
+
+> library("xtable")
+
+> xtable.table <- function(x, ...) {
++     tab2 <- function(x, pre = NULL, totals = TRUE) {
++         if (totals) {
++             x <- cbind(x, Total  .... [TRUNCATED] 
+
+> psoriasis <- structure(list(gender = structure(as.integer(c(2, 
++     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
++     2, 2, 2, 2, 2, .... [TRUNCATED] 
+
+> diabetes <- structure(list(Study = structure(c(1, 
++     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
++     1, 1, 1, 1, 1, 1, 1, 1, 1,  .... [TRUNCATED] 
+
+> me <- as.table(matrix(c(6, 8, 10, 32, 47, 20), byrow = TRUE, 
++     nrow = 2, dimnames = list(Group = c("In situ", "Control"), 
++         Genotype = .... [TRUNCATED] 
+
+> me <- t(me)
+
+> xtable.table(me)
+ &  In situ & Control & Total \\ \hline 
+AA  &  6 & 32 & 38  \\ 
+AG  &  8 & 47 & 55  \\ 
+GG  &  10 & 20 & 30  \\ 
+Total  &  24 & 99 & 123  \\ 
+
+> add <- c(0, 1, 2)
+
+> dom <- c(0, 1, 1)
+
+> rec <- c(0, 0, 1)
+
+> g <- function(x) {
++     x <- unlist(x)
++     cbind(dominant = dom[x], additive = add[x], recessive = rec[x])
++ }
+
+> it <- independence_test(me, xtrafo = g, alternative = "greater")
+
+> CA <- statistic(it, type = "linear")
+
+> CAstand <- statistic(it, type = "standardized")
+
+> pasympt <- pvalue(it, method = "single-step")
+
+> itp <- independence_test(me, xtrafo = g, distribution = approximate(B = 49999), 
++     alternative = "greater")
+
+> papprox <- pvalue(itp, method = "step-down")
+
+> out <- cbind(CA, round(expectation(it), 4), round(sqrt(variance(it)), 
++     4), round(CAstand, 4), round(pasympt, 4), round(papprox, 
++     4))
+
+> rownames(out) <- rownames(CA)
+
+> out[, 2] <- formatC(out[, 2], digits = 4, format = "f")
+
+> S <- round(covariance(it), 4)
+
+> S <- formatC(S, digits = 4, format = "f")
+
+> for (i in 1:nrow(S)) cat(paste(S[i, ], collapse = " & "), 
++     "\\\\ \n")
+4.1579 & 5.6255 & 1.4675 \\ 
+5.6255 & 10.6845 & 5.0590 \\ 
+1.4675 & 5.0590 & 3.5915 \\ 
+
+> S <- round(cov2cor(covariance(it)), 4)
+
+> S <- formatC(S, digits = 4, format = "f")
+
+> for (i in 1:nrow(S)) cat(paste(S[i, ], collapse = " & "), 
++     "\\\\ \n")
+1.0000 & 0.8440 & 0.3798 \\ 
+0.8440 & 1.0000 & 0.8167 \\ 
+0.3798 & 0.8167 & 1.0000 \\ 
+
+> for (i in 1:nrow(out)) cat(rownames(out)[i], " & ", 
++     paste(out[i, ], collapse = " & "), "\\\\ \n")
+dominant  &  18 & 16.5854 & 2.0391 & 0.6938 & 0.3907 & 0.3302 \\ 
+additive  &  28 & 22.4390 & 3.2687 & 1.7013 & 0.0868 & 0.0654 \\ 
+recessive  &  10 & 5.8537 & 1.8951 & 2.1879 & 0.0303 & 0.0359 \\ 
+
+> xtable(xtabs(~IL1B_511 + group + gender, data = psoriasis))
+Male  &  &  Control & Early Onset & Late Onset & Total \\ \hline 
+ & CC  &  75 & 54 & 29 & 158  \\ 
+ & CT  &  93 & 44 & 13 & 150  \\ 
+ & TT  &  14 & 7 & 4 & 25  \\ 
+ & Total  &  182 & 105 & 46 & 333  \\ 
+Female  &  &  Control & Early Onset & Late Onset & Total \\ \hline 
+ & CC  &  76 & 26 & 17 & 119  \\ 
+ & CT  &  69 & 20 & 10 & 99  \\ 
+ & TT  &  18 & 5 & 2 & 25  \\ 
+ & Total  &  163 & 51 & 29 & 243  \\ 
+
+> xtable(xtabs(~TNFA_238 + group + gender, data = psoriasis))
+Male  &  &  Control & Early Onset & Late Onset & Total \\ \hline 
+ & GG  &  170 & 71 & 40 & 281  \\ 
+ & GA  &  12 & 33 & 6 & 51  \\ 
+ & AA  &  0 & 1 & 0 & 1  \\ 
+ & Total  &  182 & 105 & 46 & 333  \\ 
+Female  &  &  Control & Early Onset & Late Onset & Total \\ \hline 
+ & GG  &  146 & 43 & 24 & 213  \\ 
+ & GA  &  17 & 8 & 5 & 30  \\ 
+ & AA  &  0 & 0 & 0 & 0  \\ 
+ & Total  &  163 & 51 & 29 & 243  \\ 
+
+> it <- independence_test(TNFA_238 + IL1B_511 ~ group | 
++     gender, data = psoriasis, ytrafo = function(data) trafo(data, 
++     factor_trafo = g), .... [TRUNCATED] 
+
+> pvals <- matrix(round(pvalue(it, method = "single-step"), 
++     4), nr = 3)
+
+> pvals[pvals < 0.01] <- "$< 0.0001$"
+
+> rownames(pvals) <- c("dominant", "additive", "recessive")
+
+> for (i in 1:nrow(pvals)) cat(rownames(pvals)[i], " & ", 
++     paste(pvals[i, ], collapse = "&"), "\\\\ \n")
+dominant  &  $< 0.0001$&0.0407 \\ 
+additive  &  $< 0.0001$&0.1051 \\ 
+recessive  &  0.7241&0.9819 \\ 
+
+> bit <- independence_test(Group ~ Locus | Study, data = diabetes, 
++     xtrafo = g, alternative = "greater")
+
+> bCA <- statistic(bit, type = "linear")
+
+> bCAstand <- statistic(bit, type = "standardized")
+
+> bpasympt <- pvalue(bit, method = "single-step")
+
+> bitp <- independence_test(Group ~ Locus | Study, data = diabetes, 
++     xtrafo = g, distribution = approximate(B = 49999), alternative = "greater")
+
+> bpapprox <- pvalue(bitp, method = "step-down")
+
+> out <- cbind(bCA, round(expectation(bit), 4), round(sqrt(variance(bit)), 
++     4), round(bCAstand, 4), round(bpasympt, 4), round(bpapprox, 
++     4 .... [TRUNCATED] 
+
+> rownames(out) <- rownames(bCA)
+
+> out[, 2] <- formatC(out[, 2], digits = 4, format = "f")
+
+> for (i in 1:nrow(out)) cat(rownames(out)[i], " & ", 
++     paste(out[i, ], collapse = " & "), "\\\\ \n")
+dominant  &  337 & 320.4287 & 7.0531 & 2.3495 & 0.0207 & 0.0112 \\ 
+additive  &  438 & 404.0265 & 10.1618 & 3.3433 & 0.0012 & 0.001 \\ 
+recessive  &  101 & 83.5979 & 5.2912 & 3.2889 & 0.0012 & 0.0013 \\ 
+
+> me <- as.table(matrix(c(6, 8, 10, 32, 47, 20), byrow = TRUE, 
++     nrow = 2, dimnames = list(Group = c("In situ", "Control"), 
++         Genotype = .... [TRUNCATED] 
+
+> me <- t(me)
+
+> me
+        Group
+Genotype In situ Control
+      AA       6      32
+      AG       8      47
+      GG      10      20
+
+> add <- c(0, 1, 2)
+
+> dom <- c(0, 1, 1)
+
+> rec <- c(0, 0, 1)
+
+> g <- function(x) {
++     x <- unlist(x)
++     cbind(dominant = dom[x], additive = add[x], recessive = rec[x])
++ }
+
+> library("coin")
+
+> it <- independence_test(me, xtrafo = g, alternative = "greater")
+
+> it
+
+	Asymptotic General Independence Test
+
+data:  Group by Genotype (AA, AG, GG)
+maxT = 2.1879, p-value = 0.03042
+alternative hypothesis: greater
+
+
+> drop(pvalue(it, method = "single-step"))
+  dominant   additive  recessive 
+0.39063737 0.08676118 0.03040045 
+
+> gZheng <- function(x) {
++     x <- unlist(x)
++     eta <- seq(from = 0, to = 1, by = 0.01)
++     tr <- sapply(eta, function(n) c(0, n, 1)[x])
++      .... [TRUNCATED] 
+
+> itZ <- independence_test(me, xtrafo = gZheng, alternative = "greater")
+
+> itZ
+
+	Asymptotic General Independence Test
+
+data:  Group by Genotype (AA, AG, GG)
+maxT = 2.1879, p-value = 0.03151
+alternative hypothesis: greater
+
+
+> drop(pvalue(itZ, method = "single-step"))
+     eta_0   eta_0.01   eta_0.02   eta_0.03   eta_0.04   eta_0.05   eta_0.06 
+0.03151304 0.03162379 0.03176212 0.03191972 0.03209197 0.03228663 0.03250561 
+  eta_0.07   eta_0.08   eta_0.09    eta_0.1   eta_0.11   eta_0.12   eta_0.13 
+0.03274823 0.03301281 0.03330016 0.03361386 0.03395610 0.03432383 0.03472546 
+  eta_0.14   eta_0.15   eta_0.16   eta_0.17   eta_0.18   eta_0.19    eta_0.2 
+0.03515723 0.03561464 0.03610973 0.03663956 0.03720648 0.03781138 0.03845817 
+  eta_0.21   eta_0.22   eta_0.23   eta_0.24   eta_0.25   eta_0.26   eta_0.27 
+0.03914792 0.03987640 0.04065208 0.04147678 0.04235435 0.04328269 0.04426266 
+  eta_0.28   eta_0.29    eta_0.3   eta_0.31   eta_0.32   eta_0.33   eta_0.34 
+0.04530451 0.04640300 0.04756671 0.04879473 0.05009090 0.05145841 0.05289975 
+  eta_0.35   eta_0.36   eta_0.37   eta_0.38   eta_0.39    eta_0.4   eta_0.41 
+0.05441897 0.05601775 0.05770110 0.05946786 0.06132908 0.06327947 0.06533041 
+  eta_0.42   eta_0.43   eta_0.44   eta_0.45   eta_0.46   eta_0.47   eta_0.48 
+0.06747833 0.06973053 0.07209088 0.07456038 0.07714360 0.07984304 0.08266065 
+  eta_0.49    eta_0.5   eta_0.51   eta_0.52   eta_0.53   eta_0.54   eta_0.55 
+0.08560310 0.08867050 0.09186639 0.09519253 0.09865287 0.10224856 0.10598309 
+  eta_0.56   eta_0.57   eta_0.58   eta_0.59    eta_0.6   eta_0.61   eta_0.62 
+0.10985423 0.11386954 0.11802337 0.12232122 0.12676362 0.13134787 0.13608048 
+  eta_0.63   eta_0.64   eta_0.65   eta_0.66   eta_0.67   eta_0.68   eta_0.69 
+0.14095192 0.14596886 0.15112707 0.15642563 0.16186213 0.16743632 0.17314356 
+   eta_0.7   eta_0.71   eta_0.72   eta_0.73   eta_0.74   eta_0.75   eta_0.76 
+0.17898205 0.18494849 0.19104191 0.19725298 0.20358348 0.21002529 0.21657605 
+  eta_0.77   eta_0.78   eta_0.79    eta_0.8   eta_0.81   eta_0.82   eta_0.83 
+0.22322887 0.22998050 0.23682421 0.24375584 0.25076897 0.25785709 0.26501653 
+  eta_0.84   eta_0.85   eta_0.86   eta_0.87   eta_0.88   eta_0.89    eta_0.9 
+0.27223996 0.27952144 0.28685492 0.29423443 0.30165464 0.30910862 0.31659023 
+  eta_0.91   eta_0.92   eta_0.93   eta_0.94   eta_0.95   eta_0.96   eta_0.97 
+0.32409437 0.33161541 0.33914685 0.34668311 0.35421895 0.36174935 0.36926863 
+  eta_0.98   eta_0.99      eta_1 
+0.37677208 0.38425498 0.39171216 
+
+ *** Run successfully completed ***
+> proc.time()
+   user  system elapsed 
+  16.53    0.04   16.69 

@@ -1,0 +1,999 @@
+
+R Under development (unstable) (2015-07-24 r68738) -- "Unsuffered Consequences"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> ### Regression tests for the transformation functions
+> 
+> set.seed(290875)
+> library("coin")
+Loading required package: survival
+> isequal <- coin:::isequal
+> options(useFancyQuotes = FALSE)
+> 
+> 
+> ### NA handling: continuous
+> x <- c(1L, 2L, NA, 3L, 3L, NA, 4L, 5L, NA)
+> cc <- complete.cases(x)
+> 
+> id_trafo(x)
+[1]  1  2 NA  3  3 NA  4  5 NA
+> id_trafo(x[cc])
+[1] 1 2 3 3 4 5
+> 
+> rank_trafo(x)
+[1] 1.0 2.0  NA 3.5 3.5  NA 5.0 6.0  NA
+> rank_trafo(x[cc])
+[1] 1.0 2.0 3.5 3.5 5.0 6.0
+> rank_trafo(x, ties.method = "random")
+[1]  1  2 NA  4  3 NA  5  6 NA
+> rank_trafo(x[cc], ties.method = "random")
+[1] 1 2 3 4 5 6
+> 
+> normal_trafo(x)
+[1] -1.0675705 -0.5659488         NA  0.0000000  0.0000000         NA  0.5659488
+[8]  1.0675705         NA
+> normal_trafo(x[cc])
+[1] -1.0675705 -0.5659488  0.0000000  0.0000000  0.5659488  1.0675705
+> normal_trafo(x, ties.method = "average-scores")
+[1] -1.067571e+00 -5.659488e-01            NA -8.326673e-17 -8.326673e-17
+[6]            NA  5.659488e-01  1.067571e+00            NA
+> normal_trafo(x[cc], ties.method = "average-scores")
+[1] -1.067571e+00 -5.659488e-01 -8.326673e-17 -8.326673e-17  5.659488e-01
+[6]  1.067571e+00
+> 
+> median_trafo(x)
+[1]  0  0 NA  0  0 NA  1  1 NA
+> median_trafo(x[cc])
+[1] 0 0 0 0 1 1
+> median_trafo(x, mid.score = "0.5")
+[1] 0.0 0.0  NA 0.5 0.5  NA 1.0 1.0  NA
+> median_trafo(x[cc], mid.score = "0.5")
+[1] 0.0 0.0 0.5 0.5 1.0 1.0
+> median_trafo(x, mid.score = "1")
+[1]  0  0 NA  1  1 NA  1  1 NA
+> median_trafo(x[cc], mid.score = "1")
+[1] 0 0 1 1 1 1
+> 
+> savage_trafo(x)
+[1] -0.8333333 -0.6333333         NA -0.1333333 -0.1333333         NA  0.3666667
+[8]  1.3666667         NA
+> savage_trafo(x[cc])
+[1] -0.8333333 -0.6333333 -0.1333333 -0.1333333  0.3666667  1.3666667
+> savage_trafo(x, ties.method = "average-scores")
+[1] -0.8333333 -0.6333333         NA -0.2166667 -0.2166667         NA  0.4500000
+[8]  1.4500000         NA
+> savage_trafo(x[cc], ties.method = "average-scores")
+[1] -0.8333333 -0.6333333 -0.2166667 -0.2166667  0.4500000  1.4500000
+> 
+> consal_trafo(x)
+[1] 0.0004164931 0.0066638900           NA 0.0625000000 0.0625000000
+[6]           NA 0.2603082049 0.5397750937           NA
+> consal_trafo(x[cc])
+[1] 0.0004164931 0.0066638900 0.0625000000 0.0625000000 0.2603082049
+[6] 0.5397750937
+> consal_trafo(x, a = c(2, 5))
+          a = 2        a = 5
+ [1,] 0.1428571 0.0004164931
+ [2,] 0.2857143 0.0066638900
+ [3,]        NA           NA
+ [4,] 0.5000000 0.0625000000
+ [5,] 0.5000000 0.0625000000
+ [6,]        NA           NA
+ [7,] 0.7142857 0.2603082049
+ [8,] 0.8571429 0.5397750937
+ [9,]        NA           NA
+> consal_trafo(x[cc], a = c(2, 5))
+         a = 2        a = 5
+[1,] 0.1428571 0.0004164931
+[2,] 0.2857143 0.0066638900
+[3,] 0.5000000 0.0625000000
+[4,] 0.5000000 0.0625000000
+[5,] 0.7142857 0.2603082049
+[6,] 0.8571429 0.5397750937
+> consal_trafo(x, ties.method = "average-scores")
+[1] 0.0004164931 0.0066638900           NA 0.0701790920 0.0701790920
+[6]           NA 0.2603082049 0.5397750937           NA
+> consal_trafo(x[cc], ties.method = "average-scores")
+[1] 0.0004164931 0.0066638900 0.0701790920 0.0701790920 0.2603082049
+[6] 0.5397750937
+> consal_trafo(x, ties.method = "average-scores", a = c(2, 5))
+          a = 2        a = 5
+ [1,] 0.1428571 0.0004164931
+ [2,] 0.2857143 0.0066638900
+ [3,]        NA           NA
+ [4,] 0.5000000 0.0701790920
+ [5,] 0.5000000 0.0701790920
+ [6,]        NA           NA
+ [7,] 0.7142857 0.2603082049
+ [8,] 0.8571429 0.5397750937
+ [9,]        NA           NA
+> consal_trafo(x[cc], ties.method = "average-scores", a = c(2, 5))
+         a = 2        a = 5
+[1,] 0.1428571 0.0004164931
+[2,] 0.2857143 0.0066638900
+[3,] 0.5000000 0.0701790920
+[4,] 0.5000000 0.0701790920
+[5,] 0.7142857 0.2603082049
+[6,] 0.8571429 0.5397750937
+> 
+> koziol_trafo(x)
+[1]  1.2741624  0.8817477         NA  0.0000000  0.0000000         NA -0.8817477
+[8] -1.2741624         NA
+> koziol_trafo(x[cc])
+[1]  1.2741624  0.8817477  0.0000000  0.0000000 -0.8817477 -1.2741624
+> koziol_trafo(x, j = 2)
+[1]  0.8817477 -0.3146921         NA -1.4142136 -1.4142136         NA -0.3146921
+[8]  0.8817477         NA
+> koziol_trafo(x[cc], j = 2)
+[1]  0.8817477 -0.3146921 -1.4142136 -1.4142136 -0.3146921  0.8817477
+> koziol_trafo(x, ties.method = "average-scores")
+[1]  1.274162e+00  8.817477e-01            NA  5.551115e-17  5.551115e-17
+[6]            NA -8.817477e-01 -1.274162e+00            NA
+> koziol_trafo(x[cc], ties.method = "average-scores")
+[1]  1.274162e+00  8.817477e-01  5.551115e-17  5.551115e-17 -8.817477e-01
+[6] -1.274162e+00
+> koziol_trafo(x, ties.method = "average-scores", j = 2)
+[1]  0.8817477 -0.3146921         NA -1.2741624 -1.2741624         NA -0.3146921
+[8]  0.8817477         NA
+> koziol_trafo(x[cc], ties.method = "average-scores", j = 2)
+[1]  0.8817477 -0.3146921 -1.2741624 -1.2741624 -0.3146921  0.8817477
+> 
+> klotz_trafo(x)
+[1] 1.1397068 0.3202981        NA 0.0000000 0.0000000        NA 0.3202981
+[8] 1.1397068        NA
+> klotz_trafo(x[cc])
+[1] 1.1397068 0.3202981 0.0000000 0.0000000 0.3202981 1.1397068
+> klotz_trafo(x, ties.method = "average-scores")
+[1] 1.13970682 0.32029807         NA 0.03240445 0.03240445         NA 0.32029807
+[8] 1.13970682         NA
+> klotz_trafo(x[cc], ties.method = "average-scores")
+[1] 1.13970682 0.32029807 0.03240445 0.03240445 0.32029807 1.13970682
+> 
+> mood_trafo(x)
+[1] 6.25 2.25   NA 0.00 0.00   NA 2.25 6.25   NA
+> mood_trafo(x[cc])
+[1] 6.25 2.25 0.00 0.00 2.25 6.25
+> mood_trafo(x, ties.method = "average-scores")
+[1] 6.25 2.25   NA 0.25 0.25   NA 2.25 6.25   NA
+> mood_trafo(x[cc], ties.method = "average-scores")
+[1] 6.25 2.25 0.25 0.25 2.25 6.25
+> 
+> ansari_trafo(x)
+[1] 1.0 2.0  NA 3.5 3.5  NA 2.0 1.0  NA
+> ansari_trafo(x[cc])
+[1] 1.0 2.0 3.5 3.5 2.0 1.0
+> ansari_trafo(x, ties.method = "average-scores")
+[1]  1  2 NA  3  3 NA  2  1 NA
+> ansari_trafo(x[cc], ties.method = "average-scores")
+[1] 1 2 3 3 2 1
+> 
+> fligner_trafo(x)
+[1] 0.1800124 0.3661064        NA 0.6744898 0.6744898        NA 1.0675705
+[8] 1.4652338        NA
+> fligner_trafo(x[cc])
+[1] 0.1800124 0.3661064 0.6744898 0.6744898 1.0675705 1.4652338
+> fligner_trafo(x, ties.method = "average-scores")
+[1] 0.1800124 0.3661064        NA 0.6787937 0.6787937        NA 1.0675705
+[8] 1.4652338        NA
+> fligner_trafo(x[cc], ties.method = "average-scores")
+[1] 0.1800124 0.3661064 0.6787937 0.6787937 1.0675705 1.4652338
+> 
+> maxstat_trafo(x)
+  x <= 1 x <= 2 x <= 3 x <= 4
+1      1      1      1      1
+2      0      1      1      1
+3     NA     NA     NA     NA
+4      0      0      1      1
+5      0      0      1      1
+6     NA     NA     NA     NA
+7      0      0      0      1
+8      0      0      0      0
+9     NA     NA     NA     NA
+> maxstat_trafo(x[cc])
+  x <= 1 x <= 2 x <= 3 x <= 4
+1      1      1      1      1
+2      0      1      1      1
+3      0      0      1      1
+4      0      0      1      1
+5      0      0      0      1
+6      0      0      0      0
+> maxstat_trafo(x, minprob = 0.3, maxprob = 0.51)
+  x <= 2
+1      1
+2      1
+3     NA
+4      0
+5      0
+6     NA
+7      0
+8      0
+9     NA
+> maxstat_trafo(x[cc], minprob = 0.3, maxprob = 0.51)
+  x <= 2
+1      1
+2      1
+3      0
+4      0
+5      0
+6      0
+> 
+> 
+> ### NA handling: survival
+> x <- c(1, 2, NA, 3, 3, NA, 4, 5, NA)
+> cc <- complete.cases(x)
+> 
+> logrank_trafo(Surv(x))
+[1] -0.8333333 -0.6333333         NA -0.1333333 -0.1333333         NA  0.3666667
+[8]  1.3666667         NA
+> logrank_trafo(Surv(x)[cc])
+[1] -0.8333333 -0.6333333 -0.1333333 -0.1333333  0.3666667  1.3666667
+> logrank_trafo(Surv(x), ties.method = "Hothorn-Lausen")
+[1] -0.83333333 -0.63333333          NA  0.03333333  0.03333333          NA
+[7]  0.53333333  1.53333333          NA
+> logrank_trafo(Surv(x)[cc], ties.method = "Hothorn-Lausen")
+[1] -0.83333333 -0.63333333  0.03333333  0.03333333  0.53333333  1.53333333
+> logrank_trafo(Surv(x), ties.method = "average-scores")
+[1] -0.8333333 -0.6333333         NA -0.2166667 -0.2166667         NA  0.4500000
+[8]  1.4500000         NA
+> logrank_trafo(Surv(x)[cc], ties.method = "average-scores")
+[1] -0.8333333 -0.6333333 -0.2166667 -0.2166667  0.4500000  1.4500000
+> 
+> x <- c(1, 2, 3, 3, 3, 4, 4, 5, 5)
+> e <- rep(c(0, NA, 1, 1), length.out = 9)
+> cc <- complete.cases(x, e)
+> 
+> logrank_trafo(Surv(x, e))
+[1]  0.0000000         NA -0.6666667 -0.6666667  0.3333333         NA -0.3333333
+[8]  0.1666667  1.1666667
+> logrank_trafo(Surv(x, e)[cc])
+[1]  0.0000000 -0.6666667 -0.6666667  0.3333333 -0.3333333  0.1666667  1.1666667
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen")
+[1]  0.0000000         NA -0.5000000 -0.5000000  0.5000000         NA -0.1666667
+[8]  0.8333333  1.8333333
+> logrank_trafo(Surv(x, e)[cc], ties.method = "Hothorn-Lausen")
+[1]  0.0000000 -0.5000000 -0.5000000  0.5000000 -0.1666667  0.8333333  1.8333333
+> logrank_trafo(Surv(x, e), ties.method = "average-scores")
+[1]  0.0000000         NA -0.7333333 -0.7333333  0.3666667         NA -0.3000000
+[8]  0.2000000  1.2000000
+> logrank_trafo(Surv(x, e)[cc], ties.method = "average-scores")
+[1]  0.0000000 -0.7333333 -0.7333333  0.3666667 -0.3000000  0.2000000  1.2000000
+> 
+> x <- c(1, 2, NA, 3, 3, NA, 4, 5, NA)
+> e <- rep(c(0, NA, 1, 1), length.out = 9)
+> cc <- complete.cases(x, e)
+> 
+> logrank_trafo(Surv(x, e))
+[1]  0.00    NA    NA -0.75  0.25    NA -0.25  0.75    NA
+> logrank_trafo(Surv(x, e)[cc])
+[1]  0.00 -0.75  0.25 -0.25  0.75
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen")
+[1]  0.0000000         NA         NA -0.6666667  0.3333333         NA -0.1666667
+[8]  0.8333333         NA
+> logrank_trafo(Surv(x, e)[cc], ties.method = "Hothorn-Lausen")
+[1]  0.0000000 -0.6666667  0.3333333 -0.1666667  0.8333333
+> logrank_trafo(Surv(x, e), ties.method = "average-scores")
+[1]  0.00    NA    NA -0.75  0.25    NA -0.25  0.75    NA
+> logrank_trafo(Surv(x, e)[cc], ties.method = "average-scores")
+[1]  0.00 -0.75  0.25 -0.25  0.75
+> 
+> 
+> ### NA handling: factor
+> x <- factor(c(1, 1, NA, 2, NA, 3, 3, NA, 4), labels = as.roman(1:4))
+> ox <- ordered(x)
+> cc <- complete.cases(x)
+> 
+> f_trafo(x)
+   I II III IV
+1  1  0   0  0
+2  1  0   0  0
+3 NA NA  NA NA
+4  0  1   0  0
+5 NA NA  NA NA
+6  0  0   1  0
+7  0  0   1  0
+8 NA NA  NA NA
+9  0  0   0  1
+attr(,"assign")
+[1] 1 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$x
+[1] "contr.treatment"
+
+> f_trafo(x[cc])
+  I II III IV
+1 1  0   0  0
+2 1  0   0  0
+3 0  1   0  0
+4 0  0   1  0
+5 0  0   1  0
+6 0  0   0  1
+attr(,"assign")
+[1] 1 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$x
+[1] "contr.treatment"
+
+> 
+> of_trafo(x)
+  [,1]
+1    1
+2    1
+3   NA
+4    2
+5   NA
+6    3
+7    3
+8   NA
+9    4
+Warning message:
+In of_trafo(x) : 'x' is not an ordered factor
+> of_trafo(x[cc])
+  [,1]
+1    1
+2    1
+3    2
+4    3
+5    3
+6    4
+Warning message:
+In of_trafo(x[cc]) : 'x[cc]' is not an ordered factor
+> of_trafo(x, scores = 5:8)
+  [,1]
+1    5
+2    5
+3   NA
+4    6
+5   NA
+6    7
+7    7
+8   NA
+9    8
+Warning message:
+In of_trafo(x, scores = 5:8) : 'x' is not an ordered factor
+> of_trafo(x[cc], scores = 5:8)
+  [,1]
+1    5
+2    5
+3    6
+4    7
+5    7
+6    8
+Warning message:
+In of_trafo(x[cc], scores = 5:8) : 'x[cc]' is not an ordered factor
+> of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3 NA NA
+4  6 10
+5 NA NA
+6  7 11
+7  7 11
+8 NA NA
+9  8 12
+Warning message:
+In of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12)) :
+  'x' is not an ordered factor
+> of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3  6 10
+4  7 11
+5  7 11
+6  8 12
+Warning message:
+In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
+  'x[cc]' is not an ordered factor
+> 
+> of_trafo(ox)
+  [,1]
+1    1
+2    1
+3   NA
+4    2
+5   NA
+6    3
+7    3
+8   NA
+9    4
+> of_trafo(ox[cc])
+  [,1]
+1    1
+2    1
+3    2
+4    3
+5    3
+6    4
+> of_trafo(ox, scores = 5:8)
+  [,1]
+1    5
+2    5
+3   NA
+4    6
+5   NA
+6    7
+7    7
+8   NA
+9    8
+> of_trafo(ox[cc], scores = 5:8)
+  [,1]
+1    5
+2    5
+3    6
+4    7
+5    7
+6    8
+> of_trafo(ox, scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3 NA NA
+4  6 10
+5 NA NA
+6  7 11
+7  7 11
+8 NA NA
+9  8 12
+> of_trafo(ox[cc], scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3  6 10
+4  7 11
+5  7 11
+6  8 12
+> 
+> fmaxstat_trafo(x)
+  {I} vs. {II, III, IV} {I, II} vs. {III, IV} {I, III} vs. {II, IV}
+1                     1                     1                     1
+2                     1                     1                     1
+3                    NA                    NA                    NA
+4                     0                     1                     0
+5                    NA                    NA                    NA
+6                     0                     0                     1
+7                     0                     0                     1
+8                    NA                    NA                    NA
+9                     0                     0                     0
+  {I, II, III} vs. {IV} {I, IV} vs. {II, III} {I, II, IV} vs. {III}
+1                     1                     1                     1
+2                     1                     1                     1
+3                    NA                    NA                    NA
+4                     1                     0                     1
+5                    NA                    NA                    NA
+6                     1                     0                     0
+7                     1                     0                     0
+8                    NA                    NA                    NA
+9                     0                     1                     1
+  {I, III, IV} vs. {II}
+1                     1
+2                     1
+3                    NA
+4                     0
+5                    NA
+6                     1
+7                     1
+8                    NA
+9                     1
+> fmaxstat_trafo(x[cc])
+  {I} vs. {II, III, IV} {I, II} vs. {III, IV} {I, III} vs. {II, IV}
+1                     1                     1                     1
+2                     1                     1                     1
+3                     0                     1                     0
+4                     0                     0                     1
+5                     0                     0                     1
+6                     0                     0                     0
+  {I, II, III} vs. {IV} {I, IV} vs. {II, III} {I, II, IV} vs. {III}
+1                     1                     1                     1
+2                     1                     1                     1
+3                     1                     0                     1
+4                     1                     0                     0
+5                     1                     0                     0
+6                     0                     1                     1
+  {I, III, IV} vs. {II}
+1                     1
+2                     1
+3                     0
+4                     1
+5                     1
+6                     1
+> fmaxstat_trafo(x, minprob = 0.49)
+  {I, II} vs. {III, IV} {I, IV} vs. {II, III}
+1                     1                     1
+2                     1                     1
+3                    NA                    NA
+4                     1                     0
+5                    NA                    NA
+6                     0                     0
+7                     0                     0
+8                    NA                    NA
+9                     0                     1
+> fmaxstat_trafo(x[cc], minprob = 0.49)
+  {I, II} vs. {III, IV} {I, IV} vs. {II, III}
+1                     1                     1
+2                     1                     1
+3                     1                     0
+4                     0                     0
+5                     0                     0
+6                     0                     1
+> 
+> ofmaxstat_trafo(x)
+  {I} vs. {II, III, IV} {I, II} vs. {III, IV} {I, II, III} vs. {IV}
+1                     1                     1                     1
+2                     1                     1                     1
+3                    NA                    NA                    NA
+4                     0                     1                     1
+5                    NA                    NA                    NA
+6                     0                     0                     1
+7                     0                     0                     1
+8                    NA                    NA                    NA
+9                     0                     0                     0
+> ofmaxstat_trafo(x[cc])
+  {I} vs. {II, III, IV} {I, II} vs. {III, IV} {I, II, III} vs. {IV}
+1                     1                     1                     1
+2                     1                     1                     1
+3                     0                     1                     1
+4                     0                     0                     1
+5                     0                     0                     1
+6                     0                     0                     0
+> ofmaxstat_trafo(x, minprob = 0.49)
+  {I} vs. {II, III, IV}
+1                     1
+2                     1
+3                    NA
+4                     1
+5                    NA
+6                     0
+7                     0
+8                    NA
+9                     0
+> ofmaxstat_trafo(x[cc], minprob = 0.49)
+  {I} vs. {II, III, IV}
+1                     1
+2                     1
+3                     1
+4                     0
+5                     0
+6                     0
+> 
+> mcp_trafo(x = "Tukey")(data.frame(x))
+  II - I III - I IV - I III - II IV - II IV - III
+1     -1      -1     -1        0       0        0
+2     -1      -1     -1        0       0        0
+3     NA      NA     NA       NA      NA       NA
+4      1       0      0       -1      -1        0
+5     NA      NA     NA       NA      NA       NA
+6      0       1      0        1       0       -1
+7      0       1      0        1       0       -1
+8     NA      NA     NA       NA      NA       NA
+9      0       0      1        0       1        1
+attr(,"assign")
+[1] 1 1 1 1 1 1
+attr(,"contrast")
+
+	 Multiple Comparisons of Means: Tukey Contrasts
+
+          I II III IV
+II - I   -1  1   0  0
+III - I  -1  0   1  0
+IV - I   -1  0   0  1
+III - II  0 -1   1  0
+IV - II   0 -1   0  1
+IV - III  0  0  -1  1
+> mcp_trafo(x = "Tukey")(data.frame(x = x[cc]))
+  II - I III - I IV - I III - II IV - II IV - III
+1     -1      -1     -1        0       0        0
+2     -1      -1     -1        0       0        0
+3      1       0      0       -1      -1        0
+4      0       1      0        1       0       -1
+5      0       1      0        1       0       -1
+6      0       0      1        0       1        1
+attr(,"assign")
+[1] 1 1 1 1 1 1
+attr(,"contrast")
+
+	 Multiple Comparisons of Means: Tukey Contrasts
+
+          I II III IV
+II - I   -1  1   0  0
+III - I  -1  0   1  0
+IV - I   -1  0   0  1
+III - II  0 -1   1  0
+IV - II   0 -1   0  1
+IV - III  0  0  -1  1
+> 
+> x[9] <- NA
+> ox[9] <- NA
+> cc <- complete.cases(x)
+> 
+> f_trafo(x)
+   I II III
+1  1  0   0
+2  1  0   0
+3 NA NA  NA
+4  0  1   0
+5 NA NA  NA
+6  0  0   1
+7  0  0   1
+8 NA NA  NA
+9 NA NA  NA
+attr(,"assign")
+[1] 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$x
+[1] "contr.treatment"
+
+> f_trafo(x[cc])
+  I II III
+1 1  0   0
+2 1  0   0
+3 0  1   0
+4 0  0   1
+5 0  0   1
+attr(,"assign")
+[1] 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$x
+[1] "contr.treatment"
+
+> 
+> of_trafo(x)
+  [,1]
+1    1
+2    1
+3   NA
+4    2
+5   NA
+6    3
+7    3
+8   NA
+9   NA
+Warning message:
+In of_trafo(x) : 'x' is not an ordered factor
+> of_trafo(x[cc])
+  [,1]
+1    1
+2    1
+3    2
+4    3
+5    3
+Warning message:
+In of_trafo(x[cc]) : 'x[cc]' is not an ordered factor
+> of_trafo(x, scores = 5:8)
+  [,1]
+1    5
+2    5
+3   NA
+4    6
+5   NA
+6    7
+7    7
+8   NA
+9   NA
+Warning message:
+In of_trafo(x, scores = 5:8) : 'x' is not an ordered factor
+> of_trafo(x[cc], scores = 5:8)
+  [,1]
+1    5
+2    5
+3    6
+4    7
+5    7
+Warning message:
+In of_trafo(x[cc], scores = 5:8) : 'x[cc]' is not an ordered factor
+> of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3 NA NA
+4  6 10
+5 NA NA
+6  7 11
+7  7 11
+8 NA NA
+9 NA NA
+Warning message:
+In of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12)) :
+  'x' is not an ordered factor
+> of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3  6 10
+4  7 11
+5  7 11
+Warning message:
+In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
+  'x[cc]' is not an ordered factor
+> 
+> of_trafo(ox)
+  [,1]
+1    1
+2    1
+3   NA
+4    2
+5   NA
+6    3
+7    3
+8   NA
+9   NA
+> of_trafo(ox[cc])
+  [,1]
+1    1
+2    1
+3    2
+4    3
+5    3
+> of_trafo(ox, scores = 5:8)
+  [,1]
+1    5
+2    5
+3   NA
+4    6
+5   NA
+6    7
+7    7
+8   NA
+9   NA
+> of_trafo(ox[cc], scores = 5:8)
+  [,1]
+1    5
+2    5
+3    6
+4    7
+5    7
+> of_trafo(ox, scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3 NA NA
+4  6 10
+5 NA NA
+6  7 11
+7  7 11
+8 NA NA
+9 NA NA
+> of_trafo(ox[cc], scores = list(s1 = 5:8, s2 = 9:12))
+  s1 s2
+1  5  9
+2  5  9
+3  6 10
+4  7 11
+5  7 11
+> 
+> fmaxstat_trafo(x)
+  {I} vs. {II, III} {I, II} vs. {III} {I, III} vs. {II}
+1                 1                 1                 1
+2                 1                 1                 1
+3                NA                NA                NA
+4                 0                 1                 0
+5                NA                NA                NA
+6                 0                 0                 1
+7                 0                 0                 1
+8                NA                NA                NA
+9                NA                NA                NA
+> fmaxstat_trafo(x[cc])
+  {I} vs. {II, III} {I, II} vs. {III} {I, III} vs. {II}
+1                 1                 1                 1
+2                 1                 1                 1
+3                 0                 1                 0
+4                 0                 0                 1
+5                 0                 0                 1
+> fmaxstat_trafo(x, minprob = 0.4, maxprob = 0.51)
+  {I} vs. {II, III}
+1                 1
+2                 1
+3                NA
+4                 0
+5                NA
+6                 0
+7                 0
+8                NA
+9                NA
+> fmaxstat_trafo(x[cc], minprob = 0.4, maxprob = 0.51)
+  {I} vs. {II, III}
+1                 1
+2                 1
+3                 0
+4                 0
+5                 0
+> 
+> ofmaxstat_trafo(x)
+  {I} vs. {II, III} {I, II} vs. {III}
+1                 1                 1
+2                 1                 1
+3                NA                NA
+4                 0                 1
+5                NA                NA
+6                 0                 0
+7                 0                 0
+8                NA                NA
+9                NA                NA
+> ofmaxstat_trafo(x[cc])
+  {I} vs. {II, III} {I, II} vs. {III}
+1                 1                 1
+2                 1                 1
+3                 0                 1
+4                 0                 0
+5                 0                 0
+> ofmaxstat_trafo(x, minprob = 0.4, maxprob = 0.51)
+  {I} vs. {II, III}
+1                 1
+2                 1
+3                NA
+4                 0
+5                NA
+6                 0
+7                 0
+8                NA
+9                NA
+> ofmaxstat_trafo(x[cc], minprob = 0.4, maxprob = 0.51)
+  {I} vs. {II, III}
+1                 1
+2                 1
+3                 0
+4                 0
+5                 0
+> 
+> mcp_trafo(x = "Tukey")(data.frame(x))
+  II - I III - I IV - I III - II IV - II IV - III
+1     -1      -1     -1        0       0        0
+2     -1      -1     -1        0       0        0
+3     NA      NA     NA       NA      NA       NA
+4      1       0      0       -1      -1        0
+5     NA      NA     NA       NA      NA       NA
+6      0       1      0        1       0       -1
+7      0       1      0        1       0       -1
+8     NA      NA     NA       NA      NA       NA
+9     NA      NA     NA       NA      NA       NA
+attr(,"assign")
+[1] 1 1 1 1 1 1
+attr(,"contrast")
+
+	 Multiple Comparisons of Means: Tukey Contrasts
+
+          I II III IV
+II - I   -1  1   0  0
+III - I  -1  0   1  0
+IV - I   -1  0   0  1
+III - II  0 -1   1  0
+IV - II   0 -1   0  1
+IV - III  0  0  -1  1
+> mcp_trafo(x = "Tukey")(data.frame(x = x[cc]))
+  II - I III - I IV - I III - II IV - II IV - III
+1     -1      -1     -1        0       0        0
+2     -1      -1     -1        0       0        0
+3      1       0      0       -1      -1        0
+4      0       1      0        1       0       -1
+5      0       1      0        1       0       -1
+attr(,"assign")
+[1] 1 1 1 1 1 1
+attr(,"contrast")
+
+	 Multiple Comparisons of Means: Tukey Contrasts
+
+          I II III IV
+II - I   -1  1   0  0
+III - I  -1  0   1  0
+IV - I   -1  0   0  1
+III - II  0 -1   1  0
+IV - II   0 -1   0  1
+IV - III  0  0  -1  1
+> 
+> 
+> ### Weighted logrank scores
+> x <- c(1, 2, 3, 3, 3, 6, 6, 6, 9, 10)
+> e <- c(1, 0, 1, 0, 1, 1, 0, 1, 0, 1)
+> 
+> logrank_trafo(Surv(x, e))
+ [1] -0.90  0.10 -0.65  0.35 -0.65 -0.25  0.75 -0.25  0.75  0.75
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen")
+ [1] -0.9000000  0.1000000 -0.5666667  0.4333333 -0.5666667  0.1000000
+ [7]  1.1000000  0.1000000  1.1000000  1.1000000
+> logrank_trafo(Surv(x, e), ties.method = "average-scores")
+ [1] -0.9000000  0.1000000 -0.7035714  0.3678571 -0.7035714 -0.3071429
+ [7]  0.8178571 -0.3071429  0.8178571  0.8178571
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Gehan-Breslow")
+ [1] -9  1 -5  3 -5  0  5  0  5  5
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Gehan-Breslow")
+ [1] -9  1 -3  3 -3  2  5  2  5  5
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Gehan-Breslow")
+ [1] -9  1 -5  3 -5  0  5  0  5  5
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Tarone-Ware")
+ [1] -2.8460499  0.3162278 -1.8050926  1.0233345 -1.8050926 -0.3183062
+ [7]  1.9177617 -0.3183062  1.9177617  1.9177617
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Tarone-Ware")
+ [1] -2.8460499  0.3162278 -1.3167654  1.1327243 -1.3167654  0.5553741
+ [7]  2.2874249  0.5553741  2.2874249  2.2874249
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Tarone-Ware")
+ [1] -2.8460499  0.3162278 -1.8783258  1.0477456 -1.8783258 -0.3730748
+ [7]  1.9949592 -0.3730748  1.9949592  1.9949592
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Prentice")
+ [1] -0.81818182  0.09090909 -0.45454545  0.27272727 -0.45454545 -0.03896104
+ [7]  0.48051948 -0.03896104  0.48051948  0.48051948
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Prentice")
+ [1] -0.81818182  0.09090909 -0.36363636  0.31818182 -0.36363636  0.18181818
+ [7]  0.59090909  0.18181818  0.59090909  0.59090909
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Prentice")
+ [1] -0.81818182  0.09090909 -0.51515152  0.29292929 -0.51515152 -0.06060606
+ [7]  0.52861953 -0.06060606  0.52861953  0.52861953
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Prentice-Marek")
+ [1] -0.81818182  0.09090909 -0.43939394  0.26767677 -0.43939394 -0.01515152
+ [7]  0.45622896 -0.01515152  0.45622896  0.45622896
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Prentice-Marek")
+ [1] -0.81818182  0.09090909 -0.34199134  0.30735931 -0.34199134  0.19913420
+ [7]  0.52380952  0.19913420  0.52380952  0.52380952
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Prentice-Marek")
+ [1] -0.81818182  0.09090909 -0.51515152  0.29292929 -0.51515152 -0.06060606
+ [7]  0.52861953 -0.06060606  0.52861953  0.52861953
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Andersen-Borgan-Gill-Keiding")
+ [1] -0.81818182  0.09090909 -0.51515152  0.29292929 -0.51515152 -0.06060606
+ [7]  0.52861953 -0.06060606  0.52861953  0.52861953
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Andersen-Borgan-Gill-Keiding")
+ [1] -0.81818182  0.09090909 -0.42857143  0.35064935 -0.42857143  0.18831169
+ [7]  0.67532468  0.18831169  0.67532468  0.67532468
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Andersen-Borgan-Gill-Keiding")
+ [1] -0.81818182  0.09090909 -0.51515152  0.29292929 -0.51515152 -0.06060606
+ [7]  0.52861953 -0.06060606  0.52861953  0.52861953
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Fleming-Harrington")
+ [1] -0.90  0.10 -0.65  0.35 -0.65 -0.25  0.75 -0.25  0.75  0.75
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Fleming-Harrington")
+ [1] -0.9000000  0.1000000 -0.5666667  0.4333333 -0.5666667  0.1000000
+ [7]  1.1000000  0.1000000  1.1000000  1.1000000
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Fleming-Harrington")
+ [1] -0.9000000  0.1000000 -0.7035714  0.3678571 -0.7035714 -0.3071429
+ [7]  0.8178571 -0.3071429  0.8178571  0.8178571
+> 
+> logrank_trafo(Surv(x, e),
++               type = "Self")
+ [1] -0.90  0.10 -0.65  0.35 -0.65 -0.25  0.75 -0.25  0.75  0.75
+> logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
++               type = "Self")
+ [1] -0.9000000  0.1000000 -0.5666667  0.4333333 -0.5666667  0.1000000
+ [7]  1.1000000  0.1000000  1.1000000  1.1000000
+> logrank_trafo(Surv(x, e), ties.method = "average-scores",
++               type = "Self")
+ [1] -0.9000000  0.1000000 -0.7035714  0.3678571 -0.7035714 -0.3071429
+ [7]  0.8178571 -0.3071429  0.8178571  0.8178571
+> 
+> proc.time()
+   user  system elapsed 
+   0.60    0.06    0.71 

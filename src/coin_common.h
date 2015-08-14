@@ -1,4 +1,3 @@
-
 /* include R header files */
 
 #include <R.h>

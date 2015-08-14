@@ -1,7 +1,7 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+R Under development (unstable) (2015-07-12 r68650) -- "Unsuffered Consequences"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -21,62 +21,62 @@ Type 'q()' to quit R.
 > ### `y' and a binary factor `x' (possibly blocked)
 > 
 > set.seed(290875)
-> library(coin)
+> library("coin")
 Loading required package: survival
-Loading required package: splines
 > isequal <- coin:::isequal
+> options(useFancyQuotes = FALSE)
 > 
 > ### generate data
-> dat <- data.frame(x = gl(2, 50), y = rnorm(100), block = gl(5, 20))[sample(1:100,
-+ 75),]
+> dat <- data.frame(x = gl(2, 50), y = rnorm(100), block = gl(5, 20))[sample(1:100, 75), ]
+> 
 > 
 > ### Wilcoxon Mann-Whitney Rank Sum Test
 > 
 > ### asymptotic distribution
 > ptwo <- wilcox.test(y ~ x, data = dat, correct = FALSE, exact = FALSE)$p.value
-> pless <- wilcox.test(y ~ x, data = dat, alternative = "less", 
+> pless <- wilcox.test(y ~ x, data = dat, alternative = "less",
 +                      correct = FALSE, exact = FALSE)$p.value
-> pgreater <- wilcox.test(y ~ x, data = dat, alternative = "greater", 
+> pgreater <- wilcox.test(y ~ x, data = dat, alternative = "greater",
 +                         correct = FALSE, exact = FALSE)$p.value
 > 
 > stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat)), ptwo))
 > stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "less")),
 +                   pless))
-> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "greater")), 
+> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "greater")),
 +                   pgreater))
 > 
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo))), ptwo))
 > ### check direct supply of a function via ytrafo
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = rank)), ptwo))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = rank_trafo)), ptwo))
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
 +     alternative = "less")), pless))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
 +     alternative = "greater")), pgreater))
 > 
 > ### exact distribution
 > ptwo <- wilcox.test(y ~ x, data = dat, exact = TRUE)$p.value
 > pless <- wilcox.test(y ~ x, data = dat, alternative = "less", exact = TRUE)$p.value
-> pgreater <- wilcox.test(y ~ x, data = dat, alternative = "greater", 
+> pgreater <- wilcox.test(y ~ x, data = dat, alternative = "greater",
 +                         exact = TRUE)$p.value
 > 
-> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, distribution = "exact")), 
+> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, distribution = "exact")),
 +                   ptwo))
-> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "less", 
+> stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "less",
 +                              distribution = "exact")), pless))
 > stopifnot(isequal(pvalue(wilcox_test(y ~ x, data = dat, alternative = "greater",
 +                              distribution = "exact")), pgreater))
 > 
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo))), ptwo))
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
 +     alternative = "less")), pless))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
 +     alternative = "greater")), pgreater))
 > 
 > ### approximated distribution
@@ -85,7 +85,7 @@ Loading required package: splines
 +                    distribution = "approx")) / pless
 > rgreater <- pvalue(wilcox_test(y ~ x, data = dat, alternative = "greater",
 +                    distribution = "approx")) / pgreater
-> stopifnot(all(c(rtwo, rless, rgreater) > 0.9 & 
+> stopifnot(all(c(rtwo, rless, rgreater) > 0.9 &
 +               c(rtwo, rless, rgreater) < 1.1))
 > 
 > ### <FIXME> add block examples </FIXME>
@@ -93,99 +93,101 @@ Loading required package: splines
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt"))
 [1] 0.1794892
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx"))
-[1] 0.197
+[1] 0.1956
 99 percent confidence interval:
- 0.1656172 0.2313194 
+ 0.1854798 0.2060117 
 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact"))
 [1] 0.1847028
 > 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt",
 +                    alternative = "less"))
          1 
 0.08974461 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx",
 +                    alternative = "less"))
-[1] 0.099
+[1] 0.0885
 99 percent confidence interval:
- 0.07613518 0.12577658 
+ 0.08133160 0.09606348 
 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact",
 +                    alternative = "less"))
 [1] 0.09335664
 > 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt",
 +                    alternative = "greater"))
         1 
 0.9102554 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx",
 +                    alternative = "greater"))
-[1] 0.917
+[1] 0.9158
 99 percent confidence interval:
- 0.8919859 0.9379376 
+ 0.9083975 0.9228033 
 
-> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact", 
+> pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "exact",
 +                    alternative = "greater"))
 [1] 0.9098776
 > 
 > ### sanity checks
 > try(wilcox_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a two sample problem
+Error in check(object) : 
+  'object' does not represent a two-sample problem (maybe the grouping variable is not a factor?)
 > try(wilcox_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : 'block' is not a factor
 > 
-> ### Ansari-Bradley Test 
+> 
+> ### Ansari-Bradley Test
 > 
 > ### asymptotic distribution
 > ptwo <- ansari.test(y ~ x, data = dat, correct = FALSE, exact = FALSE)$p.value
-> pless <- ansari.test(y ~ x, data = dat, alternative = "less", 
+> pless <- ansari.test(y ~ x, data = dat, alternative = "less",
 +                      correct = FALSE, exact = FALSE)$p.value
-> pgreater <- ansari.test(y ~ x, data = dat, alternative = "greater", 
+> pgreater <- ansari.test(y ~ x, data = dat, alternative = "greater",
 +                         correct = FALSE, exact = FALSE)$p.value
 > 
 > stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat)), ptwo))
 > stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "less")),
 +                   pless))
-> stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "greater")), 
+> stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "greater")),
 +                   pgreater))
 > 
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
 +     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo))), ptwo))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo),
 +     alternative = "greater")), pless))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo),
 +     alternative = "less")), pgreater))
 > 
 > ### exact distribution
 > ptwo <- ansari.test(y ~ x, data = dat, exact = TRUE)$p.value
 > pless <- ansari.test(y ~ x, data = dat, alternative = "less", exact = TRUE)$p.value
-> pgreater <- ansari.test(y ~ x, data = dat, alternative = "greater", 
+> pgreater <- ansari.test(y ~ x, data = dat, alternative = "greater",
 +                         exact = TRUE)$p.value
 > 
 > ### <FIXME>: Definition of two-sided P-values! </FIXME>
-> (isequal(pvalue(ansari_test(y ~ x, data = dat, distribution = "exact")), 
+> (isequal(pvalue(ansari_test(y ~ x, data = dat, distribution = "exact")),
 +                   ptwo))
 [1] 0.2125862712
 [1] 0.213574129
 [1] FALSE
-> stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "less", 
+> stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "less",
 +                              distribution = "exact")), pless))
 > stopifnot(isequal(pvalue(ansari_test(y ~ x, data = dat, alternative = "greater",
 +                              distribution = "exact")), pgreater))
 > 
 > ### <FIXME>: Definition of two-sided P-values! </FIXME>
-> (isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
+> (isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
 +     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo))), ptwo))
 [1] 0.2125862712
 [1] 0.213574129
 [1] FALSE
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
++     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo),
 +     alternative = "greater")), pless))
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact", 
-+     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo), 
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "exact",
++     ytrafo = function(data) trafo(data, numeric_trafo = ansari_trafo),
 +     alternative = "less")), pgreater))
 > 
 > ### approximated distribution
@@ -195,7 +197,7 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > rgreater <- pvalue(ansari_test(y ~ x, data = dat, alternative = "greater",
 +                    distribution = "approx")) / pgreater
 > ### <FIXME> ??? </FIXME>
-> (all(c(rtwo, rless, rgreater) > 0.9 & 
+> (all(c(rtwo, rless, rgreater) > 0.9 &
 +               c(rtwo, rless, rgreater) < 1.1))
 [1] TRUE
 > 
@@ -203,131 +205,550 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### sanity checks
 > try(ansari_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a two sample problem
+Error in check(object) : 
+  'object' does not represent a K-sample problem (maybe the grouping variable is not a factor?)
 > try(ansari_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : 'block' is not a factor
 > 
-> ### the remaining three candidates
-> ### asymptotic distribution
-> ptwo <- wilcox.test(y ~ x, data = dat, correct = FALSE)$p.value
-> pless <- wilcox.test(y ~ x, data = dat, alternative = "less",
-+                      correct = FALSE)$p.value
-> pgreater <- wilcox.test(y ~ x, data = dat, alternative = "greater", 
-+                         correct = FALSE)$p.value
 > 
+> ### One-way Test
 > oneway_test(y ~ x, dat = dat)
 
-	Asymptotic 2-Sample Permutation Test
+	Asymptotic Two-Sample Fisher-Pitman Permutation Test
 
 data:  y by x (1, 2)
-Z = -0.7774, p-value = 0.4369
+Z = -0.77735, p-value = 0.4369
 alternative hypothesis: true mu is not equal to 0
 
 > oneway_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotic 2-Sample Permutation Test
+	Asymptotic Two-Sample Fisher-Pitman Permutation Test
 
 data:  y by x (1, 2)
-Z = -0.7774, p-value = 0.2185
+Z = -0.77735, p-value = 0.2185
 alternative hypothesis: true mu is less than 0
 
 > oneway_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotic 2-Sample Permutation Test
+	Asymptotic Two-Sample Fisher-Pitman Permutation Test
 
 data:  y by x (1, 2)
-Z = -0.7774, p-value = 0.7815
+Z = -0.77735, p-value = 0.7815
 alternative hypothesis: true mu is greater than 0
 
 > 
+> 
+> ### Normal Scores Test
 > normal_test(y ~ x, dat = dat)
 
-	Asymptotic Normal Quantile (van der Waerden) Test
+	Asymptotic Two-Sample van der Waerden (Normal Quantile) Test
 
 data:  y by x (1, 2)
-Z = -0.8596, p-value = 0.39
+Z = -0.85965, p-value = 0.39
 alternative hypothesis: true mu is not equal to 0
 
 > normal_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotic Normal Quantile (van der Waerden) Test
+	Asymptotic Two-Sample van der Waerden (Normal Quantile) Test
 
 data:  y by x (1, 2)
-Z = -0.8596, p-value = 0.195
+Z = -0.85965, p-value = 0.195
 alternative hypothesis: true mu is less than 0
 
 > normal_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotic Normal Quantile (van der Waerden) Test
+	Asymptotic Two-Sample van der Waerden (Normal Quantile) Test
 
 data:  y by x (1, 2)
-Z = -0.8596, p-value = 0.805
+Z = -0.85965, p-value = 0.805
 alternative hypothesis: true mu is greater than 0
 
 > 
+> 
+> ### Median Test
 > median_test(y ~ x, dat = dat)
 
-	Asymptotic Median Test
+	Asymptotic Two-Sample Brown-Mood Median Test
 
 data:  y by x (1, 2)
-Z = 0.8015, p-value = 0.4228
+Z = -0.8015, p-value = 0.4228
 alternative hypothesis: true mu is not equal to 0
 
 > median_test(y ~ x, dat = dat, alternative = "less")
 
-	Asymptotic Median Test
+	Asymptotic Two-Sample Brown-Mood Median Test
 
 data:  y by x (1, 2)
-Z = 0.8015, p-value = 0.7886
+Z = -0.8015, p-value = 0.2114
 alternative hypothesis: true mu is less than 0
 
 > median_test(y ~ x, dat = dat, alternative = "greater")
 
-	Asymptotic Median Test
+	Asymptotic Two-Sample Brown-Mood Median Test
 
 data:  y by x (1, 2)
-Z = 0.8015, p-value = 0.2114
+Z = -0.8015, p-value = 0.7886
 alternative hypothesis: true mu is greater than 0
 
 > 
+> 
+> ### Savage Test
+> savage_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Savage Test
+
+data:  y by x (1, 2)
+Z = -1.0738, p-value = 0.2829
+alternative hypothesis: true mu is not equal to 0
+
+> savage_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Savage Test
+
+data:  y by x (1, 2)
+Z = -1.0738, p-value = 0.1414
+alternative hypothesis: true mu is less than 0
+
+> savage_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Savage Test
+
+data:  y by x (1, 2)
+Z = -1.0738, p-value = 0.8586
+alternative hypothesis: true mu is greater than 0
+
+> 
+> 
+> ### Taha Test
+> taha_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Taha Test
+
+data:  y by x (1, 2)
+Z = -1.0835, p-value = 0.2786
+alternative hypothesis: true ratio of scales is not equal to 1
+
+> taha_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Taha Test
+
+data:  y by x (1, 2)
+Z = -1.0835, p-value = 0.1393
+alternative hypothesis: true ratio of scales is less than 1
+
+> taha_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Taha Test
+
+data:  y by x (1, 2)
+Z = -1.0835, p-value = 0.8607
+alternative hypothesis: true ratio of scales is greater than 1
+
+> 
+> 
+> ### Klotz Test
+> klotz_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Klotz Test
+
+data:  y by x (1, 2)
+Z = -0.83541, p-value = 0.4035
+alternative hypothesis: true ratio of scales is not equal to 1
+
+> klotz_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Klotz Test
+
+data:  y by x (1, 2)
+Z = -0.83541, p-value = 0.2017
+alternative hypothesis: true ratio of scales is less than 1
+
+> klotz_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Klotz Test
+
+data:  y by x (1, 2)
+Z = -0.83541, p-value = 0.7983
+alternative hypothesis: true ratio of scales is greater than 1
+
+> 
+> 
+> ### Mood Test
+> mood_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Mood Test
+
+data:  y by x (1, 2)
+Z = -1.1859, p-value = 0.2357
+alternative hypothesis: true ratio of scales is not equal to 1
+
+> mood_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Mood Test
+
+data:  y by x (1, 2)
+Z = -1.1859, p-value = 0.1178
+alternative hypothesis: true ratio of scales is less than 1
+
+> mood_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Mood Test
+
+data:  y by x (1, 2)
+Z = -1.1859, p-value = 0.8822
+alternative hypothesis: true ratio of scales is greater than 1
+
+> 
+> 
+> ### Fligner-Killeen Test
+> fligner_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Fligner-Killeen Test
+
+data:  y by x (1, 2)
+Z = -0.94847, p-value = 0.3429
+alternative hypothesis: true ratio of scales is not equal to 1
+
+> fligner_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Fligner-Killeen Test
+
+data:  y by x (1, 2)
+Z = -0.94847, p-value = 0.1714
+alternative hypothesis: true ratio of scales is less than 1
+
+> fligner_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Fligner-Killeen Test
+
+data:  y by x (1, 2)
+Z = -0.94847, p-value = 0.8286
+alternative hypothesis: true ratio of scales is greater than 1
+
+> 
+> 
+> ### Conover-Iman Test
+> conover_test(y ~ x, dat = dat)
+
+	Asymptotic Two-Sample Conover-Iman Test
+
+data:  y by x (1, 2)
+Z = -0.80308, p-value = 0.4219
+alternative hypothesis: true ratio of scales is not equal to 1
+
+> conover_test(y ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Conover-Iman Test
+
+data:  y by x (1, 2)
+Z = -0.80308, p-value = 0.211
+alternative hypothesis: true ratio of scales is less than 1
+
+> conover_test(y ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Conover-Iman Test
+
+data:  y by x (1, 2)
+Z = -0.80308, p-value = 0.789
+alternative hypothesis: true ratio of scales is greater than 1
+
+> 
+> 
+> ### Logrank Test
+> logrank_test(Surv(y) ~ x, dat = dat)
+
+	Asymptotic Two-Sample Logrank Test
+
+data:  Surv(y) by x (1, 2)
+Z = -1.0738, p-value = 0.2829
+alternative hypothesis: true theta is not equal to 1
+
+> logrank_test(Surv(y) ~ x, dat = dat, alternative = "less")
+
+	Asymptotic Two-Sample Logrank Test
+
+data:  Surv(y) by x (1, 2)
+Z = -1.0738, p-value = 0.1414
+alternative hypothesis: true theta is less than 1
+
+> logrank_test(Surv(y) ~ x, dat = dat, alternative = "greater")
+
+	Asymptotic Two-Sample Logrank Test
+
+data:  Surv(y) by x (1, 2)
+Z = -1.0738, p-value = 0.8586
+alternative hypothesis: true theta is greater than 1
+
+> 
+> 
 > ### confidence intervals, cf Bauer 1972
+> 
+> ### Location Tests
 > location <- data.frame(y = c(6, 20, 27, 38, 46, 51, 54, 57,
 +                              10, 12, 15, 21, 32, 40, 41, 45),
 +                        x = gl(2, 8))
 > 
-> ci <- confint(normal_test(y ~ x, data = location, 
-+                           conf.int = TRUE, di = "ex"))
+> ### Wilcoxon Rank-Sum Test
+> wt <- wilcox_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> wt
+
+	Exact Wilcoxon-Mann-Whitney Test
+
+data:  y by x (1, 2)
+Z = 1.2603, p-value = 0.2345
+alternative hypothesis: true mu is not equal to 0
+95 percent confidence interval:
+ -7 31
+sample estimates:
+difference in location 
+                  11.5 
+
+> ci <- confint(wt)
+> wt0 <- wilcox.test(y ~ x, data = location, conf.int = TRUE)
+> stopifnot(isequal(wt0$confint, ci$confint))
+> stopifnot(isequal(wt0$estimate, ci$estimate))
+> 
+> ### Normal Scores Test
+> nt <- normal_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> nt
+
+	Exact Two-Sample van der Waerden (Normal Quantile) Test
+
+data:  y by x (1, 2)
+Z = 1.2278, p-value = 0.2275
+alternative hypothesis: true mu is not equal to 0
+95 percent confidence interval:
+ -6 30
+sample estimates:
+difference in location 
+                    11 
+
+> ci <- confint(nt)
 > stopifnot(isequal(ci$conf.int, c(-6, 30)))
 > stopifnot(isequal(ci$estimate, 11))
 > 
-> wt <- wilcox.test(y ~ x, data = location, 
-+                   conf.int = TRUE)
-> ci <- confint(wilcox_test(y ~ x, data = location, 
-+                           conf.int = TRUE, di = "ex"))
-> stopifnot(isequal(wt$confint, ci$confint))
-> stopifnot(isequal(wt$estimate, ci$estimate))
+> ### Median Test
+> median_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+
+	Exact Two-Sample Brown-Mood Median Test
+
+data:  y by x (1, 2)
+Z = 0.96825, p-value = 0.6193
+alternative hypothesis: true mu is not equal to 0
+95 percent confidence interval:
+ -21  42
+sample estimates:
+difference in location 
+                  15.5 
+
 > 
+> ### Savage Test
+> savage_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+
+	Exact Two-Sample Savage Test
+
+data:  y by x (1, 2)
+Z = 1.6095, p-value = 0.1091
+alternative hypothesis: true mu is not equal to 0
+95 percent confidence interval:
+ -5 30
+sample estimates:
+difference in location 
+                    12 
+
+> 
+> 
+> ### Scale Tests
 > scale <- data.frame(y = c(-101, -35, -13, 10, 130, 236, 370, 556,
 +                           -145, -140, -40, -30, 2, 27, 68, 290),
 +                     x = gl(2, 8))
 > 
-> ci <- confint(ansari_test(y ~ x, data = scale, conf.int = TRUE, 
-+                           di = "ex", conf.level = 0.988))
+> ### Ansari-Bradley Test
+> at <- ansari_test(y ~ x, data = scale, di = "ex",
++                   conf.int = TRUE, conf.level = 0.988)
+> at
+
+	Exact Two-Sample Ansari-Bradley Test
+
+data:  y by x (1, 2)
+Z = -0.21129, p-value = 0.9173
+alternative hypothesis: true ratio of scales is not equal to 1
+98.8 percent confidence interval:
+  0.1470588 20.5925926
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> ci <- confint(at)
 > stopifnot(isequal(ci$conf.int, c(10, 556) / c(68, 27)))
 > stopifnot(isequal(ci$estimate, mean(c(35/30, 370 / 290))))
+> 
+> ### Taha Test
+> taha_test(y ~ x, data = scale, di = "ex",
++           conf.int = TRUE, conf.level = 0.54)
+
+	Exact Two-Sample Taha Test
+
+data:  y by x (1, 2)
+Z = 1.2612, p-value = 0.2157
+alternative hypothesis: true ratio of scales is not equal to 1
+54 percent confidence interval:
+   4.814815 278.000000
+sample estimates:
+ratio of scales 
+        13.7037 
+
+> 
+> ### Klotz Test
+> klotz_test(y ~ x, data = scale, di = "ex",
++            conf.int = TRUE, conf.level = 0.988)
+
+	Exact Two-Sample Klotz Test
+
+data:  y by x (1, 2)
+Z = 0.092301, p-value = 0.9243
+alternative hypothesis: true ratio of scales is not equal to 1
+98.8 percent confidence interval:
+  0.1470588 13.7037037
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> ### Mood Test
+> mood_test(y ~ x, data = scale, di = "ex",
++           conf.int = TRUE, conf.level = 0.988)
+
+	Exact Two-Sample Mood Test
+
+data:  y by x (1, 2)
+Z = 0.15374, p-value = 0.9021
+alternative hypothesis: true ratio of scales is not equal to 1
+98.8 percent confidence interval:
+  0.1470588 13.7037037
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> ### Fligner-Killeen Test
+> fligner_test(y ~ x, data = scale, di = "ex",
++                   conf.int = TRUE, conf.level = 0.988)
+
+	Exact Two-Sample Fligner-Killeen Test
+
+data:  y by x (1, 2)
+Z = 1.4442, p-value = 0.1545
+alternative hypothesis: true ratio of scales is not equal to 1
+98.8 percent confidence interval:
+  0.5460526 10.6875000
+sample estimates:
+ratio of scales 
+       2.307692 
+
+> 
+> ### Conover-Iman Test
+> conover_test(y ~ x, data = scale, di = "ex",
++              conf.int = TRUE, conf.level = 0.988)
+
+	Exact Two-Sample Conover-Iman Test
+
+data:  y by x (1, 2)
+Z = 1.5314, p-value = 0.1304
+alternative hypothesis: true ratio of scales is not equal to 1
+98.8 percent confidence interval:
+ 0.7897727 9.8206522
+sample estimates:
+ratio of scales 
+       3.048295 
+
+> 
 > 
 > ### ties handling
 > y1 <- c(14 , 18 , 2 , 4 , -5 , 14 , -3 , -1 , 1 , 6 , 3 , 3)
 > x1 <- c(8 , 26 , -7 , -1 , 2 , 9 , 0 , -4 , 13 , 3 , 3 , 4)
-> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(), 
+> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(),
 +                        zero.method = "Wilcoxon"))
 [1] 0.4741211
 > pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
 [1] 0.4609375
-Warning message:
-In wilcoxsign_test.IndependenceProblem(object = <S4 object of class "IndependenceProblem">,  :
-  Handling of zeros defaults to 'Pratt' in newer versions of coin
+> 
+> 
+> ### Weighted logrank tests
+> 
+> ### Collett (2003, p. 9, Table 1.3)
+> prostatic <- data.frame(
++     time = c(13, 52,  6, 40, 10,  7, 66, 10, 10, 14,
++              16 , 4, 65,  5, 11, 10, 15,  5, 76, 56,
++              88, 24, 51,  4, 40,  8, 18,  5, 16, 50,
++              40,  1, 36,  5, 10, 91, 18,  1, 18,  6,
++               1, 23, 15, 18, 12, 12, 17,  3),
++     event = c(1, 0, 1, 1, 1, 0, 1, 0, 1, 1,
++               1, 1, 1, 1, 0, 1, 0, 1, 0, 0,
++               1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
++               1, 1, 1, 1, 0, 1, 1, 0),
++     Hb = c(14.6, 12.0, 11.4, 10.2, 13.2,  9.9, 12.8, 14.0,  7.5, 10.6,
++            11.2, 10.1,  6.6,  9.7,  8.8,  9.6, 13.0, 10.4, 14.0, 12.5,
++            14.0, 12.4, 10.1,  6.5, 12.8,  8.2, 14.4, 10.2, 10.0,  7.7,
++             5.0,  9.4, 11.0,  9.0, 14.0, 11.0, 10.8,  5.1, 13.0,  5.1,
++            11.3, 14.6,  8.8,  7.5,  4.9,  5.5,  7.5, 10.2))
+> prostatic <- within(prostatic,
++                     group <- factor(Hb > 11.0, labels = as.roman(1:2)))
+> 
+> ### Leton and Zuluaga (2005, p. 384, Table 9)
+> 
+> ### Gehan
+> lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
++                    type = "Gehan")
+> isequal(round(statistic(lt)^2, 4), 3.8400)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.0500)
+[1] TRUE
+> 
+> ### Peto-Peto
+> lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
++                    type = "Fleming-Harrington", rho = 1)
+> isequal(round(statistic(lt)^2, 4), 4.0657)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.0438)
+[1] TRUE
+> 
+> ### Prentice
+> lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
++                    type = "Prentice")
+> isequal(round(statistic(lt)^2, 4), 4.1229)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.0423)
+[1] TRUE
+> 
+> ### LR Altshuler
+> lt <- logrank_test(Surv(time, event) ~ group, data = prostatic)
+> isequal(round(statistic(lt)^2, 4), 4.4343)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.0352)
+[1] TRUE
+> 
+> ### Tarone-Ware
+> lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
++                    type = "Tarone-Ware")
+> isequal(round(statistic(lt)^2, 4), 4.3443)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.0371)
+[1] TRUE
+> 
+> 
+> ### Paired tests
+> 
+> ### sanity check
+> set.seed(123)
+> x <- factor(rep(1:2, 15))
+> y <- as.integer(round((rnorm(30) + as.numeric(x)) * 1000))
+> id <- gl(15, 2)
+> try(symmetry_test(y ~ x | id, distribution = "exact", paired = TRUE))
+Error in SR_shift_1sample(object, fact = attr(int, "fact")) : 
+  cannot compute exact distribution with negative scores
 > 
 > proc.time()
    user  system elapsed 
-  1.516   0.056   1.568 
+   1.96    0.07    2.10 

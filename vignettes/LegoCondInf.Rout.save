@@ -1,0 +1,313 @@
+
+> options(width = 65, prompt = "R> ", continue = "   ")
+
+> require("coin")
+Loading required package: coin
+Loading required package: survival
+
+> set.seed(290875)
+
+> anonymous <- FALSE
+
+> if (!anonymous) {
++     cat("\\author{Torsten Hothorn$^1$, Kurt Hornik$^2$, \\\\\n            Mark A. van de Wiel$^3$ and Achim Zeileis$^2$}\n")
++ } .... [TRUNCATED] 
+\author{Torsten Hothorn$^1$, Kurt Hornik$^2$, \\
+            Mark A. van de Wiel$^3$ and Achim Zeileis$^2$}
+
+> if (!anonymous) cat("\\noindent$^1$ Institut f\\\"ur Medizininformatik, Biometrie und Epidemiologie\\\\\n           Friedrich-Alexander-Universit\\\ .... [TRUNCATED] 
+\noindent$^1$ Institut f\"ur Medizininformatik, Biometrie und Epidemiologie\\
+           Friedrich-Alexander-Universit\"at Erlangen-N\"urnberg\\
+           Waldstra{\ss}e 6, D-91054 Erlangen, Germany \\
+           \texttt{Torsten.Hothorn@R-project.org}
+         \newline
+
+         \noindent$^2$ Department f\"ur Statistik und Mathematik,
+            Wirtschaftsuniversit\"at Wien \\
+            Augasse 2-6, A-1090 Wien, Austria \\
+            \texttt{Kurt.Hornik@R-project.org} \\
+            \texttt{Achim.Zeileis@R-project.org}
+         \newline
+
+         \noindent$^3$ Department of Mathematics, Vrije Universiteit \\
+                        De Boelelaan 1081a, 1081 HV Amsterdam, The Netherlands \\
+            \texttt{mark.vdwiel@vumc.nl}
+         \newline
+
+> if (anonymous) {
++     cat(" \\citep{PKG:coina} ")
++ } else {
++     cat(" \\citep{PKG:coin} ")
++ }
+ \citep{PKG:coin} 
+> n <- table(alpha$alength)
+
+> par(cex.lab = 1.3, cex.axis = 1.3)
+
+> boxplot(elevel ~ alength, data = alpha, ylab = "Expression Level", 
++     xlab = "NACP-REP1 Allele Length", varwidth = TRUE)
+
+> axis(3, at = 1:3, labels = paste("n = ", n))
+
+> rankif <- function(data) trafo(data, numeric_trafo = rank_trafo)
+
+> kruskal.test(elevel ~ alength, data = alpha)
+
+	Kruskal-Wallis rank sum test
+
+data:  elevel by alength
+Kruskal-Wallis chi-squared = 8.8302, df = 2, p-value =
+0.01209
+
+
+> independence_test(elevel ~ alength, data = alpha, 
++     ytrafo = rank_trafo, teststat = "quadratic")
+
+	Asymptotic General Independence Test
+
+data:  elevel by
+	 alength (short, intermediate, long)
+chi-squared = 8.8302, df = 2, p-value = 0.01209
+
+
+> mpoints <- function(x) c(2, 7, 11)[unlist(x)]
+
+> independence_test(elevel ~ alength, data = alpha, 
++     ytrafo = rank_trafo, xtrafo = mpoints)
+
+	Asymptotic General Independence Test
+
+data:  elevel by
+	 alength (short, intermediate, long)
+Z = 2.9263, p-value = 0.00343
+alternative hypothesis: two.sided
+
+
+> total <- nrow(alzheimer)
+
+> stopifnot(total == 538)
+
+> male <- sum(alzheimer$gender == "Male")
+
+> stopifnot(male == 200)
+
+> female <- sum(alzheimer$gender == "Female")
+
+> stopifnot(female == 338)
+
+> disease <- table(alzheimer$disease)
+
+> smoked <- sum(alzheimer$smoking != "None")
+
+> atab <- xtabs(~smoking + +disease + gender, data = alzheimer)
+
+> x <- t(atab[, , "Female"])
+
+> lines <- paste(paste(dimnames(x)$disease, " & "), 
++     paste(apply(x, 1, function(l) paste(l, collapse = " & ")), 
++         "\\\\"))
+
+> for (i in 1:length(lines)) cat(lines[i], "\n")
+Alzheimer  &  91 & 7 & 15 & 21 \\ 
+Other dementias  &  55 & 7 & 16 & 9 \\ 
+Other diagnoses  &  80 & 3 & 25 & 9 \\ 
+
+> x <- t(atab[, , "Male"])
+
+> lines <- paste(paste(dimnames(x)$disease, " & "), 
++     paste(apply(x, 1, function(l) paste(l, collapse = " & ")), 
++         "\\\\"))
+
+> for (i in 1:length(lines)) cat(lines[i], "\n")
+Alzheimer  &  35 & 8 & 15 & 6 \\ 
+Other dementias  &  24 & 1 & 17 & 35 \\ 
+Other diagnoses  &  24 & 2 & 22 & 11 \\ 
+
+> layout(matrix(1:2, ncol = 2))
+
+> spineplot(disease ~ smoking, data = alzheimer, subset = gender == 
++     "Male", main = "Male", xlab = "Smoking", ylab = "Disease", 
++     tol = 1)
+
+> spineplot(disease ~ smoking, data = alzheimer, subset = gender == 
++     "Female", main = "Female", xlab = "Smoking", ylab = "Disease", 
++     tol = .... [TRUNCATED] 
+
+> it_alz <- independence_test(disease ~ smoking | gender, 
++     data = alzheimer, teststat = "quadratic")
+
+> it_alz
+
+	Asymptotic General Independence Test
+
+data:  disease by
+	 smoking (None, <10, 10-20, >20) 
+	 stratified by gender
+chi-squared = 23.316, df = 6, p-value = 0.0006972
+
+
+> statistic(it_alz, type = "linear")
+      Alzheimer Other dementias Other diagnoses
+None        126              79             104
+<10          15               8               5
+10-20        30              33              47
+>20          27              44              20
+
+> females <- alzheimer$gender == "Female"
+
+> males <- alzheimer$gender == "Male"
+
+> pvalue(independence_test(disease ~ smoking, data = alzheimer, 
++     subset = females, teststat = "quadratic"))
+[1] 0.09060652
+
+> pvalue(independence_test(disease ~ smoking, data = alzheimer, 
++     subset = males, teststat = "quadratic"))
+[1] 3.169418e-06
+
+> it_alzmax <- independence_test(disease ~ smoking, 
++     data = alzheimer, subset = males, teststat = "maximum")
+
+> it_alzmax
+
+	Asymptotic General Independence Test
+
+data:  disease by smoking (None, <10, 10-20, >20)
+maxT = 4.9504, p-value = 6.781e-06
+alternative hypothesis: two.sided
+
+
+> statistic(it_alzmax, type = "standardized")
+       Alzheimer Other dementias Other diagnoses
+None   2.5900465       -2.340275      -0.1522407
+<10    2.9713093       -2.056864      -0.8446233
+10-20 -0.7765307       -1.237441       2.1146396
+>20   -3.6678046        4.950373      -1.5303056
+
+> qperm(it_alzmax, 0.95)
+[1] 2.813991
+
+> pvalue(it_alzmax, method = "single-step")
+       Alzheimer Other dementias Other diagnoses
+None  0.09269080    1.707170e-01       0.9999984
+<10   0.03160184    3.072381e-01       0.9719564
+10-20 0.98165407    8.418199e-01       0.2751902
+>20   0.00271631    7.906569e-06       0.6622096
+
+> par(cex.lab = 1.3, cex.axis = 1.3)
+
+> layout(matrix(1:3, ncol = 3))
+
+> plot(survfit(Surv(time, event) ~ group, data = photocar), 
++     xmax = 50, xlab = "Survival Time (in weeks)", ylab = "Probability", 
++     lty = 1: .... [TRUNCATED] 
+
+> legend("bottomleft", lty = 1:3, levels(photocar$group), 
++     bty = "n")
+
+> plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), 
++     xmax = 50, xlab = "Time to First Tumor (in weeks)", ylab = "Probability", 
++     lt .... [TRUNCATED] 
+
+> legend("bottomleft", lty = 1:3, levels(photocar$group), 
++     bty = "n")
+
+> boxplot(ntumor ~ group, data = photocar, ylab = "Number of Tumors", 
++     xlab = "Treatment Group", varwidth = TRUE)
+
+> it_ph <- independence_test(Surv(time, event) + Surv(dmin, 
++     tumor) + ntumor ~ group, data = photocar)
+
+> it_ph
+
+	Asymptotic General Independence Test
+
+data:  Surv(time, event), Surv(dmin, tumor), ntumor by group (A, B, C)
+maxT = 7.0777, p-value = 6.259e-12
+alternative hypothesis: two.sided
+
+
+> statistic(it_ph, type = "linear")
+  Surv(time, event) Surv(dmin, tumor) ntumor
+A          8.894531          9.525269    276
+B         18.154654         17.951560    274
+C        -27.049185        -27.476828    264
+
+> statistic(it_ph, type = "standardized")
+  Surv(time, event) Surv(dmin, tumor)     ntumor
+A          2.327338          2.178704  0.2642120
+B          4.750336          4.106039  0.1509783
+C         -7.077674         -6.284743 -0.4151904
+
+> round(pvalue(it_ph, method = "single-step"), 5)
+  Surv(time, event) Surv(dmin, tumor)  ntumor
+A           0.13567           0.18972 0.99989
+B           0.00002           0.00033 1.00000
+C           0.00000           0.00000 0.99859
+
+> par(cex.lab = 1.3, cex.axis = 1.3)
+
+> layout(matrix(1:3, ncol = 3))
+
+> boxplot(I(log(mercury)) ~ group, data = mercuryfish, 
++     ylab = "Mercury Blood Level (in logs)", varwidth = TRUE)
+
+> boxplot(abnormal ~ group, data = mercuryfish, ylab = "Abnormal Cells (in %)", 
++     varwidth = TRUE)
+
+> boxplot(ccells ~ group, data = mercuryfish, ylab = "Chromosome Aberrations (in %)", 
++     varwidth = TRUE)
+
+> coherence <- function(data) {
++     x <- t(as.matrix(data))
++     apply(x, 2, function(y) sum(colSums(x < y) == nrow(x)) - 
++         sum(colSums(x  .... [TRUNCATED] 
+
+> poset <- independence_test(mercury + abnormal + ccells ~ 
++     group, data = mercuryfish, ytrafo = coherence, distribution = exact())
+
+> pvalue(poset)
+[1] 4.486087e-06
+
+> par(cex.lab = 1.3, cex.axis = 1.1)
+
+> ite <- poset
+
+> ita <- independence_test(mercury + abnormal + ccells ~ 
++     group, data = mercuryfish, ytrafo = coherence)
+
+> site <- support(ite)
+
+> layout(matrix(1:2, ncol = 2))
+
+> site <- site[site <= qperm(ite, 0.1) & site > -3]
+
+> pite <- sapply(site, function(x) pperm(ite, x))
+
+> pita <- sapply(site, function(x) pperm(ita, x))
+
+> plot(site, pite, type = "S", ylab = "Probability", 
++     xlab = "Standardized Statistic")
+
+> lines(site, pita, lty = 3)
+
+> legend("topleft", lty = c(1, 3), legend = c("Conditional Distribution", 
++     "Approximation"), bty = "n")
+
+> site <- support(ite)
+
+> site <- site[site >= qperm(ite, 0.9) & site < 3]
+
+> pite <- sapply(site, function(x) pperm(ite, x))
+
+> pita <- sapply(site, function(x) pperm(ita, x))
+
+> plot(site, pite, type = "S", ylab = "Probability", 
++     xlab = "Standardized Statistic")
+
+> lines(site, pita, lty = 3)
+
+ *** Run successfully completed ***
+> proc.time()
+   user  system elapsed 
+   3.08    0.17    3.55 

@@ -2,70 +2,79 @@
 \docType{methods}
 \alias{expectation}
 \alias{expectation-methods}
-\alias{expectation,IndependenceTest-method}
 \alias{expectation,IndependenceLinearStatistic-method}
+\alias{expectation,IndependenceTest-method}
+\alias{variance}
+\alias{variance-methods}
+\alias{variance,CovarianceMatrix-method}
+\alias{variance,IndependenceLinearStatistic-method}
+\alias{variance,IndependenceTest-method}
+\alias{variance,Variance-method}
 \alias{covariance}
 \alias{covariance-methods}
 \alias{covariance,CovarianceMatrix-method}
-\alias{covariance,IndependenceTest-method}
 \alias{covariance,IndependenceLinearStatistic-method}
-\alias{variance}
-\alias{variance-methods}
-\alias{variance,Variance-method}
-\alias{variance,CovarianceMatrix-method}
-\alias{variance,IndependenceTest-method}
-\alias{variance,IndependenceLinearStatistic-method}
-\title{ Extract the Expectation and Variance / Covariance of Linear Statistics }
+\alias{covariance,IndependenceTest-method}
+\title{Extraction of the Expectation, Variance and Covariance of the Linear
+  Statistic}
 \description{
-
-  Extracts the conditional expectation and covariance 
-  for linear statistics from objects inheriting from "IndependenceTest".
-
+  Methods for extraction of the expectation, variance and covariance of the
+  linear statistic.
 }
 \usage{
-expectation(object, ...)
-covariance(object, ...)
-variance(object, ...)
+\S4method{expectation}{IndependenceLinearStatistic}(object, \dots)
+\S4method{expectation}{IndependenceTest}(object, \dots)
+
+\S4method{variance}{CovarianceMatrix}(object, \dots)
+\S4method{variance}{IndependenceLinearStatistic}(object, \dots)
+\S4method{variance}{IndependenceTest}(object, \dots)
+\S4method{variance}{Variance}(object, \dots)
+
+\S4method{covariance}{CovarianceMatrix}(object, \dots)
+\S4method{covariance}{IndependenceLinearStatistic}(object, \dots)
+\S4method{covariance}{IndependenceTest}(object, \dots)
 }
 \arguments{
-  \item{object}{an object inheriting from class
-    \code{\link{IndependenceTest-class}}.}
-  \item{\dots}{further arguments (currently ignored).}
-}
-\section{Methods}{
-  \describe{
-    \item{expectation}{extracts the expectation of the linear 
-      statistic of \code{object}.}
-    \item{covariance}{extracts the covariance of the linear 
-      statistic of \code{object}.}
-    \item{variance}{extracts the variance of the linear 
-      statistic of \code{object}.}
+  \item{object}{
+    an object from which the expectation, variance or covariance of the linear
+    statistic can be extracted.
+  }
+  \item{\dots}{
+    further arguments (currently ignored).
   }
 }
+\details{
+  The methods \code{expectation}, \code{variance} and \code{covariance} extract
+  the expectation, variance and covariance, respectively, of the linear
+  statistic.
+}
+\value{
+  The expectation, variance or covariance of the linear statistic extracted from
+  \code{object}.  A numeric vector or matrix.
+}
 \examples{
+## Example data
+dta <- data.frame(
+    y = gl(3, 2),
+    x = sample(gl(3, 2))
+)
 
-  df <- data.frame(y = gl(3, 2), x = gl(3, 2)[sample(1:6)])
+## Asymptotic Cochran-Mantel-Haenszel Test
+ct <- cmh_test(y ~ x, data = dta)
 
-  ### Cochran-Mantel-Haenzel Test
-  ct <- cmh_test(y ~ x, data = df)
- 
-  ### the linear statistic, i.e, the contingency table
-  l <- statistic(ct, type = "linear")
-  l
+## The linear statistic, i.e., the contingency table...
+(l <- statistic(ct, type = "linear"))
 
-  ### expectation
-  El <- expectation(ct)
-  El
+## ...and its expectation...
+(El <- expectation(ct))
 
-  ### covariance
-  Vl <- covariance(ct)
-  Vl
+## ...and covariance
+(Vl <- covariance(ct))
 
-  ### the standardized contingency table (hard way)
-  (l - El) / sqrt(variance(ct))
+## The standardized contingency table...
+(l - El) / sqrt(variance(ct))
 
-  ### easy way
-  statistic(ct, type = "standardized")
-
+## ...is identical to the standardized linear statistic
+statistic(ct, type = "standardized")
 }
 \keyword{methods}

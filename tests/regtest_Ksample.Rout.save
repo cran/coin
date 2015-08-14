@@ -1,7 +1,7 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+R Under development (unstable) (2015-07-24 r68738) -- "Unsuffered Consequences"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -21,13 +21,14 @@ Type 'q()' to quit R.
 > ### `y' and a factor `x' (possibly blocked)
 > 
 > set.seed(290875)
-> library(coin)
+> library("coin")
 Loading required package: survival
-Loading required package: splines
 > isequal <- coin:::isequal
+> options(useFancyQuotes = FALSE)
 > 
 > ### generate data
-> dat <- data.frame(x = gl(4, 25), y = rnorm(100), block = gl(5, 20))[sample(1:100, 50),]
+> dat <- data.frame(x = gl(4, 25), y = rnorm(100), block = gl(5, 20))[sample(1:100, 50), ]
+> 
 > 
 > ### Kruskal-Wallis Test
 > 
@@ -36,49 +37,593 @@ Loading required package: splines
 > 
 > stopifnot(isequal(pvalue(kruskal_test(y ~ x, data = dat)), ptwo))
 > 
-> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt", 
-+                                    teststat = "quad",
-+     ytrafo = function(data) trafo(data, numeric_trafo = rank))), ptwo))
+> stopifnot(isequal(pvalue(oneway_test(y ~ x, data = dat, distribution = "asympt",
++     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo))), ptwo))
 > 
 > ### approximated distribution
 > rtwo <- pvalue(kruskal_test(y ~ x, data = dat, distribution = "approx")) / ptwo
-> stopifnot(all(rtwo > 0.9 & 
+> stopifnot(all(rtwo > 0.9 &
 +               rtwo < 1.1))
 > 
 > ### <FIXME> add block examples </FIXME>
 > 
 > ### sanity checks
 > try(kruskal_test(x ~ y, data = dat))
-Error in check(itp) : 'object' does not represent a K sample problem
+Error in check(object) : 
+  'object' does not represent a K-sample problem (maybe the grouping variable is not a factor?)
 > try(kruskal_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : 'block' is not a factor
 > 
-> ### Fligner Test 
+> 
+> ### Fligner-Killeen Test
 > 
 > ### asymptotic distribution
-> ptwo <- fligner.test(y ~ x, data = dat)$p.value                       
+> ptwo <- fligner.test(y ~ x, data = dat)$p.value
 > 
 > stopifnot(isequal(pvalue(fligner_test(y ~ x, data = dat)), ptwo))
 > 
 > dat$yy <- dat$y - tapply(dat$y, dat$x, median)[dat$x]
-> stopifnot(isequal(pvalue(oneway_test(yy ~ x, data = dat, distribution = "asympt", 
-+                                    teststat = "quad",
+> stopifnot(isequal(pvalue(oneway_test(yy ~ x, data = dat, distribution = "asympt",
 +     ytrafo = function(data) trafo(data, numeric_trafo = fligner_trafo))), ptwo))
 > 
 > ### approximated distribution
 > rtwo <- pvalue(fligner_test(y ~ x, data = dat, distribution = "approx")) / ptwo
-> stopifnot(all(rtwo > 0.9 &                     
-+               rtwo < 1.1))                     
+> stopifnot(all(rtwo > 0.9 &
++               rtwo < 1.1))
 > 
 > ### <FIXME> add block examples </FIXME>
 > 
 > ### sanity checks
-> try(fligner_test(x ~ y, data = dat)) 
-Error in median.default(X[[1L]], ...) : need numeric data
+> try(fligner_test(x ~ y, data = dat))
+Error in fligner_test.IndependenceProblem(object = <S4 object of class structure("IndependenceProblem", package = "coin")>) : 
+  'x' is not a numeric variable
 > try(fligner_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > 
+> ### One-way Test
+> oneway_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Fisher-Pitman Permutation Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 3.2735, df = 3, p-value = 0.3513
+
+> 
+> oneway_test(y ~ ordered(x), data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.8983
+alternative hypothesis: two.sided
+
+> oneway_test(y ~ ordered(x), data = dat,
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.4492
+alternative hypothesis: less
+
+> oneway_test(y ~ ordered(x), data = dat,
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.5508
+alternative hypothesis: greater
+
+> 
+> oneway_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.8983
+alternative hypothesis: two.sided
+
+> oneway_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.4492
+alternative hypothesis: less
+
+> oneway_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.1278, p-value = 0.5508
+alternative hypothesis: greater
+
+> 
+> 
+> ### Normal Scores Test
+> normal_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample van der Waerden (Normal Quantile) Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 3.3466, df = 3, p-value = 0.3412
+
+> 
+> normal_test(y ~ ordered(x), data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.7539
+alternative hypothesis: two.sided
+
+> normal_test(y ~ ordered(x), data = dat,
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.377
+alternative hypothesis: less
+
+> normal_test(y ~ ordered(x), data = dat,
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.623
+alternative hypothesis: greater
+
+> 
+> normal_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.7539
+alternative hypothesis: two.sided
+
+> normal_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.377
+alternative hypothesis: less
+
+> normal_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.3135, p-value = 0.623
+alternative hypothesis: greater
+
+> 
+> 
+> ### Median Test
+> median_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Brown-Mood Median Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 0.85938, df = 3, p-value = 0.8352
+
+> 
+> median_test(y ~ ordered(x), data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.5099
+alternative hypothesis: two.sided
+
+> median_test(y ~ ordered(x), data = dat,
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.255
+alternative hypothesis: less
+
+> median_test(y ~ ordered(x), data = dat,
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.745
+alternative hypothesis: greater
+
+> 
+> median_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.5099
+alternative hypothesis: two.sided
+
+> median_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.255
+alternative hypothesis: less
+
+> median_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = -0.65897, p-value = 0.745
+alternative hypothesis: greater
+
+> 
+> 
+> ### Savage Test
+> savage_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Savage Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 2.3638, df = 3, p-value = 0.5004
+
+> 
+> savage_test(y ~ ordered(x), data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.7774
+alternative hypothesis: two.sided
+
+> savage_test(y ~ ordered(x), data = dat,
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.6113
+alternative hypothesis: less
+
+> savage_test(y ~ ordered(x), data = dat,
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.3887
+alternative hypothesis: greater
+
+> 
+> savage_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.7774
+alternative hypothesis: two.sided
+
+> savage_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.6113
+alternative hypothesis: less
+
+> savage_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++             alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.3887
+alternative hypothesis: greater
+
+> 
+> 
+> ### Taha Test
+> taha_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Taha Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 2.8264, df = 3, p-value = 0.4192
+
+> 
+> try(taha_test(y ~ ordered(x), data = dat))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(taha_test(y ~ ordered(x), data = dat,
++               alternative = "less"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(taha_test(y ~ ordered(x), data = dat,
++               alternative = "greater"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> 
+> try(taha_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8))))
+Error in check(object) : 'x' is an ordered factor
+> try(taha_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++               alternative = "less"))
+Error in check(object) : 'x' is an ordered factor
+> try(taha_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++               alternative = "greater"))
+Error in check(object) : 'x' is an ordered factor
+> 
+> 
+> ### Klotz Test
+> klotz_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Klotz Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 7.0047, df = 3, p-value = 0.07175
+
+> 
+> try(klotz_test(y ~ ordered(x), data = dat))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(klotz_test(y ~ ordered(x), data = dat,
++                alternative = "less"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(klotz_test(y ~ ordered(x), data = dat,
++                alternative = "greater"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> 
+> try(klotz_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8))))
+Error in check(object) : 'x' is an ordered factor
+> try(klotz_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                alternative = "less"))
+Error in check(object) : 'x' is an ordered factor
+> try(klotz_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                alternative = "greater"))
+Error in check(object) : 'x' is an ordered factor
+> 
+> 
+> ### Mood Test
+> mood_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Mood Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 7.3257, df = 3, p-value = 0.06221
+
+> 
+> try(mood_test(y ~ ordered(x), data = dat))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(mood_test(y ~ ordered(x), data = dat,
++               alternative = "less"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(mood_test(y ~ ordered(x), data = dat,
++               alternative = "greater"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> 
+> try(mood_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8))))
+Error in check(object) : 'x' is an ordered factor
+> try(mood_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++               alternative = "less"))
+Error in check(object) : 'x' is an ordered factor
+> try(mood_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++               alternative = "greater"))
+Error in check(object) : 'x' is an ordered factor
+> 
+> 
+> ### Ansari-Bradley Test
+> ansari_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Ansari-Bradley Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 6.9382, df = 3, p-value = 0.07389
+
+> 
+> try(ansari_test(y ~ ordered(x), data = dat))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(ansari_test(y ~ ordered(x), data = dat,
++                 alternative = "less"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(ansari_test(y ~ ordered(x), data = dat,
++                 alternative = "greater"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> 
+> try(ansari_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8))))
+Error in check(object) : 'x' is an ordered factor
+> try(ansari_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                 alternative = "less"))
+Error in check(object) : 'x' is an ordered factor
+> try(ansari_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                 alternative = "greater"))
+Error in check(object) : 'x' is an ordered factor
+> 
+> 
+> ### Conover-Iman Test
+> conover_test(y ~ x, data = dat)
+
+	Asymptotic K-Sample Conover-Iman Test
+
+data:  y by x (1, 2, 3, 4)
+chi-squared = 4.8413, df = 3, p-value = 0.1838
+
+> 
+> try(conover_test(y ~ ordered(x), data = dat))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(conover_test(y ~ ordered(x), data = dat,
++                  alternative = "less"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> try(conover_test(y ~ ordered(x), data = dat,
++                  alternative = "greater"))
+Error in check(object) : 'ordered(x)' is an ordered factor
+> 
+> try(conover_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8))))
+Error in check(object) : 'x' is an ordered factor
+> try(conover_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                  alternative = "less"))
+Error in check(object) : 'x' is an ordered factor
+> try(conover_test(y ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++                  alternative = "greater"))
+Error in check(object) : 'x' is an ordered factor
+> 
+> 
+> ### Logrank Test
+> logrank_test(Surv(y) ~ x, data = dat)
+
+	Asymptotic K-Sample Logrank Test
+
+data:  Surv(y) by x (1, 2, 3, 4)
+chi-squared = 2.3638, df = 3, p-value = 0.5004
+
+> 
+> logrank_test(Surv(y) ~ ordered(x), data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.7774
+alternative hypothesis: two.sided
+
+> logrank_test(Surv(y) ~ ordered(x), data = dat,
++              alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.6113
+alternative hypothesis: less
+
+> logrank_test(Surv(y) ~ ordered(x), data = dat,
++              alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by ordered(x) (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.3887
+alternative hypothesis: greater
+
+> 
+> logrank_test(Surv(y) ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.7774
+alternative hypothesis: two.sided
+
+> logrank_test(Surv(y) ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++              alternative = "less")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.6113
+alternative hypothesis: less
+
+> logrank_test(Surv(y) ~ x, data = dat, scores = list(x = c(2, 4, 6, 8)),
++              alternative = "greater")
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Surv(y) by x (1 < 2 < 3 < 4)
+Z = 0.28273, p-value = 0.3887
+alternative hypothesis: greater
+
+> 
+> 
+> ### Weighted logrank tests
+> 
+> ### Lee & Wang (2003, p. 130, Table 5.11)
+> leukemia <- data.frame(
++     time = c( 4,   5,   9,  10,  12,  13, 10,
++              23,  28,  28,  28,  29,
++              31,  32,  37,  41,  41,
++              57,  62,  74, 100, 139,
++              20, 258, 269,
++               8,  10,  10,  12,  14,
++              20,  48,  70,  75,  99, 103,
++             162, 169, 195, 220,
++             161, 199, 217,
++             245,
++               8,  10,  11,  23,  25,  25,
++              28,  28,  31,  31,  40,
++              48,  89, 124, 143,
++              12, 159, 190, 196,
++             197, 205, 219),
++     event = c(1, 1, 1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1,
++               0, 0, 0,
++               1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1, 1,
++               1, 1, 1, 1,
++               0, 0, 0,
++               0,
++               1, 1, 1, 1, 1, 1,
++               1, 1, 1, 1, 1,
++               1, 1, 1, 1,
++               0, 0, 0, 0,
++               0, 0, 0),
++     group = factor(rep(1:3, c(25, 19, 22)), labels = as.roman(1:3)))
+> 
+> ### Leton and Zuluaga (2002, p. 25, Table 6)
+> 
+> ### Gehan, X^2_SG
+> lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
++                    type = "Gehan")
+> stopifnot(all(-statistic(lt, "linear") == c(273, -170, -103)))
+> isequal(round(statistic(lt), 3), 3.612)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.1643)
+[1] TRUE
+> 
+> ### Peto-Peto, X^2_SPP
+> lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
++                    type = "Fleming-Harrington", rho = 1)
+> stopifnot(all(round(-statistic(lt, "linear"), 3) == c(4.171, -2.582, -1.589)))
+> isequal(round(statistic(lt), 3), 3.527)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.1715)
+[1] TRUE
+> 
+> ### X^2_S1
+> lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
++                    type = "Prentice")
+> stopifnot(all(round(-statistic(lt, "linear"), 3) == c(4.100, -2.503, -1.597)))
+> isequal(round(statistic(lt), 3), 3.639)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.1621)
+[1] TRUE
+> 
+> ### LR Altshuler, X^2_SLRA
+> lt <- logrank_test(Surv(time, event) ~ group, data = leukemia)
+> stopifnot(all(round(-statistic(lt, "linear"), 3) == c(6.635, -3.693, -2.942)))
+> isequal(round(statistic(lt), 3), 3.814)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.1485)
+[1] TRUE
+> 
+> ### X^2_S2
+> lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
++                    type = "Tarone-Ware")
+> stopifnot(all(c(round(-statistic(lt, "linear")[1:2], 2),
++                 round(-statistic(lt, "linear")[3], 3)) == c(42.78, -26.42, -16.361)))
+> isequal(round(statistic(lt), 3), 4.104)
+[1] TRUE
+> isequal(round(pvalue(lt), 4), 0.1285)
+[1] TRUE
+> 
 > proc.time()
    user  system elapsed 
-  0.600   0.052   0.646 
+   1.26    0.01    1.26 

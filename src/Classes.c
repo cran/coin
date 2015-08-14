@@ -1,14 +1,13 @@
-
 /**
-    S4 classes 
+    S4 classes
     *\file Classes.c
-    *\author $Author: hothorn $
-    *\date $Date: 2007-02-15 09:25:46 +0100 (Thu, 15 Feb 2007) $
+    *\author $Author: hnilsson $
+    *\date $Date: 2015-07-27 18:00:00 +0200 (Mon, 27 Jul 2015) $
 */
 
 #include "coin_common.h"
 
-SEXP 
+SEXP
     coin_expectationSym,
     coin_covarianceSym,
     coin_sumweightsSym;

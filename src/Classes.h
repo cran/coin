@@ -1,4 +1,3 @@
-
 extern SEXP
     coin_expectationSym,
     coin_covarianceSym,

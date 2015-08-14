@@ -15,16 +15,16 @@ set.seed(290875)
 ###################################################
 library("coin")
 YOY <- data.frame(
-    length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44, 
-               42, 60, 32, 42, 45, 58, 27, 51, 42, 52, 
-               38, 33, 26, 25, 28, 28, 26, 27, 27, 27, 
+    length = c(46, 28, 46, 37, 32, 41, 42, 45, 38, 44,
+               42, 60, 32, 42, 45, 58, 27, 51, 42, 52,
+               38, 33, 26, 25, 28, 28, 26, 27, 27, 27,
                31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
     site = factor(c(rep("I", 10), rep("II", 10),
                     rep("III", 10), rep("IV", 10))))
 
 it <- independence_test(length ~ site, data = YOY,
-    ytrafo = function(data) trafo(data, numeric_trafo = rank),
-    teststat = "quadtype")
+    ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
+    teststat = "quadratic")
 it
 
 
@@ -44,7 +44,7 @@ covariance(it)
 ###################################################
 ### code chunk number 5: YOY-S
 ###################################################
-statistic(it, "standardized")
+statistic(it, type = "standardized")
 
 
 ###################################################
@@ -62,7 +62,7 @@ pvalue(it)
 ###################################################
 ### code chunk number 8: YOY-KW
 ###################################################
-kw <- kruskal_test(length ~ site, data = YOY, 
+kw <- kruskal_test(length ~ site, data = YOY,
                    distribution = approximate(B = 9999))
 kw
 
@@ -85,7 +85,7 @@ it
 ###################################################
 ### code chunk number 11: jobsatisfaction-s
 ###################################################
-statistic(it, "standardized")
+statistic(it, type = "standardized")
 
 
 ###################################################
@@ -97,8 +97,8 @@ lbl_test(jobsatisfaction)
 ###################################################
 ### code chunk number 13: jobsatisfaction-lbl-sc
 ###################################################
-lbl_test(jobsatisfaction, 
-    scores = list(Job.Satisfaction = c(1, 3, 4, 5), 
+lbl_test(jobsatisfaction,
+    scores = list(Job.Satisfaction = c(1, 3, 4, 5),
                   Income = c(3, 10, 20, 35)))
 
 
@@ -108,7 +108,7 @@ lbl_test(jobsatisfaction,
 egg_data <- data.frame(
     scores = c(9.7, 8.7, 5.4, 5.0, 9.6, 8.8, 5.6, 3.6, 9.0,
                7.3, 3.8, 4.3, 9.3, 8.7, 6.8, 3.8, 10.0, 7.5,
-               4.2, 2.8, 9.6, 5.1, 4.6, 3.6, 9.8, 7.4, 4.4, 
+               4.2, 2.8, 9.6, 5.1, 4.6, 3.6, 9.8, 7.4, 4.4,
                3.8, 9.4, 6.3, 5.1, 2.0, 9.4, 9.3, 8.2, 3.3,
                8.7, 9.0, 6.0, 3.3, 9.7, 6.7, 6.6, 2.8, 9.3,
                8.1, 3.7, 2.6, 9.8, 7.3, 5.4, 4.0, 9.0, 8.3,
@@ -119,25 +119,25 @@ egg_data <- data.frame(
                        2, 5, 8, 10, 5, 7, 9, 10, 1, 2, 3, 9,
                        4, 5, 6, 9, 1, 6, 7, 10, 3, 4, 9, 10,
                        1, 6, 8, 9, 3, 4, 7, 8, 3, 5, 6, 8)))
-yt <- function(data) trafo(data, numeric_trafo = rank, 
+yt <- function(data) trafo(data, numeric_trafo = rank_trafo,
                            block = egg_data$sitting)
-independence_test(scores ~ product | sitting, 
-                  data = egg_data, teststat = "quadtype", 
+independence_test(scores ~ product | sitting,
+                  data = egg_data, teststat = "quadratic",
                   ytrafo = yt)
 
 
 ###################################################
 ### code chunk number 15: eggs-Durbin-approx
 ###################################################
-pvalue(independence_test(scores ~ product | sitting, 
-    data = egg_data, teststat = "quadtype", ytrafo = yt,
+pvalue(independence_test(scores ~ product | sitting,
+    data = egg_data, teststat = "quadratic", ytrafo = yt,
     distribution = approximate(B = 19999)))
 
 
 ###################################################
 ### code chunk number 16: eggs-Durbin-approx
 ###################################################
-independence_test(scores ~ product | sitting, data = egg_data, 
+independence_test(scores ~ product | sitting, data = egg_data,
                   scores = list(product = 1:10),
                   ytrafo = yt)
 
@@ -147,9 +147,9 @@ independence_test(scores ~ product | sitting, data = egg_data,
 ###################################################
 if (require("multcomp")) {
     xt <- function(data) trafo(data, factor_trafo = function(x)
-        model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey")))
+        tcrossprod(model.matrix(~x - 1), contrMat(table(x), "Tukey")))
     it <- independence_test(length ~ site, data = YOY, xtrafo = xt,
-        teststat = "max", distribution = approximate(B = 9999))
+        teststat = "maximum", distribution = approximate(B = 9999))
     print(pvalue(it))
     print(pvalue(it, method = "single-step"))
 }

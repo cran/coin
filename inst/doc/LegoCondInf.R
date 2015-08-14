@@ -15,7 +15,7 @@ anonymous <- FALSE
 ### code chunk number 2: authors
 ###################################################
 if(!anonymous) {
-    cat("\\author{Torsten Hothorn$^1$, Kurt Hornik$^2$, \\\\ 
+    cat("\\author{Torsten Hothorn$^1$, Kurt Hornik$^2$, \\\\
             Mark A. van de Wiel$^3$ and Achim Zeileis$^2$}\n")
 } else  {
     cat("\\author{TAS MS05-239, Revision}\n")
@@ -63,7 +63,7 @@ par(cex.lab = 1.3, cex.axis = 1.3)
 boxplot(elevel ~ alength, data = alpha, ylab = "Expression Level",
         xlab = "NACP-REP1 Allele Length", varwidth = TRUE)
 axis(3, at = 1:3, labels = paste("n = ", n))
-rankif <- function(data) trafo(data, numeric_trafo = rank)
+rankif <- function(data) trafo(data, numeric_trafo = rank_trafo)
 
 
 ###################################################
@@ -75,7 +75,7 @@ kruskal.test(elevel ~ alength, data = alpha)
 ###################################################
 ### code chunk number 7: alpha-kruskal
 ###################################################
-independence_test(elevel ~ alength, data = alpha, ytrafo = rank, teststat = "quad")
+independence_test(elevel ~ alength, data = alpha, ytrafo = rank_trafo, teststat = "quadratic")
 
 
 ###################################################
@@ -87,7 +87,7 @@ mpoints <- function(x) c(2, 7, 11)[unlist(x)]
 ###################################################
 ### code chunk number 9: alpha-kruskal-ordered
 ###################################################
-independence_test(elevel ~ alength, data = alpha, ytrafo = rank, xtrafo = mpoints)
+independence_test(elevel ~ alength, data = alpha, ytrafo = rank_trafo, xtrafo = mpoints)
 
 
 ###################################################
@@ -102,7 +102,7 @@ stopifnot(female == 338)
 disease <- table(alzheimer$disease)
 smoked <- sum(alzheimer$smoking != "None")
 atab <- xtabs(~ smoking + + disease + gender, data = alzheimer)
-### there is a discrepancy between Table 1 (32% smokers of 117 women 
+### there is a discrepancy between Table 1 (32% smokers of 117 women
 ### suffering from other diagnoses) and Table 4 (63% non-smokers).
 ### We used the data as given in Table 4.
 
@@ -111,7 +111,7 @@ atab <- xtabs(~ smoking + + disease + gender, data = alzheimer)
 ### code chunk number 11: alzheimer-tab
 ###################################################
 x <- t(atab[,,"Female"])
-lines <- paste(paste(dimnames(x)$disease, " & "), 
+lines <- paste(paste(dimnames(x)$disease, " & "),
                paste(apply(x, 1, function(l) paste(l, collapse = " & ")), "\\\\"))
 for (i in 1:length(lines)) cat(lines[i], "\n")
 
@@ -120,7 +120,7 @@ for (i in 1:length(lines)) cat(lines[i], "\n")
 ### code chunk number 12: alzheimer-tab
 ###################################################
 x <- t(atab[,,"Male"])
-lines <- paste(paste(dimnames(x)$disease, " & "), 
+lines <- paste(paste(dimnames(x)$disease, " & "),
                paste(apply(x, 1, function(l) paste(l, collapse = " & ")), "\\\\"))
 for (i in 1:length(lines)) cat(lines[i], "\n")
 
@@ -138,8 +138,8 @@ main = "Female", xlab = "Smoking", ylab = "Disease", tol = 1)
 ###################################################
 ### code chunk number 14: alzheimer-mantelhaen
 ###################################################
-it_alz <- independence_test(disease ~ smoking | gender, data = alzheimer, 
-                            teststat = "quad")
+it_alz <- independence_test(disease ~ smoking | gender, data = alzheimer,
+                            teststat = "quadratic")
 it_alz
 
 
@@ -155,23 +155,23 @@ statistic(it_alz, type = "linear")
 females <- alzheimer$gender == "Female"
 males <- alzheimer$gender == "Male"
 pvalue(independence_test(disease ~ smoking, data = alzheimer,
-       subset = females, teststat = "quad"))
+       subset = females, teststat = "quadratic"))
 pvalue(independence_test(disease ~ smoking, data = alzheimer,
-       subset = males, teststat = "quad"))
+       subset = males, teststat = "quadratic"))
 
 
 ###################################################
 ### code chunk number 17: alzheimer-max
 ###################################################
 it_alzmax <- independence_test(disease ~ smoking, data = alzheimer,
-       subset = males, teststat = "max")
+       subset = males, teststat = "maximum")
 it_alzmax
 
 
 ###################################################
 ### code chunk number 18: alzheimer-maxstat
 ###################################################
-statistic(it_alzmax, "standardized")
+statistic(it_alzmax, type = "standardized")
 
 
 ###################################################
@@ -199,8 +199,8 @@ plot(survfit(Surv(dmin, tumor) ~ group, data = photocar), xmax = 50,
      xlab = "Time to First Tumor (in weeks)", ylab = "Probability",
      lty = 1:3)
      legend("bottomleft", lty = 1:3, levels(photocar$group), bty = "n")
-boxplot(ntumor ~ group, data = photocar, 
-        ylab = "Number of Tumors", xlab = "Treatment Group", 
+boxplot(ntumor ~ group, data = photocar,
+        ylab = "Number of Tumors", xlab = "Treatment Group",
         varwidth = TRUE)
 
 
@@ -209,7 +209,7 @@ boxplot(ntumor ~ group, data = photocar,
 ###################################################
 it_ph <- independence_test(Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group,
                            data = photocar)
-it_ph 
+it_ph
 
 
 ###################################################
@@ -241,11 +241,11 @@ round(pvalue(it_ph, method = "single-step"), 5)
 ###################################################
 par(cex.lab = 1.3, cex.axis = 1.3)
 layout(matrix(1:3, ncol = 3))
-boxplot(I(log(mercury)) ~ group, data = mercuryfish, 
+boxplot(I(log(mercury)) ~ group, data = mercuryfish,
         ylab = "Mercury Blood Level (in logs)", varwidth = TRUE)
-boxplot(abnormal ~ group, data = mercuryfish, 
+boxplot(abnormal ~ group, data = mercuryfish,
         ylab = "Abnormal Cells (in %)", varwidth = TRUE)
-boxplot(ccells ~ group, data = mercuryfish, 
+boxplot(ccells ~ group, data = mercuryfish,
         ylab = "Chromosome Aberrations (in %)", varwidth = TRUE)
 
 
@@ -254,7 +254,7 @@ boxplot(ccells ~ group, data = mercuryfish,
 ###################################################
 coherence <- function(data) {
     x <- t(as.matrix(data))
-    apply(x, 2, function(y) 
+    apply(x, 2, function(y)
         sum(colSums(x < y) == nrow(x)) - sum(colSums(x > y) == nrow(x)))
 }
 
@@ -262,7 +262,7 @@ coherence <- function(data) {
 ###################################################
 ### code chunk number 29: mercuryfish-poset
 ###################################################
-poset <- independence_test(mercury + abnormal + ccells ~ group, 
+poset <- independence_test(mercury + abnormal + ccells ~ group,
     data = mercuryfish, ytrafo = coherence, distribution = exact())
 
 
@@ -277,7 +277,7 @@ pvalue(poset)
 ###################################################
 par(cex.lab = 1.3, cex.axis = 1.1)
 ite <- poset
-ita <- independence_test(mercury + abnormal + ccells ~ group, data =     
+ita <- independence_test(mercury + abnormal + ccells ~ group, data =
                            mercuryfish, ytrafo = coherence)
 site <- support(ite)
 layout(matrix(1:2, ncol = 2))

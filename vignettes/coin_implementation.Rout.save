@@ -1,0 +1,363 @@
+
+> options(prompt = "R> ", continue = "+  ")
+
+> library("coin")
+Loading required package: survival
+
+> library("e1071")
+
+> set.seed(290875)
+
+> c2t <- function(x) {
++     classdef <- getClassDef(x)
++     extends <- names(classdef@contains)[1]
++     if (!is.null(extends)) {
++         eslots < .... [TRUNCATED] 
+
+> toLatex.c2t <- function(object, center = TRUE, ...) {
++     RET <- c()
++     if (center) 
++         RET <- c(RET, "\\begin{center}")
++     RET <- c( .... [TRUNCATED] 
+
+> library("coin")
+
+> data("rotarod", package = "coin")
+
+> independence_test(time ~ group, data = rotarod, ytrafo = rank_trafo, 
++     distribution = exact())
+
+	Exact General Independence Test
+
+data:  time by group (control, treatment)
+Z = 2.4389, p-value = 0.03727
+alternative hypothesis: two.sided
+
+
+> toLatex(c2t("IndependenceProblem"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{IndependenceProblem}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{x} & \Rclass{data.frame} \\
+\code{y} & \Rclass{data.frame} \\
+\code{block} & \Rclass{factor} \\
+\code{weights} & \Rclass{numeric} \\
+\hline
+\end{tabular}
+\end{center}
+
+> ip <- new("IndependenceProblem", y = rotarod["time"], 
++     x = rotarod["group"])
+
+> toLatex(c2t("IndependenceTestProblem"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{IndependenceTestProblem}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceProblem}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{xtrans} & \Rclass{matrix} \\
+\code{ytrans} & \Rclass{matrix} \\
+\code{xtrafo} & \Rclass{function} \\
+\code{ytrafo} & \Rclass{function} \\
+\hline
+\end{tabular}
+\end{center}
+
+> itp <- new("IndependenceTestProblem", ip, ytrafo = rank_trafo)
+
+> toLatex(c2t("IndependenceLinearStatistic"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{IndependenceLinearStatistic}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceTestProblem}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{linearstatistic} & \Rclass{numeric} \\
+\code{expectation} & \Rclass{numeric} \\
+\code{covariance} & \Rclass{VarCovar} \\
+\hline
+\end{tabular}
+\end{center}
+
+> ils <- new("IndependenceLinearStatistic", itp)
+
+> statistic(ils, type = "linear")
+           
+control 180
+
+> expectation(ils)
+control 
+    150 
+
+> variance(ils)
+ control 
+151.3043 
+
+> toLatex(c2t("IndependenceTestStatistic"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{IndependenceTestStatistic}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceLinearStatistic}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{teststatistic} & \Rclass{numeric} \\
+\code{standardizedlinearstatistic} & \Rclass{numeric} \\
+\hline
+\end{tabular}
+\end{center}
+
+> toLatex(c2t("ScalarIndependenceTestStatistic"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{ScalarIndependenceTestStatistic}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceTestStatistic}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{alternative} & \Rclass{character} \\
+\code{paired} & \Rclass{logical} \\
+\hline
+\end{tabular}
+\end{center}
+
+> sits <- new("ScalarIndependenceTestStatistic", ils, 
++     alternative = "two.sided")
+
+> statistic(sits, type = "standardized")
+                
+control 2.438909
+
+> toLatex(c2t("MaxTypeIndependenceTestStatistic"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{MaxTypeIndependenceTestStatistic}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceTestStatistic}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{alternative} & \Rclass{character} \\
+\hline
+\end{tabular}
+\end{center}
+
+> toLatex(c2t("QuadTypeIndependenceTestStatistic"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{QuadTypeIndependenceTestStatistic}} \\
+\multicolumn{2}{l}{Contains \Rclass{IndependenceTestStatistic}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{covarianceplus} & \Rclass{matrix} \\
+\code{df} & \Rclass{numeric} \\
+\code{paired} & \Rclass{logical} \\
+\hline
+\end{tabular}
+\end{center}
+
+> toLatex(c2t("PValue"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{PValue}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{pvalue} & \Rclass{function} \\
+\code{midpvalue} & \Rclass{function} \\
+\code{pvalueinterval} & \Rclass{function} \\
+\code{p} & \Rclass{function} \\
+\code{name} & \Rclass{character} \\
+\hline
+\end{tabular}
+\end{center}
+
+> toLatex(c2t("NullDistribution"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{NullDistribution}} \\
+\multicolumn{2}{l}{Contains \Rclass{PValue}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{q} & \Rclass{function} \\
+\code{d} & \Rclass{function} \\
+\code{support} & \Rclass{function} \\
+\code{parameters} & \Rclass{list} \\
+\hline
+\end{tabular}
+\end{center}
+
+> end <- ExactNullDistribution(sits)
+
+> pvalue(end, statistic(sits))
+[1] 0.03726708
+
+> qperm(end, 0.95)
+[1] 1.544642
+
+> toLatex(c2t("IndependenceTest"))
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{2}{l}{Class \Rclass{IndependenceTest}} \\
+ & \\
+Slot & Class \\ \hline 
+\code{distribution} & \Rclass{PValue} \\
+\code{statistic} & \Rclass{IndependenceTestStatistic} \\
+\code{estimates} & \Rclass{list} \\
+\code{method} & \Rclass{character} \\
+\code{call} & \Rclass{call} \\
+\hline
+\end{tabular}
+\end{center}
+
+> new("IndependenceTest", statistic = sits, distribution = end)
+
+	Exact General Independence Test
+
+data:  time by group (control, treatment)
+c = 2.4389, p-value = 0.03727
+
+
+> set.seed(2908)
+
+> correxample <- data.frame(x = rnorm(7), y = rnorm(7))
+
+> sexact <- function(object) {
++     x <- object@xtrans
++     y <- object@ytrans
++     perms <- permutations(nrow(x))
++     pstats <- apply(perms, 1,  .... [TRUNCATED] 
+
+> independence_test(y ~ x, data = correxample, alternative = "less", 
++     distribution = sexact)
+
+	General Independence Test
+
+data:  y by x
+Z = 1.4203, p-value = 0.9228
+alternative hypothesis: less
+
+
+> mood_score <- function(y) (rank_trafo(y) - (sum(!is.na(y)) + 
++     1)/2)^2
+
+> ip <- new("IndependenceProblem", y = rotarod["time"], 
++     x = rotarod["group"])
+
+> itp <- new("IndependenceTestProblem", ip, ytrafo = mood_score)
+
+> ils <- new("IndependenceLinearStatistic", itp)
+
+> sits <- new("ScalarIndependenceTestStatistic", ils, 
++     alternative = "two.sided")
+
+> new("ScalarIndependenceTest", statistic = sits, distribution = ExactNullDistribution(sits, 
++     algorithm = "split-up"))
+
+	Exact General Independence Test
+
+data:  time by group (control, treatment)
+Z = -2.3208, p-value = 0.03727
+alternative hypothesis: two.sided
+
+
+> independence_test(time ~ group, data = rotarod, ytrafo = mood_score, 
++     distribution = exact(algorithm = "split-up"))
+
+	Exact General Independence Test
+
+data:  time by group (control, treatment)
+Z = -2.3208, p-value = 0.03727
+alternative hypothesis: two.sided
+
+
+> data("jobsatisfaction", package = "coin")
+
+> js <- jobsatisfaction
+
+> dimnames(js)[[2]] <- c("VeryDiss", "LitSat", "ModSat", 
++     "VerySat")
+
+> ftable(Job.Satisfaction ~ Gender + Income, data = js)
+                   Job.Satisfaction VeryDiss LitSat ModSat VerySat
+Gender Income                                                     
+Female <5000                               1      3     11       2
+       5000-15000                          2      3     17       3
+       15000-25000                         0      1      8       5
+       >25000                              0      2      4       2
+Male   <5000                               1      1      2       1
+       5000-15000                          0      3      5       1
+       15000-25000                         0      0      7       3
+       >25000                              0      1      9       6
+
+> library("vcd")
+Loading required package: grid
+
+> cotabplot(js, split_vertical = TRUE, spacing = spacing_highlighting, 
++     gp = gpar(fill = rev(gray.colors(4))), labeling_args = list(rot_labels = .... [TRUNCATED] 
+
+> it <- independence_test(js, teststat = "quadratic", 
++     distribution = asymptotic())
+
+> it
+
+	Asymptotic General Independence Test
+
+data:  Job.Satisfaction by
+	 Income (<5000, 5000-15000, 15000-25000, >25000) 
+	 stratified by Gender
+chi-squared = 10.2, df = 9, p-value = 0.3345
+
+
+> statistic(it, type = "linear")
+            VeryDiss LitSat ModSat VerySat
+<5000              2      4     13       3
+5000-15000         2      6     22       4
+15000-25000        0      1     15       8
+>25000             0      3     13       8
+
+> margin.table(js, 1:2)
+             Job.Satisfaction
+Income        VeryDiss LitSat ModSat VerySat
+  <5000              2      4     13       3
+  5000-15000         2      6     22       4
+  15000-25000        0      1     15       8
+  >25000             0      3     13       8
+
+> statistic(it, type = "standardized")
+              VeryDiss      LitSat     ModSat    VerySat
+<5000        1.3112789  0.69201053 -0.2478705 -0.9293458
+5000-15000   0.6481783  0.83462550  0.5175755 -1.6257547
+15000-25000 -1.0958361 -1.50130926  0.2361231  1.4614123
+>25000      -1.0377629 -0.08983052 -0.5946119  1.2031648
+
+> it <- independence_test(js, distribution = approximate(B = 10000), 
++     scores = list(Job.Satisfaction = 1:4, Income = 1:4))
+
+> pvalue(it)
+[1] 0.0116
+99 percent confidence interval:
+ 0.009024885 0.014651019 
+
+
+> independence_test(js, teststat = "maximum")
+
+	Asymptotic General Independence Test
+
+data:  Job.Satisfaction by
+	 Income (<5000, 5000-15000, 15000-25000, >25000) 
+	 stratified by Gender
+maxT = 1.6258, p-value = 0.7215
+alternative hypothesis: two.sided
+
+
+> pvalue(independence_test(js, teststat = "maximum"), 
++     method = "single-step")
+             VeryDiss    LitSat    ModSat   VerySat
+<5000       0.9010270 0.9987771 0.9999998 0.9888131
+5000-15000  0.9992718 0.9948673 0.9998852 0.7215403
+15000-25000 0.9659953 0.8034534 0.9999999 0.8267981
+>25000      0.9761900 1.0000000 0.9996381 0.9394962
+
+ *** Run successfully completed ***
+> proc.time()
+   user  system elapsed 
+   2.58    0.12    2.79 

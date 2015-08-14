@@ -1,198 +1,380 @@
+### Streitberg-Roehmel algorithm for two independent samples
+SR_shift_2sample <- function(object, fact) {
 
-### Streitberg-Roehmel algorithm for independent two samples
-SR_shift_2sample <- function(object, fact = NULL) {
+    teststat <-
+        if (extends(class(object), "ScalarIndependenceTestStatistic"))
+            "scalar"
+        else if (extends(class(object), "QuadTypeIndependenceTestStatistic"))
+            "quadratic"
+        else
+            stop("Argument ", sQuote("object"), " is not of class ",
+                 sQuote("ScalarIndependenceTestStatistic"), " or ",
+                 sQuote("QuadTypeIndependenceTestStatistic"))
 
-    if (!extends(class(object), "ScalarIndependenceTestStatistic"))
-        stop("Argument ", sQuote("object"), " is not of class ",
-             sQuote("ScalarIndependenceTestStatistic"))
-
-    if (!is_2sample(object)) 
-        stop(sQuote("object"), 
+    if (!is_2sample(object))
+        stop(sQuote("object"),
              " does not represent an independent two-sample problem")
 
-    if (!(max(abs(object@weights - 1.0)) < eps()))
-        stop("cannot compute exact distribution with non-unity weights")
+    ytrans <- object@ytrans[, 1L]
+    xtrans <- object@xtrans[, 1L]
+    block <- object@block
 
-    RET <- new("ExactNullDistribution")
+    ## expand observations if weights are non-unity
+    if (!is_unity(object@weights)) {
+        idx <- rep.int(seq_along(object@weights), object@weights)
+        ytrans <- ytrans[idx]
+        xtrans <- xtrans[idx]
+        block <- block[idx]
+    }
 
-    ### this is indeed the one sample case
-    if (all(tabulate(object@block) == 2) && nlevels(object@block) > 1) {
-        scores <- object@ytrans[, 1]
-        ### search for equivalent integer scores with sum(scores) minimal
-        if (is.null(fact)) {
-            fact <- c(1, 2, 10, 100, 1000)
-            f <- is_integer(scores, fact = fact)
-            if (!any(f))
-                stop("cannot compute exact distribution with real valued scores")
-            fact <- min(fact[f])
-        }
-        ###  table(object$block, scores == 0) checken
-        sc <- round(scores * fact)
-        sc <- unlist(tapply(sc, object@block, function(x) {
-            if (any(x != 0)) return(x[x != 0])
-            return(0)
-        }))
-        storage.mode(sc) <- "integer"
-        Prob <- .Call("R_cpermdist1", sc, PACKAGE = "coin")
-        T <- which(Prob != 0)
-        Prob <- Prob[T]
-        ### 0 is possible
-        T <- (T - 1) / fact
-    } else {
+    lev <- levels(block)
+    nb <- nlevels(block)
 
-        ### in case we can't map the scores into integers, use another algorithm
-        if (!any(is_integer(object@ytrans[,1])))
-            return(vdW_split_up_2sample(object))
+    ## first block
+    block_1 <- (block == lev[1L])
+    scores <- ytrans[block_1]
+    m <- sum(xtrans[block_1] == 1L)
 
-        T <- 0
-        Prob <- 1
-        for (lev in levels(object@block)) {
+    ## compute T and density
+    if (m == 0L)
+        dens <- list(T = 0, Prob = 1)
+    else if (m == length(scores))
+        dens <- list(T = sum(scores), Prob = 1)
+    else if (m < length(scores))
+        dens <- cSR_shift_2sample(scores, m, fact = fact)
+    else
+        stop("cannot compute exact distribution")
 
-            thisblock <- (object@block == lev)
+    T <- dens$T
+    Prob <- dens$Prob
 
-            ### compute distribution of scores in this block
-            scores <- object@ytrans[thisblock, 1]
-            m <- sum(object@xtrans[thisblock, 1] == 1)
+    ## remaining blocks
+    if (nb > 1) {
+        for (i in seq_len(nb)[-1L]) {
+            block_i <- (block == lev[i])
+            scores <- ytrans[block_i]
+            m <- sum(xtrans[block_i] == 1L)
 
-            if (m == 0) next;
-            if (m == length(scores))
+            ## compute T and density
+            if (m == 0L)
+                next
+            else if (m == length(scores))
                 dens <- list(T = sum(scores), Prob = 1)
-            if (m < length(scores))
+            else if (m < length(scores))
                 dens <- cSR_shift_2sample(scores, m, fact = fact)
+            else
+                stop("cannot compute exact distribution")
 
-            ### update distribution of statistic over all blocks
-            T <- as.vector(outer(dens$T, T, "+"))
-            Prob <- drop(kronecker(Prob, dens$Prob))
+            ## update T
+            T <- .Call("R_outersum", dens$T, T, PACKAGE = "coin")
+
+            ## make sure T is ordered and distinct
+            n <- length(T)
+            o <- order(T)
+            T <- T[o]
+            idx <- c(which(T[-1L] - T[-n] > eps()), n)
+            T <- T[idx]
+
+            ### update density
+            Prob <- .Call("R_kronecker", dens$Prob, Prob, PACKAGE = "coin")
+            Prob <- vapply(split(Prob[o],
+                                 rep.int(seq_along(idx), diff(c(0L, idx)))),
+                           sum, NA_real_, USE.NAMES = FALSE)
         }
     }
 
-    T <- (T - expectation(object)) / sqrt(variance(object))
+    if (teststat == "scalar")
+        T <- (T - expectation(object)) / sqrt(variance(object))
+    else {
+        T <- (T - expectation(object))^2 / variance(object)
+        ## make sure T is ordered and distinct
+        n <- length(T)
+        o <- order(T)
+        T <- T[o]
+        idx <- c(which(T[-1L] - T[-n] > eps()), n)
+        T <- T[idx]
+        ## compute density
+        Prob <- vapply(split(Prob[o],
+                             rep.int(seq_along(idx), diff(c(0L, idx)))),
+                       sum, NA_real_, USE.NAMES = FALSE)
+    }
 
-    RET@p <- function(q) sum(Prob[LE(T, q)])
-    RET@q <- function(p) {
-        indx <- which(cumsum(Prob) < p)
-        if (length(indx) == 0) indx <- 0
-        T[max(indx) + 1]
+    d <- function(x) {
+        eq <- EQ(T, x)
+        if (any(eq))
+            Prob[eq]
+        else
+            0
     }
-    RET@d <- function(x) Prob[T == x]
-    RET@pvalue <- function(q) {
-        switch(object@alternative, 
-            "less"      = sum(Prob[LE(T, q)]),
-            "greater"   = sum(Prob[GE(T, q)]),
-            "two.sided" = {
-                if (q == 0) return(1)
-                return(sum(Prob[LE(T, ifelse(q >  0, -q,  q))]) + 
-                       sum(Prob[GE(T, ifelse(q >= 0,  q, -q))]))
-            }
-        )
+    pvalue <- function(q) {
+        if (teststat == "scalar")
+            switch(object@alternative,
+                "less"      = sum(Prob[LE(T, q)]),
+                "greater"   = sum(Prob[GE(T, q)]),
+                "two.sided" = {
+                    if (q == 0)
+                        1L
+                    else
+                        sum(Prob[LE(T, if (q < 0) q else -q)]) +
+                          sum(Prob[GE(T, if (q > 0) q else -q)])
+                })
+        else {
+            if (q == 0)
+                1L
+            else
+                sum(Prob[GE(T, q)])
+        }
     }
-    RET@support <- function() T
-    RET@name <- "exact distribution (via Streitberg-Roehmel algorithm)"
-    return(RET)
+    pvalueinterval <- function(q, z = c(1, 0)) {
+        pp <- if (teststat == "scalar" && object@alternative == "two.sided")
+                  d(-q) + d(q) # both tails
+              else
+                  d(q)
+        pvalue(q) - z * pp
+    }
+
+    new("ExactNullDistribution",
+        p = function(q) sum(Prob[LE(T, q)]),
+        q = function(p) {
+            idx <- which(cumsum(Prob) < p)
+            if (length(idx) == 0L)
+                T[1L]
+            else if (length(idx) == length(Prob))
+                T[max(idx)]
+            else
+                T[max(idx) + 1L]
+        },
+        d = d,
+        pvalue = pvalue,
+        midpvalue = function(q) {
+            pvalueinterval(q, z = 0.5)
+        },
+        pvalueinterval = function(q) {
+            setNames(pvalueinterval(q), nm = c("p_0", "p_1"))
+        },
+        support = function() T,
+        name = paste0("Exact Distribution for Independent Two-Sample Tests",
+                      " (Streitberg-Roehmel Shift Algorithm)"))
 }
 
-cSR_shift_2sample <- function(scores, m, fact = NULL) {
-
-    if (m < 1 || m == length(scores))
-        stop("not a two sample problem")
+cSR_shift_2sample <- function(scores, m, fact) {
     n <- length(scores)
-    ones <- rep(1, n)
+    if (m < 1L || m == n)
+        stop("not a two sample problem")
 
-    ### search for equivalent integer scores with sum(scores) minimal
-    if (is.null(fact)) {
-        fact <- c(1, 2, 10, 100, 1000)
-        f <- is_integer(scores, fact = fact)
-        if (!any(f))
-            stop("cannot compute exact distribution with real valued scores")
-        fact <- min(fact[f])
+    ## integer scores with sum(scores) minimal
+    scores <- round(scores * fact)
+    storage.mode(scores) <- "integer"
+    add <- min(scores - 1L)
+    scores <- scores - add
+    storage.mode(m) <- "integer"
+    m_b <- sum(sort(scores)[(n + 1L - m):n])
+
+    Prob <- .Call("R_cpermdist2",
+                  score_a = rep.int(1L, n), score_b = scores,
+                  m_a = m, m_b = m_b, retProb = TRUE, PACKAGE = "coin")
+    T <- which(Prob != 0)
+
+    list(T = (T + add * m) / fact, Prob = Prob[T])
+}
+
+
+### Streitberg-Roehmel algorithm for two paired samples
+SR_shift_1sample <- function(object, fact) {
+
+    teststat <-
+        if (extends(class(object), "ScalarIndependenceTestStatistic"))
+            "scalar"
+        else if (extends(class(object), "QuadTypeIndependenceTestStatistic"))
+            "quadratic"
+        else
+            stop("Argument ", sQuote("object"), " is not of class ",
+                 sQuote("ScalarIndependenceTestStatistic"), " or ",
+                 sQuote("QuadTypeIndependenceTestStatistic"))
+
+    if (!is_2sample(object))
+        stop(sQuote("object"),
+             " does not represent an independent two-sample problem")
+
+    scores <- object@ytrans[, 1L]
+    if (any(scores < 0))
+        stop("cannot compute exact distribution with negative scores")
+    block <- object@block
+
+    ## expand observations if weights are non-unity
+    if (!is_unity(object@weights)) {
+        idx <- rep.int(seq_along(object@weights), object@weights)
+        scores <- scores[idx]
+        block <- block[idx]
     }
 
-    scores <- scores * fact
-    add <- min(scores - 1)
-    scores <- scores - add
-    m_b <- sum(sort(scores)[(n + 1 - m):n])
-
-    Prob <- .Call("R_cpermdist2", 
-                  score_a = as.integer(round(ones)),  
-                  score_b = as.integer(round(scores)),
-                  m_a = as.integer(m),  
-                  m_b = as.integer(round(m_b)),
-                  retProb = as.logical(TRUE), 
-                  PACKAGE = "coin")
-
+    ##  table(object@block, scores == 0) checken
+    scores <- vapply(unique(object@block), function(i) {
+        s <- round(scores * fact)[object@block == i]
+        s[s != 0] # remove zeros
+    }, NA_real_)
+    storage.mode(scores) <- "integer"
+    Prob <- .Call("R_cpermdist1", scores, PACKAGE = "coin")
     T <- which(Prob != 0)
     Prob <- Prob[T]
-    T <- (T + add*m)/fact
-    return(list(T = T, Prob = Prob))
+    ## 0 is possible
+    T <- (T - 1) / fact
+
+    if (teststat == "scalar")
+        T <- (T - expectation(object)) / sqrt(variance(object))
+    else {
+        T <- (T - expectation(object))^2 / variance(object)
+        ## make sure T is ordered and distinct
+        n <- length(T)
+        o <- order(T)
+        T <- T[o]
+        idx <- c(which(T[-1L] - T[-n] > eps()), n)
+        T <- T[idx]
+        ## compute density
+        Prob <- vapply(split(Prob[o],
+                             rep.int(seq_along(idx), diff(c(0L, idx)))),
+                       sum, NA_real_, USE.NAMES = FALSE)
+    }
+
+    d <- function(x) {
+        eq <- EQ(T, x)
+        if (any(eq))
+            Prob[eq]
+        else
+            0
+    }
+    pvalue <- function(q) {
+        if (teststat == "scalar")
+            switch(object@alternative,
+                "less"      = sum(Prob[LE(T, q)]),
+                "greater"   = sum(Prob[GE(T, q)]),
+                "two.sided" = {
+                    if (q == 0)
+                        1L
+                    else
+                        sum(Prob[LE(T, if (q < 0) q else -q)]) +
+                          sum(Prob[GE(T, if (q > 0) q else -q)])
+                })
+        else {
+            if (q == 0)
+                1L
+            else
+                sum(Prob[GE(T, q)])
+        }
+    }
+    pvalueinterval <- function(q, z = c(1, 0)) {
+        pp <- if (teststat == "scalar" && object@alternative == "two.sided")
+                  d(-q) + d(q) # both tails
+              else
+                  d(q)
+        pvalue(q) - z * pp
+    }
+
+    new("ExactNullDistribution",
+        p = function(q) sum(Prob[LE(T, q)]),
+        q = function(p) {
+            idx <- which(cumsum(Prob) < p)
+            if (length(idx) == 0L)
+                T[1L]
+            else if (length(idx) == length(Prob))
+                T[max(idx)]
+            else
+                T[max(idx) + 1L]
+        },
+        d = d,
+        pvalue = pvalue,
+        midpvalue = function(q) {
+            pvalueinterval(q, z = 0.5)
+        },
+        pvalueinterval = function(q) {
+            setNames(pvalueinterval(q), nm = c("p_0", "p_1"))
+        },
+        support = function() T,
+        name = paste0("Exact Distribution for Dependent Two-Sample Tests",
+                      " (Streitberg-Roehmel Shift Algorithm)"))
 }
 
-### van de Wiel split-up algorithm for independent two samples
+
+### van de Wiel split-up algorithm for two independent samples
 vdW_split_up_2sample <- function(object) {
 
-    ### <FIXME> on.exit(ex <- .C("FreeW", PACKAGE = "coin")) </FIXME>
+    ## <FIXME> on.exit(ex <- .C("FreeW", PACKAGE = "coin")) </FIXME>
 
     if (!extends(class(object), "ScalarIndependenceTestStatistic"))
         stop("Argument ", sQuote("object"), " is not of class ",
              sQuote("ScalarIndependenceTestStatistic"))
 
-    if (nlevels(object@block) != 1)
+    if (!is_2sample(object))
+        stop(sQuote("object"),
+             " does not represent an independent two-sample problem")
+
+    if (nlevels(object@block) != 1L)
         stop("cannot compute exact p-values with blocks")
 
-    ### 2 groups as `x' variable
-    groups <- ncol(object@xtrans) == 1 && all(object@xtrans[,1] %in% c(0, 1))
-    if (!groups) stop("cannot deal with two-sample problems")
- 
-    RET <- new("ExactNullDistribution")
+    scores <- object@ytrans[, 1L]
+    xtrans <- object@xtrans[, 1L]
 
-    scores <- object@ytrans[,1]
+    ## expand observations if weights are non-unity
+    if (!is_unity(object@weights)) {
+        idx <- rep.int(seq_along(object@weights), object@weights)
+        scores <- scores[idx]
+        xtrans <- xtrans[idx]
+    }
+
     storage.mode(scores) <- "double"
-    m <- sum(object@xtrans)
+    m <- sum(xtrans)
     storage.mode(m) <- "integer"
-    tol <- sqrt(.Machine$double.eps)
+    tol <- eps()
 
-    RET@p <- function(q) {
-        obs <- q * sqrt(variance(object)) + expectation(object)
-        .Call("R_split_up_2sample", scores, m, obs, tol, PACKAGE = "coin")
+    p <- function(q) {
+        T <- q * sqrt(variance(object)) + expectation(object)
+        .Call("R_split_up_2sample", scores, m, T, tol, PACKAGE = "coin")
     }
 
-    RET@q <- function(p) {
-        f <- function(x) RET@p(x) - p
-        if (p <= 0.5)
-            rr <- uniroot(f, interval = c(-10, 1), 
-                    tol = sqrt(.Machine$double.eps))
-        else
-            rr <- uniroot(f, interval = c(-1, 10),
-                    tol = sqrt(.Machine$double.eps))
-        ### make sure quantile leads to pdf >= p
-        if (rr$f.root < 0) rr$root <- rr$root + sqrt(.Machine$double.eps)
-        ### pdf is constant here
-        if (rr$estim.prec > sqrt(.Machine$double.eps))  {
-            r1 <- rr$root
-            d <- min(diff(sort(scores[!duplicated(scores)]))) / sqrt(variance(object))
-            while (d > sqrt(.Machine$double.eps)) {
-                if (f(r1 - d) >= 0) r1 <- r1 - d
-                else d <- d / 2
+    new("ExactNullDistribution",
+        p = p,
+        q = function(p) {
+            f <- function(x) p(x) - p
+            rr <- if (p <= 0.5)
+                      uniroot(f, interval = c(-10, 1), tol = tol)
+                  else
+                      uniroot(f, interval = c(-1, 10), tol = tol)
+            ## make sure quantile leads to pdf >= p
+            if (rr$f.root < 0)
+                rr$root <- rr$root + tol
+            ## pdf is constant here
+            if (rr$estim.prec > tol) {
+                r1 <- rr$root
+                d <- min(diff(sort(scores[!duplicated(scores)]))) /
+                       sqrt(variance(object))
+                while (d > tol) {
+                    if (f(r1 - d) >= 0)
+                        r1 <- r1 - d
+                    else
+                        d <- d / 2
+                }
+                rr$root <- r1
             }
-            rr$root <- r1
-        }
-        rr$root
-    }
-    RET@d <- function(x) NA
-
-    RET@pvalue <- function(q) {
-        switch(object@alternative, 
-            "less"      = RET@p(q),
-            "greater"   = 1 - RET@p(q - 10 * tol),
-            "two.sided" = {
-                if (q == 0) return(1)
-                if (q > 0)
-                    return(RET@p(-q) + (1 - RET@p(q - 10 * tol)))
-                else
-                    return(RET@p(q) + (1 - RET@p(- q - 10 * tol)))
-            }
-        )
-    }
-    RET@support <- function(p = 1e-5) NA
-    RET@name <- "exact distribution (via van de Wiel split-up algorithm)"
-    return(RET)
+            rr$root
+        },
+        d = function(x) NA,
+        pvalue = function(q) {
+            switch(object@alternative,
+                "less"      = p(q),
+                "greater"   = 1 - p(q - 10 * tol),
+                "two.sided" = {
+                    if (q == 0)
+                        1L
+                    else if (q > 0)
+                        p(-q) + (1 - p(q - 10 * tol))
+                    else
+                        p(q) + (1 - p(-q - 10 * tol))
+                }
+            )
+        },
+        midpvalue = function(q) NA,
+        pvalueinterval = function(q) NA,
+        support = function() NA,
+        name = paste0("Exact Distribution for Independent Two-Sample Tests",
+                      " (van de Wiel Split-Up Algorithm)"))
 }

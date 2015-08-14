@@ -1,45 +1,43 @@
 \name{hohnloser}
+\docType{data}
 \alias{hohnloser}
-\title{
-Left ventricular ejection fraction of patients with malignant ventricular
-tachyarrhythmias.
-}
+\title{Left Ventricular Ejection Fraction}
 \description{
-A data frame with the left ventricular ejection fraction of patients with
-malignant ventricular tachyarrhythmias including recurrence-free month and censoring.
+  Left ventricular ejection fraction in patients with malignant ventricular
+  tachyarrhythmias including recurrence-free month and censoring.
 }
-\usage{
-data("hohnloser")
-}
+\usage{hohnloser}
 \format{
-\describe{
-\item{\code{EF}}{left ventricular ejection in percent}
-\item{\code{time}}{recurrence-free month}
-\item{\code{event}}{censoring: 0 censored, 1 not censored}
+  A data frame with 94 observations on 3 variables.
+  \describe{
+    \item{\code{EF}}{
+      ejection fraction (\%).
+    }
+    \item{\code{time}}{
+      recurrence-free month.
+    }
+    \item{\code{event}}{
+      status indicator for \code{time}: \code{0} for censored observations and
+      \code{1} otherwise.
+    }
+  }
 }
-The data used here is published in Table 1 of Lausen and Schumacher (1992).
+\details{
+  The data was used by Lausen and Schumacher (1992) to illustrate the use of
+  maximally selected statistics.
 }
 \source{
-
-The data was first published by Hohnloser et al. (1987), 
-the data used here is published in Table 1 of Lausen and Schumacher (1992).
-
+  Hohnloser, S. H., Raeder, E. A., Podrid, P. J., Graboys, T. B. and Lown, B.
+  (1987).  Predictors of antiarrhythmic drug efficacy in patients with malignant
+  ventricular tachyarrhythmias.  \emph{American Heart Journal} \bold{114}(1 Pt
+  1), 1--7.
 }
 \references{
-
-    S. H. Hohnloser, E. A. Raeder, P. J. Podrid, T. B. Graboys \& B. and Lown,
-    (1987). Predictors of antiarrhythmic drug efficacy in patients with
-    malignant ventricular tachyarrhythmias. \emph{American Heart Journal}
-    \bold{114}, 1--7.
-
-    Berthold Lausen \& Martin Schumacher (1992). Maximally selected rank statistics.
-    \emph{Biometrics} \bold{48}, 73--85.
-
+  Lausen, B. and Schumacher, M.  (1992).  Maximally selected rank statistics.
+  \emph{Biometrics} \bold{48}(1), 73--85.
 }
-
 \examples{
-
-  maxstat_test(Surv(time, event) ~ EF, data = hohnloser)
-
+## Asymptotic maximally selected logrank statistics
+maxstat_test(Surv(time, event) ~ EF, data = hohnloser)
 }
 \keyword{datasets}

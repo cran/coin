@@ -1,11 +1,10 @@
-
 /**
     Linear statistics for conditional inference
     *\file LinearStatistic.c
-    *\author $Author: hothorn $
-    *\date $Date: 2011-05-06 13:46:32 +0200 (Fri, 06 May 2011) $
+    *\author $Author: hnilsson $
+    *\date $Date: 2015-07-18 20:41:15 +0200 (Sam, 18 Jul 2015) $
 */
-    
+
 #include "coin_common.h"
 
 /**
@@ -39,7 +38,7 @@ void C_kronecker (const double *A, const int m, const int n,
             }
         }
     }
-}  
+}
 
 
 /**
@@ -60,9 +59,69 @@ SEXP R_kronecker(SEXP A, SEXP B) {
     n = ncol(A);
     r = nrow(B);
     s = ncol(B);
-    
+
     PROTECT(ans = allocVector(REALSXP, m * n * r * s));
     C_kronecker(REAL(A), m, n, REAL(B), r, s, REAL(ans));
+    UNPROTECT(1);
+    return(ans);
+}
+
+
+/**
+    Computes the outer sum of two matrices\n
+    *\param A matrix
+    *\param m nrow(A)
+    *\param n ncol(A)
+    *\param B matrix
+    *\param r nrow(B)
+    *\param s ncol(B)
+    *\param ans return value; a pointer to a REALSXP-vector of length (mr x ns)
+*/
+
+void C_outersum (const double *A, const int m, const int n,
+                  const double *B, const int r, const int s,
+                  double *ans) {
+
+    int i, j, k, l, mr, js, ir;
+    double y;
+
+    mr = m * r;
+    for (i = 0; i < m; i++) {
+        ir = i * r;
+        for (j = 0; j < n; j++) {
+            js = j * s;
+            y = A[j*m + i];
+            for (k = 0; k < r; k++) {
+                for (l = 0; l < s; l++) {
+                    ans[(js + l) * mr + ir + k] = y + B[l * r + k];
+                }
+            }
+        }
+    }
+}
+
+
+/**
+    R-interface to C_outersum\n
+    *\param A matrix
+    *\param B matrix
+*/
+
+SEXP R_outersum(SEXP A, SEXP B) {
+
+    int m, n, r, s;
+    SEXP ans;
+
+    if (!isReal(A) || !isReal(B))
+        error("R_outersum: A and / or B are not of type REALSXP");
+
+    m = nrow(A);
+    n = ncol(A);
+    r = nrow(B);
+    s = ncol(B);
+
+    PROTECT(ans = allocVector(REALSXP, m * n * r * s));
+    C_outersum(REAL(A), m, n, REAL(B), r, s, REAL(ans));
     UNPROTECT(1);
     return(ans);
 }
@@ -78,28 +137,28 @@ SEXP R_kronecker(SEXP A, SEXP B) {
 */
 
 void C_ExpectCovarInfluence(const double* y, const int q,
-                            const double* weights, const int n, 
+                            const double* weights, const int n,
                             SEXP ans) {
 
     int i, j, k, jq;
-    
+
     /* pointers to the slots of object ans */
     double *dExp_y, *dCov_y, *dsweights, tmp;
-    
+
     /*  return values: set to zero initially */
     dExp_y = REAL(GET_SLOT(ans, coin_expectationSym));
     for (j = 0; j < q; j++) dExp_y[j] = 0.0;
-    
+
     dCov_y = REAL(GET_SLOT(ans, coin_covarianceSym));
     for (j = 0; j < q*q; j++) dCov_y[j] = 0.0;
-    
+
     dsweights = REAL(GET_SLOT(ans, coin_sumweightsSym));
 
     /*  compute the sum of the weights */
-        
+
     dsweights[0] = 0;
     for (i = 0; i < n; i++) dsweights[0] += weights[i];
-    if (dsweights[0] <= 1) 
+    if (dsweights[0] <= 1)
         error("C_ExpectCovarInfluence: sum of weights is less than one");
 
     /*
@@ -109,9 +168,9 @@ void C_ExpectCovarInfluence(const double* y, const int q,
     for (i = 0; i < n; i++) {
 
         /*  observations with zero case weights do not contribute */
-    
+
         if (weights[i] == 0.0) continue;
-    
+
         for (j = 0; j < q; j++)
             dExp_y[j] += weights[i] * y[j * n + i];
     }
@@ -127,7 +186,7 @@ void C_ExpectCovarInfluence(const double* y, const int q,
     for (i = 0; i < n; i++) {
 
         if (weights[i] == 0.0) continue;
-     
+
         for (j = 0; j < q; j++) {
             tmp = weights[i] * (y[j * n + i] - dExp_y[j]);
             jq = j * q;
@@ -151,27 +210,27 @@ SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights) {
 
     SEXP ans;
     int q, n;
-    
+
     if (!isReal(y) || !isReal(weights))
         error("R_ExpectCovarInfluence: arguments are not of type REALSXP");
-    
+
     n = nrow(y);
     q = ncol(y);
-    
-    if (LENGTH(weights) != n) 
+
+    if (LENGTH(weights) != n)
         error("R_ExpectCovarInfluence: vector of case weights does not have %d elements", n);
 
     /*  allocate storage for return values */
     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("ExpectCovarInfluence")));
-    SET_SLOT(ans, coin_expectationSym, 
+    SET_SLOT(ans, coin_expectationSym,
              PROTECT(allocVector(REALSXP, q)));
-    SET_SLOT(ans, coin_covarianceSym, 
+    SET_SLOT(ans, coin_covarianceSym,
              PROTECT(allocMatrix(REALSXP, q, q)));
-    SET_SLOT(ans, coin_sumweightsSym, 
+    SET_SLOT(ans, coin_sumweightsSym,
              PROTECT(allocVector(REALSXP, 1)));
 
     C_ExpectCovarInfluence(REAL(y), q, REAL(weights), n, ans);
-    
+
     UNPROTECT(4);
     return(ans);
 }
@@ -181,7 +240,6 @@ SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights) {
     Conditional expectation and covariance of the a linear statistic\n
     *\param x values of the transformation
     *\param p dimension of the transformation
-    *\param y values of the influence function
     *\param q dimension of the influence function
     *\param weights case weights
     *\param n number of observations
@@ -189,24 +247,23 @@ SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights) {
     *\param ans return value; an object of class `ExpectCovar'
 */
 
-void C_ExpectCovarLinearStatistic(const double* x, const int p, 
-                                  const double* y, const int q,
+void C_ExpectCovarLinearStatistic(const double* x, const int p, const int q,
                                   const double* weights, const int n,
                                   const SEXP expcovinf, SEXP ans) {
 
     int i, j, k, pq;
     double sweights = 0.0, f1, f2, tmp;
-    double *swx, *CT1, *CT2, *Covy_x_swx, 
+    double *swx, *CT1, *CT2, *Covy_x_swx,
            *dExp_y, *dCov_y, *dExp_T, *dCov_T;
-    
+
     pq   = p * q;
-    
+
     /* the expectation and covariance of the influence function */
     dExp_y = REAL(GET_SLOT(expcovinf, coin_expectationSym));
     dCov_y = REAL(GET_SLOT(expcovinf, coin_covarianceSym));
     sweights = REAL(GET_SLOT(expcovinf, coin_sumweightsSym))[0];
 
-    if (sweights <= 1.0) 
+    if (sweights <= 1.0)
         error("C_ExpectCovarLinearStatistic: sum of weights is less than one");
 
     /* prepare for storing the results */
@@ -221,7 +278,7 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
 
         /*  observations with zero case weights do not contribute */
         if (weights[i] == 0.0) continue;
-    
+
         for (k = 0; k < p; k++) {
             tmp = weights[i] * x[k * n + i];
             swx[k] += tmp;
@@ -242,7 +299,7 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
             dExp_T[j * p + k] = swx[k] * dExp_y[j];
     }
 
-    /* 
+    /*
     *   dCov_T:  covariance of the linear statistic T
     */
 
@@ -256,7 +313,7 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
         /* two more helpers needed */
         CT2 = Calloc(pq * pq, double);            /* pq x pq */
         Covy_x_swx = Calloc(pq * q, double);      /* pq x q  */
-        
+
         C_kronecker(dCov_y, q, q, CT1, p, p, dCov_T);
         C_kronecker(dCov_y, q, q, swx, p, 1, Covy_x_swx);
         C_kronecker(Covy_x_swx, pq, q, swx, 1, p, CT2);
@@ -269,7 +326,7 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
     }
 
     /* clean up */
-    Free(swx); Free(CT1); 
+    Free(swx); Free(CT1);
 }
 
 
@@ -281,9 +338,9 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p,
     *\param expcovinf an object of class `ExpectCovarInfluence'
 */
 
-SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights, 
+SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights,
                                   SEXP expcovinf) {
-    
+
     SEXP ans;
     int n, p, q, pq;
 
@@ -293,21 +350,21 @@ SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights,
     p  = ncol(x);
     q  = ncol(y);
     pq = p * q;
-    
+
     if (nrow(y) != n)
         error("y does not have %d rows", n);
-    if (LENGTH(weights) != n) 
+    if (LENGTH(weights) != n)
         error("vector of case weights does not have %d elements", n);
 
     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("ExpectCovar")));
-    SET_SLOT(ans, coin_expectationSym, 
+    SET_SLOT(ans, coin_expectationSym,
              PROTECT(allocVector(REALSXP, pq)));
-    SET_SLOT(ans, coin_covarianceSym, 
+    SET_SLOT(ans, coin_covarianceSym,
              PROTECT(allocMatrix(REALSXP, pq, pq)));
 
-    C_ExpectCovarLinearStatistic(REAL(x), p, REAL(y), q, 
+    C_ExpectCovarLinearStatistic(REAL(x), p, q,
         REAL(weights), n, expcovinf, ans);
-    
+
     UNPROTECT(3);
     return(ans);
 }
@@ -322,12 +379,12 @@ SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights,
     *\param n number of observations
     *\param ans return value; a pointer to a REALSXP-vector of length pq
 */
-  
+
 void C_LinearStatistic (const double *x, const int p,
                         const double *y, const int q,
                         const double *weights, const int n,
                         double *ans) {
-              
+
     int i, j, k, kp, kn;
     double tmp;
 
@@ -336,14 +393,14 @@ void C_LinearStatistic (const double *x, const int p,
         kn = k * n;
         kp = k * p;
         for (j = 0; j < p; j++) ans[kp + j] = 0.0;
-            
+
         for (i = 0; i < n; i++) {
-                
+
             /* optimization: weights are often zero */
             if (weights[i] == 0.0) continue;
-                
+
             tmp = y[kn + i] * weights[i];
-                
+
             for (j = 0; j < p; j++)
                  ans[kp + j] += x[j*n + i] * tmp;
         }
@@ -366,24 +423,24 @@ SEXP R_LinearStatistic(SEXP x, SEXP y, SEXP weights) {
     /* dimensions */
     int n, p, q;
 
-    /* 
+    /*
      *    only a basic check: we do not coerce objects since this
      *    function is for internal use only
      */
-    
+
     if (!isReal(x) || !isReal(y) || !isReal(weights))
         error("LinStat: arguments are not of type REALSXP");
-    
+
     n = nrow(y);
     if (nrow(x) != n || LENGTH(weights) != n)
         error("LinStat: dimensions don't match");
 
     q    = ncol(y);
     p    = ncol(x);
-           
+
     PROTECT(ans = allocVector(REALSXP, p*q));
- 
-    C_LinearStatistic(REAL(x), p, REAL(y), q, REAL(weights), n, 
+
+    C_LinearStatistic(REAL(x), p, REAL(y), q, REAL(weights), n,
                       REAL(ans));
 
     UNPROTECT(1);
@@ -407,7 +464,7 @@ SEXP R_LinearStatistic(SEXP x, SEXP y, SEXP weights) {
 void C_PermutedLinearStatistic(const double *x, const int p,
                                const double *y, const int q,
                                const int n, const int nperm,
-                               const int *indx, const int *perm, 
+                               const int *indx, const int *perm,
                                double *ans) {
 
     int i, j, k, kp, kn, knpi;
@@ -417,9 +474,9 @@ void C_PermutedLinearStatistic(const double *x, const int p,
         kn = k * n;
         kp = k * p;
         for (j = 0; j < p; j++) ans[kp + j] = 0.0;
-            
+
         for (i = 0; i < nperm; i++) {
-                
+
             knpi = kn + perm[i];
 
             for (j = 0; j < p; j++)
@@ -442,18 +499,18 @@ SEXP R_PermutedLinearStatistic(SEXP x, SEXP y, SEXP indx, SEXP perm) {
     SEXP ans;
     int n, nperm, p, q, i, *iperm, *iindx;
 
-    /* 
+    /*
        only a basic check
     */
 
     if (!isReal(x) || !isReal(y))
         error("R_PermutedLinearStatistic: arguments are not of type REALSXP");
-    
+
     if (!isInteger(perm))
         error("R_PermutedLinearStatistic: perm is not of type INTSXP");
     if (!isInteger(indx))
         error("R_PermutedLinearStatistic: indx is not of type INTSXP");
-    
+
     n = nrow(y);
     nperm = LENGTH(perm);
     iperm = INTEGER(perm);
@@ -473,12 +530,12 @@ SEXP R_PermutedLinearStatistic(SEXP x, SEXP y, SEXP indx, SEXP perm) {
 
     q    = ncol(y);
     p    = ncol(x);
-           
+
     PROTECT(ans = allocVector(REALSXP, p*q));
-    
+
     C_PermutedLinearStatistic(REAL(x), p, REAL(y), q, n, nperm,
                  iindx, iperm, REAL(ans));
-    
+
     UNPROTECT(1);
     return(ans);
 }

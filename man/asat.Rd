@@ -1,52 +1,53 @@
 \name{asat}
-\alias{asat}
 \docType{data}
-\title{ Toxicological Study on Female Wistar Rats }
+\alias{asat}
+\encoding{UTF-8}
+\title{Toxicological Study on Female Wistar Rats}
 \description{
-  ASAT-values for a new compound and a control group of 34 female Wistar
-rats.
+  Measurements of the liver enzyme aspartate aminotransferase (ASAT) for a new
+  compound and a control group of 34 female Wistar rats.
 }
-\usage{data("asat")}
+\usage{asat}
 \format{
-  A data frame with 34 observations on the following 2 variables.
+  A data frame with 34 observations on 2 variables.
   \describe{
-    \item{asat}{the ASAT-values (a liver enzyme)}
-    \item{group}{a factor with levels \code{Compound} and \code{Control}.}
+    \item{\code{asat}}{
+      ASAT values.
+    }
+    \item{\code{group}}{
+      a factor with levels \code{"Compound"} and \code{"Control"}.
+    }
   }
 }
 \details{
   The aim of this toxicological study is the proof of safety for the new
-compound. The data are originally given in Hothorn (1992) and reproduced in
-Hauschke et al. (1999).
+  compound.  The data were originally given in Hothorn (1992) and later
+  reproduced by Hauschke, Kieser and Hothorn (1999).
 }
 \source{
-
-  Ludwig A. Hothorn (1992), Biometrische Analyse toxikologischer Untersuchungen.
-  In: J. Adams (ed.): \emph{Statistisches Know how in der medizinischen 
-  Forschung.} Ullstein-Mosby, Berlin, 475--590.
-
-}
-\references{
-
-  Dieter Hauschke, Meinhard Kieser \& Ludwig A. Hothorn (1999).
-  Proof of safety in
-  toxicology based on the ratio of two means for normally distributed data,
+  Hauschke, D., Kieser, M. and Hothorn, L. A.  (1999).  Proof of safety in
+  toxicology based on the ratio of two means for normally distributed data.
   \emph{Biometrical Journal} \bold{41}(3), 295--304.
 
-  Rafael Pfl\"uger \& Torsten Hothorn (2002).
-  Assessing equivalence tests with respect to their expected
-  $p$-Value, \emph{Biometrical Journal} \bold{44}(8), 1002--1027.
-
+  Hothorn, L. A.  (1992).  Biometrische analyse toxikologischer untersuchungen.
+  In J. Adam (Ed.), \emph{Statistisches Know-How in der Medizinischen
+    Forschung}, pp. 475--590.  Berlin: Ullstein Mosby.
+}
+\references{
+  \enc{Pflüger}{Pflueger}, R. and Hothorn, T.  (2002).  Assessing equivalence
+  tests with respect to their expected \eqn{p}-value.  \emph{Biometrical
+    Journal} \bold{44}(8), 1015--1027.
 }
 \examples{
+## Proof-of-safety based on ratio of medians (Pflueger and Hothorn, 2002)
+## One-sided exact Wilcoxon-Mann-Whitney test
+wt <- wilcox_test(I(log(asat)) ~ group, data = asat,
+                  distribution = "exact", alternative = "less",
+                  conf.int = TRUE)
 
-  ### proof-of-safety based on ratio of medians
-  pos <- wilcox_test(I(log(asat)) ~ group, data = asat, alternative = "less", 
-                     conf.int = TRUE, distribution = "exact")
-
-  ### one-sided confidence set. Safety cannot be concluded since the effect of
-  ### the compound exceeds 20\% of the control median
-  exp(confint(pos)$conf.int)
-
+## One-sided confidence set
+## Note: Safety cannot be concluded since the effect of the compound
+##       exceeds 20 \% of the control median
+exp(confint(wt)$conf.int)
 }
 \keyword{datasets}

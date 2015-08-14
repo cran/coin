@@ -9,7 +9,7 @@ library("e1071")
 set.seed(290875)
 
 ### extract slots of a class
-c2t <- function(x) {        
+c2t <- function(x) {
 
     classdef <- getClassDef(x)
 
@@ -22,14 +22,14 @@ c2t <- function(x) {
     }
 
     RET <- cbind(names(slots), slots)
-    attr(RET, "contains") <- extends 
+    attr(RET, "contains") <- extends
     attr(RET, "name") <- x
-    class(RET) <- "c2t"        
+    class(RET) <- "c2t"
     RET
 }
- 
+
 ### pretty printing
-toLatex.c2t <- function(object, center = TRUE, ...) {        
+toLatex.c2t <- function(object, center = TRUE, ...) {
 
     RET <- c()
 
@@ -37,12 +37,12 @@ toLatex.c2t <- function(object, center = TRUE, ...) {
 
     ### class name
     RET <- c(RET, "\\begin{tabular}{ll}",
-                  paste("\\multicolumn{2}{l}{Class \\Rclass{", 
-                        attr(object, "name"), "}} \\\\", sep = "")) 
+                  paste("\\multicolumn{2}{l}{Class \\Rclass{",
+                        attr(object, "name"), "}} \\\\", sep = ""))
 
     ### extends?
     if (!is.null(attr(object, "contains")))
-        RET <- c(RET, paste("\\multicolumn{2}{l}{Contains \\Rclass{", 
+        RET <- c(RET, paste("\\multicolumn{2}{l}{Contains \\Rclass{",
                             attr(object, "contains"), "}} \\\\", sep = ""))
 
     ### slots
@@ -68,7 +68,7 @@ toLatex.c2t <- function(object, center = TRUE, ...) {
 library("coin")
 data("rotarod", package = "coin")
 independence_test(time ~ group, data = rotarod,
-  ytrafo = rank, distribution = exact())
+  ytrafo = rank_trafo, distribution = exact())
 
 
 ###################################################
@@ -93,7 +93,7 @@ toLatex(c2t("IndependenceTestProblem"))
 ###################################################
 ### code chunk number 6: Ex-IndependenceTestProblem
 ###################################################
-itp <- new("IndependenceTestProblem", ip, ytrafo = rank)
+itp <- new("IndependenceTestProblem", ip, ytrafo = rank_trafo)
 
 
 ###################################################
@@ -111,7 +111,7 @@ ils <- new("IndependenceLinearStatistic", itp)
 ###################################################
 ### code chunk number 9: Ex-IndependenceLinearStatistic-statistic
 ###################################################
-statistic(ils, "linear")
+statistic(ils, type = "linear")
 
 
 ###################################################
@@ -128,51 +128,45 @@ toLatex(c2t("IndependenceTestStatistic"))
 
 
 ###################################################
-### code chunk number 12: Ex-IndependenceTestStatistic
-###################################################
-its <- new("IndependenceTestStatistic", ils)
-
-
-###################################################
-### code chunk number 13: ScalarIndependenceTestStatistic
+### code chunk number 12: ScalarIndependenceTestStatistic
 ###################################################
 toLatex(c2t("ScalarIndependenceTestStatistic"))
 
 
 ###################################################
-### code chunk number 14: Ex-ScalarIndependenceTestStatistic
+### code chunk number 13: Ex-ScalarIndependenceTestStatistic
 ###################################################
-sits <- new("ScalarIndependenceTestStatistic", its,
+sits <- new("ScalarIndependenceTestStatistic", ils,
   alternative = "two.sided")
-statistic(sits, "standardized")
+statistic(sits, type = "standardized")
 
 
 ###################################################
-### code chunk number 15: MaxTypeIndependenceTestStatistic
+### code chunk number 14: MaxTypeIndependenceTestStatistic
 ###################################################
 toLatex(c2t("MaxTypeIndependenceTestStatistic"))
 
 
 ###################################################
-### code chunk number 16: QuadTypeIndependenceTestStatistic
+### code chunk number 15: QuadTypeIndependenceTestStatistic
 ###################################################
 toLatex(c2t("QuadTypeIndependenceTestStatistic"))
 
 
 ###################################################
-### code chunk number 17: PValue
+### code chunk number 16: PValue
 ###################################################
 toLatex(c2t("PValue"))
 
 
 ###################################################
-### code chunk number 18: NullDistribution
+### code chunk number 17: NullDistribution
 ###################################################
 toLatex(c2t("NullDistribution"))
 
 
 ###################################################
-### code chunk number 19: Ex-NullDistribution-pvalue
+### code chunk number 18: Ex-NullDistribution-pvalue
 ###################################################
 end <- ExactNullDistribution(sits)
 pvalue(end, statistic(sits))
@@ -180,69 +174,69 @@ qperm(end, 0.95)
 
 
 ###################################################
-### code chunk number 20: IndependenceTest
+### code chunk number 19: IndependenceTest
 ###################################################
 toLatex(c2t("IndependenceTest"))
 
 
 ###################################################
-### code chunk number 21: IndependenceTest
+### code chunk number 20: IndependenceTest
 ###################################################
 new("IndependenceTest", statistic = sits, distribution = end)
 
 
 ###################################################
-### code chunk number 22: Ex-distribution
+### code chunk number 21: Ex-distribution
 ###################################################
 set.seed(2908)
 correxample <- data.frame(x = rnorm(7), y = rnorm(7))
 sexact <- function(object) {
-  x <- object@xtrans  
-  y <- object@ytrans  
+  x <- object@xtrans
+  y <- object@ytrans
   perms <- permutations(nrow(x))
   pstats <- apply(perms, 1, function(p) sum(x[p,] * y))
-  pstats <- (pstats - expectation(object)) / sqrt(variance(object)) 
+  pstats <- (pstats - expectation(object)) / sqrt(variance(object))
   p <- function(q) 1 - mean(pstats > q)
   new("PValue", p = p, pvalue = p)
 }
 
 
 ###################################################
-### code chunk number 23: Ex-distribution
+### code chunk number 22: Ex-distribution
 ###################################################
 independence_test(y ~ x, data = correxample, alternative = "less",
   distribution = sexact)
 
 
 ###################################################
-### code chunk number 24: coin_implementation.Rnw:830-831
+### code chunk number 23: coin_implementation.Rnw:831-832
 ###################################################
-mood_score <- function(y) (rank(y) - (nrow(y) + 1) / 2)^2
+mood_score <- function(y) (rank_trafo(y) - (sum(!is.na(y)) + 1) / 2)^2
 
 
 ###################################################
-### code chunk number 25: coin_implementation.Rnw:835-844
+### code chunk number 24: coin_implementation.Rnw:836-845
 ###################################################
 ip <- new("IndependenceProblem",
   y = rotarod["time"], x = rotarod["group"])
-itp <- new("IndependenceTestProblem", ip, 
+itp <- new("IndependenceTestProblem", ip,
   ytrafo = mood_score)
-its <- new("IndependenceTestStatistic", itp)
-sits <- new("ScalarIndependenceTestStatistic", its, 
+ils <- new("IndependenceLinearStatistic", itp)
+sits <- new("ScalarIndependenceTestStatistic", ils,
   alternative = "two.sided")
 new("ScalarIndependenceTest", statistic = sits,
   distribution = ExactNullDistribution(sits, algorithm = "split-up"))
 
 
 ###################################################
-### code chunk number 26: coin_implementation.Rnw:848-850
+### code chunk number 25: coin_implementation.Rnw:849-851
 ###################################################
 independence_test(time ~ group, data = rotarod, ytrafo = mood_score,
   distribution = exact(algorithm = "split-up"))
 
 
 ###################################################
-### code chunk number 27: js
+### code chunk number 26: js
 ###################################################
 data("jobsatisfaction", package = "coin")
 js <- jobsatisfaction
@@ -251,45 +245,45 @@ ftable(Job.Satisfaction ~ Gender + Income, data = js)
 
 
 ###################################################
-### code chunk number 28: js-plot
+### code chunk number 27: js-plot
 ###################################################
 library("vcd")
 cotabplot(js,
   split_vertical = TRUE, spacing = spacing_highlighting,
   gp = gpar(fill = rev(gray.colors(4))),
   labeling_args = list(rot_labels = 0, varnames = FALSE,
-    just_labels = c("center", "right")),  
+    just_labels = c("center", "right")),
   panel_args = list(margins = c(3, 1, 2, 3.5)))
 
 
 ###################################################
-### code chunk number 29: jobsatisfaction-it
+### code chunk number 28: jobsatisfaction-it
 ###################################################
-it <- independence_test(js, teststat = "quad",
+it <- independence_test(js, teststat = "quadratic",
   distribution = asymptotic())
 it
 
 
 ###################################################
-### code chunk number 30: jobsatisfaction-T
+### code chunk number 29: jobsatisfaction-T
 ###################################################
-statistic(it, "linear")
+statistic(it, type = "linear")
 
 
 ###################################################
-### code chunk number 31: jobsatisfaction-margin
+### code chunk number 30: jobsatisfaction-margin
 ###################################################
 margin.table(js, 1:2)
 
 
 ###################################################
-### code chunk number 32: jobsatisfaction-stat
+### code chunk number 31: jobsatisfaction-stat
 ###################################################
-statistic(it, "standardized")
+statistic(it, type = "standardized")
 
 
 ###################################################
-### code chunk number 33: jobsatisfaction-ordinal
+### code chunk number 32: jobsatisfaction-ordinal
 ###################################################
 it <- independence_test(js, distribution = approximate(B = 10000),
   scores = list(Job.Satisfaction = 1:4, Income = 1:4))
@@ -297,19 +291,20 @@ pvalue(it)
 
 
 ###################################################
-### code chunk number 34: jobsatisfaction-max
+### code chunk number 33: jobsatisfaction-max
 ###################################################
-independence_test(js, teststat = "max")
+independence_test(js, teststat = "maximum")
 
 
 ###################################################
-### code chunk number 35: jobsatisfaction-minp
+### code chunk number 34: jobsatisfaction-minp
 ###################################################
-pvalue(independence_test(js, teststat = "max"), method = "single-step")
+pvalue(independence_test(js, teststat = "maximum"),
+       method = "single-step")
 
 
 ###################################################
-### code chunk number 36: coin-doxygen (eval = FALSE)
+### code chunk number 35: coin-doxygen (eval = FALSE)
 ###################################################
 ## browseURL(system.file("documentation", "html", "index.html",
 ##   package = "coin"))

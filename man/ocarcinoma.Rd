@@ -1,57 +1,55 @@
 \name{ocarcinoma}
-\alias{ocarcinoma}
 \docType{data}
-\title{ Ovarian Carcinoma }
+\alias{ocarcinoma}
+\encoding{UTF-8}
+\title{Ovarian Carcinoma}
 \description{
-  Survival times of 35 women suffering ovarian carcinoma at stadium II and
-IIA.
+  Survival times of 35 women suffering from ovarian carcinoma at stadium II and
+  IIA.
 }
-\usage{data("ocarcinoma")}
+\usage{ocarcinoma}
 \format{
-  A data frame with 35 observations on the following 3 variables.
+  A data frame with 35 observations on 3 variables.
   \describe{
-    \item{time}{time in days.}
-    \item{event}{censoring indicator: \code{FALSE} means 
-                 censored, \code{TRUE} is an event.}
-    \item{stadium}{a factor with levels \code{II} and \code{IIA}. }
+    \item{\code{time}}{
+      time (days).
+    }
+    \item{\code{stadium}}{
+      a factor with levels \code{"II"} and \code{"IIA"}.
+    }
+    \item{\code{event}}{
+      status indicator for \code{time}: \code{FALSE} for censored observations
+      and \code{TRUE} otherwise.
+    }
   }
 }
 \details{
-
-  Data from Fleming et al. (1980, 1984), reanalysed in Schumacher and
-  Schulgen (2002).
-
+  Data from Fleming \emph{et al.} (1980) and Fleming, Green and Harrington
+  (1984).  Reanalysed in Schumacher and Schulgen (2002).
 }
 \source{
-  
-    Thomas R. Fleming, Judith R. O'Fallon, Peter C. O'Brien \& David 
-    P. Harrington (1980).
-    Modified Kolmogorov-Smirnov test procedures with applications to 
-    arbitrarily censored data. \emph{Biometrics} \bold{36}, 607--625.
+  Fleming, T. R., Green, S. J. and Harrington, D. P.  (1984).  Considerations of
+  monitoring and evaluating treatment effects in clinical trials.
+  \emph{Controlled Clinical Trials} \bold{5}(1), 55--66.
 
-    Thomas R. Fleming, Stephanie J. Green \& David P. Harrington (1984).
-    Considerations of monitoring and evaluating treatment effects in clinical
-    trials. \emph{Controlled Clinical Trials} \bold{5}, 55--66.
-
+  Fleming, T. R., O'Fallon, J. R., O'Brien, P. C. and Harrington, D. P.  (1980).
+  Modified Kolmogorov-Smirnov test procedures with applications to arbitrarily
+  censored data.  \emph{Biometrics} \bold{36}(4), 607--625.
 }
 \references{
-
-    Martin Schumacher & Gabi Schulgen (2002), \emph{Methodik klinischer 
-    Studien: Methodische Grundlagen der Planung, Durchf\"uhrung und
-    Auswertung.} Springer, Heidelberg.
-
+  Schumacher, M. and Schulgen, G.  (2002).  \emph{Methodik Klinischer Studien:
+    Methodische Grundlagen der Planung, \enc{Durchführung}{Durchfuehrung} und
+    Auswertung}.  Heidelberg: Springer.
 }
 \examples{
+## Exact logrank test
+lt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
+                distribution = "exact")
 
-  ### logrank test with exact two-sided p-value
-  lrt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
-                   distribution = "exact")
+## Test statistic
+statistic(lt)
 
-  ### the test statistic
-  statistic(lrt)
-
-  ### p-value
-  pvalue(lrt)
-
+## P-value
+pvalue(lt)
 }
 \keyword{datasets}
