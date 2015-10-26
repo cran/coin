@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2015-07-24 r68738) -- "Unsuffered Consequences"
+R Under development (unstable) (2015-08-13 r69049) -- "Unsuffered Consequences"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -20,7 +20,6 @@ Type 'q()' to quit R.
 > pkgname <- "coin"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
-> options(pager = "console")
 > library('coin')
 Loading required package: survival
 > 
@@ -2625,9 +2624,8 @@ control 0.2377 0.0994 0.062 0.0511 0.0483 0.0492
 > ### ** Examples
 > 
 > ## Exact logrank test
-> lt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
-+                 distribution = "exact")
-Warning: 'surv_test' is deprecated.  Use 'logrank_test' instead.
+> lt <- logrank_test(Surv(time, event) ~ stadium, data = ocarcinoma,
++                    distribution = "exact")
 > 
 > ## Test statistic
 > statistic(lt)
@@ -2986,7 +2984,7 @@ chi-squared = 11.957, df = 3, p-value = 0.007533
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  15.68 0.23 15.97 NA NA 
+Time elapsed:  15.51 0.27 15.93 NA NA 
 > grDevices::dev.off()
 null device 
           1 

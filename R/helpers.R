@@ -154,35 +154,23 @@ ranktests <-
       "quadrant_test", "koziol_test")
 
 formula2data <- function(formula, data, subset, weights = NULL, ...) {
+    no_weights <- is.null(weights)
 
-    other <- list()
-    if (!is.null(weights)) other = list(weights = weights)
+    dat <- ModelEnvFormula(
+        formula = formula,
+        data = data,
+        subset = subset,
+        other = if (no_weights) list() else list(weights = weights),
+        na.action = na.omit,
+        designMatrix = FALSE, responseMatrix = FALSE,
+        ...
+    )
 
-    ## in case `data' is an ExpressionSet object
-    if (extends(class(data), "ExpressionSet")) {
-        dat <- ModelEnvFormula(formula = formula,
-                               data = Biobase::pData(Biobase::phenoData(data)),
-                               subset = subset, other = other,
-                               designMatrix = FALSE, responseMatrix = FALSE,
-                               na.action = na.omit,
-                               ...)
-
-        ## x are _all_ expression levels, always
-        x <- as.data.frame(t(Biobase::exprs(data)))
-    } else {
-        dat <- ModelEnvFormula(formula = formula,
-                               data = data,
-                               subset = subset, other = other,
-                               na.action = na.omit,
-                               designMatrix = FALSE, responseMatrix = FALSE,
-                               ...)
-
-        ## rhs of formula
-        if (has(dat, "input"))
-            x <- dat@get("input")
-        else
-            stop("missing right hand side of formula")
-    }
+    ## rhs of formula
+    if (has(dat, "input"))
+        x <- dat@get("input")
+    else
+        stop("missing right hand side of formula")
 
     ## ~ x + y is allowed
     if (has(dat, "response"))
@@ -202,11 +190,8 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
     } else
         block <- NULL
 
-    RET <- list(x = x, y = y, block = block, bl = block[[1L]], w = NULL)
-    if (!is.null(weights))
-        RET$w <- dat@get("weights")[[1L]]
-
-    return(RET)
+    list(x = x, y = y, block = block, bl = block[[1L]],
+         w = if (no_weights) NULL else dat@get("weights")[[1L]])
 }
 
 setscores <- function(x, scores) {
@@ -410,7 +395,7 @@ has_distribution <- function(args)
 check_distribution_arg <- function(distribution,
     values = c("asymptotic", "approximate", "exact", "none")) {
     if (is.character(distribution)) {
-        distribution <- match.arg(distribution[1], values)
+        distribution <- match.arg(distribution, values)
         if (distribution == "none")
             function(object) new("NullDistribution")
         else

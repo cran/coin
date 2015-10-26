@@ -1,12 +1,13 @@
 useDynLib(coin)
 
 importFrom("methods", callNextMethod, extends, getSlots, new, validObject)
+importMethodsFrom("methods", initialize, show)
 importFrom("survival", is.Surv)
 importFrom("stats", complete.cases, confint, cov2cor, dchisq, dnorm, median,
                     model.frame, model.matrix, na.pass, pbinom, pchisq, pnorm,
                     qbeta, qchisq, qnorm, quantile, runif, setNames, uniroot)
-importMethodsFrom("modeltools", has, na.omit)
 importFrom("modeltools", ModelEnvFormula)
+importMethodsFrom("modeltools", has, na.omit)
 importFrom("mvtnorm", pmvnorm, qmvnorm)
 importFrom("multcomp", contrMat)
 

@@ -13,8 +13,9 @@ spearman_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         xtrafo = function(data)
             trafo(data, numeric_trafo = rank_trafo),
         ytrafo = function(data)
@@ -53,8 +54,9 @@ fisyat_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         xtrafo = function(data)
             trafo(data, numeric_trafo = function(x)
                 normal_trafo(x, ties.method = ties.method)),
@@ -98,8 +100,9 @@ quadrant_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         xtrafo = function(data)
             trafo(data, numeric_trafo = function(x)
                 median_trafo(x, mid.score = mid.score)),
@@ -140,8 +143,9 @@ koziol_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         xtrafo = function(data)
             trafo(data, numeric_trafo = function(x)
                 koziol_trafo(x, ties.method = ties.method)),

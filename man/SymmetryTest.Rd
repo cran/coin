@@ -226,8 +226,8 @@ symmetry_test(y1 + y2 ~ x | b, data = gerig, teststat = "quadratic",
 ### Asymptotic multivariate Page test
 (st <- symmetry_test(y1 + y2 ~ x | b, data = gerig,
                      ytrafo = function(data)
-                     trafo(data, numeric_trafo = rank_trafo,
-                           block = gerig$b),
+                         trafo(data, numeric_trafo = rank_trafo,
+                               block = gerig$b),
                      scores = list(x = 1:3)))
 pvalue(st, method = "step-down")
 }

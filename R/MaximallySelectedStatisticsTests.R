@@ -22,8 +22,9 @@ maxstat_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = match.arg(teststat),
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         xtrafo = function(data)
             trafo(data,
                   numeric_trafo = function(x)

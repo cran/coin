@@ -227,9 +227,6 @@ npmcp <- function(object) {
     ## <FIXME> it is currently hard to ask a distribution object
     ## for its type (and arguments). Its a design bug.
     distribution <- object@call$distribution
-    ## use default value
-    if (is.null(distribution))
-        distribution <- eval(formals(eval(object@call[[1]]))$distribution)[1]
     ## </FIXME>
     stand_tstat <- statistic(object, type = "standardized")
     tstat <- switch(alternative,

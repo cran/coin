@@ -1,4 +1,5 @@
-\documentclass[letter]{article}
+\documentclass[a4paper]{article}
+\usepackage[a4paper]{geometry}
 \usepackage{amstext}
 \usepackage{amsfonts}
 \usepackage{hyperref}
@@ -12,7 +13,7 @@
 \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
 %%\VignetteIndexEntry{coin: A Computational Framework for Conditional Inference}
-%%\VignetteDepends{coin,multcomp}
+%%\VignetteDepends{coin}
 
 \input{head}
 
@@ -33,7 +34,8 @@
 
 \begin{document}
 
-\title{\pkg{coin}: A Computational Framework for Conditional Inference}
+\title{\pkg{coin}: A Computational Framework for \\
+       Conditional Inference}
 \author{Torsten Hothorn$^1$, Kurt Hornik$^2$, Mark van de Wiel$^3$ \\
         and Achim Zeileis$^2$}
 \date{}
@@ -60,65 +62,86 @@
 <<setup, echo = FALSE, results = hide>>=
 options(width = 60)
 require("coin")
-require("Biobase")
-require("multcomp")
 set.seed(290875)
 @
 
 \section{Introduction}
 
-The \pkg{coin} package implements a unified approach for conditional
+The \pkg{coin} package provides a unified approach to conditional
 inference procedures commonly known as \textit{permutation tests}.
-The theoretical basis of design and implementation is the unified
-framework for permutation tests given by \cite{strasserweber1999}. For a
+The theoretical basis for the design and implementation is the general
+framework for permutation tests given by \cite{strasserweber1999}.  For a
 very flexible formulation of multivariate linear statistics,
 \cite{strasserweber1999} derived the conditional expectation and covariance
 of the conditional (permutation) distribution as well as the multivariate
-limiting distribution. For a more detailed overview see \cite{Hothorn:2006:AmStat}.
+limiting distribution.  Test procedures for nominal, ordinal and continuous data
+with or without censoring are all part of this framework.  For a more detailed
+overview see \cite{Hothorn:2006:AmStat}.
 
-Conditional counterparts of a large amount of classical (unconditional)
-test procedures for
-continuous, categorical and censored data are part of this framework, for
-example the Cochran-Mantel-Haenszel test for independence in general
-contingency tables, linear association tests for ordered categorical
-data, linear rank tests and multivariate permutation tests.
+The conceptual Strasser-Weber framework of permutation tests
+for arbitrary independence and symmetry problems are available via the generic
+functions \texttt{independence\_test} and \texttt{symmetry\_test} respectively.
+In addition to these very flexible procedures, a large set of convenience
+functions including well-known as well as lesser-known classical and
+non-classical procedures for tests of independence between two continuous
+variables, two- and $K$-sample tests for location and scale alternatives, tests
+of independence for contingency tables as well as tests of marginal homogeneity
+and symmetry have been implemented within the framework.  Currently, the
+following conditional test procedures are available:
 
-The conceptual framework of permutation tests by \cite{strasserweber1999}
-for arbitrary problems is available via the generic
-\texttt{independence\_test}. Because convenience functions for the most
-prominent problems are available, users will not have to use this
-extremely flexible procedure. Currently, the conditional variants of the
-following test procedures are available:
 \begin{center}
-\begin{tabular}{ll}
-\texttt{oneway\_test} & two- and $K$-sample permutation test \\
-\texttt{wilcox\_test} & Wilcoxon-Mann-Whitney test \\
-\texttt{normal\_test} & van der Waerden normal quantile test \\
-\texttt{median\_test} & median test \\
-\texttt{kruskal\_test} & Kruskal-Wallis test \\
-\texttt{ansari\_test} & Ansari-Bradley test \\
-\texttt{fligner\_test} & Fligner-Killeen test \\
-\texttt{chisq\_test} & Pearson's $\chi^2$ test \\
-\texttt{cmh\_test} & Cochran-Mantel-Haenszel test \\
-\texttt{lbl\_test} & linear-by-linear association test \\
-\texttt{surv\_test} & two- and $K$-sample logrank test \\
-\texttt{maxstat\_test} & generalized maximally selected statistics \\
-\texttt{spearman\_test} & Spearman's test \\
-\texttt{friedman\_test} & Friedman test \\
-\texttt{wilcoxsign\_test} & Wilcoxon signed-rank test \\
-\texttt{mh\_test} &  marginal homogeneity test (Stuart-Maxwell). \\
-\end{tabular}
+  \begin{tabular}{ll}
+    % CorrelationTests
+    \texttt{spearman\_test}   & Spearman correlation test \\
+    \texttt{fisyat\_test}     & Fisher-Yates correlation test \\
+    \texttt{quadrant\_test}   & Quadrant test \\
+    \texttt{koziol\_test}     & Koziol-Nemec test \\
+    % LocationTests
+    \texttt{oneway\_test}     & Two- and $K$-sample Fisher-Pitman permutation
+                                test \\
+    \texttt{wilcox\_test}     & Wilcoxon-Mann-Whitney test \\
+    \texttt{kruskal\_test}    & Kruskal-Wallis test \\
+    \texttt{normal\_test}     & Two- and $K$-sample van der Waerden test \\
+    \texttt{median\_test}     & Two- and $K$-sample Brown-Mood median test \\
+    \texttt{savage\_test}     & Two- and $K$-sample Savage test \\
+    % ScaleTests
+    \texttt{taha\_test}       & Two- and $K$-sample Taha test \\
+    \texttt{klotz\_test}      & Two- and $K$-sample Klotz test \\
+    \texttt{mood\_test}       & Two- and $K$-sample Mood test \\
+    \texttt{ansari\_test}     & Two- and $K$-sample Ansari-Bradley test \\
+    \texttt{fligner\_test}    & Two- and $K$-sample Fligner-Killeen test \\
+    \texttt{conover\_test}    & Two- and $K$-sample Conover-Iman test \\
+    % SurvivalTests
+    \texttt{logrank\_test}    & Two- and $K$-sample weighted logrank tests \\
+                              & (Logrank test, Gehan-Breslow test, Tarone-Ware
+                                test, \dots) \\
+    % SymmetryTests
+    \texttt{sign\_test}       & Sign test \\
+    \texttt{wilcoxsign\_test} & Wilcoxon signed-rank test \\
+    \texttt{friedman\_test}   & Friedman test and Page test \\
+    \texttt{quade\_test}      & Quade test \\
+    % ContingencyTests
+    \texttt{chisq\_test}      & Pearson $\chi^2$ test \\
+    \texttt{cmh\_test}        & Generalized Cochran-Mantel-Haenszel test \\
+    \texttt{lbl\_test}        & Linear-by-linear association test \\
+    % MarginalHomogeneityTests
+    \texttt{mh\_test}         & Marginal homogeneity tests \\
+                              & (McNemar test, Cochran $Q$ test, Stuart-Maxwell
+                                test, \dots) \\
+    % MaximallySelectedStatisticsTests
+    \texttt{maxstat\_test}    & Generalized maximally selected statistics \\
+  \end{tabular}
 \end{center}
 
-Those convenience functions essentially perform a certain transformation of
-the data, e.g., a rank transformation, and call \texttt{independence\_test}
-for the computation of linear statistics, expectation and covariance and the
-test statistic as well as
-their null distribution. The exact null distribution can
-be approximated either by the asymptotic distribution or via conditional
-Monte Carlo for all test procedures, the exact null distribution is
-available for special cases. Moreover, all test procedures allow for the
-specification of blocks for stratification.
+These convenience functions essentially perform a certain transformation of
+the data, e.g., a rank transformation, and then call \texttt{independence\_test}
+or \texttt{symmetry\_test} for the computation of the (multivariate) linear
+statistic and its conditional expectation and covariance as well as the scalar
+test statistic and its null distribution.  The exact null distribution can
+be approximated by the asymptotic distribution or via conditional
+Monte Carlo resampling for all test procedures, whereas the exact null distribution is
+available for special cases only.  Moreover, all test procedures allow for the
+specification of blocks pertaining to, e.g., stratification or repeated measurements.
 
 \section{Permutation Tests}
 
@@ -146,11 +169,11 @@ of the form
 \in \R^{pq}.
 \end{eqnarray}
 Here, $g: \mathcal{X} \rightarrow \R^{p}$ is a transformation of
-the $\X$ measurements and the \emph{influence function}
-$h: \mathcal{Y} \times \mathcal{Y}^n \rightarrow
-\R^q$ depends on the responses $(\Y_1, \dots, \Y_n)$ in a permutation
-symmetric way. We will give specific examples how to choose $g$ and $h$
-later on.
+$\X$ known as the \emph{regression function} and $h: \mathcal{Y} \times
+\mathcal{Y}^n \rightarrow \R^q$ is a transformation of $\Y$ known as the
+\emph{influence function}, where the latter may depend on $(\Y_1, \dots, \Y_n)$
+in a permutation symmetric way.  We will give specific examples on how to choose
+$g$ and $h$ later on.
 
 The distribution of $\T$  depends on the joint
 distribution of $\Y$ and $\X$, which is unknown under almost all practical
@@ -230,7 +253,7 @@ and that in the one-sided case maximum type test statistics are replaced by
 The conditional distribution and thus the $p$-value
 of the statistics $c(\mathbf{t}, \mu, \Sigma)$ can be
 computed in several different ways. For some special forms of the
-linear statistic, the exact distribution of the test statistic is trackable.
+linear statistic, the exact distribution of the test statistic is tractable.
 For two-sample problems, the shift-algorithm by \cite{axact-dist:1986}
 and \cite{exakte-ver:1987} and the split-up algorithm by
 \cite{vdWiel2001} are implemented as part of the package.
@@ -254,9 +277,9 @@ probabilities can be computed efficiently.
 
 The main workhorse \texttt{independence\_test} essentially allows for the
 specification of $\Y, \X$ and $b$ through a formula interface of the form
-\verb/y ~ x | b/, weights can be defined by a formula with one variable on
+\verb/y ~ x | b/, case weights can be defined by a formula with one variable on
 the right hand side only. Four additional arguments are available for the
-specification of the transformation $g$ (\texttt{xtrans}), the influence
+specification of the regression function $g$ (\texttt{xtrans}), the influence
 function $h$ (\texttt{ytrans}), the form of the test statistic $c$
 (\texttt{teststat}) and the null distribution (\texttt{distribution}).
 
@@ -277,18 +300,19 @@ YOY <- data.frame(
                42, 60, 32, 42, 45, 58, 27, 51, 42, 52,
                38, 33, 26, 25, 28, 28, 26, 27, 27, 27,
                31, 30, 27, 29, 30, 25, 25, 24, 27, 30),
-    site = factor(c(rep("I", 10), rep("II", 10),
-                    rep("III", 10), rep("IV", 10))))
+    site = gl(4, 10, labels = as.roman(1:4))
+)
 
 it <- independence_test(length ~ site, data = YOY,
-    ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
-    teststat = "quadratic")
+          ytrafo = function(data)
+              trafo(data, numeric_trafo = rank_trafo),
+          teststat = "quadratic")
 it
 @
 The linear statistic $\T$ is the sum of the ranks in each group and
 can be extracted via
 <<YOY-T, echo = TRUE>>=
-statistic(it, "linear")
+statistic(it, type = "linear")
 @
 Note that \texttt{statistic(..., type = "linear")} currently returns the linear
 statistic in matrix form, i.e.
@@ -318,17 +342,17 @@ pvalue(it)
 @
 
 Life is much simpler with convenience functions very similar to those
-available in package \pkg{stats} for a long time. The exact
-null distribution of the Kruskal-Wallis test can be approximated by $9999$
-Monte Carlo replications via
+available in package \pkg{stats} for a long time. Here, the exact
+null distribution of the Kruskal-Wallis test is approximated by Monte Carlo
+resampling using $10000$ replicates via
 <<YOY-KW, echo = TRUE>>=
-kw <- kruskal_test(length ~ site, data = YOY,
-                   distribution = approximate(B = 9999))
-kw
+kt <- kruskal_test(length ~ site, data = YOY,
+          distribution = approximate(B = 10000))
+kt
 @
-with $p$-value (and $99\%$ confidence interval) of
+with $p$-value (and $99~\%$ confidence interval) of
 <<YOY-KWp, echo = TRUE>>=
-pvalue(kw)
+pvalue(kt)
 @
 Of course it is possible to choose a $c_\text{max}$ type test statistic
 instead of a quadratic form.
@@ -342,45 +366,55 @@ matrices \citep[example data from][Table 7.8, page 288]{agresti2002}:
 <<jobsatisfaction-cmh, echo = TRUE>>=
 data("jobsatisfaction", package = "coin")
 
-it <- cmh_test(jobsatisfaction)
-it
+ct <- cmh_test(jobsatisfaction)
+ct
 @
 
 The standardized contingency table allowing for an inspection of the
 deviation from the null hypothesis of independence of income and
 jobsatisfaction (stratified by gender) is
 <<jobsatisfaction-s, echo = TRUE>>=
-statistic(it, type = "standardized")
+statistic(ct, type = "standardized")
 @
 
 \paragraph{Ordered Alternatives.}
 
 Of course, both job satisfaction and income are ordered variables.
 When $\Y$ is measured at $J$ levels and $\X$ at $K$ levels,
-$\Y$ and $\X$ are associated with score vectors $\xi \in
+$\Y$ and $\X$ are associated with score vectors $\eta \in
 \R^J$ and $\gamma \in \R^K$, respectively. The linear statistic is now a linear
 combination of the linear statistic $\T$ of the form
 \begin{eqnarray*}
 \M \T & = & \vec \left( \sum_{i=1}^n w_i \gamma^\top g(\X_i)
-            \left(\xi^\top h(\Y_i, (\Y_1, \dots, \Y_n)\right)^\top \right)
-\in \R \text{ with } \M = \xi \otimes \gamma.
+            \left(\eta^\top h(\Y_i, (\Y_1, \dots, \Y_n)\right)^\top \right)
+\in \R \text{ with } \M = \eta \otimes \gamma.
 \end{eqnarray*}
-By default, scores are $\xi = 1, \dots, J$ and $\gamma = 1, \dots, K$.
+By default, scores are $\eta = 1, \dots, J$ and $\gamma = 1, \dots, K$.
 <<jobsatisfaction-lbl, echo = TRUE>>=
 lbl_test(jobsatisfaction)
 @
-The scores $\xi$ and $\gamma$ can be specified to the linear-by-linear
-association test via a list those names correspond to the variable names
+The scores $\eta$ and $\gamma$ can be specified to the linear-by-linear
+association test via a list whose names correspond to the variable names
 <<jobsatisfaction-lbl-sc, echo = TRUE>>=
 lbl_test(jobsatisfaction,
     scores = list(Job.Satisfaction = c(1, 3, 4, 5),
                   Income = c(3, 10, 20, 35)))
 @
+Alternatively, scores can be specified through \texttt{of\_trafo}
+<<jobsatisfaction-lbl-sc-alt, echo = TRUE>>=
+lbl_test(jobsatisfaction,
+    ytrafo = function(data)
+        trafo(data, ordered_trafo = function(y)
+            of_trafo(y, scores = c(1, 3, 4, 5))),
+    xtrafo = function(data)
+        trafo(data, ordered_trafo = function(x)
+            of_trafo(x, scores = c(3, 10, 20, 35))))
+@
 
 \paragraph{Incomplete Randomised Blocks.}
 
 \cite{RaynerBest2001}, Chapter 7, discuss the application of Durbin's test
-to data from sensoric experiments, where incomplete block designs are
+to data from sensory experiments, where incomplete block designs are
 common. As an example, data from taste-testing on ten dried eggs where mean
 scores for off-flavour from seven judges are given and one wants to assess
 whether there is any difference in the scores between the ten egg samples.
@@ -388,55 +422,60 @@ The sittings are a block variable which can be added to the formula via
 `\texttt{|}'.
 <<eggs-Durbin, echo = TRUE>>=
 egg_data <- data.frame(
-    scores = c(9.7, 8.7, 5.4, 5.0, 9.6, 8.8, 5.6, 3.6, 9.0,
+    scores = c(9.7, 8.7, 5.4, 5.0, 9.6, 8.8, 5.6,  3.6, 9.0,
                7.3, 3.8, 4.3, 9.3, 8.7, 6.8, 3.8, 10.0, 7.5,
-               4.2, 2.8, 9.6, 5.1, 4.6, 3.6, 9.8, 7.4, 4.4,
-               3.8, 9.4, 6.3, 5.1, 2.0, 9.4, 9.3, 8.2, 3.3,
-               8.7, 9.0, 6.0, 3.3, 9.7, 6.7, 6.6, 2.8, 9.3,
-               8.1, 3.7, 2.6, 9.8, 7.3, 5.4, 4.0, 9.0, 8.3,
-               4.8,3.8,9.3,8.3,6.3,3.8),
-    sitting = factor(rep(c(1:15), rep(4,15))),
-    product = factor(c(1, 2, 4, 5, 2, 3, 6, 10, 2, 4, 6, 7,
-                       1, 3, 5, 7, 1, 4, 8, 10, 2, 7, 8, 9,
-                       2, 5, 8, 10, 5, 7, 9, 10, 1, 2, 3, 9,
-                       4, 5, 6, 9, 1, 6, 7, 10, 3, 4, 9, 10,
-                       1, 6, 8, 9, 3, 4, 7, 8, 3, 5, 6, 8)))
-yt <- function(data) trafo(data, numeric_trafo = rank_trafo,
-                           block = egg_data$sitting)
+               4.2, 2.8, 9.6, 5.1, 4.6, 3.6, 9.8,  7.4, 4.4,
+               3.8, 9.4, 6.3, 5.1, 2.0, 9.4, 9.3,  8.2, 3.3,
+               8.7, 9.0, 6.0, 3.3, 9.7, 6.7, 6.6,  2.8, 9.3,
+               8.1, 3.7, 2.6, 9.8, 7.3, 5.4, 4.0,  9.0, 8.3,
+               4.8, 3.8, 9.3, 8.3, 6.3, 3.8),
+    sitting = factor(rep(c(1:15), rep(4, 15))),
+    product = factor(c(1, 2, 4,  5, 2, 3, 6, 10, 2, 4, 6,  7,
+                       1, 3, 5,  7, 1, 4, 8, 10, 2, 7, 8,  9,
+                       2, 5, 8, 10, 5, 7, 9, 10, 1, 2, 3,  9,
+                       4, 5, 6,  9, 1, 6, 7, 10, 3, 4, 9, 10,
+                       1, 6, 8,  9, 3, 4, 7,  8, 3, 5, 6,  8))
+)
+
 independence_test(scores ~ product | sitting,
-                  data = egg_data, teststat = "quadratic",
-                  ytrafo = yt)
+    data = egg_data, teststat = "quadratic",
+    ytrafo = function(data)
+        trafo(data, numeric_trafo = rank_trafo,
+              block = egg_data$sitting))
 @
 and the Monte Carlo $p$-value can be computed via
 <<eggs-Durbin-approx, echo = TRUE>>=
 pvalue(independence_test(scores ~ product | sitting,
-    data = egg_data, teststat = "quadratic", ytrafo = yt,
-    distribution = approximate(B = 19999)))
+           data = egg_data, teststat = "quadratic",
+           ytrafo = function(data)
+               trafo(data, numeric_trafo = rank_trafo,
+                     block = egg_data$sitting),
+           distribution = approximate(B = 19999)))
 @
 If we assume that the products are ordered, the Page test is appropriate and
 can be computed as follows
-<<eggs-Durbin-approx, echo = TRUE>>=
-independence_test(scores ~ product | sitting, data = egg_data,
-                  scores = list(product = 1:10),
-                  ytrafo = yt)
+<<eggs-Page, echo = TRUE>>=
+independence_test(scores ~ product | sitting,
+    data = egg_data,
+    ytrafo = function(data)
+        trafo(data, numeric_trafo = rank_trafo,
+              block = egg_data$sitting),
+    scores = list(product = 1:10))
 @
-
 
 \paragraph{Multiple Tests.}
 
 One may be interested in testing multiple hypotheses simultaneously, either
 by using a linear combination of the linear statistic $\K\T$, or by
-specifying multivariate variables $\Y$ and / or $\X$. For example, all pair
+specifying multivariate variables $\Y$ and/or $\X$. For example, all pair
 comparisons may be implemented via
 <<warpbreaks-Tukey, echo = TRUE>>=
-if (require("multcomp")) {
-    xt <- function(data) trafo(data, factor_trafo = function(x)
-        tcrossprod(model.matrix(~x - 1), contrMat(table(x), "Tukey")))
-    it <- independence_test(length ~ site, data = YOY, xtrafo = xt,
-        teststat = "maximum", distribution = approximate(B = 9999))
-    print(pvalue(it))
-    print(pvalue(it, method = "single-step"))
-}
+it <- independence_test(length ~ site, data = YOY,
+          xtrafo = mcp_trafo(site = "Tukey"),
+          teststat = "maximum",
+          distribution = "approximate")
+pvalue(it)
+pvalue(it, method = "single-step")
 @
 When either $g$ or $h$ are multivariate, single-step adjusted $p$-values based on
 maximum-type statistics are computed as described in \cite{WestfallYoung1993},
@@ -446,34 +485,6 @@ appropriately because the subset pivotality condition is violated, i.e., the
 distribution of the test statistics under the complete null-hypothesis of no
 treatment effect of \texttt{site} is the basis of all adjustments instead of
 the corresponding partial null-hypothesis.
-
-Another important application are simultaneous tests for many response
-variables. This problem frequently occurs in microarray expression studies
-and we shall have a look at an artificial example: 100 variables (from a
-normal distribution) are to be tested in a one-way classification with $n =
-40$ observations. Only the first variable shows a difference and we are
-interested in both a global test and the adjusted $p$-values. Here, the
-example is formulated within the \pkg{Biobase} \citep{PKG:Biobase}
-framework (example currently not run because of dependencies problems):
-<<biobase-resampling, echo = TRUE, eval = FALSE>>=
-if (require("Biobase")) {
-
-   p <- 100
-   pd <- new("AnnotatedDataFrame",
-             data = data.frame(group = gl(2, 20)),
-             varMetadata = data.frame(labelDescription = "1/2"))
-   exprs <- matrix(rnorm(p * 40), nrow = p)
-   exprs[1, 1:20] <- exprs[1, 1:20] + 1.5
-   ex <- new("ExpressionSet", exprs = exprs, phenoData = pd)
-
-   it <- independence_test(group ~ ., data = ex,
-                           distribution = approximate(B = 1000))
-
-   print(pvalue(it))
-   print(which(pvalue(it, method = "step-down") < 0.05))
-
-}
-@
 
 \section{Quality Assurance}
 

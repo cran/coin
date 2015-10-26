@@ -43,8 +43,8 @@
 }
 \examples{
 ## Exact logrank test
-lt <- surv_test(Surv(time, event) ~ stadium, data = ocarcinoma,
-                distribution = "exact")
+lt <- logrank_test(Surv(time, event) ~ stadium, data = ocarcinoma,
+                   distribution = "exact")
 
 ## Test statistic
 statistic(lt)

@@ -127,6 +127,10 @@
   \code{object}.  A numeric vector or matrix.
 }
 \note{
+  The mid-\eqn{p}-value and \eqn{p}-value interval of asymptotic permutation
+  distributions for maximum-type tests or exact permutation distributions
+  obtained by the split-up algoritm is reported as \code{NA}.
+
   In versions of \pkg{coin} prior to 1.1-0, a min-\eqn{P} procedure computing
   \enc{Šidák}{Sidak} single-step adjusted \eqn{p}-values accounting for
   discreteness was available when specifying \code{method = "discrete"}.

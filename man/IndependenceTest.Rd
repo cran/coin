@@ -27,12 +27,6 @@
   }
   \item{data}{
     an optional data frame containing the variables in the model formula.
-    Alternatively, an object of class
-    \code{"\link[Biobase:class.ExpressionSet]{ExpressionSet}"} (see package
-    \pkg{Biobase}) may be specified.  In this case, all variables in
-    \code{formula}, except \code{.}, are first evaluated in the \code{pData}
-    data frame.  The dot (\code{.}) refers to the matrix of expression levels
-    (i.e., the \code{exprs} slot).
   }
   \item{subset}{
     an optional vector specifying a subset of observations to be used.  Defaults

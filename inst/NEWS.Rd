@@ -1,6 +1,19 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.1-1 (2015-10-25)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Methods \code{initialize()} and \code{show()} were not
+      imported from package \pkg{methods}
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item Documentation and vignette updates
+    }
+  }
+}
 \section{Changes in version 1.1-0 (2015-08-14)}{
   \subsection{New features}{
     \itemize{
@@ -259,7 +272,7 @@
       validity
     }
   }
-  \subsection{Other changes}{
+  \subsection{User-visible changes}{
     \itemize{
       \item The Pearson chi-squared test, the generalized
       Cochran-Mantel-Haenszel test, the linear-by-linear association test and
@@ -356,7 +369,8 @@
       \item The memory consumption during computations has been reduced
 
       \item Henric Winell, a long-term collaborator who donated almost all
-            changes in \pkg{coin} 1.1-0, is now listed as author. Welcome on board, Henric!
+      changes in \pkg{coin} 1.1-0, is now listed as author.  Welcome on board,
+      Henric!
     }
   }
 }

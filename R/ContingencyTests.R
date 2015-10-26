@@ -176,8 +176,9 @@ lbl_test.IndependenceProblem <- function(object,
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(distribution,
-                                              match.arg(distribution)),
+        distribution = check_distribution_arg(
+            distribution, values = c("asymptotic", "approximate", "none")
+        ),
         check = function(object) {
             if (!is_doubly_ordered(object))
                 stop(sQuote("object"),

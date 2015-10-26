@@ -81,8 +81,15 @@
   numeric vector.
 }
 \note{
-  In versions of \pkg{coin} prior to 1.1-0, the support of an asymptotic
-  permutation distribution was given as an interval containing 99.999 \% of the
+  The density of asymptotic permutation distributions for maximum-type tests or
+  exact permutation distributions obtained by the split-up algoritm is reported
+  as \code{NA}.  The quantile function of asymptotic permutation distributions
+  for maximum-type tests cannot be computed for \code{p} less than 0.5, due to
+  limitations in the \pkg{mvtnorm} package.  The support of exact permutation
+  distributions obtained by the split-up algorithm is reported as \code{NA}.
+
+  In versions of \pkg{coin} prior to 1.1-0, the support of asymptotic
+  permutation distributions was given as an interval containing 99.999 \% of the
   probability mass.  It is now reported as \code{NA}.
 }
 \examples{
