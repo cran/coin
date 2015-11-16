@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2015-08-13 r69049) -- "Unsuffered Consequences"
+R Under development (unstable) (2015-10-20 r69547) -- "Unsuffered Consequences"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1026,7 +1026,8 @@ chi-squared = 53.762, df = 2, p-value = 2.117e-12
 > 
 > ## Asymptotic Madansky-Birch test (Q = 47.29)
 > ## Note: response and measurement conditions as ordinal
-> mh_test(as.table(dysmenorrhea), scores = list(response = 1:3, conditions = 3:1))
+> mh_test(as.table(dysmenorrhea), scores = list(response = 1:3,
++                                               conditions = 3:1))
 
 	Asymptotic Marginal Homogeneity Test for Ordered Data
 
@@ -1573,8 +1574,8 @@ chi-squared = 17.238, df = 4, p-value = 0.001738
 > ### Asymptotic multivariate Page test
 > (st <- symmetry_test(y1 + y2 ~ x | b, data = gerig,
 +                      ytrafo = function(data)
-+                      trafo(data, numeric_trafo = rank_trafo,
-+                            block = gerig$b),
++                          trafo(data, numeric_trafo = rank_trafo,
++                                block = gerig$b),
 +                      scores = list(x = 1:3)))
 
 	Asymptotic General Symmetry Test
@@ -2984,7 +2985,7 @@ chi-squared = 11.957, df = 3, p-value = 0.007533
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  15.51 0.27 15.93 NA NA 
+Time elapsed:  15.3 0.23 15.61 NA NA 
 > grDevices::dev.off()
 null device 
           1 

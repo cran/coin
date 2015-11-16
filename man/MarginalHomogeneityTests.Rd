@@ -237,6 +237,7 @@ mh_test(as.table(dysmenorrhea), scores = list(response = 1:3))
 
 ## Asymptotic Madansky-Birch test (Q = 47.29)
 ## Note: response and measurement conditions as ordinal
-mh_test(as.table(dysmenorrhea), scores = list(response = 1:3, conditions = 3:1))
+mh_test(as.table(dysmenorrhea), scores = list(response = 1:3,
+                                              conditions = 3:1))
 }
 \keyword{htest}

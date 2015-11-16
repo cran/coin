@@ -407,10 +407,9 @@ of_trafo <- function(x, scores = NULL) {
     if (!is.ordered(x))
         warning(sQuote(deparse(substitute(x))), " is not an ordered factor")
     if (is.null(scores)) {
-        s <- attr(x, "scores")
         scores <- if (nlevels(x) == 2L)
                       0:1               # must be 0:1 for exact p-values
-                  else if (!is.null(s))
+                  else if (!is.null(s <- attr(x, "scores")))
                       s
                   else
                       seq_len(nlevels(x))
@@ -418,9 +417,7 @@ of_trafo <- function(x, scores = NULL) {
     if (!is.list(scores))
         scores <- list(scores)
     if (all(lengths(scores) == nlevels(x)))
-        structure(vapply(scores, FUN = function(s) s[x], as.double(x),
-                         USE.NAMES = FALSE),
-                  dimnames = list(seq_along(x), names(scores)))
+        setRownames(do.call("cbind", scores)[x, , drop = FALSE], seq_along(x))
     else
         stop(sQuote("scores"), " does not match the number of levels")
 }

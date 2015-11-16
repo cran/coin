@@ -1,6 +1,22 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.1-2 (2015-11-13)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item \code{of_trafo()} did not handle ordered factors of length one
+
+      \item Parallel operation (via \code{approximate()}) changed the random
+      number generator state upon first invocation unless package
+      \pkg{parallel}'s namespace had already been loaded
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item Documentation updates
+    }
+  }
+}
 \section{Changes in version 1.1-1 (2015-10-25)}{
   \subsection{Bug fixes}{
     \itemize{

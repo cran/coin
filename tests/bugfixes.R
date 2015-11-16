@@ -585,3 +585,6 @@ it8 <- independence_test(y ~ ox, distr = exact(algorithm = "split"), # was p = N
 stopifnot(identical(pvalue(it5), pvalue(it6)))
 stopifnot(identical(pvalue(it5), pvalue(it7)))
 stopifnot(identical(pvalue(it5), pvalue(it8)))
+
+### 'of_trafo' threw an error for 'x' of length one
+of_trafo(gl(3, 1, ordered = TRUE)[1])

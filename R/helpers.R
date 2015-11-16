@@ -506,6 +506,11 @@ get_ytrans <- function(object) object@statistic@ytrans
 is_unity <- function(x)
     max(abs(x - 1.0)) < eps()
 
+setRownames <- function (object, nm) {
+    rownames(object) <- nm
+    object
+}
+
 setColnames <- function (object, nm) {
     colnames(object) <- nm
     object
