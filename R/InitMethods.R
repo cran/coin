@@ -129,38 +129,42 @@ setMethod("initialize",
         ### we don't need the covariance matrix but the variances only
         ### </REMINDER>
         if (nlevels(object@block) == 1L) {
-            expcov <-
-                ExpectCovarLinearStatistic(object@xtrans, object@ytrans,
-                                           object@weights, varonly = varonly)
+            expcov <- ExpectCovarLinearStatistic(
+                object@xtrans,
+                object@ytrans,
+                object@weights,
+                varonly = varonly
+            )
             exp <- expcov@expectation
             cov <- expcov@covariance
         } else {
             exp <- 0
             cov <- 0
             for (lev in levels(object@block)) {
-                indx <- (object@block == lev)
-                ec <- ExpectCovarLinearStatistic(object@xtrans[indx,,drop = FALSE],
-                                                 object@ytrans[indx,,drop = FALSE],
-                                                 object@weights[indx],
-                                                 varonly = varonly)
-                exp <- exp + ec@expectation
-                cov <- cov + ec@covariance
+                idx <- object@block == lev
+                expcov <- ExpectCovarLinearStatistic(
+                    object@xtrans[idx, , drop = FALSE],
+                    object@ytrans[idx, , drop = FALSE],
+                    object@weights[idx],
+                    varonly = varonly
+                )
+                exp <- exp + expcov@expectation
+                cov <- cov + expcov@covariance
             }
         }
-        .Object@expectation <- drop(exp)
-        .Object@covariance <- if (varonly)
-                                  new("Variance", drop(cov))
-                              else
+        nm <- statnames(object)$names # pretty names
+        exp <- drop(exp)
+        names(exp) <- nm
+        .Object@expectation <- exp
+        .Object@covariance <- if (varonly) {
+                                  cov <- drop(cov)
+                                  names(cov) <- nm
+                                  new("Variance", cov)
+                              } else {
+                                  dimnames(cov) <- list(nm, nm)
                                   new("CovarianceMatrix", cov)
+                              }
 
-        ### pretty names
-        nm <- statnames(object)$names
-        names(.Object@expectation) <- nm
-
-        if (extends(class(.Object@covariance), "CovarianceMatrix"))
-            dimnames(.Object@covariance@covariance) <- list(nm, nm)
-        if (extends(class(.Object@covariance), "Variance"))
-            names(.Object@covariance@variance) <- nm
         if (any(variance(.Object) < eps()))
             warning("The conditional covariance matrix has ",
                     "zero diagonal elements")

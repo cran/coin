@@ -247,7 +247,7 @@ npmcp <- function(object) {
 
     ## make sure 'object' isn't serialized along with 'foo'
     ## (otherwise parallel operation using snow clusters will be very slow)
-    rm(object)
+    object <- NULL # was rm(object)
     ## alternatively we could pass all relevant objects to 'foo' and then
     ## associate it with the global environment instead:
     ## foo <- function(s, y, x, ytrafo, distribution, alternative) { ... }

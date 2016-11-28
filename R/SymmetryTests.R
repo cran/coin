@@ -4,17 +4,17 @@ sign_test <- function(object, ...) UseMethod("sign_test")
 sign_test.formula <- function(formula, data = list(), subset = NULL, ...)
 {
     object <- formula2data(formula, data, subset, frame = parent.frame(), ...)
-    if (is.null(object$bl)) {
+    if (is.null(object$block)) {
         if (is.Surv(object$y[[1]]))
             stop(sQuote("y"), " is not a numeric variable")
         if (is.Surv(object$x[[1]]))
             stop(sQuote("x"), " is not a numeric variable")
         object <- list(y = data.frame(y = c(object$y[[1]], object$x[[1]])),
                        x = data.frame(x = gl(2, length(object$x[[1]]))),
-                       bl = factor(rep.int(1:length(object$x[[1]]), 2)))
+                       block = factor(rep.int(1:length(object$x[[1]]), 2)))
     }
     object <- new("SymmetryProblem", x = object$x, y = object$y,
-                  block = object$bl)
+                  block = object$block)
     object <- do.call("sign_test", c(list(object = object), list(...)))
     return(object)
 }
@@ -65,17 +65,17 @@ wilcoxsign_test <- function(object, ...) UseMethod("wilcoxsign_test")
 wilcoxsign_test.formula <- function(formula, data = list(), subset = NULL, ...)
 {
     object <- formula2data(formula, data, subset, frame = parent.frame(), ...)
-    if (is.null(object$bl)) {
+    if (is.null(object$block)) {
         if (is.Surv(object$y[[1]]))
             stop(sQuote("y"), " is not a numeric variable")
         if (is.Surv(object$x[[1]]))
             stop(sQuote("x"), " is not a numeric variable")
         object <- list(y = data.frame(y = c(object$y[[1]], object$x[[1]])),
                        x = data.frame(x = gl(2, length(object$x[[1]]))),
-                       bl = factor(rep.int(1:length(object$x[[1]]), 2)))
+                       block = factor(rep.int(1:length(object$x[[1]]), 2)))
     }
     object <- new("SymmetryProblem", x = object$x, y = object$y,
-                  block = object$bl)
+                  block = object$block)
     object <- do.call("wilcoxsign_test", c(list(object = object), list(...)))
     return(object)
 }

@@ -183,7 +183,8 @@ alternative hypothesis: two.sided
 
 > pvalue(it, method = "single-step")
 Warning in .local(object, ...) :
-  p-values may be incorrect due to violation of the subset pivotality condition
+  p-values may be incorrect due to violation
+  of the subset pivotality condition
                
 II - I   0.6618
 III - I  0.0399
@@ -195,4 +196,4 @@ IV - III 0.9989
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   0.95    0.04    1.56 
+   1.09    0.07    1.68 

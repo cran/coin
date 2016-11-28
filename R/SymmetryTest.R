@@ -71,7 +71,7 @@ symmetry_test.SymmetryProblem <- function(object,
 ###         varonly = class(distribution) == "approximate" && teststat == "maximum")
 
     ## compute test statistic and corresponding null distribution
-    ## return object inheriting from class `IndependenceTest'
+    ## return object inheriting from class "IndependenceTest"
     switch(teststat,
         "scalar" = {
             object <- new("ScalarIndependenceTestStatistic", object,

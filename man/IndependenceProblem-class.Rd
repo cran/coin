@@ -11,7 +11,7 @@
 \section{Objects from the Class}{
   Objects can be created by calls of the form \preformatted{     new("IndependenceProblem", x, y, block = NULL, weights = NULL, \dots)}
   where \code{x} and \code{y} are data frames containing the variables
-  \eqn{\mathbf{X}} and \eqn{\mathbf{Y}} respectively, \code{block} is an
+  \eqn{\mathbf{X}}{X} and \eqn{\mathbf{Y}}{Y} respectively, \code{block} is an
   optional factor representing the block structure \eqn{b} and \code{weights} is
   an optional integer vector corresponding to the case weights \eqn{w}.
 }

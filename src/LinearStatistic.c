@@ -2,7 +2,7 @@
     Linear statistics for conditional inference
     *\file LinearStatistic.c
     *\author $Author: hnilsson $
-    *\date $Date: 2015-07-18 20:41:15 +0200 (Sam, 18 Jul 2015) $
+    *\date $Date: 2016-11-23 21:09:24 +0100 (Mit, 23 Nov 2016) $
 */
 
 #include "coin_common.h"
@@ -133,7 +133,7 @@ SEXP R_outersum(SEXP A, SEXP B) {
     *\param q dimension of the influence function
     *\param weights case weights
     *\param n number of observations
-    *\param ans return value; an object of class `ExpectCovarInfluence'
+    *\param ans return value; an object of class 'ExpectCovarInfluence'
 */
 
 void C_ExpectCovarInfluence(const double* y, const int q,
@@ -243,8 +243,8 @@ SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights) {
     *\param q dimension of the influence function
     *\param weights case weights
     *\param n number of observations
-    *\param expcovinf an object of class `ExpectCovarInfluence'
-    *\param ans return value; an object of class `ExpectCovar'
+    *\param expcovinf an object of class 'ExpectCovarInfluence'
+    *\param ans return value; an object of class 'ExpectCovar'
 */
 
 void C_ExpectCovarLinearStatistic(const double* x, const int p, const int q,
@@ -335,7 +335,7 @@ void C_ExpectCovarLinearStatistic(const double* x, const int p, const int q,
     *\param x values of the transformation
     *\param y values of the influence function
     *\param weights case weights
-    *\param expcovinf an object of class `ExpectCovarInfluence'
+    *\param expcovinf an object of class 'ExpectCovarInfluence'
 */
 
 SEXP R_ExpectCovarLinearStatistic(SEXP x, SEXP y, SEXP weights,

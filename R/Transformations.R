@@ -212,7 +212,7 @@ ofmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
 }
 
 ### compute index matrix of all 2^(nlevel - 1) possible splits
-### code translated from package `tree'
+### code translated from package 'tree'
 fsplits <- function(nlevel) {
 
     mi <- 2^(nlevel - 1)
@@ -406,17 +406,21 @@ f_trafo <- function(x) {
 of_trafo <- function(x, scores = NULL) {
     if (!is.ordered(x))
         warning(sQuote(deparse(substitute(x))), " is not an ordered factor")
+    nl <- nlevels(x)
     if (is.null(scores)) {
-        scores <- if (nlevels(x) == 2L)
-                      0:1               # must be 0:1 for exact p-values
-                  else if (!is.null(s <- attr(x, "scores")))
+        scores <- if (!is.null(s <- attr(x, "scores")))
                       s
                   else
-                      seq_len(nlevels(x))
+                      seq_len(nl)
+    }
+    ## two-sample case: scores must be normalized for exact p-values
+    if (nl == 2L) {
+        mn <- min(scores)
+        scores <- (scores - mn) / (max(scores) - mn)
     }
     if (!is.list(scores))
         scores <- list(scores)
-    if (all(lengths(scores) == nlevels(x)))
+    if (all(lengths(scores) == nl))
         setRownames(do.call("cbind", scores)[x, , drop = FALSE], seq_along(x))
     else
         stop(sQuote("scores"), " does not match the number of levels")
@@ -430,6 +434,8 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     if (!(is.data.frame(data) || is.list(data)))
         stop(sQuote("data"), " is not a data.frame or list")
 
+### <FIXME> This two-pass procedure for 'block' is *very* expensive
+###         for large datasets
     if (!is.null(block)) {
         if (!is.factor(block) || length(block) != nrow(data))
             stop(sQuote("block"), " is not a factor with ",
@@ -446,6 +452,7 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
         }
         return(ret)
     }
+### </FIXME>
 
     if (!is.null(var_trafo)) {
         if (!is.list(var_trafo)) stop(sQuote("var_trafo"), " is not a list")
@@ -464,13 +471,6 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
             tr[[nm]] <- as.matrix(var_trafo[[nm]](x))
             next
         }
-        if (class(x)[1] == "AsIs") {
-            if (length(class(x)) == 1) {
-                x <- as.numeric(x)
-            } else {
-                class(x) <- class(x)[-1]
-            }
-        }
         if (is.ordered(x)) {
             tr[[nm]] <- as.matrix(ordered_trafo(x))
             next
@@ -487,21 +487,27 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
             tr[[nm]] <- as.matrix(numeric_trafo(x))
             next
         }
-        if (is.null(tr[[nm]]))
-            stop("data class ", class(x), " is not supported")
+        if (is.null(tr[[nm]])) {
+            if (idx <- inherits(x, "AsIs", TRUE))
+                oldClass(x) <- oldClass(x)[-idx]
+            stop("data class ", paste(dQuote(class(x)), collapse = ", "),
+                 " is not supported")
+        }
     }
 
     ## set up a matrix of transformations
     ## when more than one factor is in play, factor names
-    ## _and_ colnames of the corresponding rows are combined by `.'
-    RET <- c()
+    ## _and_ colnames of the corresponding rows are combined by '.'
+### <FIXME> Yet another *very* expensive operation for large datasets, due to
+###         building up the 'ret' object dynamically
+    ret <- c()
     assignvar <- c()
     cn <- c()
     for (i in 1:length(tr)) {
         if (nrow(tr[[i]]) != nrow(data))
             stop("Transformation of variable ", names(tr)[i],
                  " are not of length / nrow", nrow(data))
-        RET <- cbind(RET, tr[[i]])
+        ret <- cbind(ret, tr[[i]])
         if (is.null(colnames(tr[[i]]))) {
             cn <- c(cn, rep.int("", ncol(tr[[i]])))
         } else {
@@ -509,13 +515,14 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
         }
         assignvar <- c(assignvar, rep.int(i, ncol(tr[[i]])))
     }
-    attr(RET, "assign") <- assignvar
+### </FIXME>
+    attr(ret, "assign") <- assignvar
     if (length(tr) > 1) {
-        colnames(RET) <- paste0(rep.int(names(tr), tabulate(assignvar)), cn)
+        colnames(ret) <- paste0(rep.int(names(tr), tabulate(assignvar)), cn)
     } else {
-        colnames(RET) <- cn
+        colnames(ret) <- cn
     }
-    return(RET)
+    return(ret)
 }
 
 ### multiple comparisons, cf. mcp(x = "Tukey") in multcomp

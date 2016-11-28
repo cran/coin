@@ -6,10 +6,20 @@ isequal <- coin:::isequal
 GE <- coin:::GE
 options(useFancyQuotes = FALSE)
 
-### I() returns objects of class AsIs which caused an error in `trafo'
-df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50))
-independence_test(I(x1 / x2) ~ x3, data = df)
-independence_test(I(x1 < 0) ~ x3, data = df)
+### I() returns objects of class "AsIs" causing errors in 'trafo'
+df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50),
+                 x4 = I(letters[1:20]))
+df <- within(df, {
+    x5 <- x1 / x2
+    x6 <- x1 < 0
+})
+it1 <- independence_test(I(x1 / x2) ~ x3, data = df)
+it2 <- independence_test(x5 ~ x3, data = df)
+stopifnot(identical(statistic(it1), statistic(it2))) # was OK
+it3 <- independence_test(I(x1 < 0) ~ x3, data = df)
+it4 <- independence_test(x6 ~ x3, data = df)
+stopifnot(identical(statistic(it3), statistic(it4))) # wrong sign
+try(independence_test(x4 ~ x3, data = df))           # coercion to numeric
 
 ### expectation was wrong when varonly = TRUE in case both
 ### xtrafo and ytrafo were multivariate
@@ -26,7 +36,7 @@ if (require("multcomp")) {
 }
 
 
-### `statistic' for linear and standardized statistics was wrong in case of
+### 'statistic' for linear and standardized statistics was wrong in case of
 ### scores
 data("jobsatisfaction")
 stopifnot(unique(dim(statistic(lbl_test(jobsatisfaction), "linear"))) == 1)
@@ -133,7 +143,7 @@ for (i in n) {
              -sqrt(.Machine$double.eps))
 }
 
-### formula evaluation in `parent.frame()', spotted by Z
+### formula evaluation in 'parent.frame()', spotted by Z
 foo <- function(x, y) independence_test(y ~ x)
 a <- 1:10
 b <- 1:10
@@ -588,3 +598,17 @@ stopifnot(identical(pvalue(it5), pvalue(it8)))
 
 ### 'of_trafo' threw an error for 'x' of length one
 of_trafo(gl(3, 1, ordered = TRUE)[1])
+
+### 'setscores' assigned 0:1 for decreasing scores in 2-level cases
+it1 <- independence_test(y ~ x,  scores = list(x = 1:2)) # was OK
+it2 <- independence_test(y ~ x,  scores = list(x = 2:1)) # wrong sign
+stopifnot(identical(statistic(it1), -statistic(it2)))
+
+### 'of_trafo' didn't return normalized scores in 2-level cases using 'scores'
+x <- gl(2, 1, ordered = TRUE)
+stopifnot(identical(of_trafo(x),                            # was OK
+                    matrix(c(0, 1), dimnames = list(1:2))))
+stopifnot(identical(of_trafo(x, scores = 1:2),              # was 1:2
+                    matrix(c(0, 1), dimnames = list(1:2))))
+stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
+                    matrix(c(1, 0), dimnames = list(1:2))))

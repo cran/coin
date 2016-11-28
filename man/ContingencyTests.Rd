@@ -139,12 +139,13 @@ davis <- matrix(
       2, 19),
     nrow = 2, byrow = TRUE
 )
+davis <- as.table(davis)
 
 ## Asymptotic Pearson chi-squared test
-chisq_test(as.table(davis))
+chisq_test(davis)
 
 ## Approximative (Monte Carlo) Pearson chi-squared test
-ct <- chisq_test(as.table(davis),
+ct <- chisq_test(davis,
                  distribution = approximate(B = 10000))
 pvalue(ct)          # standard p-value
 midpvalue(ct)       # mid-p-value
@@ -152,7 +153,7 @@ pvalue_interval(ct) # p-value interval
 
 ## Exact Pearson chi-squared test (Davis, 1986)
 ## Note: disagrees with Fisher's exact test
-ct <- chisq_test(as.table(davis),
+ct <- chisq_test(davis,
                  distribution = "exact")
 pvalue(ct)          # standard p-value
 midpvalue(ct)       # mid-p-value
@@ -171,10 +172,11 @@ cancer <- matrix(
            "Cancer" = c("Controlled", "Not Controlled")
     )
 )
+cancer <- as.table(cancer)
 
 ## Exact Pearson chi-squared test (Agresti, 2002, p. 108, Tab. 3.14)
 ## Note: agrees with Fishers's exact test
-(ct <- chisq_test(as.table(cancer),
+(ct <- chisq_test(cancer,
                   distribution = "exact"))
 midpvalue(ct)       # mid-p-value
 pvalue_interval(ct) # p-value interval
@@ -193,13 +195,14 @@ yates <- matrix(
         "Condition" = c("A", "B", "C", "D", "E")
     )
 )
+yates <- as.table(yates)
 
 ## Asymptotic Pearson chi-squared test (Yates, 1948, p. 176)
-chisq_test(as.table(yates))
+chisq_test(yates)
 
 ## Asymptotic Pearson-Yates chi-squared test (Yates, 1948, pp. 180-181)
 ## Note: 'Rating' and 'Condition' as ordinal
-(ct <- chisq_test(as.table(yates),
+(ct <- chisq_test(yates,
                   alternative = "less",
                   scores = list("Rating" = c(-1, 0, 1),
                                 "Condition" = c(2, 1, 0, -1, -2))))
@@ -207,7 +210,7 @@ statistic(ct)^2 # chi^2 = 2.332
 
 ## Asymptotic Pearson-Yates chi-squared test (Yates, 1948, p. 181)
 ## Note: 'Rating' as ordinal
-chisq_test(as.table(yates),
+chisq_test(yates,
            scores = list("Rating" = c(-1, 0, 1))) # Q = 3.825
 
 
@@ -226,13 +229,14 @@ cochran <- matrix(
         "Infiltration" = c("0-7", "8-15")
     )
 )
+cochran <- as.table(cochran)
 
 ## Asymptotic Pearson chi-squared test (Cochran, 1954, p. 435)
-chisq_test(as.table(cochran)) # X^2 = 6.88
+chisq_test(cochran) # X^2 = 6.88
 
 ## Asymptotic Cochran-Armitage test (Cochran, 1954, p. 436)
 ## Note: 'Change' as ordinal
-(ct <- chisq_test(as.table(cochran),
+(ct <- chisq_test(cochran,
                   scores = list("Change" = c(3, 2, 1, 0, -1))))
 statistic(ct)^2 # X^2 = 6.66
 
@@ -249,13 +253,14 @@ armitage <- matrix(
                         "=> 2/3 healed", "Healed")
     )
 )
+armitage <- as.table(armitage)
 
 ## Approximative (Monte Carlo) Pearson chi-squared test (Armitage, 1955, p. 379)
-chisq_test(as.table(armitage),
+chisq_test(armitage,
            distribution = approximate(B = 10000)) # chi^2 = 5.91
 
 ## Approximative (Monte Carlo) Cochran-Armitage test (Armitage, 1955, p. 379)
-(ct <- chisq_test(as.table(armitage),
+(ct <- chisq_test(armitage,
                   distribution = approximate(B = 10000),
                   scores = list("Crater" = c(-1.5, -0.5, 0.5, 1.5))))
 statistic(ct)^2 # chi_0^2 = 5.26

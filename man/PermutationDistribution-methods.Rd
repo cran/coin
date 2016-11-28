@@ -72,13 +72,13 @@
 \details{
   The methods \code{dperm}, \code{pperm}, \code{qperm}, \code{rperm} and
   \code{support} compute the density function, distribution function, quantile
-  function, random numbers and support, respectively, of the permutation
+  function, random deviates and support, respectively, of the permutation
   distribution.
 }
 \value{
-  The density function, distribution function, quantile function, random numbers
-  or support of the permutation distribution computed from \code{object}.  A
-  numeric vector.
+  The density function, distribution function, quantile function, random
+  deviates or support of the permutation distribution computed from
+  \code{object}.  A numeric vector.
 }
 \note{
   The density of asymptotic permutation distributions for maximum-type tests or

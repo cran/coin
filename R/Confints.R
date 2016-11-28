@@ -47,7 +47,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
         }
         steps <- sort(unique(steps))
 
-        ## computes the statistic under the alternative `d'
+        ## computes the statistic under the alternative 'd'
         fse <- function(d)
             sum(object@ytrafo(data.frame(c(foo(x, d), y)))[seq_along(x)])
 
@@ -95,7 +95,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
                 ##  but the open right interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[qlower <= jumps]),
+                ci <- c(min(steps[LE(qlower, jumps)]),
                         min(steps[jumps > qupper]))
             } else {
                 ##
@@ -107,7 +107,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
                 ##  but the open left interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[jumps <= qupper]),
+                ci <- c(min(steps[LE(jumps, qupper)]),
                         min(steps[jumps < qlower]))
             }
             ci
@@ -122,14 +122,14 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
 
         ## was: median(steps) which will not work for blocks etc.
         u <- jumps - expectation(object)
-        sgr <- ifelse(decreasing, min(steps[u <= 0]), max(steps[u <= 0]))
+        sgr <- ifelse(decreasing, min(steps[LE(u, 0)]), max(steps[LE(u, 0)]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
         ESTIMATE <- mean(c(sle, sgr), na.rm = TRUE)
         names(ESTIMATE) <- "difference in location"
     } else {
         ## approximate the steps
-        ## Here we search the root of the function `fsa' on the set
+        ## Here we search the root of the function 'fsa' on the set
         ## c(mumin, mumax).
         ##
         ## This returns a value from c(mumin, mumax) for which
@@ -148,7 +148,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
 
         ccia <- function(alpha) {
             ## Check if the statistic exceeds both quantiles
-            ## first: otherwise `uniroot' won't work anyway
+            ## first: otherwise 'uniroot' won't work anyway
             statu <- fsa(mumin, zq = qperm(nulldistr, alpha / 2))
             statl <- fsa(mumax, zq = qperm(nulldistr, 1 - alpha / 2))
             if (sign(statu) == sign(statl)) {
@@ -239,7 +239,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         }
         steps <- sort(unique(steps))
 
-        ## computes the statistic under the alternative `d'
+        ## computes the statistic under the alternative 'd'
         fse <- function(d)
             sum(object@ytrafo(data.frame(c(foo(x, d), y)))[seq_along(x)])
 
@@ -287,7 +287,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                 ##  but the open right interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[qlower <= jumps]),
+                ci <- c(min(steps[LE(qlower, jumps)]),
                         min(steps[jumps > qupper]))
             } else {
                 ##
@@ -299,7 +299,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                 ##  but the open left interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[jumps <= qupper]),
+                ci <- c(min(steps[LE(jumps, qupper)]),
                         min(steps[jumps < qlower]))
             }
             ci
@@ -313,14 +313,14 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         attr(cint, "conf.level") <- level
 
         u <- jumps - expectation(object)
-        sgr <- ifelse(decreasing, min(steps[u <= 0]), max(steps[u <= 0]))
+        sgr <- ifelse(decreasing, min(steps[LE(u, 0)]), max(steps[LE(u, 0)]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
         ESTIMATE <- mean(c(sle, sgr), na.rm = TRUE)
         names(ESTIMATE) <- "ratio of scales"
     } else {
         ## approximate the steps
-        ## Here we search the root of the function `fsa' on the set
+        ## Here we search the root of the function 'fsa' on the set
         ## c(mumin, mumax).
         ##
         ## This returns a value from c(mumin, mumax) for which
@@ -340,10 +340,10 @@ confint_scale <- function(object, nulldistr, level = 0.95,
             srangepos <-
                 c(min(x[x > 0], na.rm = TRUE) / max(y[y > 0], na.rm = TRUE),
                   max(x[x > 0], na.rm = TRUE) / min(y[y > 0], na.rm = TRUE))
-        if (any(x <= 0) && any(y < 0))
+        if (any(LE(x, 0)) && any(y < 0))
             srangeneg <-
-                c(min(x[x <= 0], na.rm = TRUE) / max(y[y < 0], na.rm = TRUE),
-                  max(x[x <= 0], na.rm = TRUE) / min(y[y < 0], na.rm = TRUE))
+                c(min(x[LE(x, 0)], na.rm = TRUE) / max(y[y < 0], na.rm = TRUE),
+                  max(x[LE(x, 0)], na.rm = TRUE) / min(y[y < 0], na.rm = TRUE))
         if (any(is.infinite(c(srangepos, srangeneg)))) {
             stop(paste("Cannot compute asymptotic confidence",
                        "set or estimator"))
@@ -354,7 +354,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
 
         ccia <- function(alpha) {
             ## Check if the statistic exceeds both quantiles
-            ## first: otherwise `uniroot' won't work anyway
+            ## first: otherwise 'uniroot' won't work anyway
             statu <- fsa(mumin, zq = qperm(nulldistr, alpha / 2))
             statl <- fsa(mumax, zq = qperm(nulldistr, 1 - alpha / 2))
             if (sign(statu) == sign(statl)) {

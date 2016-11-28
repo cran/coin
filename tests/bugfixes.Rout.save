@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2015-10-20 r69547) -- "Unsuffered Consequences"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -24,24 +24,21 @@ Loading required package: survival
 > GE <- coin:::GE
 > options(useFancyQuotes = FALSE)
 > 
-> ### I() returns objects of class AsIs which caused an error in `trafo'
-> df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50))
-> independence_test(I(x1 / x2) ~ x3, data = df)
-
-	Asymptotic General Independence Test
-
-data:  I(x1/x2) by x3 (1, 2)
-Z = -0.44907, p-value = 0.6534
-alternative hypothesis: two.sided
-
-> independence_test(I(x1 < 0) ~ x3, data = df)
-
-	Asymptotic General Independence Test
-
-data:  I(x1 < 0) by x3 (1, 2)
-Z = 0.79663, p-value = 0.4257
-alternative hypothesis: two.sided
-
+> ### I() returns objects of class "AsIs" causing errors in 'trafo'
+> df <- data.frame(x1 = rnorm(100), x2 = rnorm(100), x3 = gl(2, 50),
++                  x4 = I(letters[1:20]))
+> df <- within(df, {
++     x5 <- x1 / x2
++     x6 <- x1 < 0
++ })
+> it1 <- independence_test(I(x1 / x2) ~ x3, data = df)
+> it2 <- independence_test(x5 ~ x3, data = df)
+> stopifnot(identical(statistic(it1), statistic(it2))) # was OK
+> it3 <- independence_test(I(x1 < 0) ~ x3, data = df)
+> it4 <- independence_test(x6 ~ x3, data = df)
+> stopifnot(identical(statistic(it3), statistic(it4))) # wrong sign
+> try(independence_test(x4 ~ x3, data = df))           # coercion to numeric
+Error in ytrafo(object@y) : data class "character" is not supported
 > 
 > ### expectation was wrong when varonly = TRUE in case both
 > ### xtrafo and ytrafo were multivariate
@@ -59,10 +56,18 @@ alternative hypothesis: two.sided
 Loading required package: multcomp
 Loading required package: mvtnorm
 Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser
+
 [1] TRUE
 > 
 > 
-> ### `statistic' for linear and standardized statistics was wrong in case of
+> ### 'statistic' for linear and standardized statistics was wrong in case of
 > ### scores
 > data("jobsatisfaction")
 > stopifnot(unique(dim(statistic(lbl_test(jobsatisfaction), "linear"))) == 1)
@@ -204,7 +209,7 @@ IV  -339.6795 -339.6795 -339.6795 1019.0385
 +              -sqrt(.Machine$double.eps))
 + }
 > 
-> ### formula evaluation in `parent.frame()', spotted by Z
+> ### formula evaluation in 'parent.frame()', spotted by Z
 > foo <- function(x, y) independence_test(y ~ x)
 > a <- 1:10
 > b <- 1:10
@@ -429,7 +434,7 @@ alternative hypothesis: true mu is not equal to 0
 +     alternative = alternative, dist = exact())
 > confint(it)
 98 percent confidence interval:
- 0.71  Inf 
+ 0.18  Inf 
 sample estimates:
 difference in location 
                   2.59 
@@ -982,6 +987,20 @@ Error in quade_test.SymmetryProblem(object = <S4 object of class structure("Symm
   [,1]
 1    1
 > 
+> ### 'setscores' assigned 0:1 for decreasing scores in 2-level cases
+> it1 <- independence_test(y ~ x,  scores = list(x = 1:2)) # was OK
+> it2 <- independence_test(y ~ x,  scores = list(x = 2:1)) # wrong sign
+> stopifnot(identical(statistic(it1), -statistic(it2)))
+> 
+> ### 'of_trafo' didn't return normalized scores in 2-level cases using 'scores'
+> x <- gl(2, 1, ordered = TRUE)
+> stopifnot(identical(of_trafo(x),                            # was OK
++                     matrix(c(0, 1), dimnames = list(1:2))))
+> stopifnot(identical(of_trafo(x, scores = 1:2),              # was 1:2
++                     matrix(c(0, 1), dimnames = list(1:2))))
+> stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
++                     matrix(c(1, 0), dimnames = list(1:2))))
+> 
 > proc.time()
    user  system elapsed 
-   2.93    0.26    4.04 
+   2.25    0.10    2.37 

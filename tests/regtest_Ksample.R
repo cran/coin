@@ -1,7 +1,6 @@
-
 ### Regression tests for the K sample problem, i.e.,
 ### testing the independence of a numeric variable
-### `y' and a factor `x' (possibly blocked)
+### 'y' and a factor 'x' (possibly blocked)
 
 set.seed(290875)
 library("coin")

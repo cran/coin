@@ -1,6 +1,6 @@
 Package: coin
-Version: 1.1-2
-Date: 2015-11-13
+Version: 1.1-3
+Date: 2016-11-24
 Title: Conditional Inference Procedures in a Permutation Test Framework
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org"),
@@ -12,14 +12,14 @@ Description: Conditional inference procedures for the general independence
   problem including two-sample, K-sample (non-parametric ANOVA), correlation,
   censored, ordered and multivariate problems.
 Depends: R (>= 2.14.0), methods, survival
-Imports: stats, modeltools (>= 0.2-9), mvtnorm (>= 1.0-3), multcomp
-Suggests: parallel, xtable, e1071, vcd, TH.data
+Imports: stats, modeltools (>= 0.2-9), mvtnorm (>= 1.0-5), multcomp
+Suggests: parallel, xtable, e1071, vcd, TH.data (>= 1.0-7)
 LazyData: yes
 NeedsCompilation: yes
 ByteCompile: yes
 License: GPL-2
 URL: http://coin.r-forge.r-project.org
-Packaged: 2015-11-16 10:15:00 UTC; hothorn
+Packaged: 2016-11-28 08:48:45 UTC; hothorn
 Author: Torsten Hothorn [aut, cre],
   Kurt Hornik [aut],
   Mark A. van de Wiel [aut],
@@ -27,4 +27,4 @@ Author: Torsten Hothorn [aut, cre],
   Achim Zeileis [aut]
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Repository: CRAN
-Date/Publication: 2015-11-16 16:20:12
+Date/Publication: 2016-11-28 13:04:30

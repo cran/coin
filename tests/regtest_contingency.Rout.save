@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2015-08-13 r69049) -- "Unsuffered Consequences"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -17,7 +17,7 @@ Type 'q()' to quit R.
 
 > ### Regression tests for the r x c x K problem, i.e.,
 > ### testing the independence of a factor
-> ### `y' and a factor factor `x' (possibly blocked)
+> ### 'y' and a factor factor 'x' (possibly blocked)
 > 
 > set.seed(290875)
 > library("coin")
@@ -124,7 +124,7 @@ sample estimates:
   "best" cutpoint: {1} vs. {2, 3, 4}
 
 > est <- mt@estimates$estimate$cutpoint
-> xx <- dat$z <= est
+> xx <- dat$z %in% est
 > stopifnot(isequal(statistic(mt),
 +                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 > 
@@ -164,4 +164,4 @@ sample estimates:
 > 
 > proc.time()
    user  system elapsed 
-   2.26    0.10    2.49 
+   2.28    0.09    2.34 

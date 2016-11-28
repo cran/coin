@@ -1,7 +1,6 @@
-
 ### Regression tests for the 2 sample problem, i.e.,
 ### testing the independence of a numeric variable
-### `y' and a binary factor `x' (possibly blocked)
+### 'y' and a binary factor 'x' (possibly blocked)
 
 set.seed(290875)
 library("coin")

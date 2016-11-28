@@ -185,7 +185,7 @@ None   2.5900465       -2.340275      -0.1522407
 >20   -3.6678046        4.950373      -1.5303056
 
 > qperm(it_alzmax, 0.95)
-[1] 2.813991
+[1] 2.814126
 
 > pvalue(it_alzmax, method = "single-step")
        Alzheimer Other dementias Other diagnoses
@@ -310,4 +310,4 @@ C           0.00000           0.00000 0.99859
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   3.08    0.17    3.55 
+   3.10    0.07    3.72 

@@ -109,10 +109,10 @@
   hypothesis is \eqn{H_0\!: \mu = 0}{H_0: mu = 0}, where \eqn{\mu = Y_1 - Y_2}
   and \eqn{Y_s} is the median of the responses in the \eqn{s}th sample.  In case
   \code{alternative = "less"}, the null hypothesis is \eqn{H_0\!: \mu \ge
-    0}{H_0: theta >= 0}.  When \code{alternative = "greater"}, the null
-  hypothesis is \eqn{H_0\!: \mu \le 0}{H_0: theta <= 0}.  Confidence intervals
-  for the difference in location are available (except for \code{oneway_test})
-  and computed according to Bauer (1972).
+    0}{H_0: mu >= 0}.  When \code{alternative = "greater"}, the null hypothesis
+  is \eqn{H_0\!: \mu \le 0}{H_0: mu <= 0}.  Confidence intervals for the
+  difference in location are available (except for \code{oneway_test}) and
+  computed according to Bauer (1972).
 
   If \code{x} is an ordered factor, the default scores, \code{1:nlevels(x)}, can
   be altered using the \code{scores} argument (see
@@ -148,9 +148,9 @@
   Confidence intervals can be extracted by \link[stats]{confint}.
 }
 \note{
-  Starting with version 1.1-0, \code{oneway_test} provides an automatic choice
-  of test statistic that cannot be overridden.  Please use
-  \code{\link{independence_test}} if more control is desired.
+  Starting with version 1.1-0, \code{oneway_test} no longer allows the test
+  statistic to be specified; a quadratic form is now used in the \eqn{K}-sample
+  case.  Please use \code{\link{independence_test}} if more control is desired.
 }
 
 \references{

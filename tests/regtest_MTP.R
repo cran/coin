@@ -1,4 +1,3 @@
-
 ### Regression tests for multiple adjustments
 
 set.seed(290875)
@@ -55,7 +54,7 @@ pvalue(it, method = "single-step", distribution = "marginal", type = "Sidak")
 ### Note: 0.02521 + 0.01254 + 0 + 0.01577 = 0.05352
 pvalue(it, method = "single-step", distribution = "marginal")
 
-### artificial example, checked against `multtest:mt.maxT'
+### artificial example, checked against 'multtest:mt.maxT'
 
 set.seed(290875)
 

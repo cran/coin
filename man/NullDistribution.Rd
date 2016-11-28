@@ -16,20 +16,14 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
 }
 \arguments{
   \item{maxpts}{
-    an integer, the maximum number of function values; see
-    \code{\link[mvtnorm:algorithms]{GenzBretz}} in package \pkg{mvtnorm}.
-    Defaults to \code{25000}.
-
+    an integer, the maximum number of function values.  Defaults to
+    \code{25000}.
   }
   \item{abseps}{
-    a numeric, the absolute error tolerance; see
-    \code{\link[mvtnorm:algorithms]{GenzBretz}} in package \pkg{mvtnorm}.
-    Defaults to \code{0.001}.
+    a numeric, the absolute error tolerance.  Defaults to \code{0.001}.
   }
   \item{releps}{
-    a numeric, the relative error tolerance; see
-    \code{\link[mvtnorm:algorithms]{GenzBretz}} in package \pkg{mvtnorm}.
-    Defaults to \code{0}.
+    a numeric, the relative error tolerance.  Defaults to \code{0}.
   }
   \item{B}{
     a positive integer, the number of Monte Carlo replicates used for the
@@ -59,49 +53,49 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
   }
 }
 \details{
-  \code{asymptotic}, \code{approximate} and \code{exact} provide control of the
-  specification of the asymptotic, approximative (Monte Carlo) and exact
-  reference distributions, and are supplied to, e.g.,
-  \code{\link{independence_test}} via its \code{distribution} argument.
+  \code{asymptotic}, \code{approximate} and \code{exact} can be supplied to the
+  \code{distribution} argument of, e.g., \code{\link{independence_test}} to
+  provide control of the specification of the asymptotic, approximative (Monte
+  Carlo) and exact reference distribution respectively.
 
-  The asymptotic reference distribution is computed using randomised quasi-Monte
-  Carlo methods (Genz and Bretz, 2009) and is applicable to arbitrary covariance
-  structures and dimensions up to 1000.  See package \pkg{mvtnorm} for details
-  on \code{maxpts}, \code{abseps} and \code{releps}.
+  The asymptotic reference distribution is computed using a randomised
+  quasi-Monte Carlo method (Genz and Bretz, 2009) and is applicable to arbitrary
+  covariance structures with dimensions up to 1000.  See
+  \code{\link[mvtnorm:algorithms]{GenzBretz}} in package \pkg{mvtnorm} for
+  details on \code{maxpts}, \code{abseps} and \code{releps}.
 
-  The approximative (Monte Carlo) reference distribution is always applicable.
-  In this case, the distribution is obtained by a conditional Monte Carlo
-  procedure, i.e., by computing the test statistic for \code{B} random samples
-  from all admissible permutations of the response \eqn{\bf{Y}}{Y} within each
-  block (Hothorn \emph{et al.}, 2008).  By default, the distribution is obtained
-  through serial operation (\code{parallel = "no"}).  The use of parallel
-  operation is specified by setting \code{parallel} to either \code{"multicore"}
-  (not available for MS Windows) or \code{"snow"}.  In the latter case, if
-  \code{cl = NULL} (default) a cluster with \code{ncpus} processes is created on
-  the local machine unless a default cluster has been registered (see
-  \code{\link[parallel:makeCluster]{setDefaultCluster}} in package
-  \pkg{parallel}) in which case that gets used instead.  Alternatively, the use
-  of an optional \pkg{parallel} or \pkg{snow} cluster can be specified by
-  \code{cl}.  See \sQuote{Examples} and package \pkg{parallel} for details on
+  The approximative (Monte Carlo) reference distribution is obtained by a
+  conditional Monte Carlo procedure, i.e., by computing the test statistic for
+  \code{B} random samples from all admissible permutations of the response
+  \eqn{\bf{Y}}{Y} within each block (Hothorn \emph{et al.}, 2008).  By default,
+  the distribution is computed using serial operation (\code{parallel = "no"}).
+  The use of parallel operation is specified by setting \code{parallel} to
+  either \code{"multicore"} (not available for MS Windows) or \code{"snow"}.  In
+  the latter case, if \code{cl = NULL} (default) a cluster with \code{ncpus}
+  processes is created on the local machine unless a default cluster has been
+  registered (see \code{\link[parallel:makeCluster]{setDefaultCluster}} in
+  package \pkg{parallel}) in which case that gets used instead.  Alternatively,
+  the use of an optional \pkg{parallel} or \pkg{snow} cluster can be specified
+  by \code{cl}.  See \sQuote{Examples} and package \pkg{parallel} for details on
   parallel operation.
 
-  The exact reference distribution is currently applicable to univariate
-  two-sample problems only, using either the shift algorithm (Streitberg and
-  \enc{Röhmel}{Roehmel}, 1986, 1987) or the split-up algorithm (van de Wiel,
-  2001).  The shift algorithm is defined for positive integer valued scores
-  \eqn{h(\bf{Y})}{h(Y)} only, but handles blocks pertaining to, e.g., pre- and
-  post-stratification.  The split-up algorithm can be used with non-integer
-  scores, but does not handle blocks.  By default, an automatic choice is made
-  (\code{algorithm = "auto"}) but the shift and split-up algorithms can be
-  selected by setting \code{algorithm} to either \code{"shift"} or
-  \code{"split-up"} respectively.
+  The exact reference distribution, currently available for univariate
+  two-sample problems only, is computed using either the shift algorithm
+  (Streitberg and \enc{Röhmel}{Roehmel}, 1986, 1987) or the split-up algorithm
+  (van de Wiel, 2001).  The shift algorithm handles blocks pertaining to, e.g.,
+  pre- and post-stratification, but can only be used with positive
+  integer-valued scores \eqn{h(\bf{Y})}{h(Y)}.  The split-up algorithm can be
+  used with non-integer scores, but does not handle blocks.  By default, an
+  automatic choice is made (\code{algorithm = "auto"}) but the shift and
+  split-up algorithms can be selected by setting \code{algorithm} to either
+  \code{"shift"} or \code{"split-up"} respectively.
 }
 \note{
   Starting with coin version 1.1-0, the default for \code{algorithm} is
   \code{"auto"}, having identical behaviour to \code{"shift"} in previous
   versions.  In earlier versions of the package, \code{algorithm = "shift"}
   silently switched to the split-up algorithm if non-integer scores were
-  detected, whereas the current version exists with a warning.
+  detected, whereas the current version exits with a warning.
 }
 \references{
   Genz, A. and Bretz, F.  (2009).  \emph{Computation of Multivariate Normal and

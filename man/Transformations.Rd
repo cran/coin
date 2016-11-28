@@ -186,7 +186,8 @@ mcp_trafo(\dots)
   (see \code{\link{GTSG}}).
 
   \code{f_trafo} computes dummy matrices for factors and \code{of_trafo} assigns
-  scores to ordered factors.
+  scores to ordered factors.  For ordered factors with two levels, the scores
+  are normalized to the \eqn{[0, 1]} range.
 
   \code{maxstat_trafo}, \code{fmaxstat_trafo} and \code{ofmaxstat_trafo} compute
   scores for cutpoint problems (see \code{\link{maxstat_test}}).

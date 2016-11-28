@@ -4,7 +4,7 @@
 
     *\file StreitbergRoehmel.c
     *\author $Author: hnilsson $
-    *\date $Date: 2015-07-27 18:00:00 +0200 (Mon, 27 Jul 2015) $
+    *\date $Date: 2016-11-23 21:09:24 +0100 (Mit, 23 Nov 2016) $
 */
 
 #include <R.h>
@@ -198,7 +198,7 @@ SEXP R_cpermdist1(SEXP scores) {
 
     /*
       compute the permutation distribution of the sum of the
-      absolute values of the positive elements of `scores'
+      absolute values of the positive elements of 'scores'
     */
 
     int n;      /* number of observations */

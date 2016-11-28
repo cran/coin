@@ -1,6 +1,6 @@
 ### Regression tests for the r x c x K problem, i.e.,
 ### testing the independence of a factor
-### `y' and a factor factor `x' (possibly blocked)
+### 'y' and a factor factor 'x' (possibly blocked)
 
 set.seed(290875)
 library("coin")
@@ -79,7 +79,7 @@ stopifnot(isequal(statistic(mt),
 mt <- maxstat_test(w ~ z, data = dat)
 mt
 est <- mt@estimates$estimate$cutpoint
-xx <- dat$z <= est
+xx <- dat$z %in% est
 stopifnot(isequal(statistic(mt),
                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 

@@ -8,7 +8,7 @@
 
     *\file vandeWiel.c
     *\author $Author: hnilsson $
-    *\date $Date: 2015-07-27 18:00:00 +0200 (Mon, 27 Jul 2015) $
+    *\date $Date: 2016-11-23 21:09:24 +0100 (Mit, 23 Nov 2016) $
 */
 
 #include <R.h>
@@ -379,10 +379,10 @@ SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
 
     R interface to the split-up algorithm.
 
-    `scores' is a REAL vector giving the scores of the total sample
-    and `m' is a scalar integer with the sample size of one group.
-    `obs' is the scalar observed test statistic, namely the
-    sum of the `m' scores measured in one group.
+    'scores' is a REAL vector giving the scores of the total sample
+    and 'm' is a scalar integer with the sample size of one group.
+    'obs' is the scalar observed test statistic, namely the
+    sum of the 'm' scores measured in one group.
 
     */
 

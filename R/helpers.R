@@ -133,8 +133,8 @@ ft <- function(test, class, formula, data = list(), subset = NULL,
     weights = NULL, ...) {
 
     object <- formula2data(formula, data, subset, weights = weights, ...)
-    object <- new(class, x = object$x, y = object$y, block = object$bl,
-                  weights = object$w)
+    object <- new(class, x = object$x, y = object$y, block = object$block,
+                  weights = object$weights)
     args <- list(...)
     args$frame <- NULL
 
@@ -190,8 +190,8 @@ formula2data <- function(formula, data, subset, weights = NULL, ...) {
     } else
         block <- NULL
 
-    list(x = x, y = y, block = block, bl = block[[1L]],
-         w = if (no_weights) NULL else dat@get("weights")[[1L]])
+    list(x = x, y = y, block = block[[1L]],
+         weights = if (no_weights) NULL else dat@get("weights")[[1L]])
 }
 
 setscores <- function(x, scores) {
@@ -200,13 +200,13 @@ setscores <- function(x, scores) {
 
     varnames <- names(scores)
     if (!is.list(scores) || is.null(varnames))
-       stop(sQuote("scores"), " is not a named list")
+        stop(sQuote("scores"), " is not a named list")
 
     missing <- varnames[!varnames %in% c(colnames(x@x), colnames(x@y))]
     if (length(missing) > 0L)
         stop("Variable(s) ", paste(missing, sep = ", "),
              " not found in ", sQuote("x"))
-
+    ## <FIXME> Repeated reassignment to S4 objects may be expensive
     for (var in varnames) {
         if (!is.null(x@x[[var]])) {
             if (!is.factor(x@x[[var]]))
@@ -214,8 +214,6 @@ setscores <- function(x, scores) {
             if (nlevels(x@x[[var]]) != length(scores[[var]]))
                 stop("scores for variable ", sQuote(var), " don't match")
             x@x[[var]] <- ordered(x@x[[var]], levels = levels(x@x[[var]]))
-            if (nlevels(x@x[[var]]) == 2)
-                scores[[var]] <- 0:1      # must be 0:1 for exact p-values
             attr(x@x[[var]], "scores") <- scores[[var]]
         }
         if (!is.null(x@y[[var]])) {
@@ -224,11 +222,10 @@ setscores <- function(x, scores) {
             if (nlevels(x@y[[var]]) != length(scores[[var]]))
                 stop("scores for variable ", sQuote(var), " don't match")
             x@y[[var]] <- ordered(x@y[[var]], levels = levels(x@y[[var]]))
-            if (nlevels(x@y[[var]]) == 2)
-                scores[[var]] <- 0:1      # must be 0:1 for exact p-values
             attr(x@y[[var]], "scores") <- scores[[var]]
         }
     }
+    ## </FIXME>
     return(x)
 }
 
@@ -265,8 +262,9 @@ table2df_sym <- function(x) {
     lx <- levels(x[[1L]])
     if (!all(vapply(x, function(x) all(levels(x) == lx), NA)))
         stop("table ", sQuote("x"), " does not represent a symmetry problem")
-    data.frame(conditions = factor(rep.int(colnames(x),
-                                           rep.int(nrow(x), ncol(x)))),
+    data.frame(conditions = factor(rep.int(seq_len(ncol(x)),
+                                           rep.int(nrow(x), ncol(x))),
+                                   labels = colnames(x)),
                response = factor(unlist(x, recursive = FALSE,
                                         use.names = FALSE),
                                  labels = lx))

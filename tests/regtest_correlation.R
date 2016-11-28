@@ -1,7 +1,6 @@
-
 ### Regression tests for the correlation problem, i.e.,
 ### testing the independence of two numeric variables
-### `x' and `y' (possibly blocked)
+### 'x' and 'y' (possibly blocked)
 
 set.seed(290875)
 library("coin")
