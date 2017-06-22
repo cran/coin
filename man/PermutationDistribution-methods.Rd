@@ -2,17 +2,14 @@
 \docType{methods}
 \alias{dperm}
 \alias{dperm-methods}
-\alias{dperm,AsymptNullDistribution-method}
 \alias{dperm,IndependenceTest-method}
 \alias{dperm,NullDistribution-method}
 \alias{pperm}
 \alias{pperm-methods}
-\alias{pperm,AsymptNullDistribution-method}
 \alias{pperm,IndependenceTest-method}
 \alias{pperm,NullDistribution-method}
 \alias{qperm}
 \alias{qperm-methods}
-\alias{qperm,AsymptNullDistribution-method}
 \alias{qperm,IndependenceTest-method}
 \alias{qperm,NullDistribution-method}
 \alias{rperm}
@@ -29,15 +26,12 @@
   quantile function, random numbers and support of the permutation distribution.
 }
 \usage{
-\S4method{dperm}{AsymptNullDistribution}(object, x, \dots)
 \S4method{dperm}{IndependenceTest}(object, x, \dots)
 \S4method{dperm}{NullDistribution}(object, x, \dots)
 
-\S4method{pperm}{AsymptNullDistribution}(object, q, \dots)
 \S4method{pperm}{IndependenceTest}(object, q, \dots)
 \S4method{pperm}{NullDistribution}(object, q, \dots)
 
-\S4method{qperm}{AsymptNullDistribution}(object, p, \dots)
 \S4method{qperm}{IndependenceTest}(object, p, \dots)
 \S4method{qperm}{NullDistribution}(object, p, \dots)
 
@@ -106,19 +100,19 @@ at <- ansari_test(y ~ x, data = dta, distribution = "exact")
 supp <- support(at)
 
 ## Density of the exact distribution of the Ansari-Bradley statistic
-dens <- dperm(at, supp)
+dens <- dperm(at, x = supp)
 
 ## Plotting the density
 plot(supp, dens, type = "s")
 
 ## 95 \% quantile
-qperm(at, 0.95)
+qperm(at, p = 0.95)
 
 ## One-sided p-value
-pperm(at, statistic(at))
+pperm(at, q = statistic(at))
 
 ## Random number generation
-rperm(at, 5)
+rperm(at, n = 5)
 }
 \keyword{methods}
 \keyword{htest}

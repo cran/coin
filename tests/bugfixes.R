@@ -3,7 +3,7 @@
 set.seed(290875)
 library("coin")
 isequal <- coin:::isequal
-GE <- coin:::GE
+`%GE%` <- coin:::`%GE%`
 options(useFancyQuotes = FALSE)
 
 ### I() returns objects of class "AsIs" causing errors in 'trafo'
@@ -45,17 +45,21 @@ stopifnot(unique(dim(statistic(lbl_test(jobsatisfaction), "standardized"))) == 1
 
 ### support() failed in most cases
 df <- data.frame(x = runif(20), y = runif(20), z = gl(2, 10))
-support(independence_test(x ~ z, data = df))
-support(independence_test(x ~ z, data = df, teststat = "quad"))
+stopifnot(is.na(support(independence_test(x ~ z, data = df))))
+stopifnot(is.na(support(independence_test(x ~ z, data = df, teststat = "quad"))))
 ite <- independence_test(I(round(x, 1)) ~ z, data = df, dist = exact())
 ae <- support(ite)
-de <- sapply(ae, function(x) dperm(ite, x))
-sum(de)
+de <- dperm(ite, ae)
+stopifnot(identical(sum(de), 1))
+pe <- pperm(ite, ae)
+stopifnot(identical(cumsum(de), pe))
 ita <- independence_test(I(round(x, 1)) ~ z, data = df,
                          dist = approximate(B = 100000))
 aa <- support(ita)
-da <- sapply(aa, function(x) dperm(ita, x))
-sum(da)
+da <- dperm(ita, aa)
+stopifnot(identical(sum(da), 1))
+pa <- pperm(ita, aa)
+stopifnot(isequal(cumsum(da), pa))
 mean(round(ae, 10) %in% round(aa, 10))
 
 plot(aa, da, type = "s", lty = 1)
@@ -243,10 +247,10 @@ wte <- wilcox_test(Route.Time ~ Route, distribution = exact())
 wta <- wilcox_test(Route.Time ~ Route, distribution = approximate())
 de <- dperm(wte, support(wte))
 pe <- pperm(wte, support(wte))
-stopifnot(max(abs(cumsum(de) - pe)) < sqrt(.Machine$double.eps))
+stopifnot(identical(cumsum(de), pe))
 da <- dperm(wta, support(wta))
 pa <- pperm(wta, support(wta))
-stopifnot(max(abs(cumsum(da) - pa)) < sqrt(.Machine$double.eps))
+stopifnot(isequal(cumsum(da), pa))
 qperm(wte, seq(from = 0.1, to = 0.9, by = 0.1))
 qperm(wta, seq(from = 0.1, to = 0.9, by = 0.1))
 
@@ -265,14 +269,6 @@ it <- normal_test(scores ~ fac, data = dat.fr,
     conf.int = TRUE, conf.level = conf.level,
     alternative = alternative, dist = exact())
 confint(it)
-
-### discrete (spotted by Henric Winell <henric.winell@sorch.se>)
-set.seed(1)
-x <- gl(3, 5)
-y1 <- rnorm(15)
-y2 <- rnorm(15)
-it <- independence_test(y1 + y2 ~ x, distribution = approximate(B = 5))
-pvalue(it, "discrete") # didn't work
 
 ### error messages
 ### first group completely empty
@@ -349,7 +345,7 @@ it <- independence_test(y1 + y2 + y3 + y4 ~ x, data = df,
 
 pss <- pvalue(it, "single-step")
 psd <- pvalue(it, "step-down")
-stopifnot(isequal(all(GE(pss, psd)), TRUE))
+stopifnot(isequal(all(pss %GE% psd), TRUE))
 
 ### fmaxstat_trafo 'drop'ed its dimensions
 fmaxstat_trafo(gl(2, 2))
@@ -527,20 +523,16 @@ stopifnot(isequal(qperm(it, c(0.9, 0.95, 0.99)),
 
 ### blockwise permutations were only correct for factors ordered wrt their levels
 set.seed(36)
-.Call("R_blockperm", rep(1:4, 2),                       # was OK
-      PACKAGE = "coin")
+.Call(coin:::R_blockperm, rep(1:4, 2))                       # was OK
 
 set.seed(36)
-.Call("R_blockperm", rep(1:4, each = 2),                # was OK
-      PACKAGE = "coin")
+.Call(coin:::R_blockperm, rep(1:4, each = 2))                # was OK
 
 set.seed(36)
-.Call("R_blockperm", c(1:4, 4:1),                       # was OK
-      PACKAGE = "coin")
+.Call(coin:::R_blockperm, c(1:4, 4:1))                       # was OK
 
 set.seed(36)
-.Call("R_blockperm", c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L), # wrong
-      PACKAGE = "coin")
+.Call(coin:::R_blockperm, c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L)) # wrong
 
 ### could not distinguish censored and numeric responses
 y1 <- rnorm(10)
@@ -612,3 +604,11 @@ stopifnot(identical(of_trafo(x, scores = 1:2),              # was 1:2
                     matrix(c(0, 1), dimnames = list(1:2))))
 stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
                     matrix(c(1, 0), dimnames = list(1:2))))
+
+### 'logrank_trafo' didn't make sure input was right-censored
+y <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
+try(logrank_trafo(y))
+
+### 'ofmaxstat_trafo' had the labeling wrong
+of <- ordered(c(1, 1, 2, 3, 3, 4))
+ofmaxstat_trafo(of, minprob = 0.34) # was {1} vs. {2, 3, 4}

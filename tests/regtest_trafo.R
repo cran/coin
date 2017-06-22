@@ -140,10 +140,10 @@ fmaxstat_trafo(x[cc])
 fmaxstat_trafo(x, minprob = 0.49)
 fmaxstat_trafo(x[cc], minprob = 0.49)
 
-ofmaxstat_trafo(x)
-ofmaxstat_trafo(x[cc])
-ofmaxstat_trafo(x, minprob = 0.49)
-ofmaxstat_trafo(x[cc], minprob = 0.49)
+ofmaxstat_trafo(ox)
+ofmaxstat_trafo(ox[cc])
+ofmaxstat_trafo(ox, minprob = 0.49)
+ofmaxstat_trafo(ox[cc], minprob = 0.49)
 
 mcp_trafo(x = "Tukey")(data.frame(x))
 mcp_trafo(x = "Tukey")(data.frame(x = x[cc]))
@@ -174,10 +174,10 @@ fmaxstat_trafo(x[cc])
 fmaxstat_trafo(x, minprob = 0.4, maxprob = 0.51)
 fmaxstat_trafo(x[cc], minprob = 0.4, maxprob = 0.51)
 
-ofmaxstat_trafo(x)
-ofmaxstat_trafo(x[cc])
-ofmaxstat_trafo(x, minprob = 0.4, maxprob = 0.51)
-ofmaxstat_trafo(x[cc], minprob = 0.4, maxprob = 0.51)
+ofmaxstat_trafo(ox)
+ofmaxstat_trafo(ox[cc])
+ofmaxstat_trafo(ox, minprob = 0.4, maxprob = 0.51)
+ofmaxstat_trafo(ox[cc], minprob = 0.4, maxprob = 0.51)
 
 mcp_trafo(x = "Tukey")(data.frame(x))
 mcp_trafo(x = "Tukey")(data.frame(x = x[cc]))
@@ -232,6 +232,13 @@ logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
               type = "Fleming-Harrington")
 logrank_trafo(Surv(x, e), ties.method = "average-scores",
               type = "Fleming-Harrington")
+
+logrank_trafo(Surv(x, e),
+              type = "Gaugler-Kim-Liao")
+logrank_trafo(Surv(x, e), ties.method = "Hothorn-Lausen",
+              type = "Gaugler-Kim-Liao")
+logrank_trafo(Surv(x, e), ties.method = "average-scores",
+              type = "Gaugler-Kim-Liao")
 
 logrank_trafo(Surv(x, e),
               type = "Self")

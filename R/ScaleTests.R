@@ -26,7 +26,7 @@ taha_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -48,7 +48,7 @@ taha_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Taha Test"
 
-    return(object)
+    object
 }
 
 
@@ -81,7 +81,7 @@ klotz_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -103,7 +103,7 @@ klotz_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Klotz Test"
 
-    return(object)
+    object
 }
 
 
@@ -136,7 +136,7 @@ mood_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -158,7 +158,7 @@ mood_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Mood Test"
 
-    return(object)
+    object
 }
 
 
@@ -191,7 +191,7 @@ ansari_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -224,7 +224,7 @@ ansari_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Ansari-Bradley Test"
 
-    return(object)
+    object
 }
 
 
@@ -255,7 +255,7 @@ fligner_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -283,7 +283,7 @@ fligner_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Fligner-Killeen Test"
 
-    return(object)
+    object
 }
 
 
@@ -313,7 +313,7 @@ conover_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
-            return(TRUE)
+            TRUE
         }
     )
     ## set test statistic to scalar for two-sample test
@@ -341,5 +341,5 @@ conover_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Conover-Iman Test"
 
-    return(object)
+    object
 }

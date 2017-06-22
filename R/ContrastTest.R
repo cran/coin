@@ -34,5 +34,5 @@ contrast_test.IndependenceProblem <- function(object,
 
     object@method <- "General Contrast Test"
 
-    return(object)
+    object
 }

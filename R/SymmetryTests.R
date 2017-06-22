@@ -15,8 +15,7 @@ sign_test.formula <- function(formula, data = list(), subset = NULL, ...)
     }
     object <- new("SymmetryProblem", x = object$x, y = object$y,
                   block = object$block)
-    object <- do.call("sign_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("sign_test", c(list(object = object), list(...)))
 }
 
 sign_test.SymmetryProblem <- function(object, ...) {
@@ -55,7 +54,7 @@ sign_test.SymmetryProblem <- function(object, ...) {
     object@method <- "Sign Test"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }
 
 
@@ -76,8 +75,7 @@ wilcoxsign_test.formula <- function(formula, data = list(), subset = NULL, ...)
     }
     object <- new("SymmetryProblem", x = object$x, y = object$y,
                   block = object$block)
-    object <- do.call("wilcoxsign_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("wilcoxsign_test", c(list(object = object), list(...)))
 }
 
 wilcoxsign_test.SymmetryProblem <- function(object,
@@ -132,7 +130,7 @@ wilcoxsign_test.SymmetryProblem <- function(object,
         object@method <- "Wilcoxon Signed-Rank Test"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }
 
 
@@ -158,7 +156,7 @@ friedman_test.SymmetryProblem <- function(object, ...) {
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -177,7 +175,7 @@ friedman_test.SymmetryProblem <- function(object, ...) {
     else
         object@method <- "Friedman Test"
 
-    return(object)
+    object
 }
 
 
@@ -198,7 +196,7 @@ quade_test.SymmetryProblem <- function(object, ...) {
                 stop(sQuote("object"),
                      " does not represent a K-sample problem",
                      " (maybe the grouping variable is not a factor?)")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -225,5 +223,5 @@ quade_test.SymmetryProblem <- function(object, ...) {
     else
         object@method <- "Quade Test"
 
-    return(object)
+    object
 }

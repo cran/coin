@@ -91,10 +91,6 @@
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{dperm}} for details.
     }
-    \item{dperm}{
-      \code{signature(object = "AsymptNullDistribution")}: See the documentation
-      for \code{\link{dperm}} for details.
-    }
     \item{midpvalue}{
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{midpvalue}} for details.
@@ -103,25 +99,17 @@
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{pperm}} for details.
     }
-    \item{pperm}{
-      \code{signature(object = "AsymptNullDistribution")}: See the documentation
-      for \code{\link{pperm}} for details.
-    }
     \item{pvalue}{
-      \code{signature(object ="NullDistribution")}: See the documentation for
+      \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{pvalue}} for details.
     }
     \item{pvalue_interval}{
-      \code{signature(object ="NullDistribution")}: See the documentation for
+      \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{pvalue_interval}} for details.
     }
     \item{qperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{qperm}} for details.
-    }
-    \item{qperm}{
-      \code{signature(object = "AsymptNullDistribution")}: See the documentation
-      for \code{\link{qperm}} for details.
     }
     \item{rperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for

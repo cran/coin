@@ -1,6 +1,56 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.2-0 (2017-06-20)}{
+  \subsection{New features}{
+    \itemize{
+      \item The Gaugler-Kim-Liao class of tests for right-censored data is now
+      available (see \code{?logrank_test} and \code{?logrank_weight}).
+
+      \item The \code{pvalue()}, \code{midpvalue()} and \code{pvalue_interval()}
+      methods for objects of class \code{"NullDistribution"} are now vectorized.
+    }
+  }
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Precision problem in the density function of approximative (Monte
+      Carlo) null distributions.  This also impacts mid-\eqn{p}-values and
+      \eqn{p}-value intervals.
+
+      \item Precision problem in the support of approximative (Monte Carlo) null
+      distributions.
+
+      \item Precision problem in the symmetric median scores transformation.
+
+      \item The weighted logrank transformation returned nonsense scores when
+      supplied non-right-censored input; it now results in an error.
+
+      \item The maximally selected statistics transformation for ordered factors
+      sometimes returned the wrong labels.
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item The \code{ties.method} argument of \code{logrank_trafo()} no longer
+      allows using \code{"logrank"} and \code{"HL"} to specify mid-ranks and the
+      Hothorn-Lausen method respectively.
+
+      \item Documentation updates.
+    }
+  }
+  \subsection{Deprecated and defunct}{
+    \itemize{
+      \item \code{surv_test()} is now defunct and has been removed.
+
+      \item \code{method = "discrete"} in \code{pvalue()} is now defunct and has
+      been removed.
+
+      \item The \code{dperm()}, \code{pperm()} and \code{qperm()} methods for
+      objects of class \code{"AsymptNullDistribution"} are no longer needed and
+      have been removed.
+    }
+  }
+}
 \section{Changes in version 1.1-3 (2016-11-24)}{
   \subsection{Bug fixes}{
     \itemize{
@@ -419,6 +469,8 @@
     \itemize{
       \item \code{surv_test()} is now deprecated and has been replaced by
       \code{logrank_test()}.
+
+      \item \code{method = "discrete"} in \code{pvalue()} is now deprecated.
 
       \item The Wilcoxon signed-rank test no longer features the defunct
       \code{ties.method} argument.

@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2017-05-16 r72684) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -178,7 +178,7 @@ Control 0.05503  1 0.14164  1
 > qperm(mt, 0.9)
 [1] 2.414349
 > dperm(mt, qperm(mt, 0.9))
-[1] 0.0052
+[1] 0.0078
 > #support(mt)
 > 
 > mt <- maxstat_test(y ~ x, distribution = approximate(), alternative = "greater")
@@ -406,4 +406,4 @@ Control 0.05503  1 0.14164  1
 > 
 > proc.time()
    user  system elapsed 
-   3.01    0.23    3.25 
+   2.93    0.15    3.07 

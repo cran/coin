@@ -94,7 +94,7 @@ statistic(mt)
 (c <- qperm(mt, 0.95))
 
 ## Only 'sample8' exceeds the 5 \% critical value
-sts <- statistic(mt, "standardized")
+sts <- statistic(mt, type = "standardized")
 idx <- which(sts > c, arr.ind = TRUE)
 sts[unique(idx[, 1]), unique(idx[, 2]), drop = FALSE]
 }

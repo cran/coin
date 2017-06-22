@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2017-06-09 r72776) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -21,7 +21,7 @@ Type 'q()' to quit R.
 > library("coin")
 Loading required package: survival
 > isequal <- coin:::isequal
-> GE <- coin:::GE
+> `%GE%` <- coin:::`%GE%`
 > options(useFancyQuotes = FALSE)
 > 
 > ### I() returns objects of class "AsIs" causing errors in 'trafo'
@@ -76,21 +76,21 @@ The following object is masked from 'package:MASS':
 > 
 > ### support() failed in most cases
 > df <- data.frame(x = runif(20), y = runif(20), z = gl(2, 10))
-> support(independence_test(x ~ z, data = df))
-[1] NA
-> support(independence_test(x ~ z, data = df, teststat = "quad"))
-[1] NA
+> stopifnot(is.na(support(independence_test(x ~ z, data = df))))
+> stopifnot(is.na(support(independence_test(x ~ z, data = df, teststat = "quad"))))
 > ite <- independence_test(I(round(x, 1)) ~ z, data = df, dist = exact())
 > ae <- support(ite)
-> de <- sapply(ae, function(x) dperm(ite, x))
-> sum(de)
-[1] 1
+> de <- dperm(ite, ae)
+> stopifnot(identical(sum(de), 1))
+> pe <- pperm(ite, ae)
+> stopifnot(identical(cumsum(de), pe))
 > ita <- independence_test(I(round(x, 1)) ~ z, data = df,
 +                          dist = approximate(B = 100000))
 > aa <- support(ita)
-> da <- sapply(aa, function(x) dperm(ita, x))
-> sum(da)
-[1] 1
+> da <- dperm(ita, aa)
+> stopifnot(identical(sum(da), 1))
+> pa <- pperm(ita, aa)
+> stopifnot(isequal(cumsum(da), pa))
 > mean(round(ae, 10) %in% round(aa, 10))
 [1] 1
 > 
@@ -407,10 +407,10 @@ alternative hypothesis: true mu is not equal to 0
 > wta <- wilcox_test(Route.Time ~ Route, distribution = approximate())
 > de <- dperm(wte, support(wte))
 > pe <- pperm(wte, support(wte))
-> stopifnot(max(abs(cumsum(de) - pe)) < sqrt(.Machine$double.eps))
+> stopifnot(identical(cumsum(de), pe))
 > da <- dperm(wta, support(wta))
 > pa <- pperm(wta, support(wta))
-> stopifnot(max(abs(cumsum(da) - pa)) < sqrt(.Machine$double.eps))
+> stopifnot(isequal(cumsum(da), pa))
 > qperm(wte, seq(from = 0.1, to = 0.9, by = 0.1))
 [1] -1.3125012 -0.8559791 -0.5135874 -0.2853264  0.0000000  0.2853264  0.5706527
 [8]  0.8559791  1.2554359
@@ -439,20 +439,6 @@ sample estimates:
 difference in location 
                   2.59 
 
-> 
-> ### discrete (spotted by Henric Winell <henric.winell@sorch.se>)
-> set.seed(1)
-> x <- gl(3, 5)
-> y1 <- rnorm(15)
-> y2 <- rnorm(15)
-> it <- independence_test(y1 + y2 ~ x, distribution = approximate(B = 5))
-> pvalue(it, "discrete") # didn't work
-  y1       y2
-1  1 0.737856
-2  1 1.000000
-3  1 0.000000
-Warning message:
-In .local(object, ...) : 'method = "discrete"' is deprecated; see '?pvalue'
 > 
 > ### error messages
 > ### first group completely empty
@@ -559,7 +545,7 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > pss <- pvalue(it, "single-step")
 > psd <- pvalue(it, "step-down")
-> stopifnot(isequal(all(GE(pss, psd)), TRUE))
+> stopifnot(isequal(all(pss %GE% psd), TRUE))
 > 
 > ### fmaxstat_trafo 'drop'ed its dimensions
 > fmaxstat_trafo(gl(2, 2))
@@ -877,23 +863,19 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > ### blockwise permutations were only correct for factors ordered wrt their levels
 > set.seed(36)
-> .Call("R_blockperm", rep(1:4, 2),                       # was OK
-+       PACKAGE = "coin")
+> .Call(coin:::R_blockperm, rep(1:4, 2))                       # was OK
 [1] 4 5 6 7 0 1 2 3
 > 
 > set.seed(36)
-> .Call("R_blockperm", rep(1:4, each = 2),                # was OK
-+       PACKAGE = "coin")
+> .Call(coin:::R_blockperm, rep(1:4, each = 2))                # was OK
 [1] 1 0 3 2 5 4 7 6
 > 
 > set.seed(36)
-> .Call("R_blockperm", c(1:4, 4:1),                       # was OK
-+       PACKAGE = "coin")
+> .Call(coin:::R_blockperm, c(1:4, 4:1))                       # was OK
 [1] 7 6 5 4 3 2 1 0
 > 
 > set.seed(36)
-> .Call("R_blockperm", c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L), # wrong
-+       PACKAGE = "coin")
+> .Call(coin:::R_blockperm, c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L)) # wrong
 [1] 4 6 3 2 0 7 1 5
 > 
 > ### could not distinguish censored and numeric responses
@@ -1001,6 +983,23 @@ Error in quade_test.SymmetryProblem(object = <S4 object of class structure("Symm
 > stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
 +                     matrix(c(1, 0), dimnames = list(1:2))))
 > 
+> ### 'logrank_trafo' didn't make sure input was right-censored
+> y <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
+> try(logrank_trafo(y))
+Error in logrank_trafo(y) : 
+  'y' is not an object of class "Surv" representing right-censored data
+> 
+> ### 'ofmaxstat_trafo' had the labeling wrong
+> of <- ordered(c(1, 1, 2, 3, 3, 4))
+> ofmaxstat_trafo(of, minprob = 0.34) # was {1} vs. {2, 3, 4}
+  {1, 2} vs. {3, 4}
+1                 1
+2                 1
+3                 1
+4                 0
+5                 0
+6                 0
+> 
 > proc.time()
    user  system elapsed 
-   2.25    0.10    2.37 
+   2.29    0.21    2.50 

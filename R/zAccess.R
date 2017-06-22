@@ -31,8 +31,8 @@ setMethod("pvalue",
                                       "unadjusted", "discrete"),
                           several.ok = TRUE)[1]
             if (method == "discrete")
-                warning(sQuote(paste("method =", dQuote(method))),
-                        " is deprecated; see ", sQuote("?pvalue"))
+                stop(sQuote(paste("method =", dQuote(method))),
+                        " is defunct; see ", sQuote("?pvalue"))
             distribution <- match.arg(distribution)
             type <- match.arg(type)
 
@@ -67,13 +67,9 @@ setMethod("pvalue",
                                  stepdown = TRUE, ...)
                 }
             }
-            ## <DEPRECATED>
-            else if (method == "discrete")
-                dbonf(object, ...)
-            ## </DEPRECATED>
             else
                 unadjusted(object, ...)
-        }
+    }
 )
 
 
@@ -92,10 +88,10 @@ setMethod("midpvalue",
 )
 
 setMethod("midpvalue",
-   signature = "IndependenceTest",
-   definition = function(object, ...) {
-       midpvalue(object@distribution, object@statistic@teststatistic)
-   }
+    signature = "IndependenceTest",
+    definition = function(object, ...) {
+        midpvalue(object@distribution, object@statistic@teststatistic)
+    }
 )
 
 
@@ -114,10 +110,10 @@ setMethod("pvalue_interval",
 )
 
 setMethod("pvalue_interval",
-   signature = "IndependenceTest",
-   definition = function(object, ...) {
-       pvalue_interval(object@distribution, object@statistic@teststatistic)
-   }
+    signature = "IndependenceTest",
+    definition = function(object, ...) {
+        pvalue_interval(object@distribution, object@statistic@teststatistic)
+    }
 )
 
 
@@ -130,13 +126,6 @@ setGeneric("dperm",
 
 setMethod("dperm",
     signature = "NullDistribution",
-    definition = function(object, x, ...) {
-        vapply(x, object@d, NA_real_)
-    }
-)
-
-setMethod("dperm",
-    signature = "AsymptNullDistribution",
     definition = function(object, x, ...) {
         object@d(x)
     }
@@ -160,13 +149,6 @@ setGeneric("pperm",
 setMethod("pperm",
     signature = "NullDistribution",
     definition = function(object, q, ...) {
-        vapply(q, object@p, NA_real_)
-    }
-)
-
-setMethod("pperm",
-    signature = "AsymptNullDistribution",
-    definition = function(object, q, ...) {
         object@p(q)
     }
 )
@@ -189,13 +171,6 @@ setGeneric("qperm",
 setMethod("qperm",
     signature = "NullDistribution",
     definition = function(object, p, ...) {
-        vapply(p, object@q, NA_real_)
-    }
-)
-
-setMethod("qperm",
-    signature = "AsymptNullDistribution",
-    definition = function(object, p, ...) {
         object@q(p)
     }
 )
@@ -209,21 +184,24 @@ setMethod("qperm",
 
 
 ### generic method for the permutation distribution from objects
-setGeneric("rperm", function(object, n, ...)
-    standardGeneric("rperm"))
-
-setMethod("rperm",
-          signature = "NullDistribution",
-          definition = function(object, n, ...) {
-              qperm(object, runif(n))
-          }
+setGeneric("rperm",
+    function(object, n, ...) {
+        standardGeneric("rperm")
+    }
 )
 
 setMethod("rperm",
-          signature = "IndependenceTest",
-          definition = function(object, n, ...) {
-              qperm(object, runif(n))
-          }
+    signature = "NullDistribution",
+    definition = function(object, n, ...) {
+        object@q(runif(n))
+    }
+)
+
+setMethod("rperm",
+    signature = "IndependenceTest",
+    definition = function(object, n, ...) {
+        rperm(object@distribution, n)
+    }
 )
 
 
@@ -252,7 +230,7 @@ setMethod("support",
 ### generic method for extracting statistics from objects
 setGeneric("statistic",
     function(object, ...) {
-            standardGeneric("statistic")
+        standardGeneric("statistic")
     }
 )
 
@@ -273,7 +251,7 @@ setMethod("statistic",
                 "standardized" = matrix(object@standardizedlinearstatistic,
                                         nrow = nr, ncol = nc, dimnames = dn)
             )
-        }
+    }
 )
 
 setMethod("statistic",
@@ -291,7 +269,7 @@ setMethod("statistic",
                 "standardized" = matrix(object@standardizedlinearstatistic,
                                         nrow = nr, ncol = nc, dimnames = dn)
             )
-        }
+    }
 )
 
 setMethod("statistic",

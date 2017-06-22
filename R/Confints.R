@@ -95,7 +95,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
                 ##  but the open right interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[LE(qlower, jumps)]),
+                ci <- c(min(steps[qlower %LE% jumps]),
                         min(steps[jumps > qupper]))
             } else {
                 ##
@@ -107,7 +107,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
                 ##  but the open left interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[LE(jumps, qupper)]),
+                ci <- c(min(steps[jumps %LE% qupper]),
                         min(steps[jumps < qlower]))
             }
             ci
@@ -122,7 +122,7 @@ confint_location <- function(object, nulldistr, level = 0.95, ...) {
 
         ## was: median(steps) which will not work for blocks etc.
         u <- jumps - expectation(object)
-        sgr <- ifelse(decreasing, min(steps[LE(u, 0)]), max(steps[LE(u, 0)]))
+        sgr <- ifelse(decreasing, min(steps[u %LE% 0]), max(steps[u %LE% 0]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
         ESTIMATE <- mean(c(sle, sgr), na.rm = TRUE)
@@ -287,7 +287,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                 ##  but the open right interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[LE(qlower, jumps)]),
+                ci <- c(min(steps[qlower %LE% jumps]),
                         min(steps[jumps > qupper]))
             } else {
                 ##
@@ -299,7 +299,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
                 ##  but the open left interval ends with the
                 ##  step with STATISTIC == qupper
                 ##
-                ci <- c(min(steps[LE(jumps, qupper)]),
+                ci <- c(min(steps[jumps %LE% qupper]),
                         min(steps[jumps < qlower]))
             }
             ci
@@ -313,7 +313,7 @@ confint_scale <- function(object, nulldistr, level = 0.95,
         attr(cint, "conf.level") <- level
 
         u <- jumps - expectation(object)
-        sgr <- ifelse(decreasing, min(steps[LE(u, 0)]), max(steps[LE(u, 0)]))
+        sgr <- ifelse(decreasing, min(steps[u %LE% 0]), max(steps[u %LE% 0]))
         sle <- ifelse(decreasing, min(steps[u < 0]), min(steps[u > 0]))
 
         ESTIMATE <- mean(c(sle, sgr), na.rm = TRUE)
@@ -340,10 +340,10 @@ confint_scale <- function(object, nulldistr, level = 0.95,
             srangepos <-
                 c(min(x[x > 0], na.rm = TRUE) / max(y[y > 0], na.rm = TRUE),
                   max(x[x > 0], na.rm = TRUE) / min(y[y > 0], na.rm = TRUE))
-        if (any(LE(x, 0)) && any(y < 0))
+        if (any(x %LE% 0) && any(y < 0))
             srangeneg <-
-                c(min(x[LE(x, 0)], na.rm = TRUE) / max(y[y < 0], na.rm = TRUE),
-                  max(x[LE(x, 0)], na.rm = TRUE) / min(y[y < 0], na.rm = TRUE))
+                c(min(x[x %LE% 0], na.rm = TRUE) / max(y[y < 0], na.rm = TRUE),
+                  max(x[x %LE% 0], na.rm = TRUE) / min(y[y < 0], na.rm = TRUE))
         if (any(is.infinite(c(srangepos, srangeneg)))) {
             stop(paste("Cannot compute asymptotic confidence",
                        "set or estimator"))

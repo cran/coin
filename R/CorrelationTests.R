@@ -24,7 +24,7 @@ spearman_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -34,7 +34,7 @@ spearman_test.IndependenceProblem <- function(object,
     object@parameter <- "rho"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }
 
 
@@ -67,7 +67,7 @@ fisyat_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -77,7 +77,7 @@ fisyat_test.IndependenceProblem <- function(object,
     object@parameter <- "rho"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }
 
 
@@ -113,7 +113,7 @@ quadrant_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -123,7 +123,7 @@ quadrant_test.IndependenceProblem <- function(object,
     object@parameter <- "rho"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }
 
 
@@ -156,7 +156,7 @@ koziol_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -166,5 +166,5 @@ koziol_test.IndependenceProblem <- function(object,
     object@parameter <- "rho"
     object@nullvalue <- 0
 
-    return(object)
+    object
 }

@@ -13,8 +13,7 @@ symmetry_test.table <- function(object, ...) {
     object <- table2df_sym(object)
     object <- new("SymmetryProblem", x = object["conditions"],
                   y = object["response"])
-    object <- do.call("symmetry_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("symmetry_test", c(list(object = object), list(...)))
 }
 
 symmetry_test.SymmetryProblem <- function(object,

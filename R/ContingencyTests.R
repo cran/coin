@@ -10,9 +10,8 @@ chisq_test.formula <- function(formula, data = list(), subset = NULL,
 
 chisq_test.table <- function(object, ...) {
 
-    object <- table2IndependenceProblem(object)
-    object <- do.call("chisq_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("chisq_test",
+            c(list(object = table2IndependenceProblem(object)), list(...)))
 }
 
 chisq_test.IndependenceProblem <- function(object, ...) {
@@ -24,7 +23,7 @@ chisq_test.IndependenceProblem <- function(object, ...) {
         if (nlevels(object@block) != 1)
             stop(sQuote("object"), " contains blocks: use ",
                  sQuote("cmh_test"), " instead")
-        return(TRUE)
+        TRUE
     }
     n <- sum(object@weights)
 
@@ -93,7 +92,7 @@ chisq_test.IndependenceProblem <- function(object, ...) {
 
     object@call <- match.call()
 
-    return(object)
+    object
 }
 
 
@@ -109,9 +108,8 @@ cmh_test.formula <- function(formula, data = list(), subset = NULL,
 
 cmh_test.table <- function(object, ...) {
 
-    object <- table2IndependenceProblem(object)
-    object <- do.call("cmh_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("cmh_test",
+            c(list(object = table2IndependenceProblem(object)), list(...)))
 }
 
 cmh_test.IndependenceProblem <- function(object, ...) {
@@ -121,7 +119,7 @@ cmh_test.IndependenceProblem <- function(object, ...) {
             if (!is_contingency(object))
                 stop(sQuote("object"),
                      " does not represent a contingency problem")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -144,7 +142,7 @@ cmh_test.IndependenceProblem <- function(object, ...) {
     else
         object@method <- "Generalized Cochran-Mantel-Haenszel Test"
 
-    return(object)
+    object
 }
 
 
@@ -160,9 +158,8 @@ lbl_test.formula <- function(formula, data = list(), subset = NULL,
 
 lbl_test.table <- function(object, ...) {
 
-    object <- table2IndependenceProblem(object)
-    object <- do.call("lbl_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("lbl_test",
+            c(list(object = table2IndependenceProblem(object)), list(...)))
 }
 
 lbl_test.IndependenceProblem <- function(object,
@@ -183,7 +180,7 @@ lbl_test.IndependenceProblem <- function(object,
             if (!is_doubly_ordered(object))
                 stop(sQuote("object"),
                      " does not represent a problem with ordered data")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -191,5 +188,5 @@ lbl_test.IndependenceProblem <- function(object,
 
     object@method <- "Linear-by-Linear Association Test"
 
-    return(object)
+    object
 }

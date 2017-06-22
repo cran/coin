@@ -12,8 +12,7 @@ mh_test.table <- function(object, ...) {
     object <- table2df_sym(object)
     object <- new("SymmetryProblem", x = object["conditions"],
                   y = object["response"])
-    object <- do.call("mh_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("mh_test", c(list(object = object), list(...)))
 }
 
 mh_test.SymmetryProblem <- function(object, ...) {
@@ -23,7 +22,7 @@ mh_test.SymmetryProblem <- function(object, ...) {
             if (!is_contingency(object))
                 stop(sQuote("object"),
                      " does not represent a contingency problem")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -46,5 +45,5 @@ mh_test.SymmetryProblem <- function(object, ...) {
     else
         object@method <- "Marginal Homogeneity Test"
 
-    return(object)
+    object
 }

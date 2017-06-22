@@ -17,8 +17,8 @@
       recurrence-free month.
     }
     \item{\code{event}}{
-      status indicator for \code{time}: \code{0} for censored observations and
-      \code{1} otherwise.
+      status indicator for \code{time}: \code{0} for right-censored observations
+      and \code{1} otherwise.
     }
   }
 }

@@ -2,7 +2,7 @@
 average_scores <- function(s, x) {
     for (d in unique(x))
         s[x == d] <- mean(s[x == d], na.rm = TRUE)
-    return(s)
+    s
 }
 
 ### identity transformation
@@ -11,48 +11,45 @@ id_trafo <- function(x) x
 ### rank transformation
 rank_trafo <- function(x, ties.method = c("mid-ranks", "random")) {
     ties.method <- match.arg(ties.method)
-    scores <- rank(x, na.last = "keep",
-                   ties.method = if (ties.method == "mid-ranks") "average"
-                                 else "random")
-    return(scores)
+    rank(x, na.last = "keep",
+         ties.method = if (ties.method == "mid-ranks") "average"
+                       else "random")
 }
 
 ## Klotz (1962)
 klotz_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             qnorm(rank_trafo(x) / (sum(!is.na(x)) + 1))^2
         },
         "average-scores" = {
-            r <- rank_trafo(x, ties.method = "random")
-            s <- qnorm(r / (sum(!is.na(x)) + 1))^2
+            s <- qnorm(rank_trafo(x, ties.method = "random") /
+                         (sum(!is.na(x)) + 1))^2
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ## Mood
 mood_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             (rank_trafo(x) - (sum(!is.na(x)) + 1) / 2)^2
         },
         "average-scores" = {
-            r <- rank_trafo(x, ties.method = "random")
-            s <- (r - (sum(!is.na(x)) + 1) / 2)^2
+            s <- (rank_trafo(x, ties.method = "random") -
+                    (sum(!is.na(x)) + 1) / 2)^2
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ### Ansari-Bradley
 ansari_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             r <- rank_trafo(x)
             pmin.int(r, sum(!is.na(x)) - r + 1)
@@ -63,13 +60,12 @@ ansari_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ### Fligner
 fligner_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             qnorm((1 + rank_trafo(abs(x)) / (sum(!is.na(x)) + 1)) / 2)
         },
@@ -79,13 +75,12 @@ fligner_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ### Normal Scores (van der Waerden)
 normal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             qnorm(rank_trafo(x) / (sum(!is.na(x)) + 1))
         },
@@ -95,7 +90,6 @@ normal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ### Median Scores
@@ -106,8 +100,8 @@ median_trafo <- function(x, mid.score = c("0", "0.5", "1")) {
     md <- median(x, na.rm = TRUE)
     scores <- as.numeric(x > md)
     if (mid.score != "0")
-        scores[x == md] <- as.numeric(mid.score)
-    return(scores)
+        scores[x %EQ% md] <- as.numeric(mid.score)
+    scores
 }
 
 ### Savage scores
@@ -116,7 +110,7 @@ savage_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
 
     r <- function(x, t) rank(x, na.last = "keep", ties.method = t)
 
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             s <- 1 / (sum(!is.na(x)) - r(x, "min") + 1)
             cumsum(s[order(x)])[r(x, "max")] - 1
@@ -127,7 +121,6 @@ savage_trafo <- function(x, ties.method = c("mid-ranks", "average-scores")) {
             average_scores(cumsum(s[o])[order(o)], x) - 1
         }
     )
-    return(scores)
 }
 
 ### Conover & Salsburg (1988)
@@ -146,16 +139,15 @@ consal_trafo <- function(x, ties.method = c("mid-ranks", "average-scores"),
         )
     }
 
-    scores <- if (length(a) == 1) cs(a)
-              else vapply(setNames(a, paste("a =", a)), cs, as.double(x))
-    return(scores)
+    if (length(a) == 1) cs(a)
+    else vapply(setNames(a, paste("a =", a)), cs, as.double(x))
 }
 
 ## Koziol-Nemec (1979, p. 46, eq. 2.6)
 koziol_trafo <- function(x, ties.method = c("mid-ranks", "average-scores"),
                          j = 1) {
     ties.method <- match.arg(ties.method)
-    scores <- switch(ties.method,
+    switch(ties.method,
         "mid-ranks" = {
             sqrt(2) * cospi(j * rank_trafo(x) / (sum(!is.na(x)) + 1))
         },
@@ -165,90 +157,89 @@ koziol_trafo <- function(x, ties.method = c("mid-ranks", "average-scores"),
             average_scores(s, x)
         }
     )
-    return(scores)
 }
 
 ### maximally selected (rank, chi^2, whatsoever) statistics
-### ordered x
-find_cutpoints <- function(x, minprob, maxprob, names) {
+### numeric/ordered factor
+maxstat_trafo <- ofmaxstat_trafo <-
+    function(x, minprob = 0.1, maxprob = 1 - minprob)
+{
+    ORDERED <- is.ordered(x)
+    if (ORDERED) {
+        x0 <- factor(x) # drop unused levels
+        lev <- levels(x0)
+        x <- as.numeric(x0)
+    }
     qx <- quantile(x, probs = c(minprob, maxprob), na.rm = TRUE, names = FALSE,
                    type = 1)
     if (diff(qx) < .Machine$double.eps)
         return(NULL)
-    ux <- sort(unique(x))
-    ux <- ux[ux < max(x, na.rm = TRUE)]
-    if (mean(x <= qx[2], na.rm = TRUE) <= maxprob) {
-        cutpoints <- ux[ux >= qx[1] & ux <= qx[2]]
-    } else {
-        cutpoints <- ux[ux >= qx[1] & ux < qx[2]]
-    }
-    cm <- .Call("R_maxstattrafo", as.double(x), as.double(cutpoints),
-                PACKAGE = "coin")
-    if(names)
-        dimnames(cm) <- list(1:nrow(cm), paste0("x <= ", round(cutpoints, 3)))
-    cm
-}
-
-maxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
-    cm <- find_cutpoints(x, minprob, maxprob, names = TRUE)
-    cm[is.na(x)] <- NA
-    cm
-}
-
-ofmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
-    x <- ordered(x) # drop unused levels
-    lx <- levels(x)
-    x <- as.numeric(x)
-    cm <- find_cutpoints(x, minprob, maxprob, names = FALSE)
-    dimnames(cm) <- list(seq_len(nrow(cm)),
-                         lapply(seq_len(ncol(cm)), function(i) {
-                             idx <- seq_len(i)
-                             paste0("{", paste0(lx[idx], collapse = ", "),
-                                    "} vs. {",
-                                    paste0(lx[-idx], collapse = ", "), "}")
-                         }))
-    cm[is.na(x)] <- NA
+    cp <- sort(unique(x))
+    cp <- cp[-length(cp)]
+    cp <- if (mean(x <= qx[2], na.rm = TRUE) <= maxprob)
+              cp[cp >= qx[1] & cp <= qx[2]]
+          else
+              cp[cp >= qx[1] & cp < qx[2]]
+    cm <- .Call(R_maxstattrafo, as.double(x), as.double(cp))
+    dimnames(cm) <- list(
+        seq_along(x),
+        if (ORDERED) {
+            lapply(seq_along(cp), function(i) {
+                idx <- lev %in% x0[as.logical(cm[, i])]
+                paste0("{",
+                       paste0(lev[idx], collapse = ", "),
+                       "} vs. {",
+                       paste0(lev[!idx], collapse = ", "),
+                       "}")
+            })
+        } else
+            paste0("x <= ", round(cp, 3))
+    )
     cm
 }
 
 ### compute index matrix of all 2^(nlevel - 1) possible splits
 ### code translated from package 'tree'
-fsplits <- function(nlevel) {
-
-    mi <- 2^(nlevel - 1)
-    index <- matrix(0, nrow = mi, ncol = nlevel)
-    index[, 1] <- 1
-
-    for (i in 0:(mi - 1)) {
-        ii <- i
-        for (l in 2:nlevel) {
-            index[(i + 1), l] <- (ii %% 2)
-            ii <- ii %/% 2
+fsplits <-
+    function(nlevel)
+{
+    mi <- 2.0^(nlevel - 1L) - 1.0
+    index <- matrix(0L, nrow = mi, ncol = nlevel)
+    index[, 1L] <- 1L
+    for (i in seq_len(mi)) {
+        ii <- i - 1L
+        for (j in seq_len(nlevel)[-1L]) {
+            index[i, j] <- ii %% 2L
+            ii <- ii %/% 2L
         }
     }
     storage.mode(index) <- "logical"
-    index[-nrow(index),, drop = FALSE]
+    index
 }
 
 ### set up transformation g(x) for all possible binary splits in an unordered x
-fmaxstat_trafo <- function(x, minprob = 0.1, maxprob = 1 - minprob) {
-
+fmaxstat_trafo <-
+    function(x, minprob = 0.1, maxprob = 1 - minprob)
+{
     x <- factor(x) # drop unused levels
-    sp <- fsplits(nlevels(x))
     lev <- levels(x)
-    tr <- matrix(0, nrow = length(x), ncol = nrow(sp))
-    cn <- vector(mode = "character", length = nrow(sp))
-    for (i in 1:nrow(sp)) {
-        tr[ ,i] <- x %in% lev[sp[i, ]]
-        cn[i] <- paste0("{", paste0(lev[sp[i, ]], collapse = ", "), "} vs. {",
-                        paste0(lev[!sp[i, ]], collapse = ", "), "}")
+    cp <- fsplits(length(lev))
+    n_cp <- nrow(cp)
+    cm <- matrix(0.0, nrow = length(x), ncol = n_cp)
+    nm <- vector(mode = "character", length = n_cp)
+    for (i in seq_len(n_cp)) {
+        idx <- cp[i, ]
+        cm[, i] <- x %in% lev[idx]
+        nm[i] <- paste0("{",
+                        paste0(lev[idx], collapse = ", "),
+                        "} vs. {",
+                        paste0(lev[!idx], collapse = ", "),
+                        "}")
     }
-    tr[is.na(x), ] <- NA
-    dimnames(tr) <- list(1:length(x), cn)
-    tr <- tr[, colMeans(tr, na.rm = TRUE) >= minprob &
-               colMeans(tr, na.rm = TRUE) <= maxprob,
-             drop = FALSE]
-    tr
+    cm[is.na(x), ] <- NA
+    dimnames(cm) <- list(seq_along(x), nm)
+    mn <- colMeans(cm, na.rm = TRUE)
+    cm[, (mn %GE% minprob) & (mn %LE% maxprob), drop = FALSE]
 }
 
 ### weighted logrank scores; with three different methods of handling ties
@@ -256,13 +247,12 @@ logrank_trafo <-
     function(x, ties.method = c("mid-ranks", "Hothorn-Lausen", "average-scores"),
              weight = logrank_weight, ...)
 {
-    ## backwards compatibility
-    ties.method <- match.arg(ties.method,
-                             choices = c("mid-ranks", "Hothorn-Lausen",
-                                         "average-scores", "logrank", "HL"),
-                             several.ok = TRUE)[1]
-    if (ties.method == "logrank") ties.method <- "mid-ranks"
-    else if (ties.method == "HL") ties.method <- "Hothorn-Lausen"
+    ties.method <- match.arg(ties.method)
+
+    if (!(is.Surv(x) && isTRUE(attr(x, "type") == "right")))
+        stop(sQuote(deparse(substitute(x))),
+             " is not an object of class ", dQuote("Surv"),
+             " representing right-censored data")
 
     cc <- complete.cases(x)
     time <- x[cc, 1]
@@ -294,7 +284,7 @@ logrank_trafo <-
     ## weights
     w <- weight(sort(unique(time)), n_risk, n_event, ...)
 
-    ## weighted log-rank scores
+    ## weighted logrank scores
     nw <- NCOL(w)
     if (nw == 1L) {
         scores <- rep.int(NA_real_, length(cc))
@@ -316,16 +306,17 @@ logrank_trafo <-
                                    time0 + (1 - event) * noise)
             }, time)
     }
-    return(scores)
+    scores
 }
 
 ### some popular logrank weights
-logrank_weight <- function(time, n.risk, n.event,
-                           type = c("logrank", "Gehan-Breslow", "Tarone-Ware",
-                                    "Prentice", "Prentice-Marek",
-                                    "Andersen-Borgan-Gill-Keiding",
-                                    "Fleming-Harrington", "Self"),
-                           rho = NULL, gamma = NULL) {
+logrank_weight <-
+    function(time, n.risk, n.event,
+             type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
+                      "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
+                      "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
+             rho = NULL, gamma = NULL)
+{
     type <- match.arg(type)
 
     ## weight functions
@@ -355,6 +346,10 @@ logrank_weight <- function(time, n.risk, n.event,
                 surv <- c(1, surv[-length(surv)]) # S(t-)
                 surv^rho * (1 - surv)^gamma
             },
+            "Gaugler-Kim-Liao" = { # Gaugler et al (2007)
+                surv <- cumprod(1 - n.event / (n.risk + 1)) # S(t)
+                surv^rho * (1 - surv)^gamma
+            },
             "Self" = { # Self (1991)
                 ## NOTE: this allows for arbitrary follow-up times
                 v <- (time - diff(c(0, time)) / 2) / max(time[n.event > 0])
@@ -367,7 +362,7 @@ logrank_weight <- function(time, n.risk, n.event,
     if (type == "Tarone-Ware") {
         if (is.null(rho)) rho <- 0.5
         gamma <- NULL
-    } else if (type %in% c("Fleming-Harrington", "Self")) {
+    } else if (type %in% c("Fleming-Harrington", "Gaugler-Kim-Liao", "Self")) {
         if (is.null(rho)) rho <- 0
         if (is.null(gamma)) gamma <- 0
     } else rho <- gamma <- NULL
@@ -378,14 +373,12 @@ logrank_weight <- function(time, n.risk, n.event,
     if (!is.null(gamma)) gamma <- rho_gamma[, 2]
 
     ## weights
-    wgt <- if (length(rho) < 2 && length(gamma) < 2) w(rho, gamma)
-           else setColnames(vapply(seq_len(nrow(rho_gamma)),
-                                   function(i) w(rho[i], gamma[i]),
-                                   time),
-                            ## compute names
-                            paste0("rho = ", rho,
-                                   if (!is.null(gamma)) ", gamma = ", gamma))
-    return(wgt)
+    if (length(rho) < 2 && length(gamma) < 2) w(rho, gamma)
+    else setColnames(vapply(seq_len(nrow(rho_gamma)),
+                            function(i) w(rho[i], gamma[i]), time),
+                     ## compute names
+                     paste0("rho = ", rho,
+                            if (!is.null(gamma)) ", gamma = ", gamma))
 }
 
 ### factor handling
@@ -399,7 +392,7 @@ f_trafo <- function(x) {
     ## the two-sample situations
     if (ncol(mm) == 2)
         mm <- mm[, -2, drop = FALSE]
-    return(mm)
+    mm
 }
 
 ### ordered factors
@@ -447,8 +440,9 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
 
         ## apply trafo to each block separately
         for (lev in levels(block)) {
-            ret[block == lev, ] <- trafo(data[block == lev, ,drop = FALSE],
-                numeric_trafo, factor_trafo, ordered_trafo, surv_trafo)
+            ret[block == lev, ] <-
+                trafo(data[block == lev, , drop = FALSE],
+                      numeric_trafo, factor_trafo, ordered_trafo, surv_trafo)
         }
         return(ret)
     }
@@ -467,27 +461,17 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     names(tr) <- names(data)
     for (nm in names(data)) {
         x <- data[[nm]]
-        if (nm %in% names(var_trafo)) {
+        if (nm %in% names(var_trafo))
             tr[[nm]] <- as.matrix(var_trafo[[nm]](x))
-            next
-        }
-        if (is.ordered(x)) {
+        else if (is.ordered(x))
             tr[[nm]] <- as.matrix(ordered_trafo(x))
-            next
-        }
-        if (is.factor(x) || is.logical(x)) {
+        else if (is.factor(x) || is.logical(x))
             tr[[nm]] <- as.matrix(factor_trafo(x))
-            next
-        }
-        if (is.Surv(x)) {
+        else if (is.Surv(x))
             tr[[nm]] <- as.matrix(surv_trafo(x))
-            next
-        }
-        if (is.numeric(x)) {
+        else if (is.numeric(x))
             tr[[nm]] <- as.matrix(numeric_trafo(x))
-            next
-        }
-        if (is.null(tr[[nm]])) {
+        else {
             if (idx <- inherits(x, "AsIs", TRUE))
                 oldClass(x) <- oldClass(x)[-idx]
             stop("data class ", paste(dQuote(class(x)), collapse = ", "),
@@ -522,7 +506,7 @@ trafo <- function(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
     } else {
         colnames(ret) <- cn
     }
-    return(ret)
+    ret
 }
 
 ### multiple comparisons, cf. mcp(x = "Tukey") in multcomp

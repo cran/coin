@@ -264,7 +264,7 @@ quade.test(y ~ x | b, data = dta)
 ## quade.test() uses an F-statistic
 b <- nlevels(qt@statistic@block)
 A <- sum(qt@statistic@y^2)
-B <- sum(statistic(qt, "linear")^2) / b
+B <- sum(statistic(qt, type = "linear")^2) / b
 (b - 1) * B / (A - B) # F = 8.3765
 }
 \keyword{htest}

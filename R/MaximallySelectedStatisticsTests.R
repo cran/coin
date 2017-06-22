@@ -10,9 +10,8 @@ maxstat_test.formula <- function(formula, data = list(), subset = NULL,
 
 maxstat_test.table <- function(object, ...) {
 
-    object <- table2IndependenceProblem(object)
-    object <- do.call("maxstat_test", c(list(object = object), list(...)))
-    return(object)
+    do.call("maxstat_test",
+            c(list(object = table2IndependenceProblem(object)), list(...)))
 }
 
 maxstat_test.IndependenceProblem <- function(object,
@@ -65,5 +64,5 @@ maxstat_test.IndependenceProblem <- function(object,
     class(estimate) <- c("cutpoint", "list")
     object@estimates <- list(estimate = estimate)
 
-    return(object)
+    object
 }

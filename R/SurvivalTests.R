@@ -1,10 +1,9 @@
-### <DEPRECATED>
+### <DEFUNCT>
 surv_test <- function(object, ...) {
-    .Deprecated(msg = paste(sQuote("surv_test"), "is deprecated.  Use",
-                            sQuote("logrank_test"), "instead."))
-    UseMethod("logrank_test")
+    .Defunct(msg = paste(sQuote("surv_test"), "is defunct.  Use",
+                         sQuote("logrank_test"), "instead."))
 }
-### </DEPRECATED>
+### </DEFUNCT>
 
 ### weighted logrank test
 logrank_test <- function(object, ...) UseMethod("logrank_test")
@@ -20,7 +19,7 @@ logrank_test.IndependenceProblem <- function(object,
     ties.method = c("mid-ranks", "Hothorn-Lausen", "average-scores"),
     type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
              "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
-             "Fleming-Harrington", "Self"),
+             "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
     rho = NULL, gamma = NULL, ...) {
 
     type <- match.arg(type)[1]
@@ -41,7 +40,7 @@ logrank_test.IndependenceProblem <- function(object,
             if (!is_censored_y(object))
                 stop(sQuote(colnames(object@y)),
                      " is not a censored variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -67,5 +66,5 @@ logrank_test.IndependenceProblem <- function(object,
         object@method <- paste("K-Sample",
                             if (type == "logrank") "Logrank" else type, "Test")
 
-    return(object)
+    object
 }

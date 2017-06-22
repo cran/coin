@@ -41,7 +41,7 @@ logrank_trafo(x, ties.method = c("mid-ranks", "Hothorn-Lausen",
 logrank_weight(time, n.risk, n.event,
                type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
                         "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
-                        "Fleming-Harrington", "Self"),
+                        "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
                rho = NULL, gamma = NULL)
 f_trafo(x)
 of_trafo(x, scores = NULL)
@@ -181,7 +181,7 @@ mcp_trafo(\dots)
   \code{fligner_trafo} compute Klotz scores, Mood scores, Ansari-Bradley scores
   and Fligner-Killeen scores, respectively, for scale problems.
 
-  \code{logrank_trafo} computes weighted logrank scores for censored data,
+  \code{logrank_trafo} computes weighted logrank scores for right-censored data,
   allowing for a user-defined weight function through the \code{weight} argument
   (see \code{\link{GTSG}}).
 

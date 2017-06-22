@@ -27,8 +27,8 @@
       a factor with levels \code{"Control"} and \code{"RIT"}.
     }
     \item{\code{event}}{
-      status indicator for \code{time}: \code{FALSE} for censored observations
-      and \code{TRUE} otherwise.
+      status indicator for \code{time}: \code{FALSE} for right-censored
+      observations and \code{TRUE} otherwise.
     }
     \item{\code{time}}{
       survival time (months).

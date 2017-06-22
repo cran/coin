@@ -40,7 +40,6 @@ try(independence_test(y ~ x | b, data = dta,
 it <- independence_test(y ~ x, data = dta,
                         distribution = exact(algo = "auto"))
 it@distribution@name
-pvalue(it)
 
 try(independence_test(y ~ x, data = dta,
                       distribution = exact(algo = "shift")))
@@ -49,6 +48,8 @@ it <- independence_test(y ~ x, data = dta,
                         distribution = exact(algo = "split-up"))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
 
 ### paired two-sample
 try(symmetry_test(y ~ x | b, data = dta2, paired = TRUE,
@@ -66,12 +67,17 @@ try(symmetry_test(y ~ x | b, data = dta2, paired = TRUE,
 it <- independence_test(y5 ~ x | b, data = dta,
                         distribution = exact(algo = "auto", fact = 1e5))
 it@distribution@name
-pvalue(it)
 
 it <- independence_test(y5 ~ x | b, data = dta,
                         distribution = exact(algo = "shift", fact = 1e5))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+s <- sample(support(it), 5)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 try(independence_test(y5 ~ x | b, data = dta,
                         distribution = exact(algo = "split-up")))
@@ -80,28 +86,43 @@ try(independence_test(y5 ~ x | b, data = dta,
 it <- independence_test(y5 ~ x, data = dta,
                         distribution = exact(algo = "auto", fact = 1e5))
 it@distribution@name
-pvalue(it)
 
 it <- independence_test(y5 ~ x, data = dta,
                         distribution = exact(algo = "shift", fact = 1e5))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+s <- sample(support(it), 5)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 it <- independence_test(y5 ~ x, data = dta,
                         distribution = exact(algo = "split-up"))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 ### paired two-sample
 st <- symmetry_test(y5 ~ x | b, data = dta2, paired = TRUE,
                     distribution = exact(algo = "auto", fact = 1e5))
 st@distribution@name
-pvalue(st)
 
 st <- symmetry_test(y5 ~ x | b, data = dta2, paired = TRUE,
                     distribution = exact(algo = "shift", fact = 1e5))
 st@distribution@name
 pvalue(st)
+midpvalue(st)
+pvalue_interval(st)
+s <- sample(support(st), 5)
+pvalue(st@distribution, s)
+midpvalue(st@distribution, s)
+pvalue_interval(st@distribution, s)
 
 try(symmetry_test(y5 ~ x | b, data = dta2, paired = TRUE,
                   distribution = exact(algo = "split-up")))
@@ -112,12 +133,17 @@ try(symmetry_test(y5 ~ x | b, data = dta2, paired = TRUE,
 it <- independence_test(y3 ~ x | b, data = dta,
                         distribution = exact(algo = "auto"))
 it@distribution@name
-pvalue(it)
 
 it <- independence_test(y3 ~ x | b, data = dta,
                         distribution = exact(algo = "shift"))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+s <- sample(support(it), 5)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 try(independence_test(y3 ~ x | b, data = dta,
                       distribution = exact(algo = "split-up")))
@@ -126,28 +152,43 @@ try(independence_test(y3 ~ x | b, data = dta,
 it <- independence_test(y3 ~ x, data = dta,
                         distribution = exact(algo = "auto"))
 it@distribution@name
-pvalue(it)
 
 it <- independence_test(y3 ~ x, data = dta,
                         distribution = exact(algo = "shift"))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+s <- sample(support(it), 5)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 it <- independence_test(y3 ~ x, data = dta,
                         distribution = exact(algo = "split-up"))
 it@distribution@name
 pvalue(it)
+midpvalue(it)
+pvalue_interval(it)
+pvalue(it@distribution, s)
+midpvalue(it@distribution, s)
+pvalue_interval(it@distribution, s)
 
 ### paired two-sample
 st <- symmetry_test(y3 ~ x | b, data = dta2, paired = TRUE,
                     distribution = exact(algo = "auto"))
 st@distribution@name
-pvalue(st)
 
 st <- symmetry_test(y3 ~ x | b, data = dta2, paired = TRUE,
                     distribution = exact(algo = "shift"))
 st@distribution@name
 pvalue(st)
+midpvalue(st)
+pvalue_interval(st)
+s <- sample(support(st), 5)
+pvalue(st@distribution, s)
+midpvalue(st@distribution, s)
+pvalue_interval(st@distribution, s)
 
 try(symmetry_test(y3 ~ x | b, data = dta2, paired = TRUE,
                   distribution = exact(algo = "split-up")))
@@ -166,6 +207,10 @@ stopifnot(isequal(pvalue(itw1), pvalue(it1)))
 stopifnot(isequal(pvalue(itw1), pvalue(it2)))
 stopifnot(isequal(pvalue(itw2), pvalue(it1)))
 stopifnot(isequal(pvalue(itw2), pvalue(it2)))
+stopifnot(isequal(midpvalue(itw1), midpvalue(it1)))
+stopifnot(isequal(midpvalue(itw2), midpvalue(it2)))
+stopifnot(isequal(pvalue_interval(itw1), pvalue_interval(it1)))
+stopifnot(isequal(pvalue_interval(itw2), pvalue_interval(it2)))
 
 Convictions <-
     matrix(c(2, 10, 15, 3), nrow = 2,
@@ -185,9 +230,13 @@ stopifnot(isequal(pvalue(itw1), pvalue(it1)))
 stopifnot(isequal(pvalue(itw1), pvalue(it2)))
 stopifnot(isequal(pvalue(itw2), pvalue(it1)))
 stopifnot(isequal(pvalue(itw2), pvalue(it2)))
+stopifnot(isequal(midpvalue(itw1), midpvalue(it1)))
+stopifnot(isequal(midpvalue(itw2), midpvalue(it2)))
+stopifnot(isequal(pvalue_interval(itw1), pvalue_interval(it1)))
+stopifnot(isequal(pvalue_interval(itw2), pvalue_interval(it2)))
 
 
-### check support, pperm, dperm, qperm,
+### check support, pperm, dperm, qperm, rperm
 y1 <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
 y2 <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
 dta1 <- data.frame(
@@ -210,12 +259,15 @@ stopifnot(all(supp_it1_SR == unique(supp_it1_SR)))
 round(pp_it1_SR <- pperm(it1_SR, supp_it1_SR), 7)
 round(dp_it1_SR <- dperm(it1_SR, supp_it1_SR), 7)
 round(qp_it1_SR <- qperm(it1_SR, seq(0, 1, 0.01)), 7)
+round(rp_it1_SR <- rperm(it1_SR, 5), 7)
+stopifnot(all(rp_it1_SR %in% supp_it1_SR))
 
 ### split-up without block
 it1_vdW <- independence_test(y ~ x, data = dta1,
                              distribution = exact(algorithm = "split-up"))
 round(pp_it1_vdW <- pperm(it1_vdW, supp_it1_SR), 7)
 round(qp_it1_vdW <- qperm(it1_vdW, seq(0, 1, 0.01)), 7)
+round(rp_it1_vdW <- rperm(it1_vdW, 5), 7)
 
 ### should be equal
 stopifnot(isequal(pp_it1_SR, pp_it1_vdW))
@@ -234,6 +286,8 @@ stopifnot(all(supp_it2_SR == unique(supp_it2_SR)))           # failed in < 1.1-0
 round(pp_it2_SR <- pperm(it2_SR, supp_it2_SR), 7)
 round(dp_it2_SR <- dperm(it2_SR, supp_it2_SR), 7)            # failed in < 1.1-0
 round(qp_it2_SR <- qperm(it2_SR, seq(0, 1, 0.01)), 7)
+round(rp_it2_SR <- rperm(it2_SR, 5), 7)
+stopifnot(all(rp_it2_SR %in% supp_it2_SR))
 
 ### paired shift with block
 st3_SR <- symmetry_test(y ~ x | b, data = dta2,
@@ -245,11 +299,15 @@ stopifnot(all(supp_st3_SR == unique(supp_st3_SR)))
 round(pp_st3_SR <- pperm(st3_SR, supp_st3_SR), 7)
 round(dp_st3_SR <- dperm(st3_SR, supp_st3_SR), 7)
 round(qp_st3_SR <- qperm(st3_SR, seq(0, 1, 0.01)), 7)
+round(rp_st3_SR <- rperm(st3_SR, 5), 7)
+stopifnot(all(rp_st3_SR %in% supp_st3_SR))
 
 ### should be equal
 stopifnot(isequal(pp_it2_SR, pp_st3_SR))                     # failed in < 1.1-0
 stopifnot(isequal(qp_it2_SR, qp_st3_SR))                     # failed in < 1.1-0
 stopifnot(isequal(pvalue(it2_SR), pvalue(st3_SR)))
+stopifnot(isequal(midpvalue(it2_SR), midpvalue(st3_SR)))
+stopifnot(isequal(pvalue_interval(it2_SR), pvalue_interval(st3_SR)))
 
 
 ### exact test based on quadratic forms
@@ -263,6 +321,8 @@ its1 <- independence_test(y ~ x | b, data = dta1,
                           teststat = "scalar")
 stopifnot(isequal(statistic(itq1), statistic(its1)^2))
 stopifnot(isequal(pvalue(itq1), pvalue(its1)))
+stopifnot(isequal(midpvalue(itq1), midpvalue(its1)))
+stopifnot(isequal(pvalue_interval(itq1), pvalue_interval(its1)))
 stopifnot(isequal(support(itq1), support(its1)[support(its1) >= 0]^2))
 
 ### paired shift with block
@@ -274,11 +334,15 @@ stq2 <- symmetry_test(y ~ x | b, data = dta2,
                       paired = TRUE, teststat = "quad")
 stopifnot(isequal(statistic(stq2), statistic(sts2)^2))
 stopifnot(isequal(pvalue(stq2), pvalue(sts2)))
+stopifnot(isequal(midpvalue(stq2), midpvalue(sts2)))
+stopifnot(isequal(pvalue_interval(stq2), pvalue_interval(sts2)))
 stopifnot(isequal(support(stq2), support(sts2)[support(sts2) >= 0]^2))
 
 ### should be equal
 stopifnot(isequal(statistic(itq1), statistic(stq2)))
 stopifnot(isequal(pvalue(itq1), pvalue(stq2)))
+stopifnot(isequal(midpvalue(itq1), midpvalue(stq2)))
+stopifnot(isequal(pvalue_interval(itq1), pvalue_interval(stq2)))
 stopifnot(isequal(support(itq1), support(stq2)))
 
 ### dperm gave an error here (fixed in r869)
@@ -294,99 +358,247 @@ dta <- data.frame(y1 = sample(1:20), y2 = sample(1:20), x = gl(2, 10))
 ### univariate, asymptotic and scalar
 it_uas <- independence_test(y1 ~ x,  data = dta,
                             distribution = "asymptotic", teststat = "scalar")
-round(dp_uas <- dperm(it_uas, 0:1), 7)
-stopifnot(isequal(dp_uas, c(dperm(it_uas, 0), dperm(it_uas, 1))))
-round(pp_uas <- pperm(it_uas, 0:1), 7)
-stopifnot(isequal(pp_uas, c(pperm(it_uas, 0), pperm(it_uas, 1))))
-round(qp_uas <- qperm(it_uas, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_uas, c(qperm(it_uas, 0.5), qperm(it_uas, 0.75))))
+round(dp_uas      <- dperm(it_uas, 0:1), 7)
+round(dp_uas_0    <- dperm(it_uas, 0  ), 7)
+round(dp_uas_1    <- dperm(it_uas,   1), 7)
+stopifnot(isequal(dp_uas, c(dp_uas_0, dp_uas_1)))
+round(pp_uas      <- pperm(it_uas, 0:1), 7)
+round(pp_uas_0    <- pperm(it_uas, 0  ), 7)
+round(pp_uas_1    <- pperm(it_uas,   1), 7)
+stopifnot(isequal(pp_uas, c(pp_uas_0, pp_uas_1)))
+round(qp_uas      <- qperm(it_uas, c(0.5, 0.75)), 7)
+round(qp_uas_0.5  <- qperm(it_uas,   0.5       ), 7)
+round(qp_uas_0.75 <- qperm(it_uas,        0.75 ), 7)
+stopifnot(isequal(qp_uas, c(qp_uas_0.5, qp_uas_0.75)))
+round(p_uas       <- pvalue(it_uas@distribution, 0:1), 7)
+round(p_uas_0     <- pvalue(it_uas@distribution, 0  ), 7)
+round(p_uas_1     <- pvalue(it_uas@distribution,   1), 7)
+stopifnot(isequal(p_uas, c(p_uas_0, p_uas_1)))
 
 ### univariate, asymptotic and quad
 it_uaq <- independence_test(y1 ~ x,  data = dta,
                             distribution = "asymptotic", teststat = "quad")
-round(dp_uaq <- dperm(it_uaq, 0:1), 7)
-stopifnot(isequal(dp_uaq, c(dperm(it_uaq, 0), dperm(it_uaq, 1))))
-round(pp_uaq <- pperm(it_uaq, 0:1), 7)
-stopifnot(isequal(pp_uaq, c(pperm(it_uaq, 0), pperm(it_uaq, 1))))
-round(qp_uaq <- qperm(it_uaq, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_uaq, c(qperm(it_uaq, 0.5), qperm(it_uaq, 0.75))))
+round(dp_uaq      <- dperm(it_uaq, 0:1), 7)
+round(dp_uaq_0    <- dperm(it_uaq, 0  ), 7)
+round(dp_uaq_1    <- dperm(it_uaq,   1), 7)
+stopifnot(isequal(dp_uaq, c(dp_uaq_0, dp_uaq_1)))
+round(pp_uaq      <- pperm(it_uaq, 0:1), 7)
+round(pp_uaq_0    <- pperm(it_uaq, 0  ), 7)
+round(pp_uaq_1    <- pperm(it_uaq,   1), 7)
+stopifnot(isequal(pp_uaq, c(pp_uaq_0, pp_uaq_1)))
+round(qp_uaq      <- qperm(it_uaq, c(0.5, 0.75)), 7)
+round(qp_uaq_0.5  <- qperm(it_uaq,   0.5       ), 7)
+round(qp_uaq_0.75 <- qperm(it_uaq,        0.75 ), 7)
+stopifnot(isequal(qp_uaq, c(qp_uaq_0.5, qp_uaq_0.75)))
+round(p_uaq       <- pvalue(it_uaq@distribution, 0:1), 7)
+round(p_uaq_0     <- pvalue(it_uaq@distribution, 0  ), 7)
+round(p_uaq_1     <- pvalue(it_uaq@distribution,   1), 7)
+stopifnot(isequal(p_uaq, c(p_uaq_0, p_uaq_1)))
 
 ### multivariate, asymptotic and max
 it_mam <- independence_test(y1 + y2 ~ x,  data = dta,
                             distribution = "asymptotic", teststat = "max")
-round(dp_mam <- dperm(it_mam, 0:1), 7)
-#stopifnot(isequal(dp_mam, c(dperm(it_mam, 1), dperm(it_mam, 2))))
-round(pp_mam <- pperm(it_mam, 0:1), 7)                       # failed in < 1.1-0
-stopifnot(isequal(pp_mam, c(pperm(it_mam, 0), pperm(it_mam, 1))))
-round(qp_mam <- qperm(it_mam, c(0.5, 0.75)), 7)              # failed in < 1.1-0
-stopifnot(isequal(qp_mam, c(qperm(it_mam, 0.5), qperm(it_mam, 0.75))))
+round(dp_mam      <- dperm(it_mam, 0:1), 7)
+round(dp_mam_0    <- dperm(it_mam, 0  ), 7)
+round(dp_mam_1    <- dperm(it_mam,   1), 7)
+## stopifnot(isequal(dp_mam, c(dp_mam_0, dp_mam_1)))
+round(pp_mam      <- pperm(it_mam, 0:1), 7)                  # failed in < 1.1-0
+round(pp_mam_0    <- pperm(it_mam, 0  ), 7)
+round(pp_mam_1    <- pperm(it_mam,   1), 7)
+stopifnot(isequal(pp_mam, c(pp_mam_0, pp_mam_1)))
+round(qp_mam      <- qperm(it_mam, c(0.5, 0.75)), 7)         # failed in < 1.1-0
+round(qp_mam_0.5  <- qperm(it_mam,   0.5       ), 7)
+round(qp_mam_0.75 <- qperm(it_mam,        0.75 ), 7)
+stopifnot(isequal(qp_mam, c(qp_mam_0.5, qp_mam_0.75)))
+round(p_mam       <- pvalue(it_mam@distribution, 0:1), 7)
+round(p_mam_0     <- pvalue(it_mam@distribution, 0  ), 7)
+round(p_mam_1     <- pvalue(it_mam@distribution,   1), 7)
+stopifnot(isequal(p_mam, c(p_mam_0, p_mam_1)))
 
 ### multivariate, asymptotic and quad
 it_maq <- independence_test(y1 + y2 ~ x,  data = dta,
                             distribution = "asymptotic", teststat = "quad")
-round(dp_maq <- dperm(it_maq, 0:1), 7)
-stopifnot(isequal(dp_maq, c(dperm(it_maq, 0), dperm(it_maq, 1))))
-round(pp_maq <- pperm(it_maq, 0:1), 7)
-stopifnot(isequal(pp_maq, c(pperm(it_maq, 0), pperm(it_maq, 1))))
-round(qp_maq <- qperm(it_maq, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_maq, c(qperm(it_maq, 0.5), qperm(it_maq, 0.75))))
+round(dp_maq      <- dperm(it_maq, 0:1), 7)
+round(dp_maq_0    <- dperm(it_maq, 0  ), 7)
+round(dp_maq_1    <- dperm(it_maq,   1), 7)
+stopifnot(isequal(dp_maq, c(dp_maq_0, dp_maq_1)))
+round(pp_maq      <- pperm(it_maq, 0:1), 7)
+round(pp_maq_0    <- pperm(it_maq, 0  ), 7)
+round(pp_maq_1    <- pperm(it_maq,   1), 7)
+stopifnot(isequal(pp_maq, c(pp_maq_0, pp_maq_1)))
+round(qp_maq      <- qperm(it_maq, c(0.5, 0.75)), 7)
+round(qp_maq_0.5  <- qperm(it_maq,   0.5       ), 7)
+round(qp_maq_0.75 <- qperm(it_maq,        0.75 ), 7)
+stopifnot(isequal(qp_maq, c(qp_maq_0.5, qp_maq_0.75)))
+round(p_maq       <- pvalue(it_maq@distribution, 0:1), 7)
+round(p_maq_0     <- pvalue(it_maq@distribution, 0  ), 7)
+round(p_maq_1     <- pvalue(it_maq@distribution,   1), 7)
+stopifnot(isequal(p_maq, c(p_maq_0, p_maq_1)))
 
 ### univariate, approximate and scalar
 it_ums <- independence_test(y1 ~ x,  data = dta,
                             distribution = "approximate", teststat = "scalar")
-round(dp_ums <- dperm(it_ums, 0:1), 7)
-stopifnot(isequal(dp_ums, c(dperm(it_ums, 0), dperm(it_ums, 1))))
-round(pp_ums <- pperm(it_ums, 0:1), 7)
-stopifnot(isequal(pp_ums, c(pperm(it_ums, 0), pperm(it_ums, 1))))
-round(qp_ums <- qperm(it_ums, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_ums, c(qperm(it_ums, 0.5), qperm(it_ums, 0.75))))
+round(dp_ums      <- dperm(it_ums, 0:1), 7)
+round(dp_ums_0    <- dperm(it_ums, 0  ), 7)
+round(dp_ums_1    <- dperm(it_ums,   1), 7)
+stopifnot(isequal(dp_ums, c(dp_ums_0, dp_ums_1)))
+round(pp_ums      <- pperm(it_ums, 0:1), 7)
+round(pp_ums_0    <- pperm(it_ums, 0  ), 7)
+round(pp_ums_1    <- pperm(it_ums,   1), 7)
+stopifnot(isequal(pp_ums, c(pp_ums_0, pp_ums_1)))
+round(qp_ums      <- qperm(it_ums, c(0.5, 0.75)), 7)
+round(qp_ums_0.5  <- qperm(it_ums,   0.5       ), 7)
+round(qp_ums_0.75 <- qperm(it_ums,        0.75 ), 7)
+stopifnot(isequal(qp_ums, c(qp_ums_0.5, qp_ums_0.75)))
+round(p_ums       <- pvalue(it_ums@distribution, 0:1), 7)
+round(p_ums_0     <- pvalue(it_ums@distribution, 0  ), 7)
+round(p_ums_1     <- pvalue(it_ums@distribution,   1), 7)
+stopifnot(isequal(p_ums, c(p_ums_0, p_ums_1)))
+round(mp_ums      <- midpvalue(it_ums@distribution, 0:1), 7)
+round(mp_ums_0    <- midpvalue(it_ums@distribution, 0  ), 7)
+round(mp_ums_1    <- midpvalue(it_ums@distribution,   1), 7)
+stopifnot(isequal(mp_ums, c(mp_ums_0, mp_ums_1)))
+round(pi_ums      <- pvalue_interval(it_ums@distribution, 0:1), 7)
+round(pi_ums_0    <- pvalue_interval(it_ums@distribution, 0  ), 7)
+round(pi_ums_1    <- pvalue_interval(it_ums@distribution,   1), 7)
+stopifnot(isequal(pi_ums, cbind(pi_ums_0, pi_ums_1)))
 
 ### univariate, approximate and quad
 it_umq <- independence_test(y1 ~ x,  data = dta,
                             distribution = "approximate", teststat = "quad")
-round(dp_umq <- dperm(it_umq, 0:1), 7)
-stopifnot(isequal(dp_umq, c(dperm(it_umq, 0), dperm(it_umq, 1))))
-round(pp_umq <- pperm(it_umq, 0:1), 7)
-stopifnot(isequal(pp_umq, c(pperm(it_umq, 0), pperm(it_umq, 1))))
-round(qp_umq <- qperm(it_umq, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_umq, c(qperm(it_umq, 0.5), qperm(it_umq, 0.75))))
+round(dp_umq      <- dperm(it_umq, 0:1), 7)
+round(dp_umq_0    <- dperm(it_umq, 0  ), 7)
+round(dp_umq_1    <- dperm(it_umq,   1), 7)
+stopifnot(isequal(dp_umq, c(dp_umq_0, dp_umq_1)))
+round(pp_umq      <- pperm(it_umq, 0:1), 7)
+round(pp_umq_0    <- pperm(it_umq, 0  ), 7)
+round(pp_umq_1    <- pperm(it_umq,   1), 7)
+stopifnot(isequal(pp_umq, c(pp_umq_0, pp_umq_1)))
+round(qp_umq      <- qperm(it_umq, c(0.5, 0.75)), 7)
+round(qp_umq_0.5  <- qperm(it_umq,   0.5       ), 7)
+round(qp_umq_0.75 <- qperm(it_umq,        0.75 ), 7)
+stopifnot(isequal(qp_umq, c(qp_umq_0.5, qp_umq_0.75)))
+round(p_umq       <- pvalue(it_umq@distribution, 0:1), 7)
+round(p_umq_0     <- pvalue(it_umq@distribution, 0  ), 7)
+round(p_umq_1     <- pvalue(it_umq@distribution,   1), 7)
+stopifnot(isequal(p_umq, c(p_umq_0, p_umq_1)))
+round(mp_umq      <- midpvalue(it_umq@distribution, 0:1), 7)
+round(mp_umq_0    <- midpvalue(it_umq@distribution, 0  ), 7)
+round(mp_umq_1    <- midpvalue(it_umq@distribution,   1), 7)
+stopifnot(isequal(mp_umq, c(mp_umq_0, mp_umq_1)))
+round(pi_umq      <- pvalue_interval(it_umq@distribution, 0:1), 7)
+round(pi_umq_0    <- pvalue_interval(it_umq@distribution, 0  ), 7)
+round(pi_umq_1    <- pvalue_interval(it_umq@distribution,   1), 7)
+stopifnot(isequal(pi_umq, cbind(pi_umq_0, pi_umq_1)))
 
 ### multivariate, approximate and max
 it_mmm <- independence_test(y1 + y2 ~ x,  data = dta,
                             distribution = "approximate", teststat = "max")
-round(dp_mmm <- dperm(it_mmm, c(0, 1)), 7)
-stopifnot(isequal(dp_mmm, c(dperm(it_mmm, 0), dperm(it_mmm, 1))))
-round(pp_mmm <- pperm(it_mmm, 0:1), 7)
-stopifnot(isequal(pp_mmm, c(pperm(it_mmm, 0), pperm(it_mmm, 1))))
-round(qp_mmm <- qperm(it_mmm, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_mmm, c(qperm(it_mmm, 0.5), qperm(it_mmm, 0.75))))
+round(dp_mmm      <- dperm(it_mmm, 0:1), 7)
+round(dp_mmm_0    <- dperm(it_mmm, 0  ), 7)
+round(dp_mmm_1    <- dperm(it_mmm,   1), 7)
+stopifnot(isequal(dp_mmm, c(dp_mmm_0, dp_mmm_1)))
+round(pp_mmm      <- pperm(it_mmm, 0:1), 7)
+round(pp_mmm_0    <- pperm(it_mmm, 0  ), 7)
+round(pp_mmm_1    <- pperm(it_mmm,   1), 7)
+stopifnot(isequal(pp_mmm, c(pp_mmm_0, pp_mmm_1)))
+round(qp_mmm      <- qperm(it_mmm, c(0.5, 0.75)), 7)
+round(qp_mmm_0.5  <- qperm(it_mmm,   0.5       ), 7)
+round(qp_mmm_0.75 <- qperm(it_mmm,        0.75 ), 7)
+stopifnot(isequal(qp_mmm, c(qp_mmm_0.5, qp_mmm_0.75)))
+round(p_mmm       <- pvalue(it_mmm@distribution, 0:1), 7)
+round(p_mmm_0     <- pvalue(it_mmm@distribution, 0  ), 7)
+round(p_mmm_1     <- pvalue(it_mmm@distribution,   1), 7)
+stopifnot(isequal(p_mmm, c(p_mmm_0, p_mmm_1)))
+round(mp_mmm      <- midpvalue(it_mmm@distribution, 0:1), 7)
+round(mp_mmm_0    <- midpvalue(it_mmm@distribution, 0  ), 7)
+round(mp_mmm_1    <- midpvalue(it_mmm@distribution,   1), 7)
+stopifnot(isequal(mp_mmm, c(mp_mmm_0, mp_mmm_1)))
+round(pi_mmm      <- pvalue_interval(it_mmm@distribution, 0:1), 7)
+round(pi_mmm_0    <- pvalue_interval(it_mmm@distribution, 0  ), 7)
+round(pi_mmm_1    <- pvalue_interval(it_mmm@distribution,   1), 7)
+stopifnot(isequal(pi_mmm, cbind(pi_mmm_0, pi_mmm_1)))
 
 ### multivariate, approximate and quad
 it_mmq <- independence_test(y1 + y2 ~ x,  data = dta,
                             distribution = "approximate", teststat = "quad")
-round(dp_mmq <- dperm(it_mmq, 0:1), 7)
-stopifnot(isequal(dp_mmq, c(dperm(it_mmq, 0), dperm(it_mmq, 1))))
-round(pp_mmq <- pperm(it_mmq, 0:1), 7)
-stopifnot(isequal(pp_mmq, c(pperm(it_mmq, 0), pperm(it_mmq, 1))))
-round(qp_mmq <- qperm(it_mmq, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_mmq, c(qperm(it_mmq, 0.5), qperm(it_mmq, 0.75))))
+round(dp_mmq      <- dperm(it_mmq, 0:1), 7)
+round(dp_mmq_0    <- dperm(it_mmq, 0  ), 7)
+round(dp_mmq_1    <- dperm(it_mmq,   1), 7)
+stopifnot(isequal(dp_mmq, c(dp_mmq_0, dp_mmq_1)))
+round(pp_mmq      <- pperm(it_mmq, 0:1), 7)
+round(pp_mmq_0    <- pperm(it_mmq, 0  ), 7)
+round(pp_mmq_1    <- pperm(it_mmq,   1), 7)
+stopifnot(isequal(pp_mmq, c(pp_mmq_0, pp_mmq_1)))
+round(qp_mmq      <- qperm(it_mmq, c(0.5, 0.75)), 7)
+round(qp_mmq_0.5  <- qperm(it_mmq,   0.5       ), 7)
+round(qp_mmq_0.75 <- qperm(it_mmq,        0.75 ), 7)
+stopifnot(isequal(qp_mmq, c(qp_mmq_0.5, qp_mmq_0.75)))
+round(p_mmq       <- pvalue(it_mmq@distribution, 0:1), 7)
+round(p_mmq_0     <- pvalue(it_mmq@distribution, 0  ), 7)
+round(p_mmq_1     <- pvalue(it_mmq@distribution,   1), 7)
+stopifnot(isequal(p_mmq, c(p_mmq_0, p_mmq_1)))
+round(mp_mmq      <- midpvalue(it_mmq@distribution, 0:1), 7)
+round(mp_mmq_0    <- midpvalue(it_mmq@distribution, 0  ), 7)
+round(mp_mmq_1    <- midpvalue(it_mmq@distribution,   1), 7)
+stopifnot(isequal(mp_mmq, c(mp_mmq_0, mp_mmq_1)))
+round(pi_mmq      <- pvalue_interval(it_mmq@distribution, 0:1), 7)
+round(pi_mmq_0    <- pvalue_interval(it_mmq@distribution, 0  ), 7)
+round(pi_mmq_1    <- pvalue_interval(it_mmq@distribution,   1), 7)
+stopifnot(isequal(pi_mmq, cbind(pi_mmq_0, pi_mmq_1)))
 
 ### univariate, exact and scalar
 it_ues <- independence_test(y1 ~ x,  data = dta,
                             distribution = "exact", teststat = "scalar")
-round(dp_ues <- dperm(it_ues, 0:1), 7)
-stopifnot(isequal(dp_ues, c(dperm(it_ues, 0), dperm(it_ues, 1))))
-round(pp_ues <- pperm(it_ues, 0:1), 7)
-stopifnot(isequal(pp_ues, c(pperm(it_ues, 0), pperm(it_ues, 1))))
-round(qp_ues <- qperm(it_ues, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_ues, c(qperm(it_ues, 0.5), qperm(it_ues, 0.75))))
+round(dp_ues      <- dperm(it_ues, 0:1), 7)
+round(dp_ues_0    <- dperm(it_ues, 0  ), 7)
+round(dp_ues_1    <- dperm(it_ues,   1), 7)
+stopifnot(isequal(dp_ues, c(dp_ues_0, dp_ues_1)))
+round(pp_ues      <- pperm(it_ues, 0:1), 7)
+round(pp_ues_0    <- pperm(it_ues, 0  ), 7)
+round(pp_ues_1    <- pperm(it_ues,   1), 7)
+stopifnot(isequal(pp_ues, c(pp_ues_0, pp_ues_1)))
+round(qp_ues      <- qperm(it_ues, c(0.5, 0.75)), 7)
+round(qp_ues_0.5  <- qperm(it_ues,   0.5       ), 7)
+round(qp_ues_0.75 <- qperm(it_ues,        0.75 ), 7)
+stopifnot(isequal(qp_ues, c(qp_ues_0.5, qp_ues_0.75)))
+round(p_ues       <- pvalue(it_ues@distribution, 0:1), 7)
+round(p_ues_0     <- pvalue(it_ues@distribution, 0  ), 7)
+round(p_ues_1     <- pvalue(it_ues@distribution,   1), 7)
+stopifnot(isequal(p_ues, c(p_ues_0, p_ues_1)))
+round(mp_ues      <- midpvalue(it_ues@distribution, 0:1), 7)
+round(mp_ues_0    <- midpvalue(it_ues@distribution, 0  ), 7)
+round(mp_ues_1    <- midpvalue(it_ues@distribution,   1), 7)
+stopifnot(isequal(mp_ues, c(mp_ues_0, mp_ues_1)))
+round(pi_ues      <- pvalue_interval(it_ues@distribution, 0:1), 7)
+round(pi_ues_0    <- pvalue_interval(it_ues@distribution, 0  ), 7)
+round(pi_ues_1    <- pvalue_interval(it_ues@distribution,   1), 7)
+stopifnot(isequal(pi_ues, cbind(pi_ues_0, pi_ues_1)))
 
 ### univariate, exact and quad
 it_ueq <- independence_test(y1 ~ x,  data = dta,
                             distribution = "exact", teststat = "quad")
-round(dp_ueq <- dperm(it_ueq, 0:1), 7)
-stopifnot(isequal(dp_ueq, c(dperm(it_ueq, 0), dperm(it_ueq, 1))))
-round(pp_ueq <- pperm(it_ueq, 0:1), 7)
-stopifnot(isequal(pp_ueq, c(pperm(it_ueq, 0), pperm(it_ueq, 1))))
-round(qp_ueq <- qperm(it_ueq, c(0.5, 0.75)), 7)
-stopifnot(isequal(qp_ueq, c(qperm(it_ueq, 0.5), qperm(it_ueq, 0.75))))
+round(dp_ueq      <- dperm(it_ueq, 0:1), 7)
+round(dp_ueq_0    <- dperm(it_ueq, 0  ), 7)
+round(dp_ueq_1    <- dperm(it_ueq,   1), 7)
+stopifnot(isequal(dp_ueq, c(dp_ueq_0, dp_ueq_1)))
+round(pp_ueq      <- pperm(it_ueq, 0:1), 7)
+round(pp_ueq_0    <- pperm(it_ueq, 0  ), 7)
+round(pp_ueq_1    <- pperm(it_ueq,   1), 7)
+stopifnot(isequal(pp_ueq, c(pp_ueq_0, pp_ueq_1)))
+round(qp_ueq      <- qperm(it_ueq, c(0.5, 0.75)), 7)
+round(qp_ueq_0.5  <- qperm(it_ueq,   0.5       ), 7)
+round(qp_ueq_0.75 <- qperm(it_ueq,        0.75 ), 7)
+stopifnot(isequal(qp_ueq, c(qp_ueq_0.5, qp_ueq_0.75)))
+round(p_ueq       <- pvalue(it_ueq@distribution, 0:1), 7)
+round(p_ueq_0     <- pvalue(it_ueq@distribution, 0  ), 7)
+round(p_ueq_1     <- pvalue(it_ueq@distribution,   1), 7)
+stopifnot(isequal(p_ueq, c(p_ueq_0, p_ueq_1)))
+round(mp_ueq      <- midpvalue(it_ueq@distribution, 0:1), 7)
+round(mp_ueq_0    <- midpvalue(it_ueq@distribution, 0  ), 7)
+round(mp_ueq_1    <- midpvalue(it_ueq@distribution,   1), 7)
+stopifnot(isequal(mp_ueq, c(mp_ueq_0, mp_ueq_1)))
+round(pi_ueq      <- pvalue_interval(it_ueq@distribution, 0:1), 7)
+round(pi_ueq_0    <- pvalue_interval(it_ueq@distribution, 0  ), 7)
+round(pi_ueq_1    <- pvalue_interval(it_ueq@distribution,   1), 7)
+stopifnot(isequal(pi_ueq, cbind(pi_ueq_0, pi_ueq_1)))

@@ -2,7 +2,7 @@
     Some additional functionality for package 'coin'
     *\file Helpers.c
     *\author $Author: hnilsson $
-    *\date $Date: 2016-11-23 21:09:24 +0100 (Mit, 23 Nov 2016) $
+    *\date $Date: 2017-04-07 18:14:42 +0200 (Fre, 07 Apr 2017) $
 */
 
 #include "coin_common.h"
@@ -141,12 +141,12 @@ SEXP R_blockperm (SEXP block) {
 
     SEXP blocksetup, ans;
 
-    blocksetup = R_blocksetup(block);
+    PROTECT(blocksetup = R_blocksetup(block));
     PROTECT(ans = allocVector(INTSXP, LENGTH(block)));
     GetRNGstate();
     C_blockperm(blocksetup, INTEGER(ans));
     PutRNGstate();
-    UNPROTECT(1);
+    UNPROTECT(2);
     return(ans);
 }
 
@@ -222,7 +222,9 @@ SEXP R_maxstattrafo(SEXP x, SEXP cutpoints) {
         jn = j * n;
         cj = dcutpoints[j];
         for (i = 0; i < n; i++) {
-            if (dx[i] > cj) {
+            if (ISNAN(dx[i])) {
+                dans[jn + i] = dx[i];
+            } else if (dx[i] > cj) {
                 dans[jn + i] = 0.0;
             } else {
                 dans[jn + i] = 1.0;

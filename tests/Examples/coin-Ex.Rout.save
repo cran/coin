@@ -1,7 +1,7 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R Under development (unstable) (2017-05-16 r72684) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -20,6 +20,7 @@ Type 'q()' to quit R.
 > pkgname <- "coin"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
+> options(pager = "console")
 > library('coin')
 Loading required package: survival
 > 
@@ -53,7 +54,7 @@ Loading required package: survival
 [1] 2.855509
 > 
 > ## Only 'sample8' exceeds the 5 % critical value
-> sts <- statistic(mt, "standardized")
+> sts <- statistic(mt, type = "standardized")
 > idx <- which(sts > c, arr.ind = TRUE)
 > sts[unique(idx[, 1]), unique(idx[, 2]), drop = FALSE]
          sample8
@@ -643,7 +644,7 @@ difference in location
 > 
 > ## Extract observed Wilcoxon statistic
 > ## Note: this is the sum of the ranks for age = "12-26 Weeks"
-> statistic(wt, "linear")
+> statistic(wt, type = "linear")
               
 12-26 Weeks 30
 > 
@@ -701,8 +702,8 @@ alternative hypothesis: true mu is not equal to 0
 > op <- par(no.readonly = TRUE) # save current settings
 > layout(matrix(1:2, nrow = 2))
 > s <- support(ot)
-> d <- sapply(s, function(x) dperm(ot, x))
-> p <- sapply(s, function(x) pperm(ot, x))
+> d <- dperm(ot, s)
+> p <- pperm(ot, s)
 > plot(s, d, type = "S", xlab = "Test Statistic", ylab = "Density")
 > plot(s, p, type = "S", xlab = "Test Statistic", ylab = "Cum. Probability")
 > par(op) # reset
@@ -810,37 +811,6 @@ IV - II  0.00068
 IV - III 0.99996
 > 
 > 
-> ## Asymptotic Jonckheere-Terpstra test for ordered groups
-> pieces <- data.frame(
-+     control = c(40, 35, 38, 43, 44, 41),
-+     rough = c(38, 40, 47, 44, 40, 42),
-+     accurate = c(48, 40, 45, 43, 46, 44)
-+ )
-> pieces <- stack(pieces)
-> pieces$ind <- ordered(pieces$ind,
-+                       levels = c("control", "rough", "accurate"))
-> 
-> ## Look at K: the second line just sums up.
-> ff <- function(x) {
-+     K <- multcomp::contrMat(table(x), "Tukey")[, x]
-+     as.vector(rep(1, nrow(K)) %*% K)
-+ }
-> 
-> independence_test(values ~ ind, data = pieces,
-+                   alternative = "greater",
-+                   ytrafo = function(data)
-+                       trafo(data, numeric_trafo = rank_trafo),
-+                   xtrafo = function(data)
-+                       trafo(data, ordered_trafo = ff))
-
-	Asymptotic General Independence Test
-
-data:  values by ind (control < rough < accurate)
-Z = 2.0447, p-value = 0.02044
-alternative hypothesis: greater
-
-> 
-> 
 > 
 > graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 > cleanEx()
@@ -929,13 +899,13 @@ chi-squared = 8.0526, df = 3, p-value = 0.04494
  0.04796230 0.05966731 
 
 > midpvalue(mt)       # mid-p-value
-[1] 0.04475
+[1] 0.0439
 99 percent confidence interval:
- 0.03968499 0.05034797 
+ 0.03883667 0.04939715 
 
 > pvalue_interval(mt) # p-value interval
    p_0    p_1 
-0.0359 0.0536 
+0.0342 0.0536 
 > 
 > 
 > ## Opinions on Pre- and Extramarital Sex
@@ -1226,15 +1196,14 @@ chi-squared = 23.316, p-value = 0.00052
 > 
 > ### Name: PermutationDistribution-methods
 > ### Title: Computation of the Permutation Distribution
-> ### Aliases: dperm dperm-methods dperm,AsymptNullDistribution-method
-> ###   dperm,IndependenceTest-method dperm,NullDistribution-method pperm
-> ###   pperm-methods pperm,AsymptNullDistribution-method
+> ### Aliases: dperm dperm-methods dperm,IndependenceTest-method
+> ###   dperm,NullDistribution-method pperm pperm-methods
 > ###   pperm,IndependenceTest-method pperm,NullDistribution-method qperm
-> ###   qperm-methods qperm,AsymptNullDistribution-method
-> ###   qperm,IndependenceTest-method qperm,NullDistribution-method rperm
-> ###   rperm-methods rperm,IndependenceTest-method
-> ###   rperm,NullDistribution-method support support-methods
-> ###   support,IndependenceTest-method support,NullDistribution-method
+> ###   qperm-methods qperm,IndependenceTest-method
+> ###   qperm,NullDistribution-method rperm rperm-methods
+> ###   rperm,IndependenceTest-method rperm,NullDistribution-method support
+> ###   support-methods support,IndependenceTest-method
+> ###   support,NullDistribution-method
 > ### Keywords: methods htest distribution
 > 
 > ### ** Examples
@@ -1252,22 +1221,22 @@ chi-squared = 23.316, p-value = 0.00052
 > supp <- support(at)
 > 
 > ## Density of the exact distribution of the Ansari-Bradley statistic
-> dens <- dperm(at, supp)
+> dens <- dperm(at, x = supp)
 > 
 > ## Plotting the density
 > plot(supp, dens, type = "s")
 > 
 > ## 95 % quantile
-> qperm(at, 0.95)
+> qperm(at, p = 0.95)
 [1] 1.669331
 > 
 > ## One-sided p-value
-> pperm(at, statistic(at))
+> pperm(at, q = statistic(at))
        1 
 0.698635 
 > 
 > ## Random number generation
-> rperm(at, 5)
+> rperm(at, n = 5)
 [1] 0.9105443 0.4552721 0.7587869 0.1517574 0.1517574
 > 
 > 
@@ -1392,7 +1361,7 @@ Control 0.00349714 0.4665
  [7]  1.1148962 -0.6358974 -0.6358974 -0.6358974 -0.5358974 -0.3136752
 [13] -0.3136752  0.1148962  0.1148962
 > 
-> ## Classical asymptotic logrank test (p = 0.0523)
+> ## Asymptotic Mantel-Cox test (p = 0.0523)
 > survdiff(Surv(time) ~ group, data = callaert)
 Call:
 survdiff(formula = Surv(time) ~ group, data = callaert)
@@ -1874,7 +1843,7 @@ Quade F = 8.3765, num df = 2, denom df = 12, p-value = 0.005284
 > ## quade.test() uses an F-statistic
 > b <- nlevels(qt@statistic@block)
 > A <- sum(qt@statistic@y^2)
-> B <- sum(statistic(qt, "linear")^2) / b
+> B <- sum(statistic(qt, type = "linear")^2) / b
 > (b - 1) * B / (A - B) # F = 8.3765
 [1] 8.376528
 > 
@@ -2997,7 +2966,7 @@ chi-squared = 11.957, df = 3, p-value = 0.007533
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  23.736 0.172 23.921 0 0 
+Time elapsed:  10.63 0.14 10.8 NA NA 
 > grDevices::dev.off()
 null device 
           1 

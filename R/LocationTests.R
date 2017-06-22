@@ -20,7 +20,7 @@ oneway_test.IndependenceProblem <- function(object, ...) {
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -42,7 +42,7 @@ oneway_test.IndependenceProblem <- function(object, ...) {
     } else
         object@method <- "K-Sample Fisher-Pitman Permutation Test"
 
-    return(object)
+    object
 }
 
 
@@ -70,7 +70,7 @@ wilcox_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
 
@@ -87,7 +87,7 @@ wilcox_test.IndependenceProblem <- function(object,
         object@conf.level <- conf.level
     }
 
-    return(object)
+    object
 }
 
 
@@ -113,7 +113,7 @@ kruskal_test.IndependenceProblem <- function(object, ...) {
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -132,7 +132,7 @@ kruskal_test.IndependenceProblem <- function(object, ...) {
     else
         object@method <- "Kruskal-Wallis Test"
 
-    return(object)
+    object
 }
 
 
@@ -163,7 +163,7 @@ normal_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -192,7 +192,7 @@ normal_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample van der Waerden (Normal Quantile) Test"
 
-    return(object)
+    object
 }
 
 
@@ -223,7 +223,7 @@ median_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -252,7 +252,7 @@ median_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Brown-Mood Median Test"
 
-    return(object)
+    object
 }
 
 
@@ -283,7 +283,7 @@ savage_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (!is_numeric_y(object))
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
-            return(TRUE)
+            TRUE
         }
     )
     ## convert factors to ordered and attach scores if requested
@@ -312,5 +312,5 @@ savage_test.IndependenceProblem <- function(object,
     } else
         object@method <- "K-Sample Savage Test"
 
-    return(object)
+    object
 }

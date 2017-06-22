@@ -1,4 +1,4 @@
-useDynLib(coin)
+useDynLib(coin, .registration = TRUE)
 
 importFrom("methods", callNextMethod, extends, getSlots, new, validObject)
 importMethodsFrom("methods", initialize, show)

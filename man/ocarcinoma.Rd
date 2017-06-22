@@ -18,8 +18,8 @@
       a factor with levels \code{"II"} and \code{"IIA"}.
     }
     \item{\code{event}}{
-      status indicator for \code{time}: \code{FALSE} for censored observations
-      and \code{TRUE} otherwise.
+      status indicator for \code{time}: \code{FALSE} for right-censored
+      observations and \code{TRUE} otherwise.
     }
   }
 }

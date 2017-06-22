@@ -10,6 +10,7 @@
 \concept{Prentice-Marek test}
 \concept{Andersen-Borgan-Gill-Keiding test}
 \concept{Fleming-Harrington test}
+\concept{Gaugler-Kim-Liao test}
 \concept{Self test}
 \encoding{UTF-8}
 \title{Two- and \eqn{K}-Sample Tests for Censored Data}
@@ -24,7 +25,7 @@
                                      "average-scores"),
              type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
                       "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
-                      "Fleming-Harrington", "Self"),
+                      "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
              rho = NULL, gamma = NULL, \dots)
 }
 \arguments{
@@ -59,18 +60,19 @@
     a character, the type of test: either \code{"logrank"} (default),
     \code{"Gehan-Breslow"}, \code{"Tarone-Ware"}, \code{"Prentice"},
     \code{"Prentice-Marek"}, \code{"Andersen-Borgan-Gill-Keiding"},
-    \code{"Fleming-Harrington"} or \code{"Self"}; see \sQuote{Details}.
+    \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
+    \sQuote{Details}.
   }
   \item{rho}{
     a numeric, the \eqn{\rho} constant when \code{type} is \code{"Tarone-Ware"},
-    \code{"Fleming-Harrington"} or \code{"Self"}; see \sQuote{Details}.
-    Defaults to \code{NULL}, implying \code{0.5} for \code{type = "Tarone-Ware"}
-    and \code{0} otherwise.
+    \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
+    \sQuote{Details}.  Defaults to \code{NULL}, implying \code{0.5} for
+    \code{type = "Tarone-Ware"} and \code{0} otherwise.
   }
   \item{gamma}{
     a numeric, the \eqn{\gamma} constant when \code{type} is
-    \code{"Fleming-Harrington"} or \code{"Self"}; see \sQuote{Details}.
-    Defaults to \code{NULL}, implying \code{0}.
+    \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
+    \sQuote{Details}.  Defaults to \code{NULL}, implying \code{0}.
   }
   \item{\dots}{
     further arguments to be passed to \code{\link{independence_test}}.
@@ -107,17 +109,17 @@
   extension of the standard logrank test was given by Tarone (1975) and later
   generalized to general weights by Tarone and Ware (1977).
 
-  Let \eqn{(t_i, \delta_i)}, \eqn{i = 1, 2, \ldots, n}, represent a censored
-  random sample of size \eqn{n}, where \eqn{t_i} is the observed survival time
-  and \eqn{\delta_i} is the status indicator (\eqn{\delta_i} is 0 for censored
-  observations and 1 otherwise).  To allow for ties in the data, let
-  \eqn{t_{(1)} < t_{(2)} < \cdots < t_{(m)}}{t_(1) < t_(2) < \dots < t_(m)}
-  represent the \eqn{m}, \eqn{m \le n}, ordered distinct event times.  At time
-  \eqn{t_{(k)}}{t_(k)}, \eqn{k = 1, 2, \ldots, m}, the number of events and the
-  number of subjects at risk are given by \eqn{d_k = \sum_{i = 1}^n I\!\left(t_i
-    = t_{(k)}\,|\, \delta_i = 1\right)}{d_k = sum(i = 1, \dots, n) I(t_i = t_(k)
-    | delta_i = 1)} and \eqn{n_k = n - r_k}, respectively, where \eqn{r_k}
-  depends on the ties handling method.
+  Let \eqn{(t_i, \delta_i)}, \eqn{i = 1, 2, \ldots, n}, represent a
+  right-censored random sample of size \eqn{n}, where \eqn{t_i} is the observed
+  survival time and \eqn{\delta_i} is the status indicator (\eqn{\delta_i} is 0
+  for right-censored observations and 1 otherwise).  To allow for ties in the
+  data, let \eqn{t_{(1)} < t_{(2)} < \cdots < t_{(m)}}{t_(1) < t_(2) < \dots <
+    t_(m)} represent the \eqn{m}, \eqn{m \le n}, ordered distinct event times.
+  At time \eqn{t_{(k)}}{t_(k)}, \eqn{k = 1, 2, \ldots, m}, the number of events
+  and the number of subjects at risk are given by \eqn{d_k = \sum_{i = 1}^n
+    I\!\left(t_i = t_{(k)}\,|\, \delta_i = 1\right)}{d_k = sum(i = 1, \dots, n)
+    I(t_i = t_(k) | delta_i = 1)} and \eqn{n_k = n - r_k}, respectively, where
+  \eqn{r_k} depends on the ties handling method.
 
   Three different methods of handling ties are available using
   \code{ties.method}: mid-ranks (\code{"mid-ranks"}, default), the
@@ -136,8 +138,8 @@
   }{
     r_k = sum(i = 1, \dots, n) I(t_i <= t_(k)) - 1.
   }
-  The scores assigned to censored and uncensored observations at the \eqn{k}th
-  event time are given by
+  The scores assigned to right-censored and uncensored observations at the
+  \eqn{k}th event time are given by
   \deqn{
     C_k = \sum_{j = 1}^k w_j \frac{d_j}{n_j}
     \quad \mbox{and} \quad
@@ -178,11 +180,11 @@
   (1970) is a generalization of the Wilcoxon rank-sum test, where \eqn{w_k =
     n_k}.  The Tarone-Ware class of tests (\code{"Tarone-Ware"}) discussed by
   Tarone and Ware (1977) has \eqn{w_k = n_k^\rho}, where \eqn{\rho} is a
-  constant; \eqn{\rho = 0.5} (default) was  suggested by Tarone and Ware (1977),
+  constant; \eqn{\rho = 0.5} (default) was suggested by Tarone and Ware (1977),
   but note that \eqn{\rho = 0} and \eqn{\rho = 1} lead to the the standard
   logrank test and Gehan-Breslow test respectively.  The Prentice test
   (\code{"Prentice"}) is another generalization of the Wilcoxon rank-sum test
-  suggested by Prentice (1978), where
+  proposed by Prentice (1978), where
   \deqn{
     w_k = \prod_{j = 1}^k \frac{n_j}{n_j + d_j}.
   }{
@@ -192,24 +194,24 @@
   generalization of the Wilcoxon rank-sum test discussed by Prentice and Marek
   (1979), with
   \deqn{
-    w_k = \prod_{j = 1}^k \frac{n_j + 1 - d_j}{n_j + 1}.
+    w_k = \tilde{S}_k = \prod_{j = 1}^k \frac{n_j + 1 - d_j}{n_j + 1}.
   }{
-    w_k = prod(j = 1, \dots, k) (n_j + 1 - d_j) / (n_j + 1).
+    w_k = Stilde_k = prod(j = 1, \dots, k) (n_j + 1 - d_j) / (n_j + 1).
   }
   The Andersen-Borgan-Gill-Keiding test (\code{"Andersen-Borgan-Gill-Keiding"})
-  proposed by Andersen \emph{et al.} (1982) is a modified version of the
+  suggested by Andersen \emph{et al.} (1982) is a modified version of the
   Prentice-Marek test using
   \deqn{
     w_k = \frac{n_k}{n_k + 1}
             \prod_{j = 0}^{k - 1} \frac{n_j + 1 - d_j}{n_j + 1}
   }{
-    w_k = (n_k / (n_k + 1)) prod(j = 0, \dots, k - 1) (n_j + 1 - d_j) / (n_j+1)
+    w_k = (n_k / (n_k + 1)) prod(j = 0, \dots, k - 1) (n_j + 1 - d_j) / (n_j + 1)
   }
   where \eqn{n_0 \equiv n}{n_0 := n} and \eqn{d_0 \equiv 0}{d_0 := 0}.  The
-  Fleming-Harrington class
-  of tests (\code{"Fleming-Harrington"}) suggested by Fleming and Harrington
-  (1991) uses \eqn{w_k = \hat{S}_k^\rho (1 - \hat{S}_k)^\gamma}{w_k = Shat_k^rho
-    * (1 - Shat_k)^gamma}, where \eqn{\rho} and \eqn{\gamma} are constants and
+  Fleming-Harrington class of tests (\code{"Fleming-Harrington"}) proposed by
+  Fleming and Harrington (1991) uses \eqn{w_k = \hat{S}_k^\rho (1 -
+    \hat{S}_k)^\gamma}{w_k = Shat_k^rho * (1 - Shat_k)^gamma}, where \eqn{\rho}
+  and \eqn{\gamma} are constants and
   \deqn{
     \hat{S}_k = \prod_{j = 0}^{k - 1} \frac{n_j - d_j}{n_j},
     \quad
@@ -219,8 +221,15 @@
   }
   is the \emph{left-continuous} Kaplan-Meier estimator of the survival function;
   \eqn{\rho = 0} and \eqn{\gamma = 0} lead to the standard logrank test.  The
-  Self class of tests (\code{"Self"}) proposed by Self (1991) has \eqn{w_k =
-    v_k^\rho (1 - v_k)^\gamma}{w_k = v_k^rho * (1 - v_k)^gamma}, where
+  Gaugler-Kim-Liao class of tests (\code{"Gaugler-Kim-Liao"}) discussed by
+  Gaugler \emph{et al.} (2007) is a modified version of the Fleming-Harrington
+  class of tests, replacing \eqn{\hat{S}_k}{Shat_k} with
+  \eqn{\tilde{S}_k}{Stilde_k} so that \eqn{w_k = \tilde{S}_k^\rho (1 -
+    \tilde{S}_k)^\gamma}{w_k = Stilde_k^rho * (1 - Stilde_k)^gamma}, where
+  \eqn{\rho} and \eqn{\gamma} are constants; \eqn{\rho = 0} and \eqn{\gamma = 0}
+  lead to the standard logrank test.  The Self class of tests (\code{"Self"})
+  suggested by Self (1991) has \eqn{w_k = v_k^\rho (1 - v_k)^\gamma}{w_k =
+    v_k^rho * (1 - v_k)^gamma}, where
   \deqn{
     v_k = \frac{1}{2} \frac{t_{(k-1)} + t_{(k)}}{t_{(m)}},
     \quad
@@ -247,10 +256,13 @@
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
 }
 \note{
-  The test statistic differs from the one used by
-  \code{\link[survival]{survdiff}} (in package \pkg{survival}), since the
-  conditional variance used by \code{logrank_test} is not identical to the
-  variance estimate used by the classical logrank test.
+  Peto and Peto (1972) proposed the test statistic implemented in
+  \code{logrank_test} and named it the \emph{logrank test}.  However, the
+  Mantel-Cox test (Mantel, 1966; Cox, 1972), as implemented in
+  \code{\link[survival]{survdiff}} (in package \pkg{survival}), is also known as
+  the logrank test.  These tests are similar, but differ in the choice of
+  probability model: the (Peto-Peto) logrank test uses the permutational
+  variance, whereas the Mantel-Cox test is based on the hypergeometric variance.
 
   Combining \code{\link{independence_test}} or \code{\link{symmetry_test}} with
   \code{\link{logrank_trafo}} offers more flexibility than \code{logrank_test}
@@ -259,15 +271,19 @@
   (see \code{\link{GTSG}} for tests against Weibull-type or crossing-curve
   alternatives).
 
-  Starting with version 1.1-0, \code{logrank_test} replaces \code{surv_test},
-  \strong{which is now deprecated and will be removed in a future release.}
-  Furthermore, \code{logrank_trafo} is now an increasing function for all
-  choices of \code{ties.method}, implying that the test statistic has the same
-  sign irrespective of the ties handling method.  Consequently, the sign of the
-  test statistic will now be the opposite of what it was in earlier versions
-  unless \code{ties.method = "average-scores"}.  (In versions of \pkg{coin}
-  prior to 1.1-0, \code{logrank_trafo} was a decreasing function when
-  \code{ties.method} was other than \code{"average-scores"}.)
+  Starting with version 1.1-0, \code{logrank_test} replaced \code{surv_test}
+  which was made \strong{defunct} in version 1.2-0.  Furthermore,
+  \code{logrank_trafo} is now an increasing function for all choices of
+  \code{ties.method}, implying that the test statistic has the same sign
+  irrespective of the ties handling method.  Consequently, the sign of the test
+  statistic will now be the opposite of what it was in earlier versions unless
+  \code{ties.method = "average-scores"}.  (In versions of \pkg{coin} prior to
+  1.1-0, \code{logrank_trafo} was a decreasing function when \code{ties.method}
+  was other than \code{"average-scores"}.)
+
+  Starting with version 1.2-0, mid-ranks and the Hothorn-Lausen method can no
+  longer be specified with \code{ties.method = "logrank"} and
+  \code{ties-method = "HL"} respectively.
 }
 \references{
   Andersen, P. K., Borgan, \enc{Ø}{O}., Gill, R. and Keiding, N.  (1982).
@@ -288,6 +304,11 @@
 
   Fleming, T. R. and Harrington, D. P.  (1991).  \emph{Counting Processes and
     Survival Analysis}.  New York: John Wiley & Sons.
+
+  Gaugler, T., Kim, D. and Liao, S.  (2007).  Comparing two survival time
+  distributions: An investigation of several weight functions for the weighted
+  logrank statistic.  \emph{Communications in Statistics -- Simulation and
+    Computation} \bold{36}(2), 423--435.
 
   Gehan, E. A.  (1965).  A generalized Wilcoxon test for comparing arbitrarily
   single-censored samples.  \emph{Biometrika} \bold{52}(1--2), 203--223.
@@ -342,7 +363,7 @@ callaert <- data.frame(
 with(callaert,
      logrank_trafo(Surv(time)))
 
-## Classical asymptotic logrank test (p = 0.0523)
+## Asymptotic Mantel-Cox test (p = 0.0523)
 survdiff(Surv(time) ~ group, data = callaert)
 
 ## Exact logrank test using mid-ranks (p = 0.0505)

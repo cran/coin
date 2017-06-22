@@ -20,8 +20,8 @@
       survival time.
     }
     \item{\code{event}}{
-      status indicator for \code{time}: \code{FALSE} for censored observations
-      and \code{TRUE} otherwise.
+      status indicator for \code{time}: \code{FALSE} for right-censored
+      observations and \code{TRUE} otherwise.
     }
     \item{\code{dmin}}{
       time to first tumor.

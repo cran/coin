@@ -22,13 +22,13 @@ LinearStatistic <- function(x, y, weights) {
     storage.mode(x) <- "double"
     storage.mode(y) <- "double"
     storage.mode(weights) <- "double"
-    .Call("R_LinearStatistic", x, y, weights, PACKAGE = "coin")
+    .Call(R_LinearStatistic, x, y, weights)
 }
 
 ExpectCovarInfluence <- function(y, weights) {
     storage.mode(y) <- "double"
     storage.mode(weights) <- "double"
-    .Call("R_ExpectCovarInfluence", y, weights, PACKAGE = "coin")
+    .Call(R_ExpectCovarInfluence, y, weights)
 }
 
 expectvaronly <- function(x, y, weights) {
@@ -42,9 +42,9 @@ expectvaronly <- function(x, y, weights) {
     rSx <- colSums(x)
     rSx2 <- colSums(x^2)
     ## in case rSx _and_ Ey are _both_ vectors
-    E <- .Call("R_kronecker", Ey, rSx, PACKAGE = "coin")
-    V <- n / (n - 1) * .Call("R_kronecker", Vy, rSx2, PACKAGE = "coin")
-    V <- V - 1 / (n - 1) * .Call("R_kronecker", Vy, rSx^2, PACKAGE = "coin")
+    E <- .Call(R_kronecker, Ey, rSx)
+    V <- n / (n - 1) * .Call(R_kronecker, Vy, rSx2)
+    V <- V - 1 / (n - 1) * .Call(R_kronecker, Vy, rSx^2)
     list(E = drop(E), V = matrix(V, nrow = 1L))
 }
 
@@ -64,12 +64,11 @@ ExpectCovarLinearStatistic <- function(x, y, weights, varonly = FALSE) {
         storage.mode(y) <- "double"
         storage.mode(weights) <- "double"
         expcovinf <- ExpectCovarInfluence(y, weights)
-        .Call("R_ExpectCovarLinearStatistic", x, y, weights, expcovinf,
-               PACKAGE = "coin")
+        .Call(R_ExpectCovarLinearStatistic, x, y, weights, expcovinf)
     }
 }
 
-pmvn <- function(lower, upper, mean, corr, ..., conf.int = TRUE) {
+pmvn <- function(lower, upper, mean, corr, conf.int, ...) {
     p <- if (length(corr) > 1L)
              pmvnorm(lower = lower, upper = upper, mean = mean,
                      corr = corr, ...)
@@ -126,7 +125,7 @@ copyslots <- function(source, target) {
         stop("no common slots to copy to")
     for (s in slots)
         eval(parse(text = paste("target@", s, " <- source@", s)))
-    return(target)
+    target
 }
 
 ft <- function(test, class, formula, data = list(), subset = NULL,
@@ -226,7 +225,7 @@ setscores <- function(x, scores) {
         }
     }
     ## </FIXME>
-    return(x)
+    x
 }
 
 ### user-supplied trafo functions may return a vector or matrices
@@ -254,7 +253,7 @@ table2df <- function(x) {
     freq <- x[["Freq"]]
     x <- x[rep.int(seq_len(nrow(x)), freq), , drop = FALSE]
     rownames(x) <- seq_len(nrow(x))
-    return(x[, colnames(x) != "Freq"])
+    x[, colnames(x) != "Freq"]
 }
 
 table2df_sym <- function(x) {
@@ -381,10 +380,9 @@ isequal <- function(a, b) {
     if (!isTRUE(all.equal(a, b))) {
         print(a, digits = 10)
         print(b, digits = 10)
-        return(FALSE)
-    } else {
-        return(TRUE)
-    }
+        FALSE
+    } else
+        TRUE
 }
 
 has_distribution <- function(args)
@@ -487,13 +485,16 @@ varnames <- function(object) {
 
 eps <- function() sqrt(.Machine$double.eps)
 
-EQ <- function(x, y)
+`%EQ%` <- function(x, y)
     abs(x - y) < eps()
 
-GE <- function(x, y)
+`%NE%` <- function(x, y)
+    abs(x - y) > eps()
+
+`%GE%` <- function(x, y)
     x > y | abs(x - y) < eps()
 
-LE <- function(x, y)
+`%LE%` <- function(x, y)
     x < y | abs(x - y) < eps()
 
 ### don't use! never!
