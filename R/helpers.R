@@ -489,13 +489,19 @@ eps <- function() sqrt(.Machine$double.eps)
     abs(x - y) < eps()
 
 `%NE%` <- function(x, y)
-    abs(x - y) > eps()
+    abs(x - y) >= eps()
 
 `%GE%` <- function(x, y)
     x > y | abs(x - y) < eps()
 
 `%LE%` <- function(x, y)
     x < y | abs(x - y) < eps()
+
+`%GT%` <- function(x, y)
+    (x - y) >= eps()
+
+`%LT%` <- function(x, y)
+    (y - x) >= eps()
 
 ### don't use! never!
 get_weights <- function(object) object@statistic@weights
@@ -518,15 +524,15 @@ setColnames <- function (object, nm) {
 n_decimal_digits <- function(x)
     nchar(sub("^[[:digit:]]*[.]", "", format(min(x), scientific = FALSE)))
 
-if(getRversion() < "2.15.0")
+if (getRversion() < "2.15.0")
     paste0 <- function(...) paste(..., sep = "")
 
-if(getRversion() < "3.1.0") {
+if (getRversion() < "3.1.0") {
     cospi <- function(x) cos(pi * x)
     anyNA <- function(x) any(is.na(x))
 }
 
-if(getRversion() < "3.2.0") {
+if (getRversion() < "3.2.0") {
     isNamespaceLoaded <- function(name) !is.null(.getNamespace(name))
     lengths <- function(x, use.names = TRUE)
         vapply(x, length, NA_integer_, USE.NAMES = use.names)

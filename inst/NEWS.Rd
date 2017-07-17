@@ -1,6 +1,14 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.2-1 (2017-07-16)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Precision problem in the quantile function of exact null
+      distributions computed by the shift algorithm.
+    }
+  }
+}
 \section{Changes in version 1.2-0 (2017-06-20)}{
   \subsection{New features}{
     \itemize{
@@ -101,8 +109,8 @@
 \section{Changes in version 1.1-1 (2015-10-25)}{
   \subsection{Bug fixes}{
     \itemize{
-      \item Methods \code{initialize()} and \code{show()} were not
-      imported from package \pkg{methods}.
+      \item Methods \code{initialize()} and \code{show()} were not imported from
+      package \pkg{methods}.
     }
   }
   \subsection{User-visible changes}{

@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2017-05-16 r72684) -- "Unsuffered Consequences"
+R Under development (unstable) (2017-07-02 r72880) -- "Unsuffered Consequences"
 Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -1563,7 +1563,7 @@ Error in .local(object, ...) :
  [13] -1.2016889 -1.1563999 -1.1086628 -1.0652098 -1.0229809 -0.9813640
  [19] -0.9434191 -0.9066983 -0.8693655 -0.8320326 -0.7965358 -0.7647111
  [25] -0.7292143 -0.6980016 -0.6674009 -0.6355762 -0.6019155 -0.5743749
- [31] -0.5443862 -0.5143975 -0.4844088 -0.4550322 -0.4287156 -0.3999510
+ [31] -0.5443862 -0.5143975 -0.4844088 -0.4550322 -0.4287156 -0.4017870
  [37] -0.3724103 -0.3436457 -0.3173291 -0.2928486 -0.2640839 -0.2377673
  [43] -0.2090027 -0.1839101 -0.1582055 -0.1306649 -0.1037363 -0.0786438
  [49] -0.0529392 -0.0253986 -0.0003060  0.0253986  0.0529392  0.0786438
@@ -2204,7 +2204,6 @@ Error in .local(object, ...) :
 > supp_it2_SR <- support(it2_SR)
 > stopifnot(!is.unsorted(supp_it2_SR))                         # failed in < 1.1-0
 > stopifnot(all(supp_it2_SR == unique(supp_it2_SR)))           # failed in < 1.1-0
-> 
 > round(pp_it2_SR <- pperm(it2_SR, supp_it2_SR), 7)
   [1] 0.0019531 0.0039062 0.0058594 0.0078125 0.0097656 0.0117188 0.0136719
   [8] 0.0156250 0.0175781 0.0195312 0.0214844 0.0234375 0.0253906 0.0273438
@@ -2572,485 +2571,233 @@ Error in .local(object, ...) :
 > ### univariate, asymptotic and scalar
 > it_uas <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "asymptotic", teststat = "scalar")
-> round(dp_uas      <- dperm(it_uas, 0:1), 7)
+> (dp_uas <- dperm(it_uas, 0:1))
 [1] 0.3989423 0.2419707
-> round(dp_uas_0    <- dperm(it_uas, 0  ), 7)
-[1] 0.3989423
-> round(dp_uas_1    <- dperm(it_uas,   1), 7)
-[1] 0.2419707
-> stopifnot(isequal(dp_uas, c(dp_uas_0, dp_uas_1)))
-> round(pp_uas      <- pperm(it_uas, 0:1), 7)
+> stopifnot(isequal(dp_uas, c(dperm(it_uas, 0), dperm(it_uas, 1))))
+> (pp_uas <- pperm(it_uas, 0:1))
 [1] 0.5000000 0.8413447
-> round(pp_uas_0    <- pperm(it_uas, 0  ), 7)
-[1] 0.5
-> round(pp_uas_1    <- pperm(it_uas,   1), 7)
-[1] 0.8413447
-> stopifnot(isequal(pp_uas, c(pp_uas_0, pp_uas_1)))
-> round(qp_uas      <- qperm(it_uas, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_uas, c(pperm(it_uas, 0), pperm(it_uas, 1))))
+> (qp_uas <- qperm(it_uas, c(0.5, 0.75)))
 [1] 0.0000000 0.6744898
-> round(qp_uas_0.5  <- qperm(it_uas,   0.5       ), 7)
-[1] 0
-> round(qp_uas_0.75 <- qperm(it_uas,        0.75 ), 7)
-[1] 0.6744898
-> stopifnot(isequal(qp_uas, c(qp_uas_0.5, qp_uas_0.75)))
-> round(p_uas       <- pvalue(it_uas@distribution, 0:1), 7)
+> stopifnot(isequal(qp_uas, c(qperm(it_uas, 0.5), qperm(it_uas, 0.75))))
+> (pv_uas <- pvalue(it_uas@distribution, 0:1))
 [1] 1.0000000 0.3173105
-> round(p_uas_0     <- pvalue(it_uas@distribution, 0  ), 7)
-[1] 1
-> round(p_uas_1     <- pvalue(it_uas@distribution,   1), 7)
-[1] 0.3173105
-> stopifnot(isequal(p_uas, c(p_uas_0, p_uas_1)))
+> stopifnot(isequal(pv_uas, c(pvalue(it_uas@distribution, 0),
++                             pvalue(it_uas@distribution, 1))))
 > 
 > ### univariate, asymptotic and quad
 > it_uaq <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "asymptotic", teststat = "quad")
-> round(dp_uaq      <- dperm(it_uaq, 0:1), 7)
+> (dp_uaq <- dperm(it_uaq, 0:1))
 [1]       Inf 0.2419707
-> round(dp_uaq_0    <- dperm(it_uaq, 0  ), 7)
-[1] Inf
-> round(dp_uaq_1    <- dperm(it_uaq,   1), 7)
-[1] 0.2419707
-> stopifnot(isequal(dp_uaq, c(dp_uaq_0, dp_uaq_1)))
-> round(pp_uaq      <- pperm(it_uaq, 0:1), 7)
+> stopifnot(isequal(dp_uaq, c(dperm(it_uaq, 0), dperm(it_uaq, 1))))
+> (pp_uaq <- pperm(it_uaq, 0:1))
 [1] 0.0000000 0.6826895
-> round(pp_uaq_0    <- pperm(it_uaq, 0  ), 7)
-[1] 0
-> round(pp_uaq_1    <- pperm(it_uaq,   1), 7)
-[1] 0.6826895
-> stopifnot(isequal(pp_uaq, c(pp_uaq_0, pp_uaq_1)))
-> round(qp_uaq      <- qperm(it_uaq, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_uaq, c(pperm(it_uaq, 0), pperm(it_uaq, 1))))
+> (qp_uaq <- qperm(it_uaq, c(0.5, 0.75)))
 [1] 0.4549364 1.3233037
-> round(qp_uaq_0.5  <- qperm(it_uaq,   0.5       ), 7)
-[1] 0.4549364
-> round(qp_uaq_0.75 <- qperm(it_uaq,        0.75 ), 7)
-[1] 1.323304
-> stopifnot(isequal(qp_uaq, c(qp_uaq_0.5, qp_uaq_0.75)))
-> round(p_uaq       <- pvalue(it_uaq@distribution, 0:1), 7)
+> stopifnot(isequal(qp_uaq, c(qperm(it_uaq, 0.5), qperm(it_uaq, 0.75))))
+> (pv_uaq <- pvalue(it_uaq@distribution, 0:1))
 [1] 1.0000000 0.3173105
-> round(p_uaq_0     <- pvalue(it_uaq@distribution, 0  ), 7)
-[1] 1
-> round(p_uaq_1     <- pvalue(it_uaq@distribution,   1), 7)
-[1] 0.3173105
-> stopifnot(isequal(p_uaq, c(p_uaq_0, p_uaq_1)))
+> stopifnot(isequal(pv_uaq, c(pvalue(it_uaq@distribution, 0),
++                             pvalue(it_uaq@distribution, 1))))
 > 
 > ### multivariate, asymptotic and max
 > it_mam <- independence_test(y1 + y2 ~ x,  data = dta,
 +                             distribution = "asymptotic", teststat = "max")
-> round(dp_mam      <- dperm(it_mam, 0:1), 7)
+> (dp_mam <- dperm(it_mam, 0:1))
 [1] NA
-> round(dp_mam_0    <- dperm(it_mam, 0  ), 7)
-[1] NA
-> round(dp_mam_1    <- dperm(it_mam,   1), 7)
-[1] NA
-> ## stopifnot(isequal(dp_mam, c(dp_mam_0, dp_mam_1)))
-> round(pp_mam      <- pperm(it_mam, 0:1), 7)                  # failed in < 1.1-0
+> ## stopifnot(isequal(dp_mam, c(dperm(it_mam, 0), dperm(it_mam, 1))))
+> (pp_mam <- pperm(it_mam, 0:1))                               # failed in < 1.1-0
 [1] 0.0000000 0.4673673
-> round(pp_mam_0    <- pperm(it_mam, 0  ), 7)
-[1] 0
-> round(pp_mam_1    <- pperm(it_mam,   1), 7)
-[1] 0.4673673
-> stopifnot(isequal(pp_mam, c(pp_mam_0, pp_mam_1)))
-> round(qp_mam      <- qperm(it_mam, c(0.5, 0.75)), 7)         # failed in < 1.1-0
+> stopifnot(isequal(pp_mam, c(pperm(it_mam, 0), pperm(it_mam, 1))))
+> (qp_mam <- qperm(it_mam, c(0.5, 0.75)))                      # failed in < 1.1-0
 [1] 1.049971 1.496775
-> round(qp_mam_0.5  <- qperm(it_mam,   0.5       ), 7)
-[1] 1.049971
-> round(qp_mam_0.75 <- qperm(it_mam,        0.75 ), 7)
-[1] 1.496775
-> stopifnot(isequal(qp_mam, c(qp_mam_0.5, qp_mam_0.75)))
-> round(p_mam       <- pvalue(it_mam@distribution, 0:1), 7)
+> stopifnot(isequal(qp_mam, c(qperm(it_mam, 0.5), qperm(it_mam, 0.75))))
+> (pv_mam <- pvalue(it_mam@distribution, 0:1))
 [1] 1.0000000 0.5326327
-> round(p_mam_0     <- pvalue(it_mam@distribution, 0  ), 7)
-[1] 1
-99 percent confidence interval:
- 1 1 
-
-> round(p_mam_1     <- pvalue(it_mam@distribution,   1), 7)
-[1] 0.5326327
-99 percent confidence interval:
- 0.5326327 0.5326327 
-
-> stopifnot(isequal(p_mam, c(p_mam_0, p_mam_1)))
+> stopifnot(isequal(pv_mam, c(pvalue(it_mam@distribution, 0),
++                             pvalue(it_mam@distribution, 1))))
 > 
 > ### multivariate, asymptotic and quad
 > it_maq <- independence_test(y1 + y2 ~ x,  data = dta,
 +                             distribution = "asymptotic", teststat = "quad")
-> round(dp_maq      <- dperm(it_maq, 0:1), 7)
+> (dp_maq <- dperm(it_maq, 0:1))
 [1] 0.5000000 0.3032653
-> round(dp_maq_0    <- dperm(it_maq, 0  ), 7)
-[1] 0.5
-> round(dp_maq_1    <- dperm(it_maq,   1), 7)
-[1] 0.3032653
-> stopifnot(isequal(dp_maq, c(dp_maq_0, dp_maq_1)))
-> round(pp_maq      <- pperm(it_maq, 0:1), 7)
+> stopifnot(isequal(dp_maq, c(dperm(it_maq, 0), dperm(it_maq, 1))))
+> (pp_maq <- pperm(it_maq, 0:1))
 [1] 0.0000000 0.3934693
-> round(pp_maq_0    <- pperm(it_maq, 0  ), 7)
-[1] 0
-> round(pp_maq_1    <- pperm(it_maq,   1), 7)
-[1] 0.3934693
-> stopifnot(isequal(pp_maq, c(pp_maq_0, pp_maq_1)))
-> round(qp_maq      <- qperm(it_maq, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_maq, c(pperm(it_maq, 0), pperm(it_maq, 1))))
+> (qp_maq <- qperm(it_maq, c(0.5, 0.75)))
 [1] 1.386294 2.772589
-> round(qp_maq_0.5  <- qperm(it_maq,   0.5       ), 7)
-[1] 1.386294
-> round(qp_maq_0.75 <- qperm(it_maq,        0.75 ), 7)
-[1] 2.772589
-> stopifnot(isequal(qp_maq, c(qp_maq_0.5, qp_maq_0.75)))
-> round(p_maq       <- pvalue(it_maq@distribution, 0:1), 7)
+> stopifnot(isequal(qp_maq, c(qperm(it_maq, 0.5), qperm(it_maq, 0.75))))
+> (pv_maq <- pvalue(it_maq@distribution, 0:1))
 [1] 1.0000000 0.6065307
-> round(p_maq_0     <- pvalue(it_maq@distribution, 0  ), 7)
-[1] 1
-> round(p_maq_1     <- pvalue(it_maq@distribution,   1), 7)
-[1] 0.6065307
-> stopifnot(isequal(p_maq, c(p_maq_0, p_maq_1)))
+> stopifnot(isequal(pv_maq, c(pvalue(it_maq@distribution, 0),
++                             pvalue(it_maq@distribution, 1))))
 > 
 > ### univariate, approximate and scalar
 > it_ums <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "approximate", teststat = "scalar")
-> round(dp_ums      <- dperm(it_ums, 0:1), 7)
+> (dp_ums <- dperm(it_ums, 0:1))
 [1] 0.0334 0.0000
-> round(dp_ums_0    <- dperm(it_ums, 0  ), 7)
-[1] 0.0334
-> round(dp_ums_1    <- dperm(it_ums,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_ums, c(dp_ums_0, dp_ums_1)))
-> round(pp_ums      <- pperm(it_ums, 0:1), 7)
+> stopifnot(isequal(dp_ums, c(dperm(it_ums, 0), dperm(it_ums, 1))))
+> (pp_ums <- pperm(it_ums, 0:1))
 [1] 0.5210 0.8487
-> round(pp_ums_0    <- pperm(it_ums, 0  ), 7)
-[1] 0.521
-> round(pp_ums_1    <- pperm(it_ums,   1), 7)
-[1] 0.8487
-> stopifnot(isequal(pp_ums, c(pp_ums_0, pp_ums_1)))
-> round(qp_ums      <- qperm(it_ums, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_ums, c(pperm(it_ums, 0), pperm(it_ums, 1))))
+> (qp_ums <- qperm(it_ums, c(0.5, 0.75)))
 [1] 0.0000000 0.6803361
-> round(qp_ums_0.5  <- qperm(it_ums,   0.5       ), 7)
-[1] 0
-> round(qp_ums_0.75 <- qperm(it_ums,        0.75 ), 7)
-[1] 0.6803361
-> stopifnot(isequal(qp_ums, c(qp_ums_0.5, qp_ums_0.75)))
-> round(p_ums       <- pvalue(it_ums@distribution, 0:1), 7)
+> stopifnot(isequal(qp_ums, c(qperm(it_ums, 0.5), qperm(it_ums, 0.75))))
+> (pv_ums <- pvalue(it_ums@distribution, 0:1))
 [1] 1.0000 0.3117
-> round(p_ums_0     <- pvalue(it_ums@distribution, 0  ), 7)
-[1] 1
-99 percent confidence interval:
- 0.9994703 1.0000000 
-
-> round(p_ums_1     <- pvalue(it_ums@distribution,   1), 7)
-[1] 0.3117
-99 percent confidence interval:
- 0.2998112 0.3237689 
-
-> stopifnot(isequal(p_ums, c(p_ums_0, p_ums_1)))
-> round(mp_ums      <- midpvalue(it_ums@distribution, 0:1), 7)
+> stopifnot(isequal(pv_ums, c(pvalue(it_ums@distribution, 0),
++                             pvalue(it_ums@distribution, 1))))
+> (mp_ums <- midpvalue(it_ums@distribution, 0:1))
 [1] 0.9666 0.3117
-> round(mp_ums_0    <- midpvalue(it_ums@distribution, 0  ), 7)
-[1] 0.9666
-99 percent confidence interval:
- 0.9617460 0.9710102 
-
-> round(mp_ums_1    <- midpvalue(it_ums@distribution,   1), 7)
-[1] 0.3117
-99 percent confidence interval:
- 0.2998600 0.3237191 
-
-> stopifnot(isequal(mp_ums, c(mp_ums_0, mp_ums_1)))
-> round(pi_ums      <- pvalue_interval(it_ums@distribution, 0:1), 7)
+> stopifnot(isequal(mp_ums, c(midpvalue(it_ums@distribution, 0),
++                             midpvalue(it_ums@distribution, 1))))
+> (pi_ums <- pvalue_interval(it_ums@distribution, 0:1))
       [,1]   [,2]
 p_0 0.9332 0.3117
 p_1 1.0000 0.3117
-> round(pi_ums_0    <- pvalue_interval(it_ums@distribution, 0  ), 7)
-   p_0    p_1 
-0.9332 1.0000 
-> round(pi_ums_1    <- pvalue_interval(it_ums@distribution,   1), 7)
-   p_0    p_1 
-0.3117 0.3117 
-> stopifnot(isequal(pi_ums, cbind(pi_ums_0, pi_ums_1)))
+> stopifnot(isequal(pi_ums, cbind(pvalue_interval(it_ums@distribution, 0),
++                                 pvalue_interval(it_ums@distribution, 1))))
 > 
 > ### univariate, approximate and quad
 > it_umq <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "approximate", teststat = "quad")
-> round(dp_umq      <- dperm(it_umq, 0:1), 7)
+> (dp_umq <- dperm(it_umq, 0:1))
 [1] 0.0328 0.0000
-> round(dp_umq_0    <- dperm(it_umq, 0  ), 7)
-[1] 0.0328
-> round(dp_umq_1    <- dperm(it_umq,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_umq, c(dp_umq_0, dp_umq_1)))
-> round(pp_umq      <- pperm(it_umq, 0:1), 7)
+> stopifnot(isequal(dp_umq, c(dperm(it_umq, 0), dperm(it_umq, 1))))
+> (pp_umq <- pperm(it_umq, 0:1))
 [1] 0.0328 0.6853
-> round(pp_umq_0    <- pperm(it_umq, 0  ), 7)
-[1] 0.0328
-> round(pp_umq_1    <- pperm(it_umq,   1), 7)
-[1] 0.6853
-> stopifnot(isequal(pp_umq, c(pp_umq_0, pp_umq_1)))
-> round(qp_umq      <- qperm(it_umq, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_umq, c(pperm(it_umq, 0), pperm(it_umq, 1))))
+> (qp_umq <- qperm(it_umq, c(0.5, 0.75)))
 [1] 0.4628571 1.2857143
-> round(qp_umq_0.5  <- qperm(it_umq,   0.5       ), 7)
-[1] 0.4628571
-> round(qp_umq_0.75 <- qperm(it_umq,        0.75 ), 7)
-[1] 1.285714
-> stopifnot(isequal(qp_umq, c(qp_umq_0.5, qp_umq_0.75)))
-> round(p_umq       <- pvalue(it_umq@distribution, 0:1), 7)
+> stopifnot(isequal(qp_umq, c(qperm(it_umq, 0.5), qperm(it_umq, 0.75))))
+> (pv_umq <- pvalue(it_umq@distribution, 0:1))
 [1] 1.0000 0.3147
-> round(p_umq_0     <- pvalue(it_umq@distribution, 0  ), 7)
-[1] 1
-99 percent confidence interval:
- 0.9994703 1.0000000 
-
-> round(p_umq_1     <- pvalue(it_umq@distribution,   1), 7)
-[1] 0.3147
-99 percent confidence interval:
- 0.3027787 0.3267986 
-
-> stopifnot(isequal(p_umq, c(p_umq_0, p_umq_1)))
-> round(mp_umq      <- midpvalue(it_umq@distribution, 0:1), 7)
+> stopifnot(isequal(pv_umq, c(pvalue(it_umq@distribution, 0),
++                             pvalue(it_umq@distribution, 1))))
+> (mp_umq <- midpvalue(it_umq@distribution, 0:1))
 [1] 0.9836 0.3147
-> round(mp_umq_0    <- midpvalue(it_umq@distribution, 0  ), 7)
-[1] 0.9836
-99 percent confidence interval:
- 0.980092 0.986648 
-
-> round(mp_umq_1    <- midpvalue(it_umq@distribution,   1), 7)
-[1] 0.3147
-99 percent confidence interval:
- 0.3028275 0.3267488 
-
-> stopifnot(isequal(mp_umq, c(mp_umq_0, mp_umq_1)))
-> round(pi_umq      <- pvalue_interval(it_umq@distribution, 0:1), 7)
+> stopifnot(isequal(mp_umq, c(midpvalue(it_umq@distribution, 0),
++                             midpvalue(it_umq@distribution, 1))))
+> (pi_umq <- pvalue_interval(it_umq@distribution, 0:1))
       [,1]   [,2]
 p_0 0.9672 0.3147
 p_1 1.0000 0.3147
-> round(pi_umq_0    <- pvalue_interval(it_umq@distribution, 0  ), 7)
-   p_0    p_1 
-0.9672 1.0000 
-> round(pi_umq_1    <- pvalue_interval(it_umq@distribution,   1), 7)
-   p_0    p_1 
-0.3147 0.3147 
-> stopifnot(isequal(pi_umq, cbind(pi_umq_0, pi_umq_1)))
+> stopifnot(isequal(pi_umq, cbind(pvalue_interval(it_umq@distribution, 0),
++                                 pvalue_interval(it_umq@distribution, 1))))
 > 
 > ### multivariate, approximate and max
 > it_mmm <- independence_test(y1 + y2 ~ x,  data = dta,
 +                             distribution = "approximate", teststat = "max")
-> round(dp_mmm      <- dperm(it_mmm, 0:1), 7)
+> (dp_mmm <- dperm(it_mmm, 0:1))
 [1] 0.0017 0.0000
-> round(dp_mmm_0    <- dperm(it_mmm, 0  ), 7)
-[1] 0.0017
-> round(dp_mmm_1    <- dperm(it_mmm,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_mmm, c(dp_mmm_0, dp_mmm_1)))
-> round(pp_mmm      <- pperm(it_mmm, 0:1), 7)
+> stopifnot(isequal(dp_mmm, c(dperm(it_mmm, 0), dperm(it_mmm, 1))))
+> (pp_mmm <- pperm(it_mmm, 0:1))
 [1] 0.0017 0.4639
-> round(pp_mmm_0    <- pperm(it_mmm, 0  ), 7)
-[1] 0.0017
-> round(pp_mmm_1    <- pperm(it_mmm,   1), 7)
-[1] 0.4639
-> stopifnot(isequal(pp_mmm, c(pp_mmm_0, pp_mmm_1)))
-> round(qp_mmm      <- qperm(it_mmm, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_mmm, c(pperm(it_mmm, 0), pperm(it_mmm, 1))))
+> (qp_mmm <- qperm(it_mmm, c(0.5, 0.75)))
 [1] 1.058301 1.511858
-> round(qp_mmm_0.5  <- qperm(it_mmm,   0.5       ), 7)
-[1] 1.058301
-> round(qp_mmm_0.75 <- qperm(it_mmm,        0.75 ), 7)
-[1] 1.511858
-> stopifnot(isequal(qp_mmm, c(qp_mmm_0.5, qp_mmm_0.75)))
-> round(p_mmm       <- pvalue(it_mmm@distribution, 0:1), 7)
+> stopifnot(isequal(qp_mmm, c(qperm(it_mmm, 0.5), qperm(it_mmm, 0.75))))
+> (pv_mmm <- pvalue(it_mmm@distribution, 0:1))
 [1] 1.0000 0.5361
-> round(p_mmm_0     <- pvalue(it_mmm@distribution, 0  ), 7)
-[1] 1
-99 percent confidence interval:
- 0.9994703 1.0000000 
-
-> round(p_mmm_1     <- pvalue(it_mmm@distribution,   1), 7)
-[1] 0.5361
-99 percent confidence interval:
- 0.5231897 0.5489758 
-
-> stopifnot(isequal(p_mmm, c(p_mmm_0, p_mmm_1)))
-> round(mp_mmm      <- midpvalue(it_mmm@distribution, 0:1), 7)
+> stopifnot(isequal(pv_mmm, c(pvalue(it_mmm@distribution, 0),
++                             pvalue(it_mmm@distribution, 1))))
+> (mp_mmm <- midpvalue(it_mmm@distribution, 0:1))
 [1] 0.9983 0.5361
-> round(mp_mmm_0    <- midpvalue(it_mmm@distribution, 0  ), 7)
-[1] 0.9983
-99 percent confidence interval:
- 0.9969795 0.9991462 
-
-> round(mp_mmm_1    <- midpvalue(it_mmm@distribution,   1), 7)
-[1] 0.5361
-99 percent confidence interval:
- 0.5232391 0.5489266 
-
-> stopifnot(isequal(mp_mmm, c(mp_mmm_0, mp_mmm_1)))
-> round(pi_mmm      <- pvalue_interval(it_mmm@distribution, 0:1), 7)
+> stopifnot(isequal(mp_mmm, c(midpvalue(it_mmm@distribution, 0),
++                             midpvalue(it_mmm@distribution, 1))))
+> (pi_mmm <- pvalue_interval(it_mmm@distribution, 0:1))
       [,1]   [,2]
 p_0 0.9966 0.5361
 p_1 1.0000 0.5361
-> round(pi_mmm_0    <- pvalue_interval(it_mmm@distribution, 0  ), 7)
-   p_0    p_1 
-0.9966 1.0000 
-> round(pi_mmm_1    <- pvalue_interval(it_mmm@distribution,   1), 7)
-   p_0    p_1 
-0.5361 0.5361 
-> stopifnot(isequal(pi_mmm, cbind(pi_mmm_0, pi_mmm_1)))
+> stopifnot(isequal(pi_mmm, cbind(pvalue_interval(it_mmm@distribution, 0),
++                                 pvalue_interval(it_mmm@distribution, 1))))
 > 
 > ### multivariate, approximate and quad
 > it_mmq <- independence_test(y1 + y2 ~ x,  data = dta,
 +                             distribution = "approximate", teststat = "quad")
-> round(dp_mmq      <- dperm(it_mmq, 0:1), 7)
+> (dp_mmq <- dperm(it_mmq, 0:1))
 [1] 7e-04 0e+00
-> round(dp_mmq_0    <- dperm(it_mmq, 0  ), 7)
-[1] 7e-04
-> round(dp_mmq_1    <- dperm(it_mmq,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_mmq, c(dp_mmq_0, dp_mmq_1)))
-> round(pp_mmq      <- pperm(it_mmq, 0:1), 7)
+> stopifnot(isequal(dp_mmq, c(dperm(it_mmq, 0), dperm(it_mmq, 1))))
+> (pp_mmq <- pperm(it_mmq, 0:1))
 [1] 0.0007 0.3821
-> round(pp_mmq_0    <- pperm(it_mmq, 0  ), 7)
-[1] 7e-04
-> round(pp_mmq_1    <- pperm(it_mmq,   1), 7)
-[1] 0.3821
-> stopifnot(isequal(pp_mmq, c(pp_mmq_0, pp_mmq_1)))
-> round(qp_mmq      <- qperm(it_mmq, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_mmq, c(pperm(it_mmq, 0), pperm(it_mmq, 1))))
+> (qp_mmq <- qperm(it_mmq, c(0.5, 0.75)))
 [1] 1.465562 2.820424
-> round(qp_mmq_0.5  <- qperm(it_mmq,   0.5       ), 7)
-[1] 1.465562
-> round(qp_mmq_0.75 <- qperm(it_mmq,        0.75 ), 7)
-[1] 2.820424
-> stopifnot(isequal(qp_mmq, c(qp_mmq_0.5, qp_mmq_0.75)))
-> round(p_mmq       <- pvalue(it_mmq@distribution, 0:1), 7)
+> stopifnot(isequal(qp_mmq, c(qperm(it_mmq, 0.5), qperm(it_mmq, 0.75))))
+> (pv_mmq <- pvalue(it_mmq@distribution, 0:1))
 [1] 1.0000 0.6179
-> round(p_mmq_0     <- pvalue(it_mmq@distribution, 0  ), 7)
-[1] 1
-99 percent confidence interval:
- 0.9994703 1.0000000 
-
-> round(p_mmq_1     <- pvalue(it_mmq@distribution,   1), 7)
-[1] 0.6179
-99 percent confidence interval:
- 0.6052800 0.6304073 
-
-> stopifnot(isequal(p_mmq, c(p_mmq_0, p_mmq_1)))
-> round(mp_mmq      <- midpvalue(it_mmq@distribution, 0:1), 7)
+> stopifnot(isequal(pv_mmq, c(pvalue(it_mmq@distribution, 0),
++                             pvalue(it_mmq@distribution, 1))))
+> (mp_mmq <- midpvalue(it_mmq@distribution, 0:1))
 [1] 0.99965 0.61790
-> round(mp_mmq_0    <- midpvalue(it_mmq@distribution, 0  ), 7)
-[1] 0.99965
-99 percent confidence interval:
- 0.9988020 0.9999211 
-
-> round(mp_mmq_1    <- midpvalue(it_mmq@distribution,   1), 7)
-[1] 0.6179
-99 percent confidence interval:
- 0.6053296 0.6303583 
-
-> stopifnot(isequal(mp_mmq, c(mp_mmq_0, mp_mmq_1)))
-> round(pi_mmq      <- pvalue_interval(it_mmq@distribution, 0:1), 7)
+> stopifnot(isequal(mp_mmq, c(midpvalue(it_mmq@distribution, 0),
++                             midpvalue(it_mmq@distribution, 1))))
+> (pi_mmq <- pvalue_interval(it_mmq@distribution, 0:1))
       [,1]   [,2]
 p_0 0.9993 0.6179
 p_1 1.0000 0.6179
-> round(pi_mmq_0    <- pvalue_interval(it_mmq@distribution, 0  ), 7)
-   p_0    p_1 
-0.9993 1.0000 
-> round(pi_mmq_1    <- pvalue_interval(it_mmq@distribution,   1), 7)
-   p_0    p_1 
-0.6179 0.6179 
-> stopifnot(isequal(pi_mmq, cbind(pi_mmq_0, pi_mmq_1)))
+> stopifnot(isequal(pi_mmq, cbind(pvalue_interval(it_mmq@distribution, 0),
++                                 pvalue_interval(it_mmq@distribution, 1))))
 > 
 > ### univariate, exact and scalar
 > it_ues <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "exact", teststat = "scalar")
-> round(dp_ues      <- dperm(it_ues, 0:1), 7)
-[1] 0.0294875 0.0000000
-> round(dp_ues_0    <- dperm(it_ues, 0  ), 7)
-[1] 0.0294875
-> round(dp_ues_1    <- dperm(it_ues,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_ues, c(dp_ues_0, dp_ues_1)))
-> round(pp_ues      <- pperm(it_ues, 0:1), 7)
+> (dp_ues <- dperm(it_ues, 0:1))
+[1] 0.02948754 0.00000000
+> stopifnot(isequal(dp_ues, c(dperm(it_ues, 0), dperm(it_ues, 1))))
+> (pp_ues <- pperm(it_ues, 0:1))
 [1] 0.5147438 0.8425004
-> round(pp_ues_0    <- pperm(it_ues, 0  ), 7)
-[1] 0.5147438
-> round(pp_ues_1    <- pperm(it_ues,   1), 7)
-[1] 0.8425004
-> stopifnot(isequal(pp_ues, c(pp_ues_0, pp_ues_1)))
-> round(qp_ues      <- qperm(it_ues, c(0.5, 0.75)), 7)
+> stopifnot(isequal(pp_ues, c(pperm(it_ues, 0), pperm(it_ues, 1))))
+> (qp_ues <- qperm(it_ues, c(0.5, 0.75)))
 [1] 0.0000000 0.6803361
-> round(qp_ues_0.5  <- qperm(it_ues,   0.5       ), 7)
-[1] 0
-> round(qp_ues_0.75 <- qperm(it_ues,        0.75 ), 7)
-[1] 0.6803361
-> stopifnot(isequal(qp_ues, c(qp_ues_0.5, qp_ues_0.75)))
-> round(p_ues       <- pvalue(it_ues@distribution, 0:1), 7)
+> stopifnot(isequal(qp_ues, c(qperm(it_ues, 0.5), qperm(it_ues, 0.75))))
+> (pv_ues <- pvalue(it_ues@distribution, 0:1))
 [1] 1.0000000 0.3149992
-> round(p_ues_0     <- pvalue(it_ues@distribution, 0  ), 7)
-[1] 1
-> round(p_ues_1     <- pvalue(it_ues@distribution,   1), 7)
-[1] 0.3149992
-> stopifnot(isequal(p_ues, c(p_ues_0, p_ues_1)))
-> round(mp_ues      <- midpvalue(it_ues@distribution, 0:1), 7)
+> stopifnot(isequal(pv_ues, c(pvalue(it_ues@distribution, 0),
++                             pvalue(it_ues@distribution, 1))))
+> (mp_ues <- midpvalue(it_ues@distribution, 0:1))
 [1] 0.9705125 0.3149992
-> round(mp_ues_0    <- midpvalue(it_ues@distribution, 0  ), 7)
-[1] 0.9705125
-> round(mp_ues_1    <- midpvalue(it_ues@distribution,   1), 7)
-[1] 0.3149992
-> stopifnot(isequal(mp_ues, c(mp_ues_0, mp_ues_1)))
-> round(pi_ues      <- pvalue_interval(it_ues@distribution, 0:1), 7)
+> stopifnot(isequal(mp_ues, c(midpvalue(it_ues@distribution, 0),
++                             midpvalue(it_ues@distribution, 1))))
+> (pi_ues <- pvalue_interval(it_ues@distribution, 0:1))
          [,1]      [,2]
 p_0 0.9410249 0.3149992
 p_1 1.0000000 0.3149992
-> round(pi_ues_0    <- pvalue_interval(it_ues@distribution, 0  ), 7)
-      p_0       p_1 
-0.9410249 1.0000000 
-> round(pi_ues_1    <- pvalue_interval(it_ues@distribution,   1), 7)
-      p_0       p_1 
-0.3149992 0.3149992 
-> stopifnot(isequal(pi_ues, cbind(pi_ues_0, pi_ues_1)))
+> stopifnot(isequal(pi_ues, cbind(pvalue_interval(it_ues@distribution, 0),
++                                 pvalue_interval(it_ues@distribution, 1))))
 > 
 > ### univariate, exact and quad
 > it_ueq <- independence_test(y1 ~ x,  data = dta,
 +                             distribution = "exact", teststat = "quad")
-> round(dp_ueq      <- dperm(it_ueq, 0:1), 7)
-[1] 0.0294875 0.0000000
-> round(dp_ueq_0    <- dperm(it_ueq, 0  ), 7)
-[1] 0.0294875
-> round(dp_ueq_1    <- dperm(it_ueq,   1), 7)
-[1] 0
-> stopifnot(isequal(dp_ueq, c(dp_ueq_0, dp_ueq_1)))
-> round(pp_ueq      <- pperm(it_ueq, 0:1), 7)
-[1] 0.0294875 0.6850008
-> round(pp_ueq_0    <- pperm(it_ueq, 0  ), 7)
-[1] 0.0294875
-> round(pp_ueq_1    <- pperm(it_ueq,   1), 7)
-[1] 0.6850008
-> stopifnot(isequal(pp_ueq, c(pp_ueq_0, pp_ueq_1)))
-> round(qp_ueq      <- qperm(it_ueq, c(0.5, 0.75)), 7)
+> (dp_ueq <- dperm(it_ueq, 0:1))
+[1] 0.02948754 0.00000000
+> stopifnot(isequal(dp_ueq, c(dperm(it_ueq, 0), dperm(it_ueq, 1))))
+> (pp_ueq <- pperm(it_ueq, 0:1))
+[1] 0.02948754 0.68500076
+> stopifnot(isequal(pp_ueq, c(pperm(it_ueq, 0), pperm(it_ueq, 1))))
+> (qp_ueq <- qperm(it_ueq, c(0.5, 0.75)))
 [1] 0.4628571 1.2857143
-> round(qp_ueq_0.5  <- qperm(it_ueq,   0.5       ), 7)
-[1] 0.4628571
-> round(qp_ueq_0.75 <- qperm(it_ueq,        0.75 ), 7)
-[1] 1.285714
-> stopifnot(isequal(qp_ueq, c(qp_ueq_0.5, qp_ueq_0.75)))
-> round(p_ueq       <- pvalue(it_ueq@distribution, 0:1), 7)
+> stopifnot(isequal(qp_ueq, c(qperm(it_ueq, 0.5), qperm(it_ueq, 0.75))))
+> (pv_ueq <- pvalue(it_ueq@distribution, 0:1))
 [1] 1.0000000 0.3149992
-> round(p_ueq_0     <- pvalue(it_ueq@distribution, 0  ), 7)
-[1] 1
-> round(p_ueq_1     <- pvalue(it_ueq@distribution,   1), 7)
-[1] 0.3149992
-> stopifnot(isequal(p_ueq, c(p_ueq_0, p_ueq_1)))
-> round(mp_ueq      <- midpvalue(it_ueq@distribution, 0:1), 7)
+> stopifnot(isequal(pv_ueq, c(pvalue(it_ueq@distribution, 0),
++                             pvalue(it_ueq@distribution, 1))))
+> (mp_ueq <- midpvalue(it_ueq@distribution, 0:1))
 [1] 0.9852562 0.3149992
-> round(mp_ueq_0    <- midpvalue(it_ueq@distribution, 0  ), 7)
-[1] 0.9852562
-> round(mp_ueq_1    <- midpvalue(it_ueq@distribution,   1), 7)
-[1] 0.3149992
-> stopifnot(isequal(mp_ueq, c(mp_ueq_0, mp_ueq_1)))
-> round(pi_ueq      <- pvalue_interval(it_ueq@distribution, 0:1), 7)
+> stopifnot(isequal(mp_ueq, c(midpvalue(it_ueq@distribution, 0),
++                             midpvalue(it_ueq@distribution, 1))))
+> (pi_ueq <- pvalue_interval(it_ueq@distribution, 0:1))
          [,1]      [,2]
 p_0 0.9705125 0.3149992
 p_1 1.0000000 0.3149992
-> round(pi_ueq_0    <- pvalue_interval(it_ueq@distribution, 0  ), 7)
-      p_0       p_1 
-0.9705125 1.0000000 
-> round(pi_ueq_1    <- pvalue_interval(it_ueq@distribution,   1), 7)
-      p_0       p_1 
-0.3149992 0.3149992 
-> stopifnot(isequal(pi_ueq, cbind(pi_ueq_0, pi_ueq_1)))
+> stopifnot(isequal(pi_ueq, cbind(pvalue_interval(it_ueq@distribution, 0),
++                                 pvalue_interval(it_ueq@distribution, 1))))
 > 
 > proc.time()
    user  system elapsed 
-   4.57    0.73    5.32 
+   4.59    0.51    5.09 

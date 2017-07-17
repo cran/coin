@@ -102,7 +102,7 @@ SR_shift_2sample <- function(object, fact) {
         sum(Prob[T %LE% q])
     }
     q <- function(p) {
-        idx <- which(cumsum(Prob) < p)
+        idx <- which(cumsum(Prob) %LT% p)
         if (length(idx) == 0L)
             T[1L]
         else if (length(idx) == length(Prob))
@@ -261,7 +261,7 @@ SR_shift_1sample <- function(object, fact) {
         sum(Prob[T %LE% q])
     }
     q <- function(p) {
-        idx <- which(cumsum(Prob) < p)
+        idx <- which(cumsum(Prob) %LT% p)
         if (length(idx) == 0L)
             T[1L]
         else if (length(idx) == length(Prob))
