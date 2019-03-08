@@ -51,16 +51,16 @@ independence_test.IndependenceProblem <- function(object,
     ## check type of test statistic and alternative
     if (!is_scalar(object)) {
         if (teststat == "scalar") {
-            warning("Length linear statistic > 1, using ",
-                    sQuote("maximum"), "-type test statistic")
+            warning("linear statistic has length > 1: ",
+                    "using maximum test statistic instead")
             teststat <- "maximum"
         }
     } else {
         if (teststat == "maximum") teststat <- "scalar"
     }
     if (alternative != "two.sided" && teststat == "quadratic")
-        warning(sQuote("alternative"), " is ignored for ",
-                teststat, " test statistics")
+        warning(sQuote("alternative"),
+                " is ignored for quadratic test statistic")
 
     ## compute linear statistic, conditional expectation and
     ## conditional covariance

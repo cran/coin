@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > ### testing the independence of a numeric variable
 > ### 'y' and a binary factor 'x' (possibly blocked)
 > 
+> suppressWarnings(RNGversion("3.5.2"))
 > set.seed(290875)
 > library("coin")
 Loading required package: survival
@@ -101,8 +102,7 @@ Loading required package: survival
 > 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt",
 +                    alternative = "less"))
-         1 
-0.08974461 
+[1] 0.08974461
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx",
 +                    alternative = "less"))
 [1] 0.0885
@@ -115,8 +115,7 @@ Loading required package: survival
 > 
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "asympt",
 +                    alternative = "greater"))
-        1 
-0.9102554 
+[1] 0.9102554
 > pvalue(wilcox_test(y ~ x | block, data = dat, distribution = "approx",
 +                    alternative = "greater"))
 [1] 0.9158
@@ -488,7 +487,8 @@ alternative hypothesis: true theta is greater than 1
 +                        x = gl(2, 8))
 > 
 > ### Wilcoxon Rank-Sum Test
-> wt <- wilcox_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> wt <- wilcox_test(y ~ x, data = location, conf.int = TRUE,
++                   distribution = "exact")
 > wt
 
 	Exact Wilcoxon-Mann-Whitney Test
@@ -507,8 +507,28 @@ difference in location
 > stopifnot(isequal(wt0$confint, ci$confint))
 > stopifnot(isequal(wt0$estimate, ci$estimate))
 > 
+> wtx <- wilcox_test(y ~ x, data = location, conf.int = TRUE,
++                    distribution = "approximate")
+> confint(wtx)
+95 percent confidence interval:
+ -9 33 
+sample estimates:
+difference in location 
+                  11.5 
+
+> 
+> wta <- wilcox_test(y ~ x, data = location, conf.int = TRUE)
+> confint(wta)
+95 percent confidence interval:
+ -7.000048 31.000073 
+sample estimates:
+difference in location 
+              11.20138 
+
+> 
 > ### Normal Scores Test
-> nt <- normal_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> nt <- normal_test(y ~ x, data = location, conf.int = TRUE,
++                   distribution = "exact")
 > nt
 
 	Exact Two-Sample van der Waerden (Normal Quantile) Test
@@ -526,8 +546,29 @@ difference in location
 > stopifnot(isequal(ci$conf.int, c(-6, 30)))
 > stopifnot(isequal(ci$estimate, 11))
 > 
+> ntx <- normal_test(y ~ x, data = location, conf.int = TRUE,
++                    distribution = "approximate")
+> confint(ntx)
+95 percent confidence interval:
+ -7 30 
+sample estimates:
+difference in location 
+                    11 
+
+> 
+> nta <- normal_test(y ~ x, data = location, conf.int = TRUE)
+> confint(nta)
+95 percent confidence interval:
+ -6.999981 30.000056 
+sample estimates:
+difference in location 
+              10.99993 
+
+> 
 > ### Median Test
-> median_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> mt <- median_test(y ~ x, data = location, conf.int = TRUE,
++                   distribution = "exact")
+> mt
 
 	Exact Two-Sample Brown-Mood Median Test
 
@@ -540,9 +581,37 @@ sample estimates:
 difference in location 
                   15.5 
 
+> confint(mt)
+95 percent confidence interval:
+ -21  42 
+sample estimates:
+difference in location 
+                  15.5 
+
+> 
+> mtx <- median_test(y ~ x, data = location, conf.int = TRUE,
++                    distribution = "approximate")
+> confint(mtx)
+95 percent confidence interval:
+ -21  42 
+sample estimates:
+difference in location 
+                  15.5 
+
+> 
+> mta <- median_test(y ~ x, data = location, conf.int = TRUE)
+> confint(mta)
+95 percent confidence interval:
+ -20.99994  41.99996 
+sample estimates:
+difference in location 
+                  12.6 
+
 > 
 > ### Savage Test
-> savage_test(y ~ x, data = location, conf.int = TRUE, di = "ex")
+> st <- savage_test(y ~ x, data = location, conf.int = TRUE,
++                   distribution = "exact")
+> st
 
 	Exact Two-Sample Savage Test
 
@@ -555,6 +624,32 @@ sample estimates:
 difference in location 
                     12 
 
+> confint(st)
+95 percent confidence interval:
+ -5 30 
+sample estimates:
+difference in location 
+                    12 
+
+> 
+> stx <- savage_test(y ~ x, data = location, conf.int = TRUE,
++                    distribution = "approximate")
+> confint(stx)
+95 percent confidence interval:
+ -5 30 
+sample estimates:
+difference in location 
+                    12 
+
+> 
+> sta <- savage_test(y ~ x, data = location, conf.int = TRUE)
+> confint(sta)
+95 percent confidence interval:
+ -6.000018 31.000020 
+sample estimates:
+difference in location 
+              12.00002 
+
 > 
 > 
 > ### Scale Tests
@@ -563,8 +658,8 @@ difference in location
 +                     x = gl(2, 8))
 > 
 > ### Ansari-Bradley Test
-> at <- ansari_test(y ~ x, data = scale, di = "ex",
-+                   conf.int = TRUE, conf.level = 0.988)
+> at <- ansari_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                   distribution = "exact")
 > at
 
 	Exact Two-Sample Ansari-Bradley Test
@@ -580,27 +675,74 @@ ratio of scales
 
 > ci <- confint(at)
 > stopifnot(isequal(ci$conf.int, c(10, 556) / c(68, 27)))
-> stopifnot(isequal(ci$estimate, mean(c(35/30, 370 / 290))))
+> stopifnot(isequal(ci$estimate, mean(c(35 / 30, 370 / 290))))
+> 
+> atx <- ansari_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                    distribution = "approximate")
+> confint(atx)
+98.8 percent confidence interval:
+  0.09285714 20.59259259 
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> ata <- ansari_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
+> confint(ata)                                                  # wrong in < 1.3-0
+98.8 percent confidence interval:
+  0.147007 20.592614 
+sample estimates:
+ratio of scales 
+       1.236009 
+
 > 
 > ### Taha Test
-> taha_test(y ~ x, data = scale, di = "ex",
-+           conf.int = TRUE, conf.level = 0.54)
+> tt <- taha_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.51,
++                 distribution = "exact")
+> tt
 
 	Exact Two-Sample Taha Test
 
 data:  y by x (1, 2)
 Z = 1.2612, p-value = 0.2157
 alternative hypothesis: true ratio of scales is not equal to 1
-54 percent confidence interval:
+51 percent confidence interval:
    4.814815 278.000000
+sample estimates:
+ratio of scales 
+        13.7037 
+
+> confint(tt)
+51 percent confidence interval:
+   4.814815 278.000000 
+sample estimates:
+ratio of scales 
+        13.7037 
+
+> 
+> ttx <- taha_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.51,
++                  distribution = "approximate")
+> confint(ttx)
+51 percent confidence interval:
+   4.814815 278.000000 
+sample estimates:
+ratio of scales 
+        13.7037 
+
+> 
+> tta <- taha_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.51)
+> confint(tta)                                                  # wrong in < 1.3-0
+51 percent confidence interval:
+   4.814861 278.000000 
 sample estimates:
 ratio of scales 
         13.7037 
 
 > 
 > ### Klotz Test
-> klotz_test(y ~ x, data = scale, di = "ex",
-+            conf.int = TRUE, conf.level = 0.988)
+> kt <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                  distribution = "exact")
+> kt
 
 	Exact Two-Sample Klotz Test
 
@@ -613,10 +755,37 @@ sample estimates:
 ratio of scales 
        1.221264 
 
+> confint(kt)
+98.8 percent confidence interval:
+  0.1470588 13.7037037 
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> ktx <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                   distribution = "approximate")
+> confint(ktx)
+98.8 percent confidence interval:
+  0.1470588 13.7037037 
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> kta <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
+> confint(kta)                                                  # wrong in < 1.3-0
+98.8 percent confidence interval:
+  0.08968857 20.59270981 
+sample estimates:
+ratio of scales 
+       1.275789 
+
 > 
 > ### Mood Test
-> mood_test(y ~ x, data = scale, di = "ex",
-+           conf.int = TRUE, conf.level = 0.988)
+> mt <- mood_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                 distribution = "exact")
+> mt
 
 	Exact Two-Sample Mood Test
 
@@ -629,10 +798,37 @@ sample estimates:
 ratio of scales 
        1.221264 
 
+> confint(mt)
+98.8 percent confidence interval:
+  0.1470588 13.7037037 
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> mtx <- mood_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                  distribution = "approximate")
+> confint(mtx)
+98.8 percent confidence interval:
+  0.09285714 13.70370370 
+sample estimates:
+ratio of scales 
+       1.221264 
+
+> 
+> mta <- mood_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
+> confint(mta)                                                  # wrong in < 1.3-0
+98.8 percent confidence interval:
+  0.09286699 20.59252944 
+sample estimates:
+ratio of scales 
+       1.267119 
+
 > 
 > ### Fligner-Killeen Test
-> fligner_test(y ~ x, data = scale, di = "ex",
-+                   conf.int = TRUE, conf.level = 0.988)
+> ft <- fligner_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                    distribution = "exact")
+> ft
 
 	Exact Two-Sample Fligner-Killeen Test
 
@@ -645,10 +841,37 @@ sample estimates:
 ratio of scales 
        2.307692 
 
+> confint(ft)
+98.8 percent confidence interval:
+  0.5460526 10.6875000 
+sample estimates:
+ratio of scales 
+       2.307692 
+
+> 
+> ftx <- fligner_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                     distribution = "approximate")
+> confint(ftx)
+98.8 percent confidence interval:
+  0.5460526 10.3750000 
+sample estimates:
+ratio of scales 
+       2.307692 
+
+> 
+> fta <- fligner_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
+> confint(fta)                                                  # wrong in < 1.3-0
+98.8 percent confidence interval:
+  0.4762144 10.6875287 
+sample estimates:
+ratio of scales 
+       2.290123 
+
 > 
 > ### Conover-Iman Test
-> conover_test(y ~ x, data = scale, di = "ex",
-+              conf.int = TRUE, conf.level = 0.988)
+> ct <- conover_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                    distribution = "exact")
+> ct
 
 	Exact Two-Sample Conover-Iman Test
 
@@ -661,15 +884,42 @@ sample estimates:
 ratio of scales 
        3.048295 
 
+> confint(ct)
+98.8 percent confidence interval:
+ 0.7897727 9.8206522 
+sample estimates:
+ratio of scales 
+       3.048295 
+
+> 
+> ctx <- conover_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
++                     distribution = "approximate")
+> confint(ctx)
+98.8 percent confidence interval:
+ 0.7897727 9.8206522 
+sample estimates:
+ratio of scales 
+       3.048295 
+
+> 
+> cta <- conover_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
+> confint(cta)                                                  # wrong in < 1.3-0
+98.8 percent confidence interval:
+  0.5494334 10.6575632 
+sample estimates:
+ratio of scales 
+       2.455025 
+
 > 
 > 
 > ### ties handling
-> y1 <- c(14 , 18 , 2 , 4 , -5 , 14 , -3 , -1 , 1 , 6 , 3 , 3)
-> x1 <- c(8 , 26 , -7 , -1 , 2 , 9 , 0 , -4 , 13 , 3 , 3 , 4)
-> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact(),
-+                        zero.method = "Wilcoxon"))
+> y1 <- c(14, 18, 2, 4, -5, 14, -3, -1, 1, 6, 3, 3)
+> x1 <- c(8, 26, -7, -1, 2, 9, 0, -4, 13, 3, 3, 4)
+> pvalue(wilcoxsign_test(y1 ~ x1, alternative = "greater",
++                        distribution = "exact", zero.method = "Wilcoxon"))
 [1] 0.4741211
-> pvalue(wilcoxsign_test(y1~x1,alter="greater",dist=exact()))
+> pvalue(wilcoxsign_test(y1 ~ x1, alternative = "greater",
++                        distribution = "exact"))
 [1] 0.4609375
 > 
 > 
@@ -678,7 +928,7 @@ ratio of scales
 > ### Collett (2003, p. 9, Table 1.3)
 > prostatic <- data.frame(
 +     time = c(13, 52,  6, 40, 10,  7, 66, 10, 10, 14,
-+              16 , 4, 65,  5, 11, 10, 15,  5, 76, 56,
++              16,  4, 65,  5, 11, 10, 15,  5, 76, 56,
 +              88, 24, 51,  4, 40,  8, 18,  5, 16, 50,
 +              40,  1, 36,  5, 10, 91, 18,  1, 18,  6,
 +               1, 23, 15, 18, 12, 12, 17,  3),
@@ -700,6 +950,7 @@ ratio of scales
 > ### Gehan
 > lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
 +                    type = "Gehan")
+> stopifnot(identical(lt@method, "Two-Sample Gehan-Breslow Test"))
 > isequal(round(statistic(lt)^2, 4), 3.8400)
 [1] TRUE
 > isequal(round(pvalue(lt), 4), 0.0500)
@@ -708,6 +959,7 @@ ratio of scales
 > ### Peto-Peto
 > lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
 +                    type = "Fleming-Harrington", rho = 1)
+> stopifnot(identical(lt@method, "Two-Sample Fleming-Harrington Test"))
 > isequal(round(statistic(lt)^2, 4), 4.0657)
 [1] TRUE
 > isequal(round(pvalue(lt), 4), 0.0438)
@@ -716,6 +968,7 @@ ratio of scales
 > ### Prentice
 > lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
 +                    type = "Prentice")
+> stopifnot(identical(lt@method, "Two-Sample Prentice Test"))
 > isequal(round(statistic(lt)^2, 4), 4.1229)
 [1] TRUE
 > isequal(round(pvalue(lt), 4), 0.0423)
@@ -723,6 +976,7 @@ ratio of scales
 > 
 > ### LR Altshuler
 > lt <- logrank_test(Surv(time, event) ~ group, data = prostatic)
+> stopifnot(identical(lt@method, "Two-Sample Logrank Test"))
 > isequal(round(statistic(lt)^2, 4), 4.4343)
 [1] TRUE
 > isequal(round(pvalue(lt), 4), 0.0352)
@@ -731,6 +985,7 @@ ratio of scales
 > ### Tarone-Ware
 > lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
 +                    type = "Tarone-Ware")
+> stopifnot(identical(lt@method, "Two-Sample Tarone-Ware Test"))
 > isequal(round(statistic(lt)^2, 4), 4.3443)
 [1] TRUE
 > isequal(round(pvalue(lt), 4), 0.0371)
@@ -750,4 +1005,4 @@ Error in SR_shift_1sample(object, fact = attr(int, "fact")) :
 > 
 > proc.time()
    user  system elapsed 
-   1.90    0.07    1.98 
+   2.04    0.15    2.18 

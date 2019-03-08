@@ -79,13 +79,11 @@ wilcox_test.IndependenceProblem <- function(object,
     object@method <- "Wilcoxon-Mann-Whitney Test"
     object@nullvalue <- 0
 
-    if (conf.int && has_distribution(args)) {
-        object <- new("ScalarIndependenceTestConfint", object)
-        object@confint <- function(level)
-            confint_location(object@statistic, object@distribution,
-                             level = level)
-        object@conf.level <- conf.level
-    }
+    if (conf.int && has_distribution(args))
+        object <- new("ScalarIndependenceTestConfint", object,
+                      confint = function(level)
+                          .confint(object, parm = "location", level = level),
+                      conf.level = conf.level)
 
     object
 }
@@ -182,13 +180,11 @@ normal_test.IndependenceProblem <- function(object,
     else if (twosamp) {
         object@method <- "Two-Sample van der Waerden (Normal Quantile) Test"
         object@nullvalue <- 0
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_location(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "location", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample van der Waerden (Normal Quantile) Test"
 
@@ -242,13 +238,11 @@ median_test.IndependenceProblem <- function(object,
     else if (twosamp) {
         object@method <- "Two-Sample Brown-Mood Median Test"
         object@nullvalue <- 0
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_location(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "location", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Brown-Mood Median Test"
 
@@ -302,13 +296,11 @@ savage_test.IndependenceProblem <- function(object,
     else if (twosamp) {
         object@method <- "Two-Sample Savage Test"
         object@nullvalue <- 0
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_location(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "location", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Savage Test"
 

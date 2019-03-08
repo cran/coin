@@ -1,56 +1,26 @@
-split_index <- function(n, by) {
+split_index <-
+    function(n, by)
+{
     if (n < by)
         by <- n
     lengths(lapply(seq_len(by), function(i) seq.int(i, n, by)),
             use.names = FALSE)
 }
 
-MonteCarlo <- function(x, y, block, weights, B, parallel, ncpus, cl) {
-    ## expand observations for non-unit weights
-    if (!is_unity(weights)) {
-        idx <- rep.int(seq_along(weights), weights)
-        x <- x[idx, , drop = FALSE]
-        y <- y[idx, , drop = FALSE]
-        block <- block[idx]
-    }
-
-    montecarlo <- function(B)
-        .Call(R_MonteCarloIndependenceTest,
-              x, y, as.integer(block), as.integer(B))
+MonteCarlo <-
+    function(x, y, block, weights, nresample, parallel, ncpus, cl)
+{
+    montecarlo <- function(nresample)
+        .Call(R_PermutedLinearStatistic,
+              x, y, weights, integer(0), block, as.double(nresample))
 
     if (parallel == "no")
-        montecarlo(B)
+        montecarlo(nresample)
     else {
-        ## load the 'parallel' namespace if necessary
-        if (!isNamespaceLoaded("parallel")) {
-            ## loading 'parallel' changes RNG state if R_PARALLEL_PORT is unset
-            if (Sys.getenv("R_PARALLEL_PORT") == "") {
-                ## make sure '.Random.seed' exists; almost unnecessary since it
-                ## always does when called from "ApproxNullDistribution"
-                if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
-                    runif(1L)
-                ## save existing RNG state
-                seed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
-                ## load namespace
-                if (!requireNamespace("parallel", quietly = TRUE))
-                    stop("package ", sQuote("parallel"),
-                         " is needed for parallel operation")
-                ## put back the saved RNG state
-                assign(".Random.seed", value = seed, envir = .GlobalEnv)
-            } else
-                ## load namespace
-                if (!requireNamespace("parallel", quietly = TRUE))
-                    stop("package ", sQuote("parallel"),
-                         " is needed for parallel operation")
-        }
-
         if (RNGkind()[1L] == "L'Ecuyer-CMRG")
             ## advance stream in master process upon exit
-            on.exit(assign(".Random.seed",
-                           value = parallel::nextRNGStream(
-                               get(".Random.seed", envir = .GlobalEnv,
-                                   inherits = FALSE)),
-                           envir = .GlobalEnv))
+            on.exit(.GlobalEnv[[".Random.seed"]] <-
+                        nextRNGStream(.GlobalEnv[[".Random.seed"]]))
 
         if (parallel == "multicore") {
             if (.Platform$OS.type == "windows")
@@ -58,32 +28,28 @@ MonteCarlo <- function(x, y, block, weights, B, parallel, ncpus, cl) {
                      " is not available for MS Windows")
             if (as.integer(ncpus) < 2L)
                 warning("parallel operation requires at least two processes")
-            do.call("cbind",
-                    parallel::mclapply(split_index(B, ncpus),
-                                       FUN = montecarlo, mc.cores = ncpus))
+            do.call("cbind", mclapply(split_index(nresample, ncpus),
+                                      FUN = montecarlo, mc.cores = ncpus))
         } else {
             if (is.null(cl)) {
                 ## has a default cluster been registered?
                 ## see parallel:::defaultCluster
-                cl <- get("default",
-                          envir = get(".reg", envir = getNamespace("parallel"),
-                                      inherits = FALSE),
-                          inherits = FALSE)
+                ## <FIXME> R-3.5.0 has 'getDefaultCluster()' </FIXME>
+                cl <- getNamespace("parallel")$.reg$default
                 if (is.null(cl)) {
                     ## no default cluster, so setup a PSOCK cluster
-                    cl <- parallel::makePSOCKcluster(ncpus)
-                    on.exit(parallel::stopCluster(cl), add = TRUE) # clean-up
+                    cl <- makePSOCKcluster(ncpus)
+                    on.exit(stopCluster(cl), add = TRUE) # clean-up
                 }
             }
             if (RNGkind()[1L] == "L'Ecuyer-CMRG")
                 ## distribute streams (using master process) for reproducibility
-                parallel::clusterSetRNGStream(cl)
+                clusterSetRNGStream(cl)
             ncpus <- as.integer(length(cl))
             if (ncpus < 2L)
                 warning("parallel operation requires at least two processes")
-            do.call("cbind",
-                    parallel::clusterApply(cl, x = split_index(B, ncpus),
-                                           fun = montecarlo))
+            do.call("cbind", clusterApply(cl, x = split_index(nresample, ncpus),
+                                          fun = montecarlo))
         }
     }
 }

@@ -13,7 +13,7 @@ tab <- as.table(matrix(c(12, 1, 3, 8, 17, 12, 9, 9, 16, 24), nrow = 2,
 df <- coin:::table2df(tab)
 
 it <- independence_test(response ~ group, data = df,
-                        distribution = approximate(B = 100000))
+                        distribution = approximate(nresample = 100000))
 
 ### Table 5, first column: OK
 pvalue(it, method = "unadjusted")
@@ -33,7 +33,7 @@ df <- data.frame(group = factor(c(rep("Control", 50), rep("Treatment", 48))),
 
 ### alternative: less
 it <- independence_test(V1 + V2 + V3 + V4 ~ group, data = df,
-                        distribution = approximate(B = 100000),
+                        distribution = approximate(nresample = 100000),
                         alternative = "less")
 
 ### page 4, 2nd column: adjusted p-value = 0.03665 for V1
@@ -45,7 +45,7 @@ pvalue(it, method = "single-step", distribution = "marginal")
 
 ### alternative: two.sided
 it <- independence_test(V1 + V2 + V3 + V4 ~ group, data = df,
-                        distribution = approximate(B = 100000))
+                        distribution = approximate(nresample = 100000))
 
 ### page 5, 1st column: adjusted p-value = 0.05261 for V1
 pvalue(it, method = "single-step", distribution = "marginal", type = "Sidak")
@@ -77,23 +77,23 @@ pvalue(independence_test(x1 + x2 ~ gr, alternative = "greater"),
        method = "step-down")
 
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "two.sided",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "single-step")
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "less",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "single-step")
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "greater",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "single-step")
 
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "two.sided",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "step-down")
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "less",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "step-down")
 pvalue(independence_test(x1 + x2 ~ gr, alternative = "greater",
-                         distribution = approximate(B = 10000)),
+                         distribution = approximate(nresample = 10000)),
        method = "step-down")
 
 if (FALSE) {
@@ -148,13 +148,13 @@ pvalue(it3 <- independence_test(x1 + x2 ~ gr, alternative = "greater"),
        method = "unadjusted")
 
 pvalue(it4 <- independence_test(x1 + x2 ~ gr,
-                                distribution = approximate(B = 10000)),
+                                distribution = approximate(nresample = 10000)),
        method = "unadjusted")
 pvalue(it5 <- independence_test(x1 + x2 ~ gr, alternative = "less",
-                                distribution = approximate(B = 10000)),
+                                distribution = approximate(nresample = 10000)),
        method = "unadjusted")
 pvalue(it6 <- independence_test(x1 + x2 ~ gr, alternative = "greater",
-                                distribution = approximate(B = 10000)),
+                                distribution = approximate(nresample = 10000)),
        method = "unadjusted")
 
 ### consistency of minimum p-value for "global"/"single-step"/"step-down"

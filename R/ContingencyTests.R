@@ -52,20 +52,15 @@ chisq_test.IndependenceProblem <- function(object, ...) {
     if (!check(object))
         stop(sQuote("check"), " failed")
 
-    object <- new("IndependenceLinearStatistic", object, varonly = FALSE)
-
     ## use the classical chisq statistic based on Pearson
     ## residuals (O - E)^2 / E
     ## see Th. 3.1 and its proof in Strasser & Weber (1999).
+    object <- new("IndependenceLinearStatistic", object, varonly = FALSE)
+    object@covariance <- new("CovarianceMatrix", covariance(object) * (n - 1) / n)
     object <-
         if (args$teststat == "scalar") {
             object <-
                 new("ScalarIndependenceTestStatistic", object, args$alternative)
-            object@teststatistic <- object@teststatistic * sqrt(n / (n - 1))
-            object@standardizedlinearstatistic <-
-                object@standardizedlinearstatistic * sqrt(n / (n - 1))
-            object@covariance <-
-                new("CovarianceMatrix", covariance(object) * (n - 1) / n)
             new("ScalarIndependenceTest", statistic = object,
                 distribution = args$distribution(object))
         } else {
@@ -73,12 +68,6 @@ chisq_test.IndependenceProblem <- function(object, ...) {
                 warning(sQuote("alternative"),
                         " is ignored for quadratic test statistics")
             object <- new("QuadTypeIndependenceTestStatistic", object)
-            object@teststatistic <- object@teststatistic * n / (n - 1)
-            object@standardizedlinearstatistic <-
-                object@standardizedlinearstatistic * sqrt(n / (n - 1))
-            object@covariance <-
-                new("CovarianceMatrix", covariance(object) * (n - 1) / n)
-            object@covarianceplus <- MPinv(covariance(object))$MPinv
             new("QuadTypeIndependenceTest", statistic = object,
                 distribution = args$distribution(object))
         }
@@ -162,20 +151,16 @@ lbl_test.table <- function(object, ...) {
             c(list(object = table2IndependenceProblem(object)), list(...)))
 }
 
-lbl_test.IndependenceProblem <- function(object,
-    distribution = c("asymptotic", "approximate", "none"), ...) {
+lbl_test.IndependenceProblem <- function(object, ...) {
 
     ## convert factors to ordered
     object@x[] <- lapply(object@x, function(x)
-        if (is.factor(x) && nlevels(x) > 2) ordered(x) else x)
+        if (is.factor(x) && nlevels(x) > 2) as.ordered(x) else x)
     object@y[] <- lapply(object@y, function(y)
-        if (is.factor(y) && nlevels(y) > 2) ordered(y) else y)
+        if (is.factor(y) && nlevels(y) > 2) as.ordered(y) else y)
 
     args <- setup_args(
         teststat = "scalar",
-        distribution = check_distribution_arg(
-            distribution, values = c("asymptotic", "approximate", "none")
-        ),
         check = function(object) {
             if (!is_doubly_ordered(object))
                 stop(sQuote("object"),

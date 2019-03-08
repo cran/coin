@@ -18,7 +18,7 @@
   created from it directly.
 
   Objects can be created by calls of the form \preformatted{     new("CovarianceMatrix", covariance, \dots)}
-  and \preformatted{     new("Variance", variance, \dots).}
+  and \preformatted{     new("Variance", variance, \dots)}
   where \code{covariance} is a covariance matrix and \code{variance} is numeric
   vector containing the diagonal elements of the covariance matrix.
 }

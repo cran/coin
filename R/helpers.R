@@ -4,11 +4,18 @@ asymptotic <- function(maxpts = 25000, abseps = 0.001, releps = 0) {
                                releps = releps)
 }
 
-approximate <- function(B = 10000, parallel = c("no", "multicore", "snow"),
-                        ncpus = 1, cl = NULL) {
+approximate <- function(nresample = 10000L, parallel = c("no", "multicore", "snow"),
+                        ncpus = 1L, cl = NULL, B) {
+    ## <DEPRECATED>
+    if (!missing(B)) {
+        warning(sQuote("B"), " is deprecated; use ", sQuote("nresample"),
+                " instead")
+        nresample <- B
+    }
+    ## </DEPRECATED>
     parallel <- match.arg(parallel)
     function(object)
-        ApproxNullDistribution(object, B = B, parallel = parallel,
+        ApproxNullDistribution(object, nresample = nresample, parallel = parallel,
                                ncpus = ncpus, cl = cl)
 }
 
@@ -18,63 +25,13 @@ exact <- function(algorithm = c("auto", "shift", "split-up"), fact = NULL) {
         ExactNullDistribution(object, algorithm = algorithm, fact = fact)
 }
 
-LinearStatistic <- function(x, y, weights) {
-    storage.mode(x) <- "double"
-    storage.mode(y) <- "double"
-    storage.mode(weights) <- "double"
-    .Call(R_LinearStatistic, x, y, weights)
-}
-
-ExpectCovarInfluence <- function(y, weights) {
-    storage.mode(y) <- "double"
-    storage.mode(weights) <- "double"
-    .Call(R_ExpectCovarInfluence, y, weights)
-}
-
-expectvaronly <- function(x, y, weights) {
-    indx <- rep.int(seq_len(nrow(x)), weights)
-    x <- x[indx, , drop = FALSE]
-    y <- y[indx, , drop = FALSE]
-    n <- nrow(x)
-    Ey <- colMeans(y)
-    Vy <- rowMeans((t(y) - Ey)^2)
-
-    rSx <- colSums(x)
-    rSx2 <- colSums(x^2)
-    ## in case rSx _and_ Ey are _both_ vectors
-    E <- .Call(R_kronecker, Ey, rSx)
-    V <- n / (n - 1) * .Call(R_kronecker, Vy, rSx2)
-    V <- V - 1 / (n - 1) * .Call(R_kronecker, Vy, rSx^2)
-    list(E = drop(E), V = matrix(V, nrow = 1L))
-}
-
-ExpectCovarLinearStatistic <- function(x, y, weights, varonly = FALSE) {
-    if (varonly) {
-        ev <- expectvaronly(x, y, weights)
-### <FIXME> This conflicts with the "new" initialize methods that were brought
-###         over from 'party' in r927
-###         new("ExpectCovar", expectation = ev$E, covariance = ev$V)
-### </FIXME>
-        ec <- new("ExpectCovar")
-        ec@expectation <- ev$E
-        ec@covariance <- ev$V
-        ec
-    } else {
-        storage.mode(x) <- "double"
-        storage.mode(y) <- "double"
-        storage.mode(weights) <- "double"
-        expcovinf <- ExpectCovarInfluence(y, weights)
-        .Call(R_ExpectCovarLinearStatistic, x, y, weights, expcovinf)
-    }
-}
-
 pmvn <- function(lower, upper, mean, corr, conf.int, ...) {
     p <- if (length(corr) > 1L)
              pmvnorm(lower = lower, upper = upper, mean = mean,
                      corr = corr, ...)
          else
              pmvnorm(lower = lower, upper = upper, mean = mean,
-                     sigma = 1L, ...)
+                     sigma = 1, ...)
     if (conf.int) {
         error <- attr(p, "error")
         attributes(p) <- NULL
@@ -98,15 +55,13 @@ qmvn <- function(p, mean, corr, ...) {
 }
 
 ### copied from package MASS
-MPinv <- function (X, tol = eps())
+MPinv <- function (X, tol = sqrt_eps)
 {
-    if (length(dim(X)) > 2L || !(is.numeric(X) || is.complex(X)))
-        stop("X must be a numeric or complex matrix")
+    if (length(dim(X)) > 2L || !is.numeric(X))
+        stop(sQuote("X"), " must be a numeric matrix")
     if (!is.matrix(X))
         X <- as.matrix(X)
     Xsvd <- svd(X)
-    if (is.complex(X))
-        Xsvd$u <- Conj(Xsvd$u)
     Positive <- Xsvd$d > max(tol * Xsvd$d[1L], 0)
     RET <- if (all(Positive))
                Xsvd$v %*% (1 / Xsvd$d * t(Xsvd$u))
@@ -140,7 +95,7 @@ ft <- function(test, class, formula, data = list(), subset = NULL,
     ## warn users of weighted rank tests
     if (test %in% ranktests && !is.null(object@weights) &&
         !is_unity(object@weights))
-        warning("Rank transformation doesn't take weights into account")
+        warning("rank transformation doesn't take weights into account")
 
     do.call(test, c(list(object = object), args))
 }
@@ -203,7 +158,7 @@ setscores <- function(x, scores) {
 
     missing <- varnames[!varnames %in% c(colnames(x@x), colnames(x@y))]
     if (length(missing) > 0L)
-        stop("Variable(s) ", paste(missing, sep = ", "),
+        stop("variable(s) ", paste(missing, sep = ", "),
              " not found in ", sQuote("x"))
     ## <FIXME> Repeated reassignment to S4 objects may be expensive
     for (var in varnames) {
@@ -237,7 +192,7 @@ check_trafo <- function(tx, ty) {
     if (!(is.numeric(ty) || is.logical(ty)))
         stop(sQuote("ytrafo"), " does not return a numeric or logical vector")
     if (NROW(tx) != NROW(ty))
-        stop("Dimensions of returns of ", sQuote("xtrafo"), " and ",
+        stop("dimensions of returns of ", sQuote("xtrafo"), " and ",
              sQuote("ytrafo"), " don't match")
     if (!is.matrix(tx)) tx <- matrix(tx, ncol = 1L)
     if (!is.matrix(ty)) ty <- matrix(ty, ncol = 1L)
@@ -248,11 +203,11 @@ check_trafo <- function(tx, ty) {
 
 table2df <- function(x) {
     if (!is.table(x))
-        stop(sQuote("x"), " is not of class ", sQuote("table"))
+        stop(sQuote("x"), " is not of class ", dQuote("table"))
     x <- as.data.frame(x)
     freq <- x[["Freq"]]
     x <- x[rep.int(seq_len(nrow(x)), freq), , drop = FALSE]
-    rownames(x) <- seq_len(nrow(x))
+    rownames(x) <- NULL
     x[, colnames(x) != "Freq"]
 }
 
@@ -269,19 +224,35 @@ table2df_sym <- function(x) {
                                  labels = lx))
 }
 
-table2IndependenceProblem <- function(object) {
-
-    df <- as.data.frame(object)
-    if (ncol(df) == 3L)
+table2IndependenceProblem <-
+    function(x)
+{
+    x <- as.data.frame(x)
+    if (ncol(x) == 3L)
         new("IndependenceProblem",
-            x = df[1L], y = df[2L], block = NULL, weights = df[["Freq"]])
-    else if (ncol(df) == 4L) {
-        attr(df[[3L]], "blockname") <- colnames(df)[3L]
+            x = x[1L], y = x[2L], block = NULL, weights = x[["Freq"]])
+    else if (ncol(x) == 4L) {
+        attr(x[[3L]], "blockname") <- colnames(x)[3L]
         new("IndependenceProblem",
-            x = df[1L], y = df[2L], block = df[[3L]], weights = df[["Freq"]])
+            x = x[1L], y = x[2L], block = x[[3L]], weights = x[["Freq"]])
     } else
         stop(sQuote("object"), " is not a two- or three-way contingency table")
 }
+
+table2SymmetryProblem <-
+    function(x)
+{
+    x <- as.data.frame(x)
+    ## SymmetryProblem cannot handle weights, so expand manually
+    x <- x[rep.int(seq_len(nrow(x)), x[["Freq"]]), -ncol(x)]
+    lx <- levels(x[[1L]])
+    if (!all(vapply(x, function(x) all(levels(x) == lx), NA)))
+        stop("table ", sQuote("x"), " does not represent a symmetry problem")
+    new("SymmetryProblem",
+        x = data.frame(conditions = gl(ncol(x), nrow(x), labels = colnames(x))),
+        y = data.frame(response = unlist(x, recursive = FALSE, use.names = FALSE)))
+}
+
 
 is_ytrafo <- function()
     any(vapply(sys.calls(), function(i)
@@ -365,13 +336,13 @@ is_scalar <- function(object)
 is_integer <- function(x, fact = NULL) {
     if (is.null(fact))
         fact <- c(1, 2, 10, 100, 1000, 10000, 100000)
-    f <- vapply(fact, function(f) max(abs(round(x * f) - (x * f))) < eps(), NA)
+    f <- vapply(fact, function(f) max(abs(round(x * f) - (x * f))) < sqrt_eps, NA)
     if (RET <- any(f))
         attr(RET, "fact") <- min(fact[f])
     RET
 }
 
-is_monotone <- function (x)
+is_monotone <- function(x)
     all(x == cummax(x)) || all(x == cummin(x))
 
 isequal <- function(a, b) {
@@ -386,7 +357,7 @@ isequal <- function(a, b) {
 }
 
 has_distribution <- function(args)
-    !(is.character(args$distribution) && args$distribution == "none")
+    !(is.character(args$distribution) && args$distribution[1L] == "none")
 
 check_distribution_arg <- function(distribution,
     values = c("asymptotic", "approximate", "exact", "none")) {
@@ -395,24 +366,29 @@ check_distribution_arg <- function(distribution,
         if (distribution == "none")
             function(object) new("NullDistribution")
         else
-            eval(parse(text = paste0(distribution, "()")))
+            eval(call(distribution))
     } else
         distribution
 }
 
 setup_args <- function(...) {
-    cl <- match.call(independence_test.IndependenceProblem,
-                     call = sys.call(sys.parent()), expand.dots = FALSE)
-    ## find default arguments and values
-    args <- formals(independence_test.IndependenceProblem)
+    cl <- sys.call(sys.parent())
+    fun <- if (inherits(cl$object, "SymmetryProblem"))
+               symmetry_test.SymmetryProblem
+           else
+               independence_test.IndependenceProblem
+    cl <- match.call(fun, call = cl, expand.dots = FALSE)
+    ## get default arguments and values
+    args <- formals(fun)
     args$object <- args$... <- NULL
     nm <- names(args)
     ## replace default values with user-specified values
     for (i in nm[nm %in% names(cl)])
         args[[i]] <- cl[[i]]
     ## override default and user-specified values
-    for (i in nm[nm %in% names(list(...))])
-        args[[i]] <- list(...)[[i]]
+    dots <- list(...)
+    for (i in nm[nm %in% names(dots)])
+        args[[i]] <- dots[[i]]
     lapply(args, eval.parent)
 }
 
@@ -438,7 +414,8 @@ statnames <- function(object) {
     list(dimnames = dn,
          names = paste(rep.int((dn[[1L]]), nc),
                        rep.int((dn[[2L]]), rep.int(nr, nc)),
-                       sep = ifelse(dn[[1L]] == "" || dn[[2L]] == "", "", ":")))
+                       sep = if (all(dn[[1L]] == "") | all(dn[[2L]] == "")) ""
+                             else ":"))
 }
 
 varnames <- function(object) {
@@ -483,25 +460,23 @@ varnames <- function(object) {
         paste(ynames, "by", xnames, collapse = "")
 }
 
-eps <- function() sqrt(.Machine$double.eps)
-
 `%EQ%` <- function(x, y)
-    abs(x - y) < eps()
+    abs(x - y) <= sqrt_eps
 
 `%NE%` <- function(x, y)
-    abs(x - y) >= eps()
+    abs(x - y) > sqrt_eps
 
 `%GE%` <- function(x, y)
-    x > y | abs(x - y) < eps()
+    (y - x) <= sqrt_eps
 
 `%LE%` <- function(x, y)
-    x < y | abs(x - y) < eps()
+    (x - y) <= sqrt_eps
 
 `%GT%` <- function(x, y)
-    (x - y) >= eps()
+    (x - y) > sqrt_eps
 
 `%LT%` <- function(x, y)
-    (y - x) >= eps()
+    (y - x) > sqrt_eps
 
 ### don't use! never!
 get_weights <- function(object) object@statistic@weights
@@ -509,31 +484,28 @@ get_xtrans <- function(object) object@statistic@xtrans
 get_ytrans <- function(object) object@statistic@ytrans
 
 is_unity <- function(x)
-    max(abs(x - 1.0)) < eps()
+    max(abs(x - 1.0)) < sqrt_eps
 
-setRownames <- function (object, nm) {
+setRownames <- function(object, nm) {
     rownames(object) <- nm
     object
 }
 
-setColnames <- function (object, nm) {
+setColnames <- function(object, nm) {
     colnames(object) <- nm
     object
 }
 
-n_decimal_digits <- function(x)
-    nchar(sub("^[[:digit:]]*[.]", "", format(min(x), scientific = FALSE)))
-
-if (getRversion() < "2.15.0")
-    paste0 <- function(...) paste(..., sep = "")
-
-if (getRversion() < "3.1.0") {
-    cospi <- function(x) cos(pi * x)
-    anyNA <- function(x) any(is.na(x))
+setDimnames <- function(object, nm) {
+    dimnames(object) <- nm
+    object
 }
 
-if (getRversion() < "3.2.0") {
-    isNamespaceLoaded <- function(name) !is.null(.getNamespace(name))
-    lengths <- function(x, use.names = TRUE)
-        vapply(x, length, NA_integer_, USE.NAMES = use.names)
+### heuristic for determining the printed number of decimal digits
+### note that, e.g., 1.00 --> 0, 1.10 --> 1, 1.01 --> 2
+n_decimal_digits <-
+    function(x)
+{
+    nchar(sub("^-?[[:space:]]?[[:digit:]]*[.]?", "",
+              format(x, digits = 15, scientific = FALSE)[1]))
 }

@@ -1,11 +1,105 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
-
-\section{Changes in version 1.2-2 (2017-11-28)}{
+\section{Changes in version 1.3-0 (2019-03-04)}{
+  \subsection{New features}{
     \itemize{
-      \item Move \pkg{libcoin} regression tests to \pkg{libcoin} 1.0-0.
+      \item Ordered factors can now be transformed to a finite collection of
+      order-restricted scores (see \code{?zheng_trafo}); this can be used to
+      formulate score-independent tests for ordered categorical data (see
+      \code{?malformations}, \code{?jobsatisfaction} and \code{?vision}).
+
+      \item The test size, i.e., the actual significance level, of approximative
+      (Monte Carlo) and exact tests can now be computed (see \code{?size}).
+
+      \item The centered linear statistic can now be extracted (see
+      \code{?statistic}).
+
+      \item \eqn{P}-values can now be extracted from objects of class
+      \code{"PValue"} using \code{pvalue()}.
     }
+  }
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Adjusted \eqn{p}-values based on the approximative (Monte Carlo)
+      marginal null distributions were incorrect under some circumstances.
+
+      \item The point and/or interval estimate of the ratio of scales parameter
+      (for tests against scale alternatives) were incorrect when using the
+      asymptotic null distribution.
+
+      \item Exact distributions of symmetry tests for paired data, e.g., the
+      exact sign and Wilcoxon signed-rank tests, used the
+      Streitberg-\enc{Röhmel}{Roehmel} algorithm for independent samples instead
+      of the more efficient version for dependent samples.
+
+      \item The class definition of \code{"PValue"} erroneously included the
+      \code{midpvalue} and \code{pvalueinterval} slots; these slots are now part
+      of the \code{"NullDistribution"} subclass (as they should have been
+      originally).
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item Asymptotic and exact \eqn{p}-values smaller than machine precision,
+      i.e., \code{.Machine$double.eps}, or approximative (Monte Carlo)
+      \eqn{p}-values smaller than resampling precision, i.e., \code{1 /
+        nresample}, are now reported as such in the printed output.
+
+      \item Computations on the approximative (Monte Carlo) null distribution,
+      e.g., adjusted \eqn{p}-values for maximum-type tests, are now more
+      efficient.
+
+      \item The Pearson chi-squared test is now computed more efficiently.
+
+      \item Extracting the test statistic or the (global) \eqn{p}-value returned
+      a named result under some circumstances; the results are now unnamed.
+
+      \item The quantile function now returns a named vector if its \code{p}
+      argument is named.
+
+      \item Objects of class \code{"ApproxNullDistribution"} now has a slot
+      \code{nresample} containing the number of Monte Carlo replicates.
+
+      \item Classes \code{"ExpectCovar"} and \code{"ExpectCovarInfluence"} have
+      been moved to the \pkg{party} package.
+
+      \item The \sQuote{coin_implementation} vignette has been renamed to
+      \sQuote{Implementation}.
+
+      \item Documentation updates.
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item The linear statistic, its conditional expectation and covariance,
+      and permuted linear statistics are now computed by package \pkg{libcoin}.%% ;
+      %% asymptotic and exact \eqn{p}-values are not affected by this change, but
+      %% approximate \eqn{p}-values will differ within random variation.
+
+      \item \code{confint()} is now an S4 method.
+
+      \item \R version \eqn{\ge}{>=}3.4.0 and packages \pkg{stats4} and
+      \pkg{matrixStats} are now required.
+    }
+  }
+  \subsection{Deprecated and defunct}{
+    \itemize{
+      \item The \code{B} argument of \code{approximate()} and
+      \code{ApproxNullDistribution()} is now deprecated and has been replaced by
+      \code{nresample} (for consistency with the \pkg{libcoin}, \pkg{party} and
+      \pkg{partykit} packages).
+
+      \item Class \code{"PValue"} is now deprecated.
+    }
+  }
+}
+\section{Changes in version 1.2-2 (2017-11-28)}{
+  \subsection{Other changes}{
+    \itemize{
+      \item The \pkg{libcoin} regression tests are now in \pkg{libcoin} 1.0-0.
+    }
+  }
 }
 \section{Changes in version 1.2-1 (2017-07-16)}{
   \subsection{Bug fixes}{
@@ -40,7 +134,7 @@
       supplied non-right-censored input; it now results in an error.
 
       \item The maximally selected statistics transformation for ordered factors
-      sometimes returned the wrong labels.
+      returned the wrong labels under some circumstances.
     }
   }
   \subsection{User-visible changes}{
@@ -90,9 +184,12 @@
   }
   \subsection{User-visible changes}{
     \itemize{
-      \item Version 1.0-5 of the \pkg{mvtnorm} package is now required.
-
       \item Documentation updates.
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item Version 1.0-5 of the \pkg{mvtnorm} package is now required.
     }
   }
 }
@@ -281,10 +378,10 @@
       \item The Brown-Mood median test \eqn{p}-value computation used the wrong
       tail of the null distribution in the one-sided case.
 
-      \item The test statistic of the Wilcoxon signed-rank test sometimes had
-      the wrong sign, due to being based on the sum of the absolute values of
-      the negative, instead of the positive, differences between the paired
-      measurements.
+      \item The test statistic of the Wilcoxon signed-rank test had the wrong
+      sign under some circumstances, due to being based on the sum of the
+      absolute values of the negative differences, instead of the positive,
+      between the paired measurements.
 
       \item The Friedman test did not warn when weights were supplied.
 
@@ -299,11 +396,11 @@
       levels, causing problems, e.g., if trying to use the \code{subset}
       argument of the \code{formula} methods.
 
-      \item Transformations involving ordered factors or survival data sometimes
-      failed when performed within blocks.
+      \item Transformations involving ordered factors or survival data failed
+      under some circumstances when performed within blocks.
 
-      \item The maximally selected statistics transformation for factors
-      sometimes dropped its column names.
+      \item The maximally selected statistics transformation for factors dropped
+      its column names under some circumstances.
 
       \item The maximally selected statistics transformation for factors
       retained unused levels.
@@ -318,7 +415,7 @@
       were wrong.
 
       \item The smallest single-step and step-down adjusted \eqn{p}-values
-      sometimes differed from the global \eqn{p}-value.
+      differed from the global \eqn{p}-value under some circumstances.
 
       \item Single-step adjusted \eqn{p}-values were too small when the support
       of the null distribution contained values equal to the observed test
@@ -342,8 +439,8 @@
       distributions for maximum-type tests were not handling vector arguments
       correctly.
 
-      \item The quantile function of exact permutation distributions sometimes
-      reported \code{NA} when the 100 \% quantile was requested.
+      \item The quantile function of exact permutation distributions reported
+      \code{NA} when the 100 \% quantile was requested under some circumstances.
 
       \item The support of exact permutation distributions for stratified tests
       was not guaranteed to be distinct and ordered, which in turn caused
@@ -473,8 +570,11 @@
       \item The package manual has been completely revised.
 
       \item The memory consumption during computations has been reduced.
-
-      \item Henric Winell, a long-term collaborator who donated almost all
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item Henric Winell, a long-time collaborator who donated almost all
       changes in \pkg{coin} 1.1-0, is now listed as author.  Welcome on board,
       Henric!
     }
@@ -1015,7 +1115,7 @@
     statistics.
 
     \item Only variances (instead of the whole covariance matrix) is computed
-    when the distribution of maximum type test statistics is to be
+    when the distribution of maximum-type test statistics is to be
     \emph{approximated}.
 
     \item \code{data} may be an object of class \code{"exprSet"} (->

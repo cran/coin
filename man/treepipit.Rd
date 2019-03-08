@@ -20,7 +20,7 @@
     \item{\code{coverstorey}}{
       cover of canopy overstorey (\%).  The crown cover is described relative to
       a fully stocked stand.  Very dense overstorey with multiple crown cover
-      could reach values greater than 100 \%.
+      could reach values greater than 100\%.
     }
     \item{\code{coverregen}}{
       cover of regeneration and shrubs (\%).
@@ -63,6 +63,7 @@
   two-sample statistics as a new tool for the identification and assessment of
   habitat factors with an application to breeding bird communities in oak
   forests.  \emph{European Journal of Forest Research} \bold{123}(3), 219--228.
+  \doi{10.1007/s10342-004-0035-5}
 }
 \examples{
 ## Asymptotic maximally selected statistics

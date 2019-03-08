@@ -56,18 +56,18 @@ IV  -2.788013
 > pvalue(it)
 [1] 4.334659e-05
 
-> kt <- kruskal_test(length ~ site, data = YOY, distribution = approximate(B = 10000))
+> kt <- kruskal_test(length ~ site, data = YOY, distribution = approximate(nresample = 10000))
 
 > kt
 
 	Approximative Kruskal-Wallis Test
 
 data:  length by site (I, II, III, IV)
-chi-squared = 22.852, p-value < 2.2e-16
+chi-squared = 22.852, p-value < 1e-04
 
 
 > pvalue(kt)
-[1] 0
+[1] <1e-04
 99 percent confidence interval:
  0.0000000000 0.0005296914 
 
@@ -153,7 +153,7 @@ chi-squared = 39.12, df = 9, p-value = 1.096e-05
 > pvalue(independence_test(scores ~ product | sitting, 
 +     data = egg_data, teststat = "quadratic", ytrafo = function(data) trafo(data, 
 +          .... [TRUNCATED] 
-[1] 0
+[1] <5.00025e-05
 99 percent confidence interval:
  0.000000000 0.000264894 
 
@@ -196,4 +196,4 @@ IV - III 0.9989
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.09    0.07    1.68 
+   1.32    0.09    1.46 

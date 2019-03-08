@@ -30,11 +30,11 @@
   Hohnloser, S. H., Raeder, E. A., Podrid, P. J., Graboys, T. B. and Lown, B.
   (1987).  Predictors of antiarrhythmic drug efficacy in patients with malignant
   ventricular tachyarrhythmias.  \emph{American Heart Journal} \bold{114}(1 Pt
-  1), 1--7.
+  1), 1--7.  \doi{10.1016/0002-8703(87)90299-7}
 }
 \references{
   Lausen, B. and Schumacher, M.  (1992).  Maximally selected rank statistics.
-  \emph{Biometrics} \bold{48}(1), 73--85.
+  \emph{Biometrics} \bold{48}(1), 73--85.  \doi{10.2307/2532740}
 }
 \examples{
 ## Asymptotic maximally selected logrank statistics

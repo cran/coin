@@ -56,12 +56,12 @@
   }
   \item{minprob}{
     a numeric, a fraction between 0 and 0.5 specifying that cutpoints only
-    greater than the \code{minprob} \eqn{\cdot}{*} 100 \% quantile of \code{x1},
+    greater than the \code{minprob} \eqn{\cdot}{*} 100\% quantile of \code{x1},
     \dots, \code{xp} are considered.  Defaults to \code{0.1}.
   }
   \item{maxprob}{
     a numeric, a fraction between 0.5 and 1 specifying that cutpoints only
-    smaller than the \code{maxprob} \eqn{\cdot}{*} 100 \% quantile of \code{x1},
+    smaller than the \code{maxprob} \eqn{\cdot}{*} 100\% quantile of \code{x1},
     \dots, \code{xp} are considered.  Defaults to \code{1 - minprob}.
   }
   \item{\dots}{
@@ -125,28 +125,32 @@
   Betensky, R. A. and Rabinowitz, D.  (1999).  Maximally selected
   \eqn{\chi^2}{chi^2} statistics for \eqn{k \times 2}{k x 2} tables.
   \emph{Biometrics} \bold{55}(1), 317--320.
+  \doi{10.1111/j.0006-341X.1999.00317.x}
 
   Hothorn, T. and Lausen, B.  (2003).  On the exact distribution of maximally
   selected rank statistics.  \emph{Computational Statistics & Data Analysis}
-  \bold{43}(2), 121--137.
+  \bold{43}(2), 121--137.  \doi{10.1016/S0167-9473(02)00225-6}
 
   Hothorn, T. and Zeileis, A.  (2008).  Generalized maximally selected
   statistics.  \emph{Biometrics} \bold{64}(4), 1263--1269.
+  \doi{10.1111/j.1541-0420.2008.00995.x}
 
-  Lausen, B., Hothorn, T., Bretz, F. and Schumacher, M.  (2004).  Optimally
-  selected prognostic factors.  \emph{Biometrical Journal} \bold{46}(3),
-  364--374.
+  Lausen, B., Hothorn, T., Bretz, F. and Schumacher, M.  (2004).  Assessment of
+  optimal selected prognostic factors.  \emph{Biometrical Journal} \bold{46}(3),
+  364--374.  \doi{10.1002/bimj.200310030}
 
   Lausen, B. and Schumacher, M.  (1992).  Maximally selected rank statistics.
-  \emph{Biometrics} \bold{48}(1), 73--85.
+  \emph{Biometrics} \bold{48}(1), 73--85.  \doi{10.2307/2532740}
 
   Miller, R. and Siegmund, D.  (1982).  Maximally selected chi square
   statistics.  \emph{Biometrics} \bold{38}(4), 1011--1016.
+  \doi{10.2307/2529881}
 
   \enc{Müller}{Mueller}, J. and Hothorn, T.  (2004).  Maximally selected
   two-sample statistics as a new tool for the identification and assessment of
   habitat factors with an application to breeding bird communities in oak
   forests.  \emph{European Journal of Forest Research} \bold{123}(3), 219--228.
+  \doi{10.1007/s10342-004-0035-5}
 }
 \examples{
 \dontshow{options(useFancyQuotes = FALSE)}

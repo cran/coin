@@ -12,29 +12,31 @@
 }
 \section{Slots}{
   \describe{
-    \item{\code{pvalue}:}{
-      Object of class \code{"function"}.  The \eqn{p}-value function of the
-      reference distribution.
-    }
-    \item{\code{midpvalue}:}{
-      Object of class \code{"function"}.  The mid-\eqn{p}-value function of the
-      reference distribution.
-    }
-    \item{\code{pvalueinterval}:}{
-      Object of class \code{"function"}.  The \eqn{p}-value interval function of
-      the reference distribution.
+    \item{\code{name}:}{
+      Object of class \code{"character"}.  The name of the reference
+      distribution.
     }
     \item{\code{p}:}{
       Object of class \code{"function"}.  The distribution function of the
       reference distribution.
     }
-    \item{\code{name}:}{
-      Object of class \code{"character"}.  The name of the reference
-      distribution.
+    \item{\code{pvalue}:}{
+      Object of class \code{"function"}.  The \eqn{p}-value function of the
+      reference distribution.
     }
   }
 }
 \section{Methods}{
-  No methods defined with class \code{"PValue"} in the signature.
+  \describe{
+    \item{pvalue}{
+      \code{signature(object = "PValue")}: See the documentation for
+      \code{\link{pvalue}} for details.
+    }
+  }
+}
+\note{
+  Starting with \pkg{coin} version 1.3-0, this class is deprecated and will be
+  replaced by class \code{"NullDistribution"}.  \strong{It will be made defunct
+    and removed in a future release.}
 }
 \keyword{classes}

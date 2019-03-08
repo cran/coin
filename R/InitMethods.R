@@ -1,28 +1,3 @@
-### new("ExpectCovar", ...)
-setMethod("initialize",
-    signature = "ExpectCovar",
-    definition = function(.Object, pq = 1) {
-        pq <- as.integer(pq)
-        .Object@expectation <- rep(0, pq)
-        .Object@covariance <- matrix(0, nrow = pq, ncol = pq)
-        .Object@dimension  <- as.integer(pq)
-        .Object
-    }
-)
-
-### new("ExpectCovarInfluence", ...)
-setMethod("initialize",
-    signature = "ExpectCovarInfluence",
-    definition = function(.Object, q) {
-        .Object@expectation <- rep(0, q)
-        .Object@covariance <- matrix(0, nrow = q, ncol = q)
-        .Object@dimension  <- as.integer(q)
-        .Object@sumweights <- log(1) # was 'as.double(0.0)' but there seem to be
-                                     # protection issues (in 'party')
-        .Object
-    }
-)
-
 ### new("CovarianceMatrix", ...)
 setMethod("initialize",
     signature = "CovarianceMatrix",
@@ -84,7 +59,7 @@ setMethod("initialize",
                                as.double(weights)
 
         if (!validObject(.Object))
-            stop("not a valid object of class ", sQuote("IndependenceProblem"))
+            stop("not a valid object of class ", dQuote("IndependenceProblem"))
 
         .Object
     }
@@ -96,12 +71,13 @@ setMethod("initialize",
     signature = "IndependenceTestProblem",
     definition = function(.Object, object, xtrafo = trafo, ytrafo = trafo, ...) {
 
-        if (!extends(class(object), "IndependenceProblem"))
-            stop("Argument ", sQuote("object"), " is not of class ",
-                 sQuote("IndependenceProblem"))
+        if (!inherits(object, "IndependenceProblem"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceProblem"))
+
+        tr <- check_trafo(xtrafo(object@x), ytrafo(object@y))
 
         .Object <- copyslots(object, .Object)
-        tr <- check_trafo(xtrafo(object@x), ytrafo(object@y))
         .Object@xtrans <- tr$xtrafo
         .Object@ytrans <- tr$ytrafo
         .Object@xtrafo <- xtrafo
@@ -117,55 +93,32 @@ setMethod("initialize",
     signature = "IndependenceLinearStatistic",
     definition = function(.Object, object, varonly = FALSE, ...) {
 
-        if (!extends(class(object), "IndependenceTestProblem"))
-            stop("Argument ", sQuote("object"), " is not of class ",
-                  sQuote("IndependenceTestProblem"))
+        if (!inherits(object, "IndependenceTestProblem"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceTestProblem"))
+
+        nm <- statnames(object)$names # pretty names
+
+        ecs <- .Call(R_ExpectationCovarianceStatistic,
+                     object@xtrans, object@ytrans, object@weights, integer(0),
+                     object@block, varonly, sqrt_eps)
 
         .Object <- copyslots(object, .Object)
-        .Object@linearstatistic <-
-            drop(LinearStatistic(object@xtrans, object@ytrans, object@weights))
-        ### <REMINDER>
-        ### for teststat = "maximum" and distribution = "approx"
-        ### we don't need the covariance matrix but the variances only
-        ### </REMINDER>
-        if (nlevels(object@block) == 1L) {
-            expcov <- ExpectCovarLinearStatistic(
-                object@xtrans,
-                object@ytrans,
-                object@weights,
-                varonly = varonly
-            )
-            exp <- expcov@expectation
-            cov <- expcov@covariance
-        } else {
-            exp <- 0
-            cov <- 0
-            for (lev in levels(object@block)) {
-                idx <- object@block == lev
-                expcov <- ExpectCovarLinearStatistic(
-                    object@xtrans[idx, , drop = FALSE],
-                    object@ytrans[idx, , drop = FALSE],
-                    object@weights[idx],
-                    varonly = varonly
-                )
-                exp <- exp + expcov@expectation
-                cov <- cov + expcov@covariance
+        .Object@linearstatistic <- drop(ecs$LinearStatistic)
+        .Object@expectation <- setNames(ecs$Expectation, nm)
+        .Object@covariance <-
+            if (varonly) {
+                new("Variance", setNames(drop(ecs$Variance), nm))
+            } else {
+                pq <- length(nm)
+                cov <- matrix(0, nrow = pq, ncol = pq, dimnames = list(nm, nm))
+                cov[lower.tri(cov, diag = TRUE)] <- ecs$Covariance
+                cov <- cov + t(cov)
+                diag(cov) <- diag(cov) / 2
+                new("CovarianceMatrix", cov)
             }
-        }
-        nm <- statnames(object)$names # pretty names
-        exp <- drop(exp)
-        names(exp) <- nm
-        .Object@expectation <- exp
-        .Object@covariance <- if (varonly) {
-                                  cov <- drop(cov)
-                                  names(cov) <- nm
-                                  new("Variance", cov)
-                              } else {
-                                  dimnames(cov) <- list(nm, nm)
-                                  new("CovarianceMatrix", cov)
-                              }
 
-        if (any(variance(.Object) < eps()))
+        if (any(variance(.Object) < sqrt_eps))
             warning("The conditional covariance matrix has ",
                     "zero diagonal elements")
 
@@ -180,17 +133,18 @@ setMethod("initialize",
     definition = function(.Object, object,
         alternative = c("two.sided", "less", "greater"), paired = FALSE, ...) {
 
-        if (!extends(class(object), "IndependenceLinearStatistic"))
-            stop("Argument ", sQuote("object"), " is not of class ",
-                  sQuote("IndependenceLinearStatistic"))
+        if (!inherits(object, "IndependenceLinearStatistic"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceLinearStatistic"))
+
+        ss <- (object@linearstatistic - expectation(object)) /
+                  sqrt(variance(object))
 
         .Object <- copyslots(object, .Object)
+        .Object@teststatistic <- unname(ss)
+        .Object@standardizedlinearstatistic <- ss
         .Object@alternative <- match.arg(alternative)
         .Object@paired <- paired
-        standstat <- (object@linearstatistic - expectation(object)) /
-                       sqrt(variance(object))
-        .Object@teststatistic <- .Object@standardizedlinearstatistic <-
-            drop(standstat)
 
         .Object
     }
@@ -202,20 +156,22 @@ setMethod("initialize",
     definition = function(.Object, object,
         alternative = c("two.sided", "less", "greater"), ...) {
 
-        if (!extends(class(object), "IndependenceLinearStatistic"))
-            stop("Argument ", sQuote("object"), " is not of class ",
-                  sQuote("IndependenceLinearStatistic"))
+        if (!inherits(object, "IndependenceLinearStatistic"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceLinearStatistic"))
+
+        ss <- (object@linearstatistic - expectation(object)) /
+                  sqrt(variance(object))
 
         .Object <- copyslots(object, .Object)
-        .Object@alternative <- match.arg(alternative)
-        standstat <- (object@linearstatistic - expectation(object)) /
-                       sqrt(variance(object))
         .Object@teststatistic <-
             switch(alternative,
-                "less" = drop(min(standstat)),
-                "greater" = drop(max(standstat)),
-                "two.sided" = drop(max(abs(standstat))))
-        .Object@standardizedlinearstatistic <- standstat
+                "less"      = min(ss),
+                "greater"   = max(ss),
+                "two.sided" = max(abs(ss))
+            )
+        .Object@standardizedlinearstatistic <- ss
+        .Object@alternative <- match.arg(alternative)
 
         .Object
     }
@@ -226,19 +182,19 @@ setMethod("initialize",
     signature = "QuadTypeIndependenceTestStatistic",
     definition = function(.Object, object, paired = FALSE, ...) {
 
-        if (!extends(class(object), "IndependenceLinearStatistic"))
-            stop("Argument ", sQuote("object"), " is not of class ",
-                  sQuote("IndependenceLinearStatistic"))
+        if (!inherits(object, "IndependenceLinearStatistic"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceLinearStatistic"))
+
+        cs <- object@linearstatistic - expectation(object)
+        mp <- MPinv(covariance(object), ...)
 
         .Object <- copyslots(object, .Object)
-        mp <- MPinv(covariance(object), ...)
+        .Object@teststatistic <- drop(cs %*% mp$MPinv %*% cs)
+        .Object@standardizedlinearstatistic <- cs / sqrt(variance(object))
         .Object@covarianceplus <- mp$MPinv
         .Object@df <- mp$rank
         .Object@paired <- paired
-        stand <- (object@linearstatistic - expectation(object))
-        .Object@teststatistic <-
-            drop(stand %*% .Object@covarianceplus %*% stand)
-        .Object@standardizedlinearstatistic <- stand / sqrt(variance(object))
 
         .Object
     }

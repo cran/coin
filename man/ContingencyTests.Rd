@@ -30,7 +30,7 @@
 
 \method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{lbl_test}{table}(object, \dots)
-\method{lbl_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"), \dots)
+\method{lbl_test}{IndependenceProblem}(object, \dots)
 }
 \arguments{
   \item{formula}{
@@ -52,14 +52,6 @@
   \item{object}{
     an object inheriting from classes \code{"table"} or
     \code{"\linkS4class{IndependenceProblem}"}.
-  }
-  \item{distribution}{
-    a character, the conditional null distribution of the test statistic can be
-    approximated by its asymptotic distribution (\code{"asymptotic"}, default)
-    or via Monte Carlo resampling (\code{"approximate"}).  Alternatively, the
-    functions \code{\link{asymptotic}} or \code{\link{approximate}} can be used.
-    Computation of the null distribution can be suppressed by specifying
-    \code{"none"}.
   }
   \item{\dots}{
     further arguments to be passed to \code{\link{independence_test}}.
@@ -86,8 +78,8 @@
   the situation when either the response or the covariate is an ordered factor;
   see also Cochran (1954) and Armitage (1955) for the particular case when
   \code{y} is a binary factor and \code{x} is ordered.  The Mantel-Haenszel
-  statistic was similarly extended by Mantel (1963) and Landis, Heyman and Koch
-  (1978).
+  statistic (Mantel and Haenszel, 1959) was similarly extended by Mantel (1963)
+  and Landis, Heyman and Koch (1978).
 
   The conditional null distribution of the test statistic is used to obtain
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
@@ -111,25 +103,31 @@
   Hoboken, New Jersey: John Wiley & Sons.
 
   Armitage, P.  (1955).  Tests for linear trends in proportions and frequencies.
-  \emph{Biometrics} \bold{11}(3), 375--386.
+  \emph{Biometrics} \bold{11}(3), 375--386.  \doi{10.2307/3001775}
 
   Cochran, W.G.  (1954). Some methods for strengthening the common \eqn{\chi^2}
-  tests.  \emph{Biometrics} \bold{10}(4), 417--451.
+  tests.  \emph{Biometrics} \bold{10}(4), 417--451.  \doi{10.2307/3001616}
 
   Davis, L. J.  (1986).  Exact tests for \eqn{2 \times 2}{2 x 2} contingency
   tables.  \emph{The American Statistician} \bold{40}(2), 139--141.
+  \doi{10.1080/00031305.1986.10475377}
 
   Landis, J. R., Heyman, E. R. and Koch, G. G.  (1978).  Average partial
   association in three-way contingency tables: a review and discussion of
   alternative tests.  \emph{International Statistical Review} \bold{46}(3),
-  237--254.
+  237--254.  \doi{10.2307/1402373}
+
+  Mantel, N. and Haenszel, W.  (1959).  Statistical aspects of the analysis of
+  data from retrospective studies of disease.  \emph{Journal of the National
+    Cancer Institute} \bold{22}(4), 719--748.  \doi{10.1093/jnci/22.4.719}
 
   Mantel, N.  (1963).  Chi-square tests with one degree of freedom: extensions
   of the Mantel-Haenszel procedure.  \emph{Journal of the American Statistical
-    Association} \bold{58}(303), 690--700.
+    Association} \bold{58}(303), 690--700.  \doi{10.1080/01621459.1963.10500879}
 
   Yates, F.  (1948).  The analysis of contingency tables with groupings based on
   quantitative characters.  \emph{Biometrika} \bold{35}(1/2), 176--181.
+  \doi{10.1093/biomet/35.1-2.176}
 }
 \examples{
 ## Example data
@@ -143,21 +141,24 @@ davis <- as.table(davis)
 
 ## Asymptotic Pearson chi-squared test
 chisq_test(davis)
+chisq.test(davis, correct = FALSE) # same as above
 
 ## Approximative (Monte Carlo) Pearson chi-squared test
 ct <- chisq_test(davis,
-                 distribution = approximate(B = 10000))
-pvalue(ct)          # standard p-value
-midpvalue(ct)       # mid-p-value
-pvalue_interval(ct) # p-value interval
+                 distribution = approximate(nresample = 10000))
+pvalue(ct)             # standard p-value
+midpvalue(ct)          # mid-p-value
+pvalue_interval(ct)    # p-value interval
+size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
 
 ## Exact Pearson chi-squared test (Davis, 1986)
 ## Note: disagrees with Fisher's exact test
 ct <- chisq_test(davis,
                  distribution = "exact")
-pvalue(ct)          # standard p-value
-midpvalue(ct)       # mid-p-value
-pvalue_interval(ct) # p-value interval
+pvalue(ct)             # standard p-value
+midpvalue(ct)          # mid-p-value
+pvalue_interval(ct)    # p-value interval
+size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
 fisher.test(davis)
 
 
@@ -178,8 +179,9 @@ cancer <- as.table(cancer)
 ## Note: agrees with Fishers's exact test
 (ct <- chisq_test(cancer,
                   distribution = "exact"))
-midpvalue(ct)       # mid-p-value
-pvalue_interval(ct) # p-value interval
+midpvalue(ct)          # mid-p-value
+pvalue_interval(ct)    # p-value interval
+size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
 fisher.test(cancer)
 
 
@@ -250,18 +252,18 @@ armitage <- matrix(
     dimnames = list(
         "Treatment" = c("A", "B"),
            "Crater" = c("Larger", "< 2/3 healed",
-                        "=> 2/3 healed", "Healed")
+                        ">= 2/3 healed", "Healed")
     )
 )
 armitage <- as.table(armitage)
 
 ## Approximative (Monte Carlo) Pearson chi-squared test (Armitage, 1955, p. 379)
 chisq_test(armitage,
-           distribution = approximate(B = 10000)) # chi^2 = 5.91
+           distribution = approximate(nresample = 10000)) # chi^2 = 5.91
 
 ## Approximative (Monte Carlo) Cochran-Armitage test (Armitage, 1955, p. 379)
 (ct <- chisq_test(armitage,
-                  distribution = approximate(B = 10000),
+                  distribution = approximate(nresample = 10000),
                   scores = list("Crater" = c(-1.5, -0.5, 0.5, 1.5))))
 statistic(ct)^2 # chi_0^2 = 5.26
 

@@ -2,6 +2,7 @@
 ### testing the independence of a factor
 ### 'y' and a factor factor 'x' (possibly blocked)
 
+suppressWarnings(RNGversion("3.5.2"))
 set.seed(290875)
 library("coin")
 isequal <- coin:::isequal
@@ -38,6 +39,10 @@ ptwo <- drop(mantelhaen.test(table(dat$y, dat$x, dat$block),
 stopifnot(isequal(pvalue(cmh_test(y ~ x | block, data = dat)), ptwo))
 stopifnot(isequal(pvalue(cmh_test(table(dat$y, dat$x, dat$block))), ptwo))
 
+### Linear-by-linear Test, asymptotic distribution
+lbl_test(y ~ x | block, data = dat)
+lbl_test(table(dat$y, dat$x, dat$block))
+
 
 ### generate data: r x c x K
 dat <- data.frame(x = gl(4, 25), y = gl(5, 20)[sample(1:100)],
@@ -51,12 +56,17 @@ ptwo <- drop(mantelhaen.test(table(dat$y, dat$x, dat$block),
 stopifnot(isequal(pvalue(cmh_test(y ~ x | block, data = dat)), ptwo))
 stopifnot(isequal(pvalue(cmh_test(table(dat$y, dat$x, dat$block))), ptwo))
 
+### Linear-by-linear Test, asymptotic distribution
+lbl_test(y ~ x | block, data = dat)
+lbl_test(table(dat$y, dat$x, dat$block))
+
 
 ### 2x2 table and maxstat
 x <- c(rep(1,51), rep(2,49))
 y <- factor(c(rep(0,49), rep(1,51)))[sample(1:100)]
-stopifnot(isequal(as.vector(statistic(independence_test(table(x, y)))),
-as.vector(statistic(maxstat_test(y ~ x )))))
+sit <- as.vector(statistic(independence_test(table(x, y))))
+stopifnot(isequal(as.vector(statistic(maxstat_test(y ~ x))), sit))
+stopifnot(isequal(as.vector(statistic(maxstat_test(table(x, y)))), sit))
 
 
 ### maxstat for multiple, ordered and unordered covariates
@@ -79,7 +89,7 @@ stopifnot(isequal(statistic(mt),
 mt <- maxstat_test(w ~ z, data = dat)
 mt
 est <- mt@estimates$estimate$cutpoint
-xx <- dat$z %in% est
+xx <- dat$z <= est
 stopifnot(isequal(statistic(mt),
                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 
@@ -88,9 +98,9 @@ mt
 est <- mt@estimates$estimate
 xsel <- dat[[est[[1]]]]
 if (is.factor(xsel) && !is.ordered(xsel)) {
-    xx <- xsel %in% est[2]
+    xx <- xsel %in% est[[2]]
 } else {
-    xx <- xsel <= est[2]
+    xx <- xsel <= est[[2]]
 }
 stopifnot(isequal(statistic(mt),
                   abs(statistic(independence_test(w ~ xx, data = dat)))))

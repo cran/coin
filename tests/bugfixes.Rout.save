@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2017-06-20 r72822) -- "Unsuffered Consequences"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -17,6 +17,7 @@ Type 'q()' to quit R.
 
 > ### Regression tests for fixed bugs
 > 
+> suppressWarnings(RNGversion("3.5.2"))
 > set.seed(290875)
 > library("coin")
 Loading required package: survival
@@ -45,7 +46,7 @@ Error in ytrafo(object@y) : data class "character" is not supported
 > if (require("multcomp")) {
 +     df <- data.frame(x = runif(30), y = runif(30), z = gl(3, 10))
 +     a <- independence_test(x + y ~ z, data = df,
-+          distribution = approximate(B = 19999),
++          distribution = approximate(nresample = 19999),
 +          xtrafo = function(data) trafo(data, factor_trafo = function(x)
 +              model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))))
 +     b <- independence_test(x + y ~ z, data = df,
@@ -85,7 +86,7 @@ The following object is masked from 'package:MASS':
 > pe <- pperm(ite, ae)
 > stopifnot(isequal(cumsum(de), pe))
 > ita <- independence_test(I(round(x, 1)) ~ z, data = df,
-+                          dist = approximate(B = 100000))
++                          dist = approximate(nresample = 100000))
 > aa <- support(ita)
 > da <- dperm(ita, aa)
 > stopifnot(isequal(sum(da), 1))
@@ -236,7 +237,7 @@ alternative hypothesis: two.sided
 > dat <- data.frame(y = rnorm(100), x1 = runif(100), x2 = factor(rep(0, 100)))
 > try(independence_test(y ~ x1  + x2, data = dat))
 Error in factor_trafo(x) : 
-  Can't deal with factors containing only one level
+  can't deal with factors containing only one level
 > 
 > ### user specified g: names, MC
 > me <- as.table(matrix(c( 6,  8, 10,
@@ -262,7 +263,7 @@ X3      10
 > 
 > it <- independence_test(group ~ genotype,
 +     data = medf, weights = ~ Freq, xtrafo = g,
-+     distribution = approximate(B = 49999))
++     distribution = approximate(nresample = 49999))
 > pvalue(it)
 [1] 0.06848137
 99 percent confidence interval:
@@ -448,7 +449,7 @@ difference in location
 > u <- c(x,y)
 > try(wilcox_test(u ~ z))
 Error in factor_trafo(x) : 
-  Can't deal with factors containing only one level
+  can't deal with factors containing only one level
 > 
 > ### missing values
 > x <- c(NA, NA, 1)
@@ -526,7 +527,7 @@ alternative hypothesis: true mu is not equal to 0
 > x1 <- rnorm(100) + (as.numeric(gr) - 1) * 0.5
 > x2 <- rnorm(100) - (as.numeric(gr) - 1) * 0.5
 > 
-> it <- independence_test(x1 + x2 ~ gr, distribution = approximate(B = 1000))
+> it <- independence_test(x1 + x2 ~ gr, distribution = approximate(nresample = 1000))
 > 
 > psd <- pvalue(it, "step-down") # wasn't monotone
 > stopifnot(psd[1] == psd[2])
@@ -541,7 +542,7 @@ alternative hypothesis: true mu is not equal to 0
 > set.seed(711109)
 > it <- independence_test(y1 + y2 + y3 + y4 ~ x, data = df,
 +                         alternative = "greater",
-+                         distribution = approximate(B = 20))
++                         distribution = approximate(nresample = 20))
 > 
 > pss <- pvalue(it, "single-step")
 > psd <- pvalue(it, "step-down")
@@ -665,6 +666,8 @@ attr(,"assign")
 > id <- gl(15, 2)
 > it <- independence_test(y ~ x | id, distribution = "exact") # Wrong
 > wt <- wilcoxsign_test(y ~ x | id, distribution = "exact") # OK! p = 6.104e-5
+> wt@distribution@name
+[1] "Exact Distribution for Dependent Two-Sample Tests (Streitberg-Roehmel Shift Algorithm)"
 > stopifnot(isequal(pvalue(it), pvalue(wt)))
 > 
 > ### chisq_test standardized test statistic was wrong
@@ -737,7 +740,7 @@ chi-squared = 4.76, df = 3, p-value = 0.1902
 
 Warning message:
 In ft("friedman_test", "SymmetryProblem", formula, data, subset,  :
-  Rank transformation doesn't take weights into account
+  rank transformation doesn't take weights into account
 > 
 > ### chisq_test ignored xtrafo and ytrafo
 > chisq_test(as.table(jobsatisfaction[, , "Female"]),
@@ -819,7 +822,7 @@ Warning messages:
 +                       nrow = 2, byrow = TRUE)
 > set.seed(290875)
 > it <- independence_test(as.table(exfoliative),
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         teststat = "scalar")
 > stopifnot(isequal(round(dperm(it, -statistic(it)), 4), 0.0000)) # 0.0747
 > 
@@ -861,23 +864,6 @@ alternative hypothesis: true mu is not equal to 0
 > stopifnot(isequal(qperm(it, c(0.9, 0.95, 0.99)),
 +                   c(qperm(it, 0.9), qperm(it, 0.95), qperm(it, 0.99))))
 > 
-> ### blockwise permutations were only correct for factors ordered wrt their levels
-> set.seed(36)
-> .Call(coin:::R_blockperm, rep(1:4, 2))                       # was OK
-[1] 4 5 6 7 0 1 2 3
-> 
-> set.seed(36)
-> .Call(coin:::R_blockperm, rep(1:4, each = 2))                # was OK
-[1] 1 0 3 2 5 4 7 6
-> 
-> set.seed(36)
-> .Call(coin:::R_blockperm, c(1:4, 4:1))                       # was OK
-[1] 7 6 5 4 3 2 1 0
-> 
-> set.seed(36)
-> .Call(coin:::R_blockperm, c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L)) # wrong
-[1] 4 6 3 2 0 7 1 5
-> 
 > ### could not distinguish censored and numeric responses
 > y1 <- rnorm(10)
 > y2 <- rnorm(10)
@@ -906,13 +892,13 @@ Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(ansari_test(Surv(y1) ~ x))
 Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(fligner_test(Surv(y1) ~ x))
-Error in fligner_test.IndependenceProblem(object = <S4 object of class structure("IndependenceProblem", package = "coin")>) : 
+Error in fligner_test.IndependenceProblem(object = new("IndependenceProblem",  : 
   'Surv(y1)' is not a numeric variable
 > try(conover_test(Surv(y1) ~ x))
-Error in conover_test.IndependenceProblem(object = <S4 object of class structure("IndependenceProblem", package = "coin")>) : 
+Error in conover_test.IndependenceProblem(object = new("IndependenceProblem",  : 
   'Surv(y1)' is not a numeric variable
 > try(sign_test(Surv(y1) ~ x | b))
-Error in sign_test.SymmetryProblem(object = <S4 object of class structure("SymmetryProblem", package = "coin")>) : 
+Error in sign_test.SymmetryProblem(object = new("SymmetryProblem", x = structure(list( : 
   'y' is not a numeric variable
 > try(sign_test(Surv(y1) ~ Surv(y2)))
 Error in sign_test.formula(Surv(y1) ~ Surv(y2)) : 
@@ -922,7 +908,7 @@ Error in sign_test.formula(Surv(y1) ~ y2) : 'y' is not a numeric variable
 > try(sign_test(y1 ~ Surv(y2)))
 Error in sign_test.formula(y1 ~ Surv(y2)) : 'x' is not a numeric variable
 > try(wilcoxsign_test(Surv(y1) ~ x | b))
-Error in wilcoxsign_test.SymmetryProblem(object = <S4 object of class structure("SymmetryProblem", package = "coin")>) : 
+Error in wilcoxsign_test.SymmetryProblem(object = new("SymmetryProblem",  : 
   'y' is not a numeric variable
 > try(wilcoxsign_test(Surv(y1) ~ Surv(y2)))
 Error in wilcoxsign_test.formula(Surv(y1) ~ Surv(y2)) : 
@@ -936,7 +922,7 @@ Error in wilcoxsign_test.formula(y1 ~ Surv(y2)) :
 > try(friedman_test(Surv(y1) ~ x))
 Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(quade_test(Surv(y1) ~ x))
-Error in quade_test.SymmetryProblem(object = <S4 object of class structure("SymmetryProblem", package = "coin")>) : 
+Error in quade_test.SymmetryProblem(object = new("SymmetryProblem", x = structure(list( : 
   'Surv(y1)' is not a numeric variable
 > 
 > ### exact two-sample tests with scores gave wrong p-value
@@ -987,7 +973,7 @@ Error in quade_test.SymmetryProblem(object = <S4 object of class structure("Symm
 > y <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
 > try(logrank_trafo(y))
 Error in logrank_trafo(y) : 
-  'y' is not an object of class "Surv" representing right-censored data
+  'y' is not of class "Surv" representing right-censored data
 > 
 > ### 'ofmaxstat_trafo' had the labeling wrong
 > of <- ordered(c(1, 1, 2, 3, 3, 4))
@@ -1002,4 +988,4 @@ Error in logrank_trafo(y) :
 > 
 > proc.time()
    user  system elapsed 
-    2.4     0.1     2.5 
+   1.96    0.15    2.15 

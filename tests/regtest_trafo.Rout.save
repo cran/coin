@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2017-04-04 r72482) -- "Unsuffered Consequences"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R Under development (unstable) (2018-03-15 r74406) -- "Unsuffered Consequences"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -399,6 +399,64 @@ Warning message:
 In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
   'x[cc]' is not an ordered factor
 > 
+> zheng_trafo(x, increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.0
+5                           NA                           NA
+6                            0                          0.5
+7                            0                          0.5
+8                           NA                           NA
+9                            1                          1.0
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.5
+5                           NA                           NA
+6                            1                          0.5
+7                            1                          0.5
+8                           NA                           NA
+9                            1                          1.0
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                           NA                           NA
+4                          0.5                            1
+5                           NA                           NA
+6                          1.0                            1
+7                          1.0                            1
+8                           NA                           NA
+9                          1.0                            1
+Warning message:
+In zheng_trafo(x, increment = 0.5) : 'x' is not an ordered factor
+> zheng_trafo(x[cc], increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.0
+4                            0                          0.5
+5                            0                          0.5
+6                            1                          1.0
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.5
+4                            1                          0.5
+5                            1                          0.5
+6                            1                          1.0
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                          0.5                            1
+4                          1.0                            1
+5                          1.0                            1
+6                          1.0                            1
+Warning message:
+In zheng_trafo(x[cc], increment = 0.5) : 'x[cc]' is not an ordered factor
+> 
 > of_trafo(ox)
   [,1]
 1    1
@@ -456,6 +514,60 @@ In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
 4  7 11
 5  7 11
 6  8 12
+> 
+> zheng_trafo(ox, increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.0
+5                           NA                           NA
+6                            0                          0.5
+7                            0                          0.5
+8                           NA                           NA
+9                            1                          1.0
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.5
+5                           NA                           NA
+6                            1                          0.5
+7                            1                          0.5
+8                           NA                           NA
+9                            1                          1.0
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                           NA                           NA
+4                          0.5                            1
+5                           NA                           NA
+6                          1.0                            1
+7                          1.0                            1
+8                           NA                           NA
+9                          1.0                            1
+> zheng_trafo(ox[cc], increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.0
+4                            0                          0.5
+5                            0                          0.5
+6                            1                          1.0
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.5
+4                            1                          0.5
+5                            1                          0.5
+6                            1                          1.0
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                          0.5                            1
+4                          1.0                            1
+5                          1.0                            1
+6                          1.0                            1
 > 
 > fmaxstat_trafo(x)
   {I} vs. {II, III, IV} {I, II} vs. {III, IV} {I, III} vs. {II, IV}
@@ -719,6 +831,61 @@ Warning message:
 In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
   'x[cc]' is not an ordered factor
 > 
+> zheng_trafo(x, increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.0
+5                           NA                           NA
+6                            0                          0.5
+7                            0                          0.5
+8                           NA                           NA
+9                           NA                           NA
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.5
+5                           NA                           NA
+6                            1                          0.5
+7                            1                          0.5
+8                           NA                           NA
+9                           NA                           NA
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                           NA                           NA
+4                          0.5                            1
+5                           NA                           NA
+6                          1.0                            1
+7                          1.0                            1
+8                           NA                           NA
+9                           NA                           NA
+Warning message:
+In zheng_trafo(x, increment = 0.5) : 'x' is not an ordered factor
+> zheng_trafo(x[cc], increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.0
+4                            0                          0.5
+5                            0                          0.5
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.5
+4                            1                          0.5
+5                            1                          0.5
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                          0.5                            1
+4                          1.0                            1
+5                          1.0                            1
+Warning message:
+In zheng_trafo(x[cc], increment = 0.5) : 'x[cc]' is not an ordered factor
+> 
 > of_trafo(ox)
   [,1]
 1    1
@@ -773,6 +940,57 @@ In of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12)) :
 3  6 10
 4  7 11
 5  7 11
+> 
+> zheng_trafo(ox, increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.0
+5                           NA                           NA
+6                            0                          0.5
+7                            0                          0.5
+8                           NA                           NA
+9                           NA                           NA
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                           NA                           NA
+4                            0                          0.5
+5                           NA                           NA
+6                            1                          0.5
+7                            1                          0.5
+8                           NA                           NA
+9                           NA                           NA
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                           NA                           NA
+4                          0.5                            1
+5                           NA                           NA
+6                          1.0                            1
+7                          1.0                            1
+8                           NA                           NA
+9                           NA                           NA
+> zheng_trafo(ox[cc], increment = 0.5)
+  gamma = (0.0, 0.0, 0.0, 1.0) gamma = (0.0, 0.0, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.0
+4                            0                          0.5
+5                            0                          0.5
+  gamma = (0.0, 0.0, 1.0, 1.0) gamma = (0.0, 0.5, 0.5, 1.0)
+1                            0                          0.0
+2                            0                          0.0
+3                            0                          0.5
+4                            1                          0.5
+5                            1                          0.5
+  gamma = (0.0, 0.5, 1.0, 1.0) gamma = (0.0, 1.0, 1.0, 1.0)
+1                          0.0                            0
+2                          0.0                            0
+3                          0.5                            1
+4                          1.0                            1
+5                          1.0                            1
 > 
 > fmaxstat_trafo(x)
   {I} vs. {II, III} {I, II} vs. {III} {I, III} vs. {II}
@@ -1007,4 +1225,4 @@ IV - III  0  0  -1  1
 > 
 > proc.time()
    user  system elapsed 
-   1.18    0.09    1.26 
+   0.98    0.07    1.00 

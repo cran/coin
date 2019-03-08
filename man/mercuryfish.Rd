@@ -40,15 +40,15 @@
 \source{
   Skerfving, S., Hansson, K., Mangs, C., Lindsten, J. and Ryman, N.  (1974).
   Methylmercury-induced chromosome damage in men.  \emph{Environmental Research}
-  \bold{7}(1), 83--98.
+  \bold{7}(1), 83--98.  \doi{10.1016/0013-9351(74)90078-4}
 }
 \references{
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
   system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.
+  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
 
   Rosenbaum, P. R. (1994).  Coherence in observational studies.
-  \emph{Biometrics} \bold{50}(2), 368--374.
+  \emph{Biometrics} \bold{50}(2), 368--374.  \doi{10.2307/2533380}
 }
 \examples{
 ## Coherence criterion

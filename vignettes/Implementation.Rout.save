@@ -162,8 +162,6 @@ Slot & Class \\ \hline
  & \\
 Slot & Class \\ \hline 
 \code{pvalue} & \Rclass{function} \\
-\code{midpvalue} & \Rclass{function} \\
-\code{pvalueinterval} & \Rclass{function} \\
 \code{p} & \Rclass{function} \\
 \code{name} & \Rclass{character} \\
 \hline
@@ -177,6 +175,9 @@ Slot & Class \\ \hline
 \multicolumn{2}{l}{Contains \Rclass{PValue}} \\
  & \\
 Slot & Class \\ \hline 
+\code{size} & \Rclass{function} \\
+\code{pvalueinterval} & \Rclass{function} \\
+\code{midpvalue} & \Rclass{function} \\
 \code{q} & \Rclass{function} \\
 \code{d} & \Rclass{function} \\
 \code{support} & \Rclass{function} \\
@@ -329,7 +330,7 @@ Income        VeryDiss LitSat ModSat VerySat
 15000-25000 -1.0958361 -1.50130926  0.2361231  1.4614123
 >25000      -1.0377629 -0.08983052 -0.5946119  1.2031648
 
-> it <- independence_test(js, distribution = approximate(B = 10000), 
+> it <- independence_test(js, distribution = approximate(nresample = 10000), 
 +     scores = list(Job.Satisfaction = 1:4, Income = 1:4))
 
 > pvalue(it)
@@ -360,4 +361,4 @@ alternative hypothesis: two.sided
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   2.58    0.12    2.79 
+   2.42    0.10    2.56 

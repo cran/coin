@@ -128,12 +128,18 @@ of_trafo(x[cc], scores = 5:8)
 of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12))
 of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12))
 
+zheng_trafo(x, increment = 0.5)
+zheng_trafo(x[cc], increment = 0.5)
+
 of_trafo(ox)
 of_trafo(ox[cc])
 of_trafo(ox, scores = 5:8)
 of_trafo(ox[cc], scores = 5:8)
 of_trafo(ox, scores = list(s1 = 5:8, s2 = 9:12))
 of_trafo(ox[cc], scores = list(s1 = 5:8, s2 = 9:12))
+
+zheng_trafo(ox, increment = 0.5)
+zheng_trafo(ox[cc], increment = 0.5)
 
 fmaxstat_trafo(x)
 fmaxstat_trafo(x[cc])
@@ -162,12 +168,18 @@ of_trafo(x[cc], scores = 5:8)
 of_trafo(x, scores = list(s1 = 5:8, s2 = 9:12))
 of_trafo(x[cc], scores = list(s1 = 5:8, s2 = 9:12))
 
+zheng_trafo(x, increment = 0.5)
+zheng_trafo(x[cc], increment = 0.5)
+
 of_trafo(ox)
 of_trafo(ox[cc])
 of_trafo(ox, scores = 5:8)
 of_trafo(ox[cc], scores = 5:8)
 of_trafo(ox, scores = list(s1 = 5:8, s2 = 9:12))
 of_trafo(ox[cc], scores = list(s1 = 5:8, s2 = 9:12))
+
+zheng_trafo(ox, increment = 0.5)
+zheng_trafo(ox[cc], increment = 0.5)
 
 fmaxstat_trafo(x)
 fmaxstat_trafo(x[cc])

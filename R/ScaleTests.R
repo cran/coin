@@ -38,13 +38,11 @@ taha_test.IndependenceProblem <- function(object,
         object@method <- "Two-Sample Taha Test"
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Taha Test"
 
@@ -93,13 +91,11 @@ klotz_test.IndependenceProblem <- function(object,
         object@method <- "Two-Sample Klotz Test"
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Klotz Test"
 
@@ -148,13 +144,11 @@ mood_test.IndependenceProblem <- function(object,
         object@method <- "Two-Sample Mood Test"
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Mood Test"
 
@@ -214,13 +208,11 @@ ansari_test.IndependenceProblem <- function(object,
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
         object@statistic@alternative <- alternative
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Ansari-Bradley Test"
 
@@ -273,13 +265,11 @@ fligner_test.IndependenceProblem <- function(object,
         object@method <- "Two-Sample Fligner-Killeen Test"
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Fligner-Killeen Test"
 
@@ -331,13 +321,11 @@ conover_test.IndependenceProblem <- function(object,
         object@method <- "Two-Sample Conover-Iman Test"
         object@parameter <- "ratio of scales"
         object@nullvalue <- 1
-        if (conf.int && has_distribution(args)) {
-            object <- new("ScalarIndependenceTestConfint", object)
-            object@confint <- function(level)
-                confint_scale(object@statistic, object@distribution,
-                                 level = level)
-            object@conf.level <- conf.level
-        }
+        if (conf.int && has_distribution(args))
+            object <- new("ScalarIndependenceTestConfint", object,
+                          confint = function(level)
+                              .confint(object, parm = "scale", level = level),
+                          conf.level = conf.level)
     } else
         object@method <- "K-Sample Conover-Iman Test"
 

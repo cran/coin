@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2015-05-13 r68364) -- "Unsuffered Consequences"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R Under development (unstable) (2018-08-14 r75146) -- "Unsuffered Consequences"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -30,32 +30,32 @@ Loading required package: survival
 > 
 > 
 > ### Berry and Armitage (1995, p. 420)
-> mpci <- coin:::confint_midp(5, 20, 0.95)
+> mpci <- coin:::confint_binom(5, 20, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 3), c(0.098, 0.470)))
 > 
 > 
 > ### Agresti and Gottard (2001, p. 369)
-> mpci <- coin:::confint_midp(4, 10, 0.95)
+> mpci <- coin:::confint_binom(4, 10, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 3), c(0.142, 0.709)))
 > 
-> mpci <- coin:::confint_midp(0, 10, 0.95)
+> mpci <- coin:::confint_binom(0, 10, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci[1], 3), 0))
 > 
-> mpci <- coin:::confint_midp(10, 10, 0.95)
+> mpci <- coin:::confint_binom(10, 10, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci[2], 3), 1))
 > 
 > 
 > ### Newcombe (1998, p. 861, Tab. I)
-> mpci <- coin:::confint_midp(81, 263, 0.95)
+> mpci <- coin:::confint_binom(81, 263, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 4), c(0.2544, 0.3658)))
 > 
-> mpci <- coin:::confint_midp(15, 148, 0.95)
+> mpci <- coin:::confint_binom(15, 148, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 4), c(0.0601, 0.1581)))
 > 
-> mpci <- coin:::confint_midp(0, 20, 0.95)
+> mpci <- coin:::confint_binom(0, 20, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 4), c(0.0000, 0.1391)))
 > 
-> mpci <- coin:::confint_midp(1, 29, 0.95)
+> mpci <- coin:::confint_binom(1, 29, level = 0.95, method = "mid-p")
 > stopifnot(isequal(round(mpci, 4), c(0.0017, 0.1585)))
 > 
 > 
@@ -116,21 +116,21 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > it_m_s <- independence_test(as.table(tea),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "scalar")
 > stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 > 
 > set.seed(290875)
 > it_m_q <- independence_test(as.table(tea),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "quad")
 > stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
 > 
 > set.seed(290875)
 > it_m_s_gr <- independence_test(as.table(tea),
-+                                distribution = approximate(B = 10000),
++                                distribution = approximate(nresample = 10000),
 +                                teststat = "scalar",
 +                                alternative = "greater")
 > (p <- pvalue(it_m_s_gr))
@@ -193,14 +193,14 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > it_m_s <- independence_test(as.table(davis),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "scalar")
 > stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 > 
 > set.seed(290875)
 > it_m_q <- independence_test(as.table(davis),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "quad")
 > stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -232,7 +232,7 @@ Loading required package: survival
 > ### Additional results: Monte Carlo
 > set.seed(290875)
 > ct_m <- chisq_test(as.table(cardiac),
-+                    distribution = approximate(B = 10000))
++                    distribution = approximate(nresample = 10000))
 > (p <- pvalue(ct_m))
 [1] 0.0557
 99 percent confidence interval:
@@ -250,14 +250,14 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > it_m_s <- independence_test(as.table(cardiac),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "scalar")
 > stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 > 
 > set.seed(290875)
 > it_m_q <- independence_test(as.table(cardiac),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "quad")
 > stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -289,7 +289,7 @@ Loading required package: survival
 > ### Additional results: Monte Carlo
 > set.seed(290875)
 > ct_m <- chisq_test(as.table(exfoliative),
-+                    distribution = approximate(B = 10000))
++                    distribution = approximate(nresample = 10000))
 > (p <- pvalue(ct_m))
 [1] 0.0643
 99 percent confidence interval:
@@ -307,14 +307,14 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > it_m_s <- independence_test(as.table(exfoliative),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "scalar")
 > stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 > 
 > set.seed(290875)
 > it_m_q <- independence_test(as.table(exfoliative),
-+                             distribution = approximate(B = 10000),
++                             distribution = approximate(nresample = 10000),
 +                             teststat = "quad")
 > stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 > stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -346,7 +346,7 @@ Loading required package: survival
 > ### Additional results: Monte Carlo
 > set.seed(290875)
 > mt_m <- mh_test(as.table(ahr),
-+                 distribution = approximate(B = 10000))
++                 distribution = approximate(nresample = 10000))
 > (p <- pvalue(mt_m))
 [1] 0.0746
 99 percent confidence interval:
@@ -364,14 +364,14 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > st_m_s <- symmetry_test(as.table(ahr),
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         teststat = "scalar")
 > stopifnot(isequal(pvalue(st_m_s), pvalue(mt_m)))
 > stopifnot(isequal(midpvalue(st_m_s), midpvalue(mt_m)))
 > 
 > set.seed(290875)
 > st_m_q <- symmetry_test(as.table(ahr),
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         teststat = "quad")
 > stopifnot(isequal(pvalue(st_m_q), pvalue(mt_m)))
 > stopifnot(isequal(midpvalue(st_m_q), midpvalue(mt_m)))
@@ -403,7 +403,7 @@ Loading required package: survival
 > ### Additional results: Monte Carlo
 > set.seed(290875)
 > mt_m <- mh_test(as.table(therapy),
-+                 distribution = approximate(B = 10000))
++                 distribution = approximate(nresample = 10000))
 > (p <- pvalue(mt_m))
 [1] 0.0504
 99 percent confidence interval:
@@ -421,14 +421,14 @@ Loading required package: survival
 > 
 > set.seed(290875)
 > st_m_s <- symmetry_test(as.table(therapy),
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         teststat = "scalar")
 > stopifnot(isequal(pvalue(st_m_s), pvalue(mt_m)))
 > stopifnot(isequal(midpvalue(st_m_s), midpvalue(mt_m)))
 > 
 > set.seed(290875)
 > st_m_q <- symmetry_test(as.table(therapy),
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         teststat = "quad")
 > stopifnot(isequal(pvalue(st_m_q), pvalue(mt_m)))
 > stopifnot(isequal(midpvalue(st_m_q), midpvalue(mt_m)))
@@ -798,4 +798,4 @@ Loading required package: survival
 > 
 > proc.time()
    user  system elapsed 
-   2.16    0.06    2.19 
+   1.62    0.14    1.78 

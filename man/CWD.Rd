@@ -62,18 +62,20 @@
   Bonnefond, J.-M., Elbers, J., Longdoz, B., Epron, D., Guehl, J.-M. and
   Granier, A.  (2008).  Impact of severe dry season on net ecosystem exchange in
   the Neotropical rainforest of French Guiana.  \emph{Global Change Biology}
-  \bold{14}(8), 1917--1933.
+  \bold{14}(8), 1917--1933.  \doi{10.1111/j.1365-2486.2008.01610.x}
 
   Chambers, J. Q., Schimel, J. P. and Nobre, A. D.  (2001).  Respiration from
   coarse wood litter in central Amazon forests.  \emph{Biogeochemistry}
-  \bold{52}(2), 115--131.
+  \bold{52}(2), 115--131.  \doi{10.1023/A:1006473530673}
 
   Stahl, C., Burban, B., Goret, J.-Y. and Bonal, D.  (2011).  Seasonal
   variations in stem CO\eqn{\mathrm{_2}} efflux in the Neotropical rainforest of
   French Guiana.  \emph{Annals of Forest Science} \bold{68}(4), 771--782.
+  \doi{10.1007/s13595-011-0074-2}
 
   Zeileis, A. and Hothorn, T.  (2013).  A toolbox of permutation tests for
   structural change.  \emph{Statistical Papers} \bold{54}(4), 931--954.
+  \doi{10.1007/s00362-013-0503-4}
 }
 \source{
   The coarse woody debris respiration data were kindly provided by Lucy Rowland
@@ -85,15 +87,15 @@
 CWD[1:6] <- 100 * CWD[1:6] # scaling (to avoid harmless warning)
 mt <- maxstat_test(sample2 + sample3 + sample4 +
                    sample6 + sample7 + sample8 ~ trend, data = CWD,
-                   distribution = approximate(B = 100000))
+                   distribution = approximate(nresample = 100000))
 
 ## Absolute maximum of standardized statistics (t = 3.08)
 statistic(mt)
 
-## 5 \% critical value (t_0.05 = 2.86)
+## 5\% critical value (t_0.05 = 2.86)
 (c <- qperm(mt, 0.95))
 
-## Only 'sample8' exceeds the 5 \% critical value
+## Only 'sample8' exceeds the 5\% critical value
 sts <- statistic(mt, type = "standardized")
 idx <- which(sts > c, arr.ind = TRUE)
 sts[unique(idx[, 1]), unique(idx[, 2]), drop = FALSE]

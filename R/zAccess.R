@@ -5,17 +5,41 @@ setGeneric("pvalue",
     }
 )
 
+### <DEPRECATED>
+### The "PValue" class was deprecated in 1.3-0 and at the same time this
+### method was added as a temporary solution.  To be removed in 2.0-0.
+setMethod("pvalue",
+    signature = "PValue",
+    definition = function(object, q, ...) {
+        RET <- object@pvalue(q)
+        class(RET) <- "pvalue"
+        RET
+    }
+)
+### </DEPRECATED>
+
 setMethod("pvalue",
     signature = "NullDistribution",
     definition = function(object, q, ...) {
-        object@pvalue(q)
+        RET <- object@pvalue(q)
+        class(RET) <- "pvalue"
+        RET
+    }
+)
+
+setMethod("pvalue",
+    signature = "ApproxNullDistribution",
+    definition = function(object, q, ...) {
+        RET <- callNextMethod(object, q, ...)
+        attr(RET, "nresample") <- object@nresample
+        RET
     }
 )
 
 setMethod("pvalue",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        pvalue(object@distribution, object@statistic@teststatistic)
+        callGeneric(object@distribution, object@statistic@teststatistic, ...)
     }
 )
 
@@ -43,28 +67,28 @@ setMethod("pvalue",
             ## NOTE: Two ^^ spaces needed for correct rendering
 
             if (method == "global")
-                pvalue(object@distribution, object@statistic@teststatistic)
+                callNextMethod(object, ...)
             else if (method == "single-step") {
                 if (distribution == "joint")
-                    singlestep(object, ...)
+                    joint(object, stepdown = FALSE, ...)
                 else {
                     if (type == "Bonferroni")
-                        marginal(object, bonferroni = TRUE,
-                                 stepdown = FALSE, ...)
+                        marginal(object, stepdown = FALSE,
+                                 bonferroni = TRUE, ...)
                     else
-                        marginal(object, bonferroni = FALSE,
-                                 stepdown = FALSE, ...)
+                        marginal(object, stepdown = FALSE,
+                                 bonferroni = FALSE, ...)
                 }
             } else if (method == "step-down") {
                 if (distribution == "joint")
-                    stepdown(object, ...)
+                    joint(object, stepdown = TRUE, ...)
                 else {
                     if (type == "Bonferroni")
-                        marginal(object, bonferroni = TRUE,
-                                 stepdown = TRUE, ...)
+                        marginal(object, stepdown = TRUE,
+                                 bonferroni = TRUE, ...)
                     else
-                        marginal(object, bonferroni = FALSE,
-                                 stepdown = TRUE, ...)
+                        marginal(object, stepdown = TRUE,
+                                 bonferroni = FALSE, ...)
                 }
             }
             else
@@ -83,14 +107,25 @@ setGeneric("midpvalue",
 setMethod("midpvalue",
     signature = "NullDistribution",
     definition = function(object, q, ...) {
-        object@midpvalue(q)
+        RET <- object@midpvalue(q)
+        class(RET) <- "pvalue"
+        RET
+    }
+)
+
+setMethod("midpvalue",
+    signature = "ApproxNullDistribution",
+    definition = function(object, q, ...) {
+        RET <- callNextMethod(object, q, ...)
+        attr(RET, "nresample") <- object@nresample
+        RET
     }
 )
 
 setMethod("midpvalue",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        midpvalue(object@distribution, object@statistic@teststatistic)
+        callGeneric(object@distribution, object@statistic@teststatistic, ...)
     }
 )
 
@@ -112,7 +147,32 @@ setMethod("pvalue_interval",
 setMethod("pvalue_interval",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        pvalue_interval(object@distribution, object@statistic@teststatistic)
+        callGeneric(object@distribution, object@statistic@teststatistic, ...)
+    }
+)
+
+
+### generic method for extracting size from objects
+setGeneric("size",
+    function(object, ...) {
+        standardGeneric("size")
+    }
+)
+
+setMethod("size",
+    signature = "NullDistribution",
+    definition = function(object,
+        alpha, type = c("p-value", "mid-p-value"), ...) {
+            type <- match.arg(type)
+            object@size(alpha, type)
+    }
+)
+
+setMethod("size",
+    signature = "IndependenceTest",
+    definition = function(object,
+        alpha, type = c("p-value", "mid-p-value"), ...) {
+            callGeneric(object@distribution, alpha, type, ...)
     }
 )
 
@@ -134,7 +194,7 @@ setMethod("dperm",
 setMethod("dperm",
     signature = "IndependenceTest",
     definition = function(object, x, ...) {
-        dperm(object@distribution, x)
+        callGeneric(object@distribution, x, ...)
     }
 )
 
@@ -156,7 +216,7 @@ setMethod("pperm",
 setMethod("pperm",
     signature = "IndependenceTest",
     definition = function(object, q, ...) {
-        pperm(object@distribution, q)
+        callGeneric(object@distribution, q, ...)
     }
 )
 
@@ -178,7 +238,7 @@ setMethod("qperm",
 setMethod("qperm",
     signature = "IndependenceTest",
     definition = function(object, p, ...) {
-        qperm(object@distribution, p)
+        callGeneric(object@distribution, p, ...)
     }
 )
 
@@ -200,7 +260,7 @@ setMethod("rperm",
 setMethod("rperm",
     signature = "IndependenceTest",
     definition = function(object, n, ...) {
-        rperm(object@distribution, n)
+        callGeneric(object@distribution, n, ...)
     }
 )
 
@@ -222,7 +282,7 @@ setMethod("support",
 setMethod("support",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        support(object@distribution, ...)
+        callGeneric(object@distribution, ...)
     }
 )
 
@@ -237,19 +297,29 @@ setGeneric("statistic",
 setMethod("statistic",
     signature = "IndependenceLinearStatistic",
     definition = function(object,
-        type = c("test", "linear", "standardized"), ...) {
-            nc <- ncol(object@ytrans)
-            nr <- ncol(object@xtrans)
+        type = c("test", "linear", "centered", "standardized"), ...) {
             type <- match.arg(type)
+            nr <- ncol(object@xtrans)
+            nc <- ncol(object@ytrans)
             dn <- statnames(object)$dimnames
             switch(type,
-                "test"         = stop(sQuote(paste("type =", dQuote("test"))),
-                                      " not defined for objects of class ",
-                                      dQuote("IndependenceLinearStatistic")),
-                "linear"       = matrix(object@linearstatistic,
-                                        nrow = nr, ncol = nc, dimnames = dn),
-                "standardized" = matrix(object@standardizedlinearstatistic,
-                                        nrow = nr, ncol = nc, dimnames = dn)
+                "test" = stop(
+                    sQuote(paste("type =", dQuote("test"))),
+                    " not defined for objects of class ",
+                    dQuote("IndependenceLinearStatistic")
+                ),
+                "linear" = matrix(
+                    object@linearstatistic,
+                    nrow = nr, ncol = nc, dimnames = dn
+                ),
+                "centered" = matrix(
+                    object@linearstatistic - object@expectation,
+                    nrow = nr, ncol = nc, dimnames = dn
+                ),
+                "standardized" = matrix(
+                    object@standardizedlinearstatistic,
+                    nrow = nr, ncol = nc, dimnames = dn
+                )
             )
     }
 )
@@ -257,26 +327,20 @@ setMethod("statistic",
 setMethod("statistic",
     signature = "IndependenceTestStatistic",
     definition = function(object,
-        type = c("test", "linear", "standardized"), ...) {
-            nc <- ncol(object@ytrans)
-            nr <- ncol(object@xtrans)
+        type = c("test", "linear", "centered", "standardized"), ...) {
             type <- match.arg(type)
-            dn <- statnames(object)$dimnames
-            switch(type,
-                "test"         = object@teststatistic,
-                "linear"       = matrix(object@linearstatistic,
-                                        nrow = nr, ncol = nc, dimnames = dn),
-                "standardized" = matrix(object@standardizedlinearstatistic,
-                                        nrow = nr, ncol = nc, dimnames = dn)
-            )
+            if (type == "test")
+                object@teststatistic
+            else
+                callNextMethod(object, type, ...)
     }
 )
 
 setMethod("statistic",
     signature = "IndependenceTest",
     definition = function(object,
-        type = c("test", "linear", "standardized"), ...) {
-            statistic(object@statistic, type)
+        type = c("test", "linear", "centered", "standardized"), ...) {
+            callGeneric(object@statistic, type, ...)
     }
 )
 
@@ -298,7 +362,7 @@ setMethod("expectation",
 setMethod("expectation",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        expectation(object@statistic, ...)
+        callGeneric(object@statistic, ...)
     }
 )
 
@@ -320,18 +384,16 @@ setMethod("covariance",
 setMethod("covariance",
     signature = "IndependenceLinearStatistic",
     definition = function(object, ...) {
-        if (!extends(class(object@covariance), "CovarianceMatrix"))
-            covariance(new("IndependenceLinearStatistic",
-                           object, varonly = FALSE))
-        else
-            covariance(object@covariance)
+        if (!inherits(object@covariance, "CovarianceMatrix"))
+            object <- new("IndependenceLinearStatistic", object, varonly = FALSE)
+        callGeneric(object@covariance, ...)
     }
 )
 
 setMethod("covariance",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        covariance(object@statistic, ...)
+        callGeneric(object@statistic, ...)
     }
 )
 
@@ -360,13 +422,13 @@ setMethod("variance",
 setMethod("variance",
     signature = "IndependenceLinearStatistic",
     definition = function(object, ...) {
-        variance(object@covariance)
+        callGeneric(object@covariance, ...)
     }
 )
 
 setMethod("variance",
     signature = "IndependenceTest",
     definition = function(object, ...) {
-        variance(object@statistic, ...)
+        callGeneric(object@statistic, ...)
     }
 )

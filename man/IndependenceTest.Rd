@@ -144,17 +144,16 @@
 \references{
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
   system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.
+  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
 
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2008).
-  Implementing a class of permutation tests: the coin package.  \emph{Journal of
-    Statistical Software} \bold{28}(8), 1--23.
-  \url{http://www.jstatsoft.org/v28/i08/}
+  Implementing a class of permutation tests: The coin package.  \emph{Journal of
+    Statistical Software} \bold{28}(8), 1--23.  \doi{10.18637/jss.v028.i08}
 
   Johnson, W. D., Mercante, D. E. and May, W. L.  (1993).  A computer package
   for the multivariate nonparametric rank test in completely randomized
   experimental designs.  \emph{Computer Methods and Programs in Biomedicine}
-  \bold{40}(3), 217--225.
+  \bold{40}(3), 217--225.  \doi{10.1016/0169-2607(93)90059-T}
 
   Puri, M. L. and Sen, P. K.  (1966).  On a class of multivariate multisample
   rank order tests.  \emph{Sankhya} A \bold{28}(4), 353--376.
@@ -219,7 +218,7 @@ independence_test(cerebellum + brainstem + cortex +
                   hypothalamus + striatum + hippocampus ~ treatment,
                   data = benzos,
                   teststat = "quadratic",
-                  distribution = approximate(B = 10000),
+                  distribution = approximate(nresample = 10000),
                   ytrafo = function(data)
                       trafo(data, numeric_trafo = rank_trafo)) # Q = 16.129
 }

@@ -35,21 +35,21 @@
 \source{
   Stablein, D. M., Carter, W. H., Jr. and Novak, J. W.  (1981).  Analysis of
   survival data with nonproportional hazard functions.  \emph{Controlled
-    Clinical Trials} \bold{2}(2), 149--159.
+    Clinical Trials} \bold{2}(2), 149--159.  \doi{10.1016/0197-2456(81)90005-2}
 }
 \references{
   Moreau, T., Maccario, J., Lellouch, J. and Huber, C.  (1992).  Weighted log
   rank statistics for comparing two distributions.  \emph{Biometrika}
-  \bold{79}(1), 195--198.
+  \bold{79}(1), 195--198.  \doi{10.1093/biomet/79.1.195}
 
   Shen, W. and Le, C. T.  (2000).  Linear rank tests for censored survival data.
   \emph{Communications in Statistics -- Simulation and Computation}
-  \bold{29}(1), 21--36.
+  \bold{29}(1), 21--36.  \doi{10.1080/03610910008813599}
 
   Tubert-Bitter, P., Kramar, A., \enc{Chalé}{Chale}, J. J. and Moureau, T.
   (1994).  Linear rank tests for comparing survival in two groups with crossing
   hazards.  \emph{Computational Statistics & Data Analysis} \bold{18}(5),
-  547--559.
+  547--559.  \doi{10.1016/0167-9473(94)90084-1}
 }
 \examples{
 ## Plot Kaplan-Meier estimates

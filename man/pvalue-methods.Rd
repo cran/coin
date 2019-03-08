@@ -2,42 +2,60 @@
 \docType{methods}
 \alias{pvalue}
 \alias{pvalue-methods}
+\alias{pvalue,PValue-method}
+\alias{pvalue,NullDistribution-method}
+\alias{pvalue,ApproxNullDistribution-method}
 \alias{pvalue,IndependenceTest-method}
 \alias{pvalue,MaxTypeIndependenceTest-method}
-\alias{pvalue,NullDistribution-method}
 \alias{midpvalue}
 \alias{midpvalue-methods}
-\alias{midpvalue,IndependenceTest-method}
 \alias{midpvalue,NullDistribution-method}
+\alias{midpvalue,ApproxNullDistribution-method}
+\alias{midpvalue,IndependenceTest-method}
 \alias{pvalue_interval}
 \alias{pvalue_interval-methods}
-\alias{pvalue_interval,IndependenceTest-method}
 \alias{pvalue_interval,NullDistribution-method}
+\alias{pvalue_interval,IndependenceTest-method}
+\alias{size}
+\alias{size-methods}
+\alias{size,NullDistribution-method}
+\alias{size,IndependenceTest-method}
 \encoding{UTF-8}
-\title{Computation of the \eqn{p}-Value, Mid-\eqn{p}-Value and \eqn{p}-Value
-  Interval}
+\title{Computation of the \eqn{p}-Value, Mid-\eqn{p}-Value, \eqn{p}-Value
+  Interval and Test Size}
 \description{
-  Methods for computation of the \eqn{p}-value, mid-\eqn{p}-value and
-  \eqn{p}-value interval.
+  Methods for computation of the \eqn{p}-value, mid-\eqn{p}-value, \eqn{p}-value
+  interval and test size.
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+\S4method{pvalue}{PValue}(object, q, \dots)
+\S4method{pvalue}{NullDistribution}(object, q, \dots)
+\S4method{pvalue}{ApproxNullDistribution}(object, q, \dots)
 \S4method{pvalue}{IndependenceTest}(object, \dots)
-\S4method{pvalue}{MaxTypeIndependenceTest}(object, method = c("global", "single-step", "step-down", "unadjusted"),
+\S4method{pvalue}{MaxTypeIndependenceTest}(object, method = c("global", "single-step",
+                          "step-down", "unadjusted"),
        distribution = c("joint", "marginal"),
        type = c("Bonferroni", "Sidak"), \dots)
-\S4method{pvalue}{NullDistribution}(object, q, \dots)
 
-\S4method{midpvalue}{IndependenceTest}(object, \dots)
 \S4method{midpvalue}{NullDistribution}(object, q, \dots)
+\S4method{midpvalue}{ApproxNullDistribution}(object, q, \dots)
+\S4method{midpvalue}{IndependenceTest}(object, \dots)
 
-\S4method{pvalue_interval}{IndependenceTest}(object, \dots)
 \S4method{pvalue_interval}{NullDistribution}(object, q, \dots)
+\S4method{pvalue_interval}{IndependenceTest}(object, \dots)
+
+\S4method{size}{NullDistribution}(object, alpha, type = c("p-value", "mid-p-value"), \dots)
+\S4method{size}{IndependenceTest}(object, alpha, type = c("p-value", "mid-p-value"), \dots)
 }
 \arguments{
   \item{object}{
-    an object from which the \eqn{p}-value, mid-\eqn{p}-value or \eqn{p}-value
-    interval can be computed.
+    an object from which the \eqn{p}-value, mid-\eqn{p}-value, \eqn{p}-value
+    interval or test size can be computed.
+  }
+  \item{q}{
+    a numeric, the quantile for which the \eqn{p}-value, mid-\eqn{p}-value or
+    \eqn{p}-value interval is computed.
   }
   \item{method}{
     a character, the method used for the \eqn{p}-value computation: either
@@ -49,24 +67,28 @@
     \eqn{p}-values: either \code{"joint"} (default) or \code{"marginal"}.
   }
   \item{type}{
-    a character, the type of \eqn{p}-value adjustment when the marginal
-    distributions are used: either \code{"Bonferroni"} (default) or
+    \code{pvalue()}: a character, the type of \eqn{p}-value adjustment when the
+    marginal distributions are used: either \code{"Bonferroni"} (default) or
     \code{"Sidak"}.
+    % NOTE: this line is necessary for correct rendering
+    \code{size()}: a character, the type of rejection region used when computing
+    the test size: either \code{"p-value"} (default) or \code{"mid-p-value"}.
   }
-  \item{q}{
-    a numeric, the quantile for which the \eqn{p}-value, mid-\eqn{p}-value or
-    \eqn{p}-value interval is computed.
+  \item{alpha}{
+    a numeric, the nominal significance level \eqn{\alpha} at which the test size
+    is computed.
   }
   \item{\dots}{
     further arguments (currently ignored).
   }
 }
 \details{
-  The methods \code{pvalue}, \code{midpvalue} and \code{pvalue_interval} compute
-  the \eqn{p}-value, mid-\eqn{p}-value and \eqn{p}-value interval respectively.
+  The methods \code{pvalue}, \code{midpvalue}, \code{pvalue_interval} and
+  \code{size} compute the \eqn{p}-value, mid-\eqn{p}-value, \eqn{p}-value
+  interval and test size respectively.
 
   For \code{pvalue}, the global \eqn{p}-value (\code{method = "global"}) is
-  returned by default and is given with an associated 99 \% confidence interval
+  returned by default and is given with an associated 99\% confidence interval
   when resampling is used to determine the null distribution (which for maximum
   statistics may be true even in the asymptotic case).
 
@@ -108,7 +130,7 @@
   Unadjusted \eqn{p}-values are obtained using \code{method = "unadjusted"}.
 
   For \code{midpvalue}, the global mid-\eqn{p}-value is given with an associated
-  99 \% mid-\eqn{p} confidence interval when resampling is used to determine the
+  99\% mid-\eqn{p} confidence interval when resampling is used to determine the
   null distribution.  The two-sided mid-\eqn{p}-value is computed according to
   the minimum likelihood method (Hirji \emph{et al.}, 1991).
 
@@ -116,20 +138,32 @@
   was proposed by Berger (2000, 2001), where the upper endpoint \eqn{p_1} is the
   conventional \eqn{p}-value and the mid-point, i.e., \eqn{p_{0.5}}{p_0.5}, is
   the mid-\eqn{p}-value.  The lower endpoint \eqn{p_0} is the smallest
-  \eqn{p}-value obtainable if no conservatism attributable to the discreteness
+  \eqn{p}-value attainable if no conservatism attributable to the discreteness
   of the null distribution is present.  The length of the \eqn{p}-value interval
   is the null probability of the observed outcome and provides a data-dependent
-  measure of conservatism that is completely independent of the significance
-  level.
+  measure of conservatism that is completely independent of the nominal
+  significance level.
+
+  For \code{size}, the test size, i.e., the actual significance level, at the
+  nominal significance level \eqn{\alpha} is computed using either the rejection
+  region corresponding to the \eqn{p}-value (\code{type = "p-value"}, default)
+  or the mid-\eqn{p}-value (\code{type = "mid-p-value"}).  The test size is, in
+  contrast to the \eqn{p}-value interval, a data-independent measure of
+  conservatism that depends on the nominal significance level.  A test size
+  smaller or larger than the nominal significance level indicates that the test
+  procedure is conservative or anti-conservative, respectively, at that
+  particular nominal significance level.  However, as pointed out by Berger
+  (2001), even when the actual and nominal significance levels are identical,
+  conservatism may still affect the \eqn{p}-value.
 }
 \value{
-  The \eqn{p}-value, mid-\eqn{p}-value or \eqn{p}-value interval computed from
-  \code{object}.  A numeric vector or matrix.
+  The \eqn{p}-value, mid-\eqn{p}-value, \eqn{p}-value interval or test size
+  computed from \code{object}.  A numeric vector or matrix.
 }
 \note{
-  The mid-\eqn{p}-value and \eqn{p}-value interval of asymptotic permutation
-  distributions for maximum-type tests or exact permutation distributions
-  obtained by the split-up algoritm is reported as \code{NA}.
+  The mid-\eqn{p}-value, \eqn{p}-value interval and test size of asymptotic
+  permutation distributions or exact permutation distributions obtained by the
+  split-up algoritm is reported as \code{NA}.
 
   In versions of \pkg{coin} prior to 1.1-0, a min-\eqn{P} procedure computing
   \enc{Šidák}{Sidak} single-step adjusted \eqn{p}-values accounting for
@@ -140,25 +174,28 @@
 \references{
   Berger, V. W.  (2000).  Pros and cons of permutation tests in clinical trials.
   \emph{Statistics in Medicine} \bold{19}(10), 1319--1328.
+  \doi{10.1002/(SICI)1097-0258(20000530)19:10<1319::AID-SIM490>3.0.CO;2-0}
 
   Berger, V. W.  (2001).  The \eqn{p}-value interval as an inferential tool.
-  \emph{The Statistician} \bold{50}(1), 79--85.
+  \emph{The Statistician} \bold{50}(1), 79--85.  \doi{10.1111/1467-9884.00262}
 
   Bretz, F., Hothorn, T. and Westfall, P.  (2011).  \emph{Multiple Comparisons
     Using R}.  Boca Raton: CRC Press.
 
   Hirji, K. F., Tan, S.-J. and Elashoff, R. M.  (1991).  A quasi-exact test for
   comparing two binomial proportions.  \emph{Statistics in Medicine}
-  \bold{10}(7), 1137--1153.
+  \bold{10}(7), 1137--1153.  \doi{10.1002/sim.4780100713}
 
   Westfall, P. H. and Troendle, J. F.  (2008).  Multiple testing with minimal
   assumptions.  \emph{Biometrical Journal} \bold{50}(5), 745--755.
+  \doi{10.1002/bimj.200710456}
 
   Westfall, P. H. and Wolfinger, R. D.  (1997).  Multiple tests with discrete
   distributions.  \emph{The American Statistician} \bold{51}(1), 3--8.
+  \doi{10.1080/00031305.1997.10473577}
 
   Westfall, P. H. and Young, S. S.  (1993).  \emph{Resampling-Based Multiple
-  Testing: Examples and Methods for \eqn{p}-Value Adjustment}.  New York: John
+    Testing: Examples and Methods for \eqn{p}-Value Adjustment}.  New York: John
   Wiley & Sons.
 }
 \examples{
@@ -173,6 +210,8 @@ dta <- data.frame(
 pvalue(at)
 midpvalue(at)
 pvalue_interval(at)
+size(at, alpha = 0.05)
+size(at, alpha = 0.05, type = "mid-p-value")
 
 
 ## Bivariate two-sample problem
@@ -184,7 +223,7 @@ dta2 <- data.frame(
 
 ## Approximative (Monte Carlo) bivariate Fisher-Pitman test
 (it <- independence_test(y1 + y2 ~ x, data = dta2,
-                         distribution = approximate(B = 10000)))
+                         distribution = approximate(nresample = 10000)))
 
 ## Global p-value
 pvalue(it)
@@ -214,7 +253,7 @@ yoy <- data.frame(
 ## Approximative (Monte Carlo) Fisher-Pitman test with contrasts
 ## Note: all pairwise comparisons
 (it <- independence_test(length ~ site, data = yoy,
-                         distribution = approximate(B = 10000),
+                         distribution = approximate(nresample = 10000),
                          xtrafo = mcp_trafo(site = "Tukey")))
 
 ## Joint distribution step-down p-values

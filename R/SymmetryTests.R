@@ -34,7 +34,7 @@ sign_test.SymmetryProblem <- function(object, ...) {
              " (maybe the grouping variable is not a factor?)")
 
     abs_diffs <- abs(diffs)
-    if (all(abs_diffs < .Machine$double.eps))
+    if (all(abs_diffs < eps))
         stop("all pairwise differences equal zero")
 
     diffs <- diffs[abs_diffs > 0]
@@ -97,7 +97,7 @@ wilcoxsign_test.SymmetryProblem <- function(object,
              " (maybe the grouping variable is not a factor?)")
 
     abs_diffs <- abs(diffs)
-    if (all(abs_diffs < .Machine$double.eps))
+    if (all(abs_diffs < eps))
         stop("all pairwise differences equal zero")
 
     pos_abs_diffs <- abs_diffs > 0

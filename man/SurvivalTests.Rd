@@ -289,15 +289,15 @@
   Andersen, P. K., Borgan, \enc{Ø}{O}., Gill, R. and Keiding, N.  (1982).
   Linear nonparametric tests for comparison of counting processes, with
   applications to censored survival data (with discussion).  \emph{International
-    Statistical Review} \bold{50}(3), 219--258.
+    Statistical Review} \bold{50}(3), 219--258.  \doi{10.2307/1402489}
 
   Breslow, N.  (1970).  A generalized Kruskal-Wallis test for comparing \eqn{K}
   samples subject to unequal patterns of censorship.  \emph{Biometrika}
-  \bold{57}(3), 579--594.
+  \bold{57}(3), 579--594.  \doi{10.1093/biomet/57.3.579}
 
   Callaert, H.  (2003).  Comparing statistical software packages: The case of
   the logrank test in StatXact.  \emph{The American Statistician} \bold{57}(3),
-  214--217.
+  214--217.  \doi{10.1198/0003130031900}
 
   Cox, D. R. (1972).  Regression models and life-tables (with discussion).
   \emph{Journal of the Royal Statistical Society} B \bold{34}(2), 187--220.
@@ -308,14 +308,15 @@
   Gaugler, T., Kim, D. and Liao, S.  (2007).  Comparing two survival time
   distributions: An investigation of several weight functions for the weighted
   logrank statistic.  \emph{Communications in Statistics -- Simulation and
-    Computation} \bold{36}(2), 423--435.
+    Computation} \bold{36}(2), 423--435.  \doi{10.1080/03610910601161272}
 
   Gehan, E. A.  (1965).  A generalized Wilcoxon test for comparing arbitrarily
   single-censored samples.  \emph{Biometrika} \bold{52}(1--2), 203--223.
+  \doi{10.1093/biomet/52.1-2.203}
 
   Hothorn, T. and Lausen, B.  (2003).  On the exact distribution of maximally
   selected rank statistics.  \emph{Computational Statistics & Data Analysis}
-  \bold{43}(2), 121--137.
+  \bold{43}(2), 121--137.  \doi{10.1016/S0167-9473(02)00225-6}
 
   Klein, J. P. and Moeschberger, M. L.  (2003).  \emph{Survival Analysis:
     Techniques for Censored and Truncated Data}, Second Edition.  New York:
@@ -323,10 +324,11 @@
 
   Lee, J. W.  (1996).  Some versatile tests based on the simultaneous use of
   weighted log-rank statistics.  \emph{Biometrics} \bold{52}(2), 721--725.
+  \doi{10.2307/2532911}
 
-  \enc{Letón}{Leton}, E. and Zuluaga, P.  (2001).  Equivalence between scores
+  \enc{Letón}{Leton}, E. and Zuluaga, P.  (2001).  Equivalence between score
   and weighted tests for survival curves.  \emph{Communications in Statistics --
-    Theory and Methods} \bold{30}(4), 591--608.
+    Theory and Methods} \bold{30}(4), 591--608.  \doi{10.1081/STA-100002138}
 
   Mantel, N.  (1966).  Evaluation of survival data and two new rank order
   statistics arising in its consideration.  \emph{Cancer Chemotherapy Reports}
@@ -334,32 +336,34 @@
 
   Peto, R. and Peto, J.  (1972).  Asymptotic efficient rank invariant test
   procedures (with discussion).  \emph{Journal of the Royal Statistical Society}
-  A \bold{135}(2), 185--207.
+  A \bold{135}(2), 185--207.  \doi{10.2307/2344317}
 
   Prentice, R. L.  (1978).  Linear rank tests with right censored data.
-  \emph{Biometrika} \bold{65}(1), 167--179.
+  \emph{Biometrika} \bold{65}(1), 167--179.  \doi{10.1093/biomet/65.1.167}
 
   Prentice, R. L. and Marek, P.  (1979).  A qualitative discrepancy between
   censored data rank tests.  \emph{Biometrics} \bold{35}(4), 861--867.
+  \doi{10.2307/2530120}
 
   Self, S. G.  (1991).  An adaptive weighted log-rank test with application to
   cancer prevention and screening trials.  \emph{Biometrics} \bold{47}(3),
-  975--986.
+  975--986.  \doi{10.2307/2532653}
 
   Tarone, R. E.  (1975).  Tests for trend in life table analysis.
-  \emph{Biometrika} \bold{62}(3), 679--682.
+  \emph{Biometrika} \bold{62}(3), 679--682.  \doi{10.1093/biomet/62.3.679}
 
   Tarone, R. E. and Ware, J.  (1977).  On distribution-free tests for equality
   of survival distributions.  \emph{Biometrika} \bold{64}(1), 156--160.
+  \doi{10.1093/biomet/64.1.156}
 }
 \examples{
-## Example data (Callaert, 2003, Tab.1)
+## Example data (Callaert, 2003, Tab. 1)
 callaert <- data.frame(
     time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
     group = factor(rep(0:1, c(7, 8)))
 )
 
-## Logrank scores using mid-ranks (Callaert, 2003, Tab.2)
+## Logrank scores using mid-ranks (Callaert, 2003, Tab. 2)
 with(callaert,
      logrank_trafo(Surv(time)))
 
@@ -406,7 +410,7 @@ lee_trafo <- function(y)
                   rho = rho.gamma["rho"], gamma = rho.gamma["gamma"])
 
 it <- independence_test(Surv(time, event) ~ group, data = lungcancer,
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         ytrafo = function(data)
                             trafo(data, surv_trafo = lee_trafo))
 pvalue(it, method = "step-down")

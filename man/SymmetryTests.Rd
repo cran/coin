@@ -82,11 +82,11 @@
   was given by Page (1963) and is known as the Page test.
 
   For \code{wilcoxsign_test}, the default method of handling zeros
-  (\code{zero.method = "Pratt"}), due to Pratt (1959), first rank transforms the
+  (\code{zero.method = "Pratt"}), due to Pratt (1959), first rank-transforms the
   absolute differences (including zeros) and then discards the ranks
-  corresponding to the zero-differences.  The proposal by Wilcoxon (1949) first
-  discards the zero-differences and then rank transforms the remaining absolute
-  differences (\code{zero.method = "Wilcoxon"}).
+  corresponding to the zero-differences.  The proposal by Wilcoxon (1949, p. 6)
+  first discards the zero-differences and then rank-transforms the remaining
+  absolute differences (\code{zero.method = "Wilcoxon"}).
 
   The conditional null distribution of the test statistic is used to obtain
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
@@ -113,18 +113,18 @@
 
   Page, E. B.  (1963).  Ordered hypotheses for multiple treatments: a
   significance test for linear ranks.  \emph{Journal of the American Statistical
-    Association} \bold{58}(301), 216--230.
+    Association} \bold{58}(301), 216--230.  \doi{10.1080/01621459.1963.10500843}
 
   Pratt, J. W.  (1959).  Remarks on zeros and ties in the Wilcoxon signed rank
   procedures.  \emph{Journal of the American Statistical Association}
-  \bold{54}(287), 655--667.
+  \bold{54}(287), 655--667.  \doi{10.1080/01621459.1959.10501526}
 
   Quade, D.  (1979).  Using weighted rankings in the analysis of complete blocks
   with additive block effects.  \emph{Journal of the American Statistical
-    Association} \bold{74}(367), 680--683.
+    Association} \bold{74}(367), 680--683.  \doi{10.1080/01621459.1979.10481670}
 
-  Wilcoxon, F.  (1949).  Some rapid approximate statistical procedures.
-  \emph{Annals of the New York Academy of Sciences} \bold{52}(6), 808--814.
+  Wilcoxon, F.  (1949).  \emph{Some Rapid Approximate Statistical Procedures}.
+  New York: American Cyanamid Company.
 }
 \examples{
 ## Example data from ?wilcox.test
@@ -232,7 +232,7 @@ friedman_test(strength ~ potash | block, data = cotton, alternative = "greater")
 
 ## One-sided approximative (Monte Carlo) Page test
 friedman_test(strength ~ potash | block, data = cotton, alternative = "greater",
-              distribution = approximate(B = 10000))
+              distribution = approximate(nresample = 10000))
 
 
 ## Data from Quade (1979, p. 683)
@@ -251,12 +251,12 @@ dta <- data.frame(
 ## Approximative (Monte Carlo) Friedman test
 ## Quade (1979, p. 683)
 friedman_test(y ~ x | b, data = dta,
-              distribution = approximate(B = 10000)) # chi^2 = 6.000
+              distribution = approximate(nresample = 10000)) # chi^2 = 6.000
 
 ## Approximative (Monte Carlo) Quade test
 ## Quade (1979, p. 683)
 (qt <- quade_test(y ~ x | b, data = dta,
-                  distribution = approximate(B = 10000))) # W = 8.157
+                  distribution = approximate(nresample = 10000))) # W = 8.157
 
 ## Comparison with R's quade.test() function
 quade.test(y ~ x | b, data = dta)

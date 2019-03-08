@@ -51,7 +51,7 @@ Total  &  24 & 99 & 123  \\
 
 > pasympt <- pvalue(it, method = "single-step")
 
-> itp <- independence_test(me, xtrafo = g, distribution = approximate(B = 49999), 
+> itp <- independence_test(me, xtrafo = g, distribution = approximate(nresample = 49999), 
 +     alternative = "greater")
 
 > papprox <- pvalue(itp, method = "step-down")
@@ -141,7 +141,8 @@ recessive  &  0.7241&0.9819 \\
 > bpasympt <- pvalue(bit, method = "single-step")
 
 > bitp <- independence_test(Group ~ Locus | Study, data = diabetes, 
-+     xtrafo = g, distribution = approximate(B = 49999), alternative = "greater")
++     xtrafo = g, distribution = approximate(nresample = 49999), 
++     alternati .... [TRUNCATED] 
 
 > bpapprox <- pvalue(bitp, method = "step-down")
 
@@ -252,4 +253,4 @@ alternative hypothesis: greater
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  16.53    0.04   16.69 
+  11.07    0.14   11.28 

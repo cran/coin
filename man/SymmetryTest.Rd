@@ -147,17 +147,17 @@
 }
 \references{
   Gerig, T.  (1969).  A multivariate extension of Friedman's
-  \eqn{\chi^2_r}{chi^2_r} test.  \emph{Journal of the American Statistical
+  \eqn{\chi^2_r}{chi^2_r}-test.  \emph{Journal of the American Statistical
     Association} \bold{64}(328), 1595--1608.
+  \doi{10.1080/01621459.1969.10501079}
 
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
   system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.
+  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
 
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2008).
-  Implementing a class of permutation tests: the coin package.  \emph{Journal of
-    Statistical Software} \bold{28}(8), 1--23.
-  \url{http://www.jstatsoft.org/v28/i08/}
+  Implementing a class of permutation tests: The coin package.  \emph{Journal of
+    Statistical Software} \bold{28}(8), 1--23.  \doi{10.18637/jss.v028.i08}
 
   Puri, M. L. and Sen, P. K.  (1971).  \emph{Nonparametric Methods in
     Multivariate Analysis}.  New York: John Wiley & Sons.

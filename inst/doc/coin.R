@@ -62,7 +62,7 @@ pvalue(it)
 ### code chunk number 8: YOY-KW
 ###################################################
 kt <- kruskal_test(length ~ site, data = YOY,
-          distribution = approximate(B = 10000))
+          distribution = approximate(nresample = 10000))
 kt
 
 
@@ -147,7 +147,7 @@ pvalue(independence_test(scores ~ product | sitting,
            ytrafo = function(data)
                trafo(data, numeric_trafo = rank_trafo,
                      block = egg_data$sitting),
-           distribution = approximate(B = 19999)))
+           distribution = approximate(nresample = 19999)))
 
 
 ###################################################

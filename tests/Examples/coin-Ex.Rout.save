@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2017-05-16 r72684) -- "Unsuffered Consequences"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -25,6 +25,7 @@ Type 'q()' to quit R.
 Loading required package: survival
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 > cleanEx()
 > nameEx("CWD")
 > ### * CWD
@@ -43,17 +44,17 @@ Loading required package: survival
 > CWD[1:6] <- 100 * CWD[1:6] # scaling (to avoid harmless warning)
 > mt <- maxstat_test(sample2 + sample3 + sample4 +
 +                    sample6 + sample7 + sample8 ~ trend, data = CWD,
-+                    distribution = approximate(B = 100000))
++                    distribution = approximate(nresample = 100000))
 > 
 > ## Absolute maximum of standardized statistics (t = 3.08)
 > statistic(mt)
 [1] 3.079268
 > 
-> ## 5 % critical value (t_0.05 = 2.86)
+> ## 5% critical value (t_0.05 = 2.86)
 > (c <- qperm(mt, 0.95))
 [1] 2.855509
 > 
-> ## Only 'sample8' exceeds the 5 % critical value
+> ## Only 'sample8' exceeds the 5% critical value
 > sts <- statistic(mt, type = "standardized")
 > idx <- which(sts > c, arr.ind = TRUE)
 > sts[unique(idx[, 1]), unique(idx[, 2]), drop = FALSE]
@@ -96,35 +97,48 @@ x <= 71 3.079268
 data:  Var2 by Var1 (A, B)
 chi-squared = 2.5714, df = 1, p-value = 0.1088
 
+> chisq.test(davis, correct = FALSE) # same as above
+Warning in chisq.test(davis, correct = FALSE) :
+  Chi-squared approximation may be incorrect
+
+	Pearson's Chi-squared test
+
+data:  davis
+X-squared = 2.5714, df = 1, p-value = 0.1088
+
 > 
 > ## Approximative (Monte Carlo) Pearson chi-squared test
 > ct <- chisq_test(davis,
-+                  distribution = approximate(B = 10000))
-> pvalue(ct)          # standard p-value
++                  distribution = approximate(nresample = 10000))
+> pvalue(ct)             # standard p-value
 [1] 0.2849
 99 percent confidence interval:
  0.2733285 0.2966774 
 
-> midpvalue(ct)       # mid-p-value
+> midpvalue(ct)          # mid-p-value
 [1] 0.151
 99 percent confidence interval:
  0.1419433 0.1603887 
 
-> pvalue_interval(ct) # p-value interval
+> pvalue_interval(ct)    # p-value interval
    p_0    p_1 
 0.0171 0.2849 
+> size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
+[1] 0.0171
 > 
 > ## Exact Pearson chi-squared test (Davis, 1986)
 > ## Note: disagrees with Fisher's exact test
 > ct <- chisq_test(davis,
 +                  distribution = "exact")
-> pvalue(ct)          # standard p-value
+> pvalue(ct)             # standard p-value
 [1] 0.2860301
-> midpvalue(ct)       # mid-p-value
+> midpvalue(ct)          # mid-p-value
 [1] 0.1527409
-> pvalue_interval(ct) # p-value interval
+> pvalue_interval(ct)    # p-value interval
        p_0        p_1 
 0.01945181 0.28603006 
+> size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
+[1] 0.01945181
 > fisher.test(davis)
 
 	Fisher's Exact Test for Count Data
@@ -163,11 +177,13 @@ odds ratio
 data:  Cancer by Treatment (Surgery, Radiation)
 chi-squared = 0.59915, p-value = 0.6384
 
-> midpvalue(ct)       # mid-p-value
+> midpvalue(ct)          # mid-p-value
 [1] 0.5006832
-> pvalue_interval(ct) # p-value interval
+> pvalue_interval(ct)    # p-value interval
       p_0       p_1 
 0.3629407 0.6384258 
+> size(ct, alpha = 0.05) # test size at alpha = 0.05 using the p-value
+[1] 0.01143318
 > fisher.test(cancer)
 
 	Fisher's Exact Test for Count Data
@@ -220,8 +236,7 @@ Z = -1.5269, p-value = 0.06339
 alternative hypothesis: less
 
 > statistic(ct)^2 # chi^2 = 2.332
-        
-2.33154 
+[1] 2.33154
 > 
 > ## Asymptotic Pearson-Yates chi-squared test (Yates, 1948, p. 181)
 > ## Note: 'Rating' as ordinal
@@ -275,8 +290,7 @@ Z = -2.5818, p-value = 0.009829
 alternative hypothesis: two.sided
 
 > statistic(ct)^2 # X^2 = 6.66
-     0-7 
-6.665691 
+[1] 6.665691
 > 
 > 
 > ## Change in size of ulcer crater for two treatment groups
@@ -288,14 +302,14 @@ alternative hypothesis: two.sided
 +     dimnames = list(
 +         "Treatment" = c("A", "B"),
 +            "Crater" = c("Larger", "< 2/3 healed",
-+                         "=> 2/3 healed", "Healed")
++                         ">= 2/3 healed", "Healed")
 +     )
 + )
 > armitage <- as.table(armitage)
 > 
 > ## Approximative (Monte Carlo) Pearson chi-squared test (Armitage, 1955, p. 379)
 > chisq_test(armitage,
-+            distribution = approximate(B = 10000)) # chi^2 = 5.91
++            distribution = approximate(nresample = 10000)) # chi^2 = 5.91
 
 	Approximative Pearson Chi-Squared Test
 
@@ -305,7 +319,7 @@ chi-squared = 5.9085, p-value = 0.1186
 > 
 > ## Approximative (Monte Carlo) Cochran-Armitage test (Armitage, 1955, p. 379)
 > (ct <- chisq_test(armitage,
-+                   distribution = approximate(B = 10000),
++                   distribution = approximate(nresample = 10000),
 +                   scores = list("Crater" = c(-1.5, -0.5, 0.5, 1.5))))
 
 	Approximative Linear-by-Linear Association Test
@@ -315,8 +329,7 @@ Z = 2.2932, p-value = 0.0291
 alternative hypothesis: two.sided
 
 > statistic(ct)^2 # chi_0^2 = 5.26
-       A 
-5.258804 
+[1] 5.258804
 > 
 > 
 > ## Relationship between job satisfaction and income stratified by gender
@@ -361,8 +374,7 @@ Z = 2.4812, p-value = 0.01309
 alternative hypothesis: two.sided
 
 > statistic(lt)^2 # M^2 = 6.1563
-         
-6.156301 
+[1] 6.156301
 > 
 > 
 > 
@@ -582,7 +594,7 @@ alternative hypothesis: true mu is greater than 0
 +                   hypothalamus + striatum + hippocampus ~ treatment,
 +                   data = benzos,
 +                   teststat = "quadratic",
-+                   distribution = approximate(B = 10000),
++                   distribution = approximate(nresample = 10000),
 +                   ytrafo = function(data)
 +                       trafo(data, numeric_trafo = rank_trafo)) # Q = 16.129
 
@@ -687,7 +699,7 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > ## Approximative (Monte Carlo) Fisher-Pitman test
 > pvalue(oneway_test(pd ~ age, data = diffusion,
-+                    distribution = approximate(B = 10000)))
++                    distribution = approximate(nresample = 10000)))
 [1] 0.1311
 99 percent confidence interval:
  0.1225338 0.1400198 
@@ -773,19 +785,19 @@ alternative hypothesis: true mu is not equal to 0
 > 
 > ## Approximative (Monte Carlo) Kruskal-Wallis test
 > kruskal_test(length ~ site, data = yoy,
-+              distribution = approximate(B = 10000))
++              distribution = approximate(nresample = 10000))
 
 	Approximative Kruskal-Wallis Test
 
 data:  length by site (I, II, III, IV)
-chi-squared = 22.852, p-value < 2.2e-16
+chi-squared = 22.852, p-value < 1e-04
 
 > 
 > ## Approximative (Monte Carlo) Nemenyi-Damico-Wolfe-Dunn test (joint ranking)
 > ## Hollander and Wolfe (1999, p. 244)
 > ## (where Steel-Dwass results are given)
 > it <- independence_test(length ~ site, data = yoy,
-+                         distribution = approximate(B = 50000),
++                         distribution = approximate(nresample = 50000),
 +                         ytrafo = function(data)
 +                             trafo(data, numeric_trafo = rank_trafo),
 +                         xtrafo = mcp_trafo(site = "Tukey"))
@@ -892,20 +904,22 @@ chi-squared = 8.0526, df = 3, p-value = 0.04494
 > 
 > ## Approximative Cochran Q test
 > mt <- mh_test(diphtheria ~ media | case, data = cochran,
-+               distribution = approximate(B = 10000))
-> pvalue(mt)          # standard p-value
++               distribution = approximate(nresample = 10000))
+> pvalue(mt)             # standard p-value
 [1] 0.0536
 99 percent confidence interval:
  0.04796230 0.05966731 
 
-> midpvalue(mt)       # mid-p-value
+> midpvalue(mt)          # mid-p-value
 [1] 0.0439
 99 percent confidence interval:
  0.03883667 0.04939715 
 
-> pvalue_interval(mt) # p-value interval
+> pvalue_interval(mt)    # p-value interval
    p_0    p_1 
 0.0342 0.0536 
+> size(mt, alpha = 0.05) # test size at alpha = 0.05 using the p-value
+[1] 0.0342
 > 
 > 
 > ## Opinions on Pre- and Extramarital Sex
@@ -1145,7 +1159,7 @@ sample estimates:
 > ## Serial operation
 > set.seed(123)
 > cmh_test(disease ~ smoking | gender, data = alzheimer,
-+          distribution = approximate(B = 100000))
++          distribution = approximate(nresample = 100000))
 
 	Approximative Generalized Cochran-Mantel-Haenszel Test
 
@@ -1159,13 +1173,13 @@ chi-squared = 23.316, p-value = 0.00052
 > ##D ## Multicore with 8 processes (not for MS Windows)
 > ##D set.seed(123, kind = "L'Ecuyer-CMRG")
 > ##D cmh_test(disease ~ smoking | gender, data = alzheimer,
-> ##D          distribution = approximate(B = 100000,
+> ##D          distribution = approximate(nresample = 100000,
 > ##D                                     parallel = "multicore", ncpus = 8))
 > ##D 
 > ##D ## Automatic PSOCK cluster with 4 processes
 > ##D set.seed(123, kind = "L'Ecuyer-CMRG")
 > ##D cmh_test(disease ~ smoking | gender, data = alzheimer,
-> ##D          distribution = approximate(B = 100000,
+> ##D          distribution = approximate(nresample = 100000,
 > ##D                                     parallel = "snow", ncpus = 4))
 > ##D 
 > ##D ## Registered FORK cluster with 12 processes (not for MS Windows)
@@ -1173,7 +1187,7 @@ chi-squared = 23.316, p-value = 0.00052
 > ##D parallel::setDefaultCluster(fork12) # register default cluster
 > ##D set.seed(123, kind = "L'Ecuyer-CMRG")
 > ##D cmh_test(disease ~ smoking | gender, data = alzheimer,
-> ##D          distribution = approximate(B = 100000,
+> ##D          distribution = approximate(nresample = 100000,
 > ##D                                     parallel = "snow"))
 > ##D parallel::stopCluster(fork12) # clean-up
 > ##D 
@@ -1181,7 +1195,7 @@ chi-squared = 23.316, p-value = 0.00052
 > ##D psock8 <- parallel::makeCluster(8, "PSOCK") # set-up cluster
 > ##D set.seed(123, kind = "L'Ecuyer-CMRG")
 > ##D cmh_test(disease ~ smoking | gender, data = alzheimer,
-> ##D          distribution = approximate(B = 100000,
+> ##D          distribution = approximate(nresample = 100000,
 > ##D                                     parallel = "snow", cl = psock8))
 > ##D parallel::stopCluster(psock8) # clean-up
 > ## End(Not run)
@@ -1196,14 +1210,14 @@ chi-squared = 23.316, p-value = 0.00052
 > 
 > ### Name: PermutationDistribution-methods
 > ### Title: Computation of the Permutation Distribution
-> ### Aliases: dperm dperm-methods dperm,IndependenceTest-method
-> ###   dperm,NullDistribution-method pperm pperm-methods
-> ###   pperm,IndependenceTest-method pperm,NullDistribution-method qperm
-> ###   qperm-methods qperm,IndependenceTest-method
-> ###   qperm,NullDistribution-method rperm rperm-methods
-> ###   rperm,IndependenceTest-method rperm,NullDistribution-method support
-> ###   support-methods support,IndependenceTest-method
-> ###   support,NullDistribution-method
+> ### Aliases: dperm dperm-methods dperm,NullDistribution-method
+> ###   dperm,IndependenceTest-method pperm pperm-methods
+> ###   pperm,NullDistribution-method pperm,IndependenceTest-method qperm
+> ###   qperm-methods qperm,NullDistribution-method
+> ###   qperm,IndependenceTest-method rperm rperm-methods
+> ###   rperm,NullDistribution-method rperm,IndependenceTest-method support
+> ###   support-methods support,NullDistribution-method
+> ###   support,IndependenceTest-method
 > ### Keywords: methods htest distribution
 > 
 > ### ** Examples
@@ -1226,14 +1240,13 @@ chi-squared = 23.316, p-value = 0.00052
 > ## Plotting the density
 > plot(supp, dens, type = "s")
 > 
-> ## 95 % quantile
+> ## 95% quantile
 > qperm(at, p = 0.95)
 [1] 1.669331
 > 
 > ## One-sided p-value
 > pperm(at, q = statistic(at))
-       1 
-0.698635 
+[1] 0.698635
 > 
 > ## Random number generation
 > rperm(at, n = 5)
@@ -1299,7 +1312,7 @@ alternative hypothesis: true ratio of scales is not equal to 1
 +     cbind("Location" = rank_trafo(y), "Scale" = ansari_trafo(y))
 > 
 > independence_test(counts ~ treatment, data = platelet,
-+                   distribution = approximate(B = 10000),
++                   distribution = approximate(nresample = 10000),
 +                   ytrafo = function(data)
 +                       trafo(data, numeric_trafo = lepage_trafo),
 +                   teststat = "quadratic")
@@ -1313,7 +1326,7 @@ chi-squared = 9.3384, p-value = 0.0042
 > ## Why was the null hypothesis rejected?
 > ## Note: maximum statistic instead of quadratic form
 > ltm <- independence_test(counts ~ treatment, data = platelet,
-+                          distribution = approximate(B = 10000),
++                          distribution = approximate(nresample = 10000),
 +                          ytrafo = function(data)
 +                              trafo(data, numeric_trafo = lepage_trafo))
 > 
@@ -1348,13 +1361,13 @@ Control 0.00349714 0.4665
 > 
 > ### ** Examples
 > 
-> ## Example data (Callaert, 2003, Tab.1)
+> ## Example data (Callaert, 2003, Tab. 1)
 > callaert <- data.frame(
 +     time = c(1, 1, 5, 6, 6, 6, 6, 2, 2, 2, 3, 4, 4, 5, 5),
 +     group = factor(rep(0:1, c(7, 8)))
 + )
 > 
-> ## Logrank scores using mid-ranks (Callaert, 2003, Tab.2)
+> ## Logrank scores using mid-ranks (Callaert, 2003, Tab. 2)
 > with(callaert,
 +      logrank_trafo(Surv(time)))
  [1] -0.8666667 -0.8666667  0.1148962  1.1148962  1.1148962  1.1148962
@@ -1370,7 +1383,7 @@ survdiff(formula = Surv(time) ~ group, data = callaert)
 group=0 7        7     9.84      0.82      3.76
 group=1 8        8     5.16      1.56      3.76
 
- Chisq= 3.8  on 1 degrees of freedom, p= 0.0523 
+ Chisq= 3.8  on 1 degrees of freedom, p= 0.05 
 > 
 > ## Exact logrank test using mid-ranks (p = 0.0505)
 > logrank_test(Surv(time) ~ group, data = callaert, distribution = "exact")
@@ -1443,7 +1456,7 @@ alternative hypothesis: true theta is not equal to 1
 +                   rho = rho.gamma["rho"], gamma = rho.gamma["gamma"])
 > 
 > it <- independence_test(Surv(time, event) ~ group, data = lungcancer,
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         ytrafo = function(data)
 +                             trafo(data, surv_trafo = lee_trafo))
 > pvalue(it, method = "step-down")
@@ -1782,7 +1795,7 @@ alternative hypothesis: greater
 > 
 > ## One-sided approximative (Monte Carlo) Page test
 > friedman_test(strength ~ potash | block, data = cotton, alternative = "greater",
-+               distribution = approximate(B = 10000))
++               distribution = approximate(nresample = 10000))
 
 	Approximative Page Test
 
@@ -1810,7 +1823,7 @@ alternative hypothesis: greater
 > ## Approximative (Monte Carlo) Friedman test
 > ## Quade (1979, p. 683)
 > friedman_test(y ~ x | b, data = dta,
-+               distribution = approximate(B = 10000)) # chi^2 = 6.000
++               distribution = approximate(nresample = 10000)) # chi^2 = 6.000
 
 	Approximative Friedman Test
 
@@ -1822,7 +1835,7 @@ chi-squared = 6, p-value = 0.0502
 > ## Approximative (Monte Carlo) Quade test
 > ## Quade (1979, p. 683)
 > (qt <- quade_test(y ~ x | b, data = dta,
-+                   distribution = approximate(B = 10000))) # W = 8.157
++                   distribution = approximate(nresample = 10000))) # W = 8.157
 
 	Approximative Quade Test
 
@@ -1860,7 +1873,8 @@ Quade F = 8.3765, num df = 2, denom df = 12, p-value = 0.005284
 > ### Aliases: id_trafo rank_trafo normal_trafo median_trafo savage_trafo
 > ###   consal_trafo koziol_trafo klotz_trafo mood_trafo ansari_trafo
 > ###   fligner_trafo logrank_trafo logrank_weight maxstat_trafo
-> ###   fmaxstat_trafo ofmaxstat_trafo f_trafo of_trafo trafo mcp_trafo
+> ###   fmaxstat_trafo ofmaxstat_trafo f_trafo of_trafo zheng_trafo trafo
+> ###   mcp_trafo
 > ### Keywords: manip
 > 
 > ### ** Examples
@@ -1918,6 +1932,21 @@ attr(,"contrasts")$x
 4  2  3
 5  3  4
 6  3  4
+> zheng_trafo(ox, increment = 1/3)
+  gamma = (0.0000, 0.0000, 1.0000) gamma = (0.0000, 0.3333, 1.0000)
+1                                0                        0.0000000
+2                                0                        0.0000000
+3                                0                        0.3333333
+4                                0                        0.3333333
+5                                1                        1.0000000
+6                                1                        1.0000000
+  gamma = (0.0000, 0.6667, 1.0000) gamma = (0.0000, 1.0000, 1.0000)
+1                        0.0000000                                0
+2                        0.0000000                                0
+3                        0.6666667                                1
+4                        0.6666667                                1
+5                        1.0000000                                1
+6                        1.0000000                                1
 > 
 > ## Normal scores
 > y <- runif(6)
@@ -2181,16 +2210,18 @@ attr(,"conf.level")
 > ### Aliases: expectation expectation-methods
 > ###   expectation,IndependenceLinearStatistic-method
 > ###   expectation,IndependenceTest-method variance variance-methods
-> ###   variance,CovarianceMatrix-method
+> ###   variance,Variance-method variance,CovarianceMatrix-method
 > ###   variance,IndependenceLinearStatistic-method
-> ###   variance,IndependenceTest-method variance,Variance-method covariance
-> ###   covariance-methods covariance,CovarianceMatrix-method
+> ###   variance,IndependenceTest-method covariance covariance-methods
+> ###   covariance,CovarianceMatrix-method
 > ###   covariance,IndependenceLinearStatistic-method
 > ###   covariance,IndependenceTest-method
 > ### Keywords: methods
 > 
 > ### ** Examples
-> 
+> ## Don't show: 
+> suppressWarnings(RNGversion("3.5.2")); set.seed(711109)
+> ## End(Don't show)
 > ## Example data
 > dta <- data.frame(
 +     y = gl(3, 2),
@@ -2315,14 +2346,14 @@ alternative hypothesis: true theta is not equal to 1
 > 
 > ## Stratified approximative (Monte Carlo) logrank test
 > logrank_test(Surv(time, event) ~ group | histology, data = glioma,
-+              distribution = approximate(B = 10000))
++              distribution = approximate(nresample = 10000))
 
 	Approximative Two-Sample Logrank Test
 
 data:  Surv(time, event) by
 	 group (Control, RIT) 
 	 stratified by histology
-Z = -3.6704, p-value < 2.2e-16
+Z = -3.6704, p-value < 1e-04
 alternative hypothesis: true theta is not equal to 1
 
 > 
@@ -2370,7 +2401,7 @@ sample estimates:
 > ### ** Examples
 > 
 > ## Approximative (Monte Carlo) linear-by-linear association test
-> lbl_test(jobsatisfaction, distribution = approximate(B = 10000))
+> lbl_test(jobsatisfaction, distribution = approximate(nresample = 10000))
 
 	Approximative Linear-by-Linear Association Test
 
@@ -2380,6 +2411,24 @@ data:  Job.Satisfaction (ordered) by
 Z = 2.5736, p-value = 0.0104
 alternative hypothesis: two.sided
 
+> 
+> ## Not run: 
+> ##D ## Approximative (Monte Carlo) score-independent test
+> ##D ## Winell and Lindbaeck (2018)
+> ##D (it <- independence_test(jobsatisfaction,
+> ##D                          distribution = approximate(nresample = 10000),
+> ##D                          xtrafo = function(data)
+> ##D                              trafo(data, factor_trafo = function(x)
+> ##D                                  zheng_trafo(as.ordered(x))),
+> ##D                          ytrafo = function(data)
+> ##D                              trafo(data, factor_trafo = function(y)
+> ##D                                  zheng_trafo(as.ordered(y)))))
+> ##D 
+> ##D ## Extract the "best" set of scores
+> ##D ss <- statistic(it, type = "standardized")
+> ##D idx <- which(abs(ss) == max(abs(ss)), arr.ind = TRUE)
+> ##D ss[idx[1], idx[2], drop = FALSE]
+> ## End(Not run)
 > 
 > 
 > 
@@ -2402,7 +2451,8 @@ alternative hypothesis: two.sided
 > ## Note: midpoint scores (p < 0.05)
 > midpoints <- c(0, 0.5, 1.5, 4.0, 7.0)
 > chisq_test(malformation ~ consumption, data = malformations,
-+            distribution = approximate(B = 1000), alternative = "greater",
++            distribution = approximate(nresample = 1000),
++            alternative = "greater",
 +            scores = list(consumption = midpoints))
 
 	Approximative Linear-by-Linear Association Test
@@ -2416,7 +2466,8 @@ alternative hypothesis: greater
 > ## Note: midrank scores (p > 0.05)
 > midranks <- c(8557.5, 24375.5, 32013.0, 32473.0, 32555.5)
 > chisq_test(malformation ~ consumption, data = malformations,
-+            distribution = approximate(B = 1000), alternative = "greater",
++            distribution = approximate(nresample = 1000),
++            alternative = "greater",
 +            scores = list(consumption = midranks))
 
 	Approximative Linear-by-Linear Association Test
@@ -2429,7 +2480,8 @@ alternative hypothesis: greater
 > ## One-sided approximative (Monte Carlo) Cochran-Armitage test
 > ## Note: equally spaced scores (p > 0.05)
 > chisq_test(malformation ~ consumption, data = malformations,
-+            distribution = approximate(B = 1000), alternative = "greater")
++            distribution = approximate(nresample = 1000),
++            alternative = "greater")
 
 	Approximative Linear-by-Linear Association Test
 
@@ -2437,6 +2489,23 @@ data:  malformation by consumption (0 < <1 < 1-2 < 3-5 < >=6)
 Z = 1.352, p-value = 0.117
 alternative hypothesis: greater
 
+> 
+> ## Not run: 
+> ##D ## One-sided approximative (Monte Carlo) score-independent test
+> ##D ## Winell and Lindbaeck (2018)
+> ##D (it <- independence_test(malformation ~ consumption, data = malformations,
+> ##D                          distribution = approximate(nresample = 1000,
+> ##D                                                     parallel = "snow",
+> ##D                                                     ncpus = 8),
+> ##D                          alternative = "greater",
+> ##D                          xtrafo = function(data)
+> ##D                              trafo(data, ordered_trafo = zheng_trafo)))
+> ##D 
+> ##D ## Extract the "best" set of scores
+> ##D ss <- statistic(it, type = "standardized")
+> ##D idx <- which(ss == max(ss), arr.ind = TRUE)
+> ##D ss[idx[1], idx[2], drop = FALSE]
+> ## End(Not run)
 > 
 > 
 > 
@@ -2483,8 +2552,7 @@ control
 > 
 > ## Standardized statistic
 > statistic(poset)
-  control 
--4.258051 
+[1] -4.258051
 > 
 > ## P-value
 > pvalue(poset)
@@ -2543,7 +2611,7 @@ control 0.007187993 0.0111254 0.0152947
 > ## One-sided approximative Fisher-Pitman test
 > oneway_test(pain ~ group, data = neuropathy,
 +             alternative = "less",
-+             distribution = approximate(B = 10000))
++             distribution = approximate(nresample = 10000))
 
 	Approximative Two-Sample Fisher-Pitman Permutation Test
 
@@ -2555,7 +2623,7 @@ alternative hypothesis: true mu is less than 0
 > ## One-sided approximative Wilcoxon-Mann-Whitney test
 > wilcox_test(pain ~ group, data = neuropathy,
 +             alternative = "less",
-+             distribution = approximate(B = 10000))
++             distribution = approximate(nresample = 10000))
 
 	Approximative Wilcoxon-Mann-Whitney Test
 
@@ -2567,7 +2635,7 @@ alternative hypothesis: true mu is less than 0
 > ## One-sided approximative Conover-Salsburg test
 > oneway_test(pain ~ group, data = neuropathy,
 +             alternative = "less",
-+             distribution = approximate(B = 10000),
++             distribution = approximate(nresample = 10000),
 +             ytrafo = function(data)
 +                 trafo(data, numeric_trafo = consal_trafo))
 
@@ -2581,7 +2649,7 @@ alternative hypothesis: true mu is less than 0
 > ## One-sided approximative maximum test for a range of 'a' values
 > it <- independence_test(pain ~ group, data = neuropathy,
 +                         alternative = "less",
-+                         distribution = approximate(B = 10000),
++                         distribution = approximate(nresample = 10000),
 +                         ytrafo = function(data)
 +                             trafo(data, numeric_trafo = function(y)
 +                                 consal_trafo(y, a = 2:7)))
@@ -2610,8 +2678,7 @@ control 0.2377 0.0994 0.062 0.0511 0.0483 0.0492
 > 
 > ## Test statistic
 > statistic(lt)
-      II 
-2.337284 
+[1] 2.337284
 > 
 > ## P-value
 > pvalue(lt)
@@ -2649,11 +2716,11 @@ control 0.2377 0.0994 0.062 0.0511 0.0483 0.0492
 > ## Approximative multivariate (all three responses) test
 > it <- independence_test(Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group,
 +                         data = photocar,
-+                         distribution = approximate(B = 10000))
++                         distribution = approximate(nresample = 10000))
 > 
 > ## Global p-value
 > pvalue(it)
-[1] 0
+[1] <1e-04
 99 percent confidence interval:
  0.0000000000 0.0005296914 
 
@@ -2667,8 +2734,8 @@ C         -7.077674         -6.284743 -0.4151904
 > pvalue(it, method = "single-step")
   Surv(time, event) Surv(dmin, tumor) ntumor
 A             0.129            0.1850  1.000
-B             0.000            0.0003  1.000
-C             0.000            0.0000  0.999
+B            <0.001            0.0003  1.000
+C            <0.001           <0.0001  0.999
 > 
 > 
 > 
@@ -2680,13 +2747,17 @@ C             0.000            0.0000  0.999
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: pvalue-methods
-> ### Title: Computation of the p-Value, Mid-p-Value and p-Value Interval
-> ### Aliases: pvalue pvalue-methods pvalue,IndependenceTest-method
-> ###   pvalue,MaxTypeIndependenceTest-method pvalue,NullDistribution-method
-> ###   midpvalue midpvalue-methods midpvalue,IndependenceTest-method
-> ###   midpvalue,NullDistribution-method pvalue_interval
-> ###   pvalue_interval-methods pvalue_interval,IndependenceTest-method
-> ###   pvalue_interval,NullDistribution-method
+> ### Title: Computation of the p-Value, Mid-p-Value, p-Value Interval and
+> ###   Test Size
+> ### Aliases: pvalue pvalue-methods pvalue,PValue-method
+> ###   pvalue,NullDistribution-method pvalue,ApproxNullDistribution-method
+> ###   pvalue,IndependenceTest-method pvalue,MaxTypeIndependenceTest-method
+> ###   midpvalue midpvalue-methods midpvalue,NullDistribution-method
+> ###   midpvalue,ApproxNullDistribution-method
+> ###   midpvalue,IndependenceTest-method pvalue_interval
+> ###   pvalue_interval-methods pvalue_interval,NullDistribution-method
+> ###   pvalue_interval,IndependenceTest-method size size-methods
+> ###   size,NullDistribution-method size,IndependenceTest-method
 > ### Keywords: methods htest
 > 
 > ### ** Examples
@@ -2713,6 +2784,10 @@ alternative hypothesis: true ratio of scales is not equal to 1
 > pvalue_interval(at)
       p_0       p_1 
 0.6027301 0.7102340 
+> size(at, alpha = 0.05)
+[1] 0.03830999
+> size(at, alpha = 0.05, type = "mid-p-value")
+[1] 0.05633376
 > 
 > 
 > ## Bivariate two-sample problem
@@ -2724,7 +2799,7 @@ alternative hypothesis: true ratio of scales is not equal to 1
 > 
 > ## Approximative (Monte Carlo) bivariate Fisher-Pitman test
 > (it <- independence_test(y1 + y2 ~ x, data = dta2,
-+                          distribution = approximate(B = 10000)))
++                          distribution = approximate(nresample = 10000)))
 
 	Approximative General Independence Test
 
@@ -2752,8 +2827,8 @@ alternative hypothesis: two.sided
 > 
 > ## Sidak step-down p-values
 > pvalue(it, method = "step-down", distribution = "marginal", type = "Sidak")
-          y1    y2
-1 0.01096975 0.979
+         y1    y2
+1 0.0110692 0.979
 > 
 > ## Unadjusted p-values
 > pvalue(it, method = "unadjusted")
@@ -2773,7 +2848,7 @@ alternative hypothesis: two.sided
 > ## Approximative (Monte Carlo) Fisher-Pitman test with contrasts
 > ## Note: all pairwise comparisons
 > (it <- independence_test(length ~ site, data = yoy,
-+                          distribution = approximate(B = 10000),
++                          distribution = approximate(nresample = 10000),
 +                          xtrafo = mcp_trafo(site = "Tukey")))
 
 	Approximative General Independence Test
@@ -2854,8 +2929,8 @@ alternative hypothesis: true mu is not equal to 0
 > ### Title: Extraction of the Test Statistic and Linear Statistic
 > ### Aliases: statistic statistic-methods
 > ###   statistic,IndependenceLinearStatistic-method
-> ###   statistic,IndependenceTest-method
 > ###   statistic,IndependenceTestStatistic-method
+> ###   statistic,IndependenceTest-method
 > ### Keywords: methods
 > 
 > ### ** Examples
@@ -2892,9 +2967,36 @@ x   1 2 3 4
   4 0 0 3 1
   5 0 0 0 4
 > 
-> ## Illustrating departures from the null hypothesis of independence using the
-> ## standardized linear statistic
+> ## The centered linear statistic...
+> statistic(ct, type = "centered")
+   1  2  3  4
+1  3 -1 -1 -1
+2  0  2 -1 -1
+3 -1  1  1 -1
+4 -1 -1  2  0
+5 -1 -1 -1  3
+> 
+> ## ...is identical to
+> statistic(ct, type = "linear") - expectation(ct)
+   1  2  3  4
+1  3 -1 -1 -1
+2  0  2 -1 -1
+3 -1  1  1 -1
+4 -1 -1  2  0
+5 -1 -1 -1  3
+> 
+> ## The standardized linear statistic, illustrating departures from the null
+> ## hypothesis of independence...
 > statistic(ct, type = "standardized")
+          1         2         3         4
+1  3.774917 -1.258306 -1.258306 -1.258306
+2  0.000000  2.516611 -1.258306 -1.258306
+3 -1.258306  1.258306  1.258306 -1.258306
+4 -1.258306 -1.258306  2.516611  0.000000
+5 -1.258306 -1.258306 -1.258306  3.774917
+> 
+> ## ...is identical to
+> (statistic(ct, type = "linear") - expectation(ct)) / sqrt(variance(ct))
           1         2         3         4
 1  3.774917 -1.258306 -1.258306 -1.258306
 2  0.000000  2.516611 -1.258306 -1.258306
@@ -2948,7 +3050,7 @@ sample estimates:
 > 
 > ### ** Examples
 > 
-> ## Asymptotic Stuart(-Maxwell) test (Q = 11.96)
+> ## Asymptotic Stuart test (Q = 11.96)
 > diag(vision) <- 0 # speed-up
 > mh_test(vision)
 
@@ -2960,13 +3062,35 @@ data:  response by
 chi-squared = 11.957, df = 3, p-value = 0.007533
 
 > 
+> ## Asymptotic score-independent test
+> ## Winell and Lindbaeck (2018)
+> (st <- symmetry_test(vision,
++                      ytrafo = function(data)
++                          trafo(data, factor_trafo = function(y)
++                              zheng_trafo(as.ordered(y)))))
+
+	Asymptotic General Symmetry Test
+
+data:  response by
+	 conditions (Right.Eye, Left.Eye) 
+	 stratified by block
+maxT = 3.4484, p-value = 0.003294
+alternative hypothesis: two.sided
+
+> ss <- statistic(st, type = "standardized")
+> idx <- which(abs(ss) == max(abs(ss)), arr.ind = TRUE)
+> ss[idx[1], idx[2], drop = FALSE]
+          eta = (0.0, 0.3, 0.7, 1.0)
+Right.Eye                  -3.448397
+> 
 > 
 > 
 > ### * <FOOTER>
 > ###
+> cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  10.63 0.14 10.8 NA NA 
+Time elapsed:  10.55 0.22 10.79 NA NA 
 > grDevices::dev.off()
 null device 
           1 

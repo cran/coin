@@ -347,7 +347,7 @@ null distribution of the Kruskal-Wallis test is approximated by Monte Carlo
 resampling using $10000$ replicates via
 <<YOY-KW, echo = TRUE>>=
 kt <- kruskal_test(length ~ site, data = YOY,
-          distribution = approximate(B = 10000))
+          distribution = approximate(nresample = 10000))
 kt
 @
 with $p$-value (and $99~\%$ confidence interval) of
@@ -450,7 +450,7 @@ pvalue(independence_test(scores ~ product | sitting,
            ytrafo = function(data)
                trafo(data, numeric_trafo = rank_trafo,
                      block = egg_data$sitting),
-           distribution = approximate(B = 19999)))
+           distribution = approximate(nresample = 19999)))
 @
 If we assume that the products are ordered, the Page test is appropriate and
 can be computed as follows

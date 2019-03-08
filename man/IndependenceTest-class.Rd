@@ -5,6 +5,8 @@
 \alias{QuadTypeIndependenceTest-class}
 \alias{ScalarIndependenceTest-class}
 \alias{ScalarIndependenceTestConfint-class}
+\alias{confint,IndependenceTest-method}
+\alias{confint,ScalarIndependenceTestConfint-method}
 \alias{show,IndependenceTest-method}
 \alias{show,MaxTypeIndependenceTest-method}
 \alias{show,QuadTypeIndependenceTest-method}
@@ -97,6 +99,15 @@
 }
 \section{Methods}{
   \describe{
+    \item{confint}{
+      \code{signature(object = "IndependenceTest")}: See the documentation for
+      \code{\link[stats4]{confint-methods}} (in package \pkg{stats4}) for details.
+    }
+    \item{confint}{
+      \code{signature(object = "ScalarIndependenceTestConfint")}: See the
+      documentation for \code{\link[stats4]{confint-methods}} (in package
+      \pkg{stats4}) for details.
+    }
     \item{covariance}{
       \code{signature(object = "IndependenceTest")}: See the documentation for
       \code{\link{covariance}} for details.
@@ -140,7 +151,7 @@
     \item{show}{
       \code{signature(object = "MaxTypeIndependenceTest")}: See the
       documentation for \code{\link[methods]{show}} (in package \pkg{methods})
-      for details. 
+      for details.
     }
     \item{show}{
       \code{signature(object = "QuadTypeIndependenceTest")}: See the
@@ -155,6 +166,10 @@
       \code{signature(object = "ScalarIndependenceTestConfint")}: See the
       documentation for \code{\link[methods]{show}} (in package \pkg{methods})
       for details.
+    }
+    \item{size}{
+      \code{signature(object = "IndependenceTest")}: See the documentation for
+      \code{\link{size}} for details.
     }
     \item{statistic}{
       \code{signature(object = "IndependenceTest")}: See the documentation for

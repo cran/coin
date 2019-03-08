@@ -1,31 +1,14 @@
-### Conditional Expectation and Covariance
-setClass("ExpectCovar",
-    representation = representation(
-        expectation = "numeric",
-        covariance  = "matrix",
-        dimension   = "integer"
-   )
-)
-
-### Expectation and Covariance of the influence function
-### (+ sum of weights)
-setClass("ExpectCovarInfluence",
-    contains = "ExpectCovar",
-    representation = representation(
-        sumweights = "numeric"
-    )
-)
 
 ### Covariance matrix
 setClass("CovarianceMatrix",
-    representation = representation(
+    slots = c(
         covariance = "matrix"
     )
 )
 
 ### Variance only
 setClass("Variance",
-    representation = representation(
+    slots = c(
         variance = "numeric"
     )
 )
@@ -38,17 +21,17 @@ setClassUnion("VarCovar",
 ### Class for raw data: a set of 'x' variables and a set of 'y' variables,
 ### possibly blocked and with weights
 setClass("IndependenceProblem",
-    representation = representation(
+    slots = c(
         x       = "data.frame",
         y       = "data.frame",
         block   = "factor",
-        weights = "numeric"
+        weights = "numeric" ### <FIXME> this should be integer </FIXME>
     ),
     validity = function(object) {
         dims <- ((nrow(object@x) == nrow(object@y)) &&
                  (nrow(object@x) == length(object@block)))
         dims <- dims && (length(object@block) == length(object@weights))
-        Wint <- max(abs(object@weights - floor(object@weights))) < eps()
+        Wint <- max(abs(object@weights - floor(object@weights))) < sqrt_eps
         block <- all(table(object@block) > 1L)
         NAs <- all(complete.cases(object@x) & complete.cases(object@y))
         (dims && block) && (NAs && Wint)
@@ -60,11 +43,11 @@ setClass("IndependenceProblem",
 ### 'scores' is a matrix of scores
 setClass("IndependenceTestProblem",
     contains = "IndependenceProblem",
-    representation = representation(
-        xtrans     = "matrix",
-        ytrans     = "matrix",
-        xtrafo     = "function",
-        ytrafo     = "function"
+    slots = c(
+        xtrans = "matrix",
+        ytrans = "matrix",
+        xtrafo = "function",
+        ytrafo = "function"
     ),
     validity = function(object)
         (storage.mode(object@xtrans) == "double" &&
@@ -75,7 +58,7 @@ setClass("IndependenceTestProblem",
 ### Strasser & Weber (1999)
 setClass("IndependenceLinearStatistic",
     contains = "IndependenceTestProblem",
-    representation = representation(
+    slots = c(
         linearstatistic = "numeric",
         expectation     = "numeric",
         covariance      = "VarCovar"
@@ -84,8 +67,8 @@ setClass("IndependenceLinearStatistic",
 
 ### Tests based on linear statistics
 setClass("IndependenceTestStatistic",
-    contains = c("IndependenceLinearStatistic", "VIRTUAL"),
-    representation = representation(
+    contains = c("VIRTUAL", "IndependenceLinearStatistic"),
+    slots = c(
         teststatistic               = "numeric",
         standardizedlinearstatistic = "numeric"
     )
@@ -94,7 +77,7 @@ setClass("IndependenceTestStatistic",
 ### teststatistic = standardizedlinearstatistic
 setClass("ScalarIndependenceTestStatistic",
     contains = "IndependenceTestStatistic",
-    representation = representation(
+    slots = c(
         alternative = "character",
         paired      = "logical"
     ),
@@ -105,7 +88,7 @@ setClass("ScalarIndependenceTestStatistic",
 ### teststatistic = max(abs(standardizedlinearstatistic))
 setClass("MaxTypeIndependenceTestStatistic",
     contains = "IndependenceTestStatistic",
-    representation = representation(
+    slots = c(
         alternative = "character"
     ),
     validity = function(object)
@@ -115,7 +98,7 @@ setClass("MaxTypeIndependenceTestStatistic",
 ### teststatistic = quadform(linearstatistic)
 setClass("QuadTypeIndependenceTestStatistic",
     contains = "IndependenceTestStatistic",
-    representation = representation(
+    slots = c(
         covarianceplus = "matrix",
         df             = "numeric",
         paired         = "logical"
@@ -124,51 +107,54 @@ setClass("QuadTypeIndependenceTestStatistic",
 
 ### p-values
 setClass("PValue",
-    representation = representation(
-        pvalue         = "function",
-        midpvalue      = "function",
-        pvalueinterval = "function",
-        p              = "function",
-        name           = "character"
+    slots = c(
+        pvalue = "function",
+        p      = "function",
+        name   = "character"
     ),
     prototype = list(
-        pvalue         = function(q) NA,
-        midpvalue      = function(q) NA,
-        pvalueinterval = function(q) NA,
-        p              = function(q) NA,
-        name           = NA_character_
+        pvalue = function(q) NA,
+        p      = function(q) NA,
+        name   = NA_character_
     )
 )
 
 ### Null distribution
 setClass("NullDistribution",
     contains = "PValue",
-    representation = representation(
-        q          = "function",
-        d          = "function",
-        support    = "function",
-        parameters = "list"
+    slots = c(
+        size           = "function",
+        pvalueinterval = "function",
+        midpvalue      = "function",
+        q              = "function",
+        d              = "function",
+        support        = "function",
+        parameters     = "list"
     ),
     prototype = list(
-        q          = function(p) NA,
-        d          = function(x) NA,
-        support    = function() NA,
-        parameters = list()
+        size           = function(alpha, type) NA,
+        pvalueinterval = function(q) NA,
+        midpvalue      = function(q) NA,
+        q              = function(p) NA,
+        d              = function(x) NA,
+        support        = function() NA,
+        parameters     = list()
     )
 )
 
 ### There are essentially three types of null distributions:
 setClass("AsymptNullDistribution",
     contains = "NullDistribution",
-    representation = representation(
+    slots = c(
         seed = "integer"
     )
 )
 
 setClass("ApproxNullDistribution",
     contains = "NullDistribution",
-    representation = representation(
-        seed = "integer"
+    slots = c(
+        seed      = "integer",
+        nresample = "numeric"
     )
 )
 
@@ -178,7 +164,7 @@ setClass("ExactNullDistribution",
 
 ### the "fitted" test including data and everything
 setClass("IndependenceTest",
-    representation = representation(
+    slots = c(
         distribution = "PValue", # was: "NullDistribution",
         statistic    = "IndependenceTestStatistic",
         estimates    = "list",
@@ -191,20 +177,19 @@ setClass("IndependenceTest",
 ### the "fitted" test for scalar linear statistics
 setClass("ScalarIndependenceTest",
     contains = "IndependenceTest",
-    representation = representation(
+    slots = c(
         parameter = "character",
         nullvalue = "numeric"
     ),
     prototype = list(parameter = "mu"),
     validity = function(object)
-        extends(class(object@statistic),
-                "ScalarIndependenceTestStatistic")
+        inherits(object@statistic, "ScalarIndependenceTestStatistic")
 )
 
 ### possibly with confidence intervals
 setClass("ScalarIndependenceTestConfint",
     contains = "ScalarIndependenceTest",
-    representation = representation(
+    slots = c(
         confint    = "function",
         conf.level = "numeric"
     )
@@ -214,16 +199,14 @@ setClass("ScalarIndependenceTestConfint",
 setClass("MaxTypeIndependenceTest",
     contains = "IndependenceTest",
     validity = function(object)
-        extends(class(object@statistic),
-                "MaxTypeIndependenceTestStatistic")
+        inherits(object@statistic, "MaxTypeIndependenceTestStatistic")
 )
 
 ### quad form test statistics
 setClass("QuadTypeIndependenceTest",
     contains = "IndependenceTest",
     validity = function(object)
-        extends(class(object@statistic),
-                "QuadTypeIndependenceTestStatistic")
+        inherits(object@statistic, "QuadTypeIndependenceTestStatistic")
 )
 
 ### SymmetryProblems

@@ -94,7 +94,7 @@
 
   %% Bhapkar, V. P.  (1966).  A note on the equivalence of two test criteria for
   %% hypotheses in categorical data.  \emph{Journal of the American Statistical
-  %% Association} \bold{61}(313), 228--235.
+  %% Association} \bold{61}(313), 228--235.  \doi{10.1080/01621459.1966.10502021}
 
   Birch, M. W.  (1965).  The detection of partial association, II: The general
   case.  \emph{Journal of the Royal Statistical Society} B \bold{27}(1),
@@ -102,29 +102,33 @@
 
   Cochran, W. G.  (1950).  The comparison of percentages in matched
   samples.  \emph{Biometrika} \bold{37}(3/4), 256--266.
+  \doi{10.1093/biomet/37.3-4.256}
 
   %% Ireland, C. T., Ku, H. H. and Kullback, S.  (1969).  Symmetry and marginal
   %% homogeneity of an \eqn{r \times r} contingency table.  \emph{Journal of the
   %% American Statistical Association} \bold{64}(328), 1323--1341.
+  %% \doi{10.1080/01621459.1969.10501059}
 
   Madansky, A.  (1963).  Tests of homogeneity for correlated samples.
   \emph{Journal of the American Statistical Association} \bold{58}(301),
-  97--119.
+  97--119.  \doi{10.1080/01621459.1963.10500835}
 
   Maxwell, A. E.  (1970).  Comparing the classification of subjects by two
   independent judges.  \emph{British Journal of Psychiatry} \bold{116}(535),
-  651--655.
+  651--655.  \doi{10.1192/bjp.116.535.651}
 
   McNemar, Q.  (1947).  Note on the sampling error of the difference between
   correlated proportions or percentages.  \emph{Psychometrika} \bold{12}(2),
-  153--157.
+  153--157.  \doi{10.1007/BF02295996}
 
   Stuart, A.  (1955).  A test for homogeneity of the marginal distributions in a
   two-way classification.  \emph{Biometrika} \bold{42}(3/4), 412--416.
+  \doi{10.1093/biomet/42.3-4.412}
 
   White, A. A., Landis, J. R. and Cooper, M. M.  (1982).  A note on the
   equivalence of several marginal homogeneity test criteria for categorical
   data.  \emph{International Statistical Review} \bold{50}(1), 27--34.
+  \doi{10.2307/1402457}
 }
 \examples{
 ## Performance of prime minister
@@ -170,10 +174,11 @@ mh_test(diphtheria ~ media | case, data = cochran) # Q = 8.05
 
 ## Approximative Cochran Q test
 mt <- mh_test(diphtheria ~ media | case, data = cochran,
-              distribution = approximate(B = 10000))
-pvalue(mt)          # standard p-value
-midpvalue(mt)       # mid-p-value
-pvalue_interval(mt) # p-value interval
+              distribution = approximate(nresample = 10000))
+pvalue(mt)             # standard p-value
+midpvalue(mt)          # mid-p-value
+pvalue_interval(mt)    # p-value interval
+size(mt, alpha = 0.05) # test size at alpha = 0.05 using the p-value
 
 
 ## Opinions on Pre- and Extramarital Sex

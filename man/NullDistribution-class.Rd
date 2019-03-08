@@ -24,24 +24,32 @@
   \code{"ApproxNullDistribution"}, \code{"AsymptNullDistribution"} or
   \code{"ExactNullDistribution"}:
   \describe{
-    \item{\code{q}:}{
-      Object of class \code{"function"}.  The quantile function of the reference
+    \item{\code{name}:}{
+      Object of class \code{"character"}.  The name of the reference
+      distribution.
+    }
+    \item{\code{p}:}{
+      Object of class \code{"function"}.  The distribution function of the
+      reference distribution.
+    }
+    \item{\code{pvalue}:}{
+      Object of class \code{"function"}.  The \eqn{p}-value function of the
+      reference distribution.
+    }
+    \item{\code{parameters}:}{
+      Object of class \code{"list"}.  Additional parameters.
+    }
+    \item{\code{support}:}{
+      Object of class \code{"function"}.  The support of the reference
       distribution.
     }
     \item{\code{d}:}{
       Object of class \code{"function"}.  The density function of the reference
       distribution.
     }
-    \item{\code{support}:}{
-      Object of class \code{"function"}.  The support of the reference
+    \item{\code{q}:}{
+      Object of class \code{"function"}.  The quantile function of the reference
       distribution.
-    }
-    \item{\code{parameters}:}{
-      Object of class \code{"list"}.  Additional parameters.
-    }
-    \item{\code{pvalue}:}{
-      Object of class \code{"function"}.  The \eqn{p}-value function of the
-      reference distribution.
     }
     \item{\code{midpvalue}:}{
       Object of class \code{"function"}.  The mid-\eqn{p}-value function of the
@@ -51,12 +59,8 @@
       Object of class \code{"function"}.  The \eqn{p}-value interval function of
       the reference distribution.
     }
-    \item{\code{p}:}{
-      Object of class \code{"function"}.  The distribution function of the
-      reference distribution.
-    }
-    \item{\code{name}:}{
-      Object of class \code{"character"}.  The name of the reference
+    \item{\code{size}:}{
+      Object of class \code{"function"}.  The size function of the reference
       distribution.
     }
   }
@@ -66,6 +70,12 @@
     \item{\code{seed}:}{
       Object of class \code{"integer"}.  The random number generator state
       (i.e., the value of \code{.Random.seed}).
+    }
+  }
+  Additionally, for objects of class \code{"ApproxNullDistribution"}:
+  \describe{
+    \item{\code{nresample}:}{
+      Object of class \code{"numeric"}.  The number of Monte Carlo replicates.
     }
   }
 }
@@ -95,6 +105,10 @@
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{midpvalue}} for details.
     }
+    \item{midpvalue}{
+      \code{signature(object = "ApproxNullDistribution")}: See the documentation
+      for \code{\link{midpvalue}} for details.
+    }
     \item{pperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{pperm}} for details.
@@ -102,6 +116,10 @@
     \item{pvalue}{
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{pvalue}} for details.
+    }
+    \item{pvalue}{
+      \code{signature(object = "ApproxNullDistribution")}: See the documentation
+      for \code{\link{pvalue}} for details.
     }
     \item{pvalue_interval}{
       \code{signature(object = "NullDistribution")}: See the documentation for
@@ -114,6 +132,10 @@
     \item{rperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
       \code{\link{rperm}} for details.
+    }
+    \item{size}{
+      \code{signature(object = "NullDistribution")}: See the documentation for
+      \code{\link{size}} for details.
     }
     \item{support}{
       \code{signature(object = "NullDistribution")}: See the documentation for

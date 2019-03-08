@@ -17,6 +17,7 @@
 \alias{ofmaxstat_trafo}
 \alias{f_trafo}
 \alias{of_trafo}
+\alias{zheng_trafo}
 \alias{trafo}
 \alias{mcp_trafo}
 \title{Functions for Data Transformation}
@@ -45,6 +46,7 @@ logrank_weight(time, n.risk, n.event,
                rho = NULL, gamma = NULL)
 f_trafo(x)
 of_trafo(x, scores = NULL)
+zheng_trafo(x, increment = 0.1)
 maxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
 fmaxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
 ofmaxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
@@ -117,6 +119,11 @@ mcp_trafo(\dots)
     a numeric vector or list, the scores corresponding to each level of an
     ordered factor.  Defaults to \code{NULL}, implying \code{1:nlevels(x)}.
   }
+  \item{increment}{
+    a numeric, the score increment between the order-restricted sets of scores.
+    A fraction greater than 0, but smaller than or equal to 1.  Defaults to
+    \code{0.1}.
+  }
   \item{minprob}{
     a numeric, a fraction between 0 and 0.5; see \code{\link{maxstat_test}}.
     Defaults to \code{0.1}.
@@ -157,9 +164,9 @@ mcp_trafo(\dots)
     applied to each level of \code{block} separately.  Defaults to \code{NULL}.
   }
   \item{\dots}{
-    \code{logrank_trafo}: further arguments to be passed to \code{weight}.
+    \code{logrank_trafo()}: further arguments to be passed to \code{weight}.
     % NOTE: this line is necessary for correct rendering
-    \code{mcp_trafo}: factor name and contrast matrix (as matrix or character)
+    \code{mcp_trafo()}: factor name and contrast matrix (as matrix or character)
     in a \samp{tag = value} format for multiple comparisons based on a single
     unordered factor; see \code{\link[multcomp:glht]{mcp}} in package
     \pkg{multcomp}.
@@ -187,7 +194,10 @@ mcp_trafo(\dots)
 
   \code{f_trafo} computes dummy matrices for factors and \code{of_trafo} assigns
   scores to ordered factors.  For ordered factors with two levels, the scores
-  are normalized to the \eqn{[0, 1]} range.
+  are normalized to the \eqn{[0, 1]} range.  \code{zheng_trafo} computes a
+  finite collection of order-restricted scores for ordered factors (see
+  \code{\link{jobsatisfaction}}, \code{\link{malformations}} and
+  \code{\link{vision}}).
 
   \code{maxstat_trafo}, \code{fmaxstat_trafo} and \code{ofmaxstat_trafo} compute
   scores for cutpoint problems (see \code{\link{maxstat_test}}).
@@ -225,6 +235,7 @@ ox <- as.ordered(x)
 of_trafo(ox)
 of_trafo(ox, scores = c(1, 3:4))
 of_trafo(ox, scores = list(s1 = 1:3, s2 = c(1, 3:4)))
+zheng_trafo(ox, increment = 1/3)
 
 ## Normal scores
 y <- runif(6)

@@ -51,11 +51,12 @@
   Forbes, P. D. and Kodell, R. L.  (2005).  Tests for effects on tumor frequency
   and latency in multiple dosing photococarcinogenicity experiments.
   \emph{Journal of Statistical Planning and Inference} \bold{129}(1--2), 39--58.
+  \doi{10.1016/j.jspi.2004.06.038}
 }
 \references{
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
   system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.
+  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
 }
 \examples{
 ## Plotting data
@@ -75,7 +76,7 @@ par(op) # reset
 ## Approximative multivariate (all three responses) test
 it <- independence_test(Surv(time, event) + Surv(dmin, tumor) + ntumor ~ group,
                         data = photocar,
-                        distribution = approximate(B = 10000))
+                        distribution = approximate(nresample = 10000))
 
 ## Global p-value
 pvalue(it)

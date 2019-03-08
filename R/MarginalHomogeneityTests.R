@@ -9,10 +9,8 @@ mh_test.formula <- function(formula, data = list(), subset = NULL, ...) {
 
 mh_test.table <- function(object, ...) {
 
-    object <- table2df_sym(object)
-    object <- new("SymmetryProblem", x = object["conditions"],
-                  y = object["response"])
-    do.call("mh_test", c(list(object = object), list(...)))
+    do.call("mh_test",
+            c(list(object = table2SymmetryProblem(object)), list(...)))
 }
 
 mh_test.SymmetryProblem <- function(object, ...) {

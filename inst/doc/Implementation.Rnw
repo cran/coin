@@ -27,7 +27,7 @@
 \renewcommand{\vec}{\text{vec}}
 
 %% code commands
-\newcommand{\Rclass}[1]{`\code{#1}'}
+\newcommand{\Rclass}[1]{\code{"#1"}}
 
 %% hyphenation
 \hyphenation{Qua-dra-tic}
@@ -248,7 +248,7 @@ treatment & \Sexpr{paste(sort(rotarod$time[13:24]), collapse = " & ")} \\
 
 Utilizing \pkg{coin}, the hypothesis of independence of length of time and group assignment can
 be specified by a formula which, together with a data frame \code{rotarod},
-serve as arguments to \code{independence_test}:
+serve as arguments to \code{independence_test()}:
 <<Ex, echo = TRUE>>=
 library("coin")
 data("rotarod", package = "coin")
@@ -456,9 +456,10 @@ based upon which we can now set up a test statistic.
 \hline
 Function & Description \\ \hline
 \code{statistic(object, type)} & Extraction of the linear statistic $\t$ (\code{type = "linear"}),
-                     the standardized statistic $\z$ (\code{type = "standardized"})
-                     or the final test statistic $c$ (\code{type = "test"}, only for
-                     objects inheriting from \Rclass{IndependenceTestStatistic}). \\
+                                 the centered statistic $\t - \mu$ (\code{type = "centered"}),
+                                 the standardized statistic $\z$ (\code{type = "standardized"}) or
+                                 the final test statistic $c$ (\code{type = "test"}, only for
+                                 objects inheriting from \Rclass{IndependenceTestStatistic}). \\
 \code{expectation(object)} & Extraction of the conditional expectation~$\mu$. \\
 \code{covariance(object)} & Extraction of the complete conditional covariance
   matrix~$\Sigma$. \\
@@ -577,14 +578,15 @@ only
 <<PValue, results = tex>>=
 toLatex(c2t("PValue"))
 @
-or, where possible, is augmented by its density and quantile functions:
+or, where possible, augmented by, e.g., its density and quantile functions:
 <<NullDistribution, results = tex>>=
 toLatex(c2t("NullDistribution"))
 @
 Currently, there are three classes extending \Rclass{NullDistribution}:
-\Rclass{ExactNullDistribution}, \Rclass{ApproxNullDistribution} (adding a slot
-\code{seed} containing the current state of the random number generator) and
-\Rclass{AsymptNullDistribution}.
+\Rclass{ExactNullDistribution}, \Rclass{ApproxNullDistribution} (adding slots
+\code{seed} and \code{nresample} containing, respectively, the current state of
+the random number generator and the number of Monte Carlo replicates) and
+\Rclass{AsymptNullDistribution} (adding a slot \code{seed}).
 All of them can be queried for probabilities, quantiles, etc., using
 suitable methods (see Table~\ref{tab:dists} for an overview).
 New methods for computing or approximating the conditional distribution
@@ -614,6 +616,10 @@ Method & Description \\
   conditional null distribution. \\
 \code{pvalue_interval(object)} & Computation of the $p$-value interval
   based on an observed test statistic $c$ and its conditional null distribution. \\
+\code{size(object, alpha, type)} & Computation of the test size at the nominal
+  significance level $\alpha$ using either the rejection region corresponding to
+  the $p$-value (\code{type = "p-value"}) or the mid-$p$-value
+  (\code{type = "mid-p-value"}). \\
 \code{dperm(object, x)} & Evaluation of the probability density function at $x$. \\
 \code{pperm(object, q)} & Evaluation of the cumulative distribution function for quantile $q$.\\
 \code{qperm(object, p)} & Evaluation of the quantile function for probability $p$.\\
@@ -624,7 +630,7 @@ Method & Description \\
 \caption{\label{tab:dists} Classes and methods for conditional null distributions.}
 \end{center}
 \end{table}
-The \code{support} function returns the support of a discrete distribution.
+The \code{support()} function returns the support of a discrete distribution.
 
 
 
@@ -753,8 +759,8 @@ supply a function that can compute a \Rclass{PValue} object from an
 
 For the most important special cases, suitable function
 \emph{generators} are provided in \pkg{coin}. For example, the function
-\code{approximate(B = 1000)} returns a Monte Carlo function that draws
-\code{B} (default: \Sexpr{formals(approximate)$B}) random permutations.  Similarly, \code{exact()}
+\code{approximate(nresample = 1000)} returns a Monte Carlo function that draws
+\code{nresample} (default: \Sexpr{formals(approximate)$nresample}) random permutations.  Similarly, \code{exact()}
 and \code{approximate()} return functions computing the exact or
 asymptotic null distributions, respectively. Again, computational
 details in the computation of the null distribution can be controlled
@@ -980,7 +986,7 @@ instead of the omnibus $\chi^2$ statistic. This can be conveniently performed
 within \pkg{coin}, e.g., using simple equi-distant scores and a Monte Carlo
 approximation of the null distribution:
 <<jobsatisfaction-ordinal, echo = TRUE>>=
-it <- independence_test(js, distribution = approximate(B = 10000),
+it <- independence_test(js, distribution = approximate(nresample = 10000),
   scores = list(Job.Satisfaction = 1:4, Income = 1:4))
 pvalue(it)
 @

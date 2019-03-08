@@ -97,8 +97,7 @@
       covariance matrix.
     }
     \item{\code{df}:}{
-      Object of class \code{"numeric"}.  The rank of the Moore-Penrose inverse
-      of the covariance matrix.
+      Object of class \code{"numeric"}.  The rank of the covariance matrix.
     }
   }
   Additionally, for objects of classes \code{"QuadTypeIndependenceTest"} or

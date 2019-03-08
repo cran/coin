@@ -1,5 +1,6 @@
 ### Regression tests for the distribution functions
 
+suppressWarnings(RNGversion("3.5.2"))
 set.seed(290875)
 library("coin")
 isequal <- coin:::isequal

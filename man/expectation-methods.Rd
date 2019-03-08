@@ -6,10 +6,10 @@
 \alias{expectation,IndependenceTest-method}
 \alias{variance}
 \alias{variance-methods}
+\alias{variance,Variance-method}
 \alias{variance,CovarianceMatrix-method}
 \alias{variance,IndependenceLinearStatistic-method}
 \alias{variance,IndependenceTest-method}
-\alias{variance,Variance-method}
 \alias{covariance}
 \alias{covariance-methods}
 \alias{covariance,CovarianceMatrix-method}
@@ -25,10 +25,10 @@
 \S4method{expectation}{IndependenceLinearStatistic}(object, \dots)
 \S4method{expectation}{IndependenceTest}(object, \dots)
 
+\S4method{variance}{Variance}(object, \dots)
 \S4method{variance}{CovarianceMatrix}(object, \dots)
 \S4method{variance}{IndependenceLinearStatistic}(object, \dots)
 \S4method{variance}{IndependenceTest}(object, \dots)
-\S4method{variance}{Variance}(object, \dots)
 
 \S4method{covariance}{CovarianceMatrix}(object, \dots)
 \S4method{covariance}{IndependenceLinearStatistic}(object, \dots)
@@ -52,7 +52,7 @@
   The expectation, variance or covariance of the linear statistic extracted from
   \code{object}.  A numeric vector or matrix.
 }
-\examples{
+\examples{\dontshow{suppressWarnings(RNGversion("3.5.2")); set.seed(711109)}
 ## Example data
 dta <- data.frame(
     y = gl(3, 2),

@@ -33,11 +33,12 @@
   J. and Bleich, S.  (2005).  Joint analysis of the \emph{NACP}-REP1 marker
   within the alpha synuclein gene concludes association with alcohol dependence.
   \emph{Human Molecular Genetics} \bold{14}(7), 967--971.
+  \doi{10.1093/hmg/ddi090}
 }
 \references{
   Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
   system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.
+  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
 }
 \examples{
 ## Boxplots

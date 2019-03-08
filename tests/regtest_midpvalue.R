@@ -12,32 +12,32 @@ options(useFancyQuotes = FALSE)
 
 
 ### Berry and Armitage (1995, p. 420)
-mpci <- coin:::confint_midp(5, 20, 0.95)
+mpci <- coin:::confint_binom(5, 20, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 3), c(0.098, 0.470)))
 
 
 ### Agresti and Gottard (2001, p. 369)
-mpci <- coin:::confint_midp(4, 10, 0.95)
+mpci <- coin:::confint_binom(4, 10, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 3), c(0.142, 0.709)))
 
-mpci <- coin:::confint_midp(0, 10, 0.95)
+mpci <- coin:::confint_binom(0, 10, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci[1], 3), 0))
 
-mpci <- coin:::confint_midp(10, 10, 0.95)
+mpci <- coin:::confint_binom(10, 10, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci[2], 3), 1))
 
 
 ### Newcombe (1998, p. 861, Tab. I)
-mpci <- coin:::confint_midp(81, 263, 0.95)
+mpci <- coin:::confint_binom(81, 263, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 4), c(0.2544, 0.3658)))
 
-mpci <- coin:::confint_midp(15, 148, 0.95)
+mpci <- coin:::confint_binom(15, 148, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 4), c(0.0601, 0.1581)))
 
-mpci <- coin:::confint_midp(0, 20, 0.95)
+mpci <- coin:::confint_binom(0, 20, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 4), c(0.0000, 0.1391)))
 
-mpci <- coin:::confint_midp(1, 29, 0.95)
+mpci <- coin:::confint_binom(1, 29, level = 0.95, method = "mid-p")
 stopifnot(isequal(round(mpci, 4), c(0.0017, 0.1585)))
 
 
@@ -90,21 +90,21 @@ stopifnot(mpci[1] < 0.257 & mpci[2] > 0.257)
 
 set.seed(290875)
 it_m_s <- independence_test(as.table(tea),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "scalar")
 stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 
 set.seed(290875)
 it_m_q <- independence_test(as.table(tea),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "quad")
 stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
 
 set.seed(290875)
 it_m_s_gr <- independence_test(as.table(tea),
-                               distribution = approximate(B = 10000),
+                               distribution = approximate(nresample = 10000),
                                teststat = "scalar",
                                alternative = "greater")
 (p <- pvalue(it_m_s_gr))
@@ -151,14 +151,14 @@ stopifnot(mpci[1] < 0.1527 & mpci[2] > 0.1527)
 
 set.seed(290875)
 it_m_s <- independence_test(as.table(davis),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "scalar")
 stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 
 set.seed(290875)
 it_m_q <- independence_test(as.table(davis),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "quad")
 stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -190,7 +190,7 @@ stopifnot(isequal(midpvalue(it_e_q), midpvalue(ct_e)))
 ### Additional results: Monte Carlo
 set.seed(290875)
 ct_m <- chisq_test(as.table(cardiac),
-                   distribution = approximate(B = 10000))
+                   distribution = approximate(nresample = 10000))
 (p <- pvalue(ct_m))
 pci <- attr(p, "conf.int")
 stopifnot(pci[1] < 0.0544 & pci[2] > 0.0544)
@@ -200,14 +200,14 @@ stopifnot(mpci[1] < 0.0297 & mpci[2] > 0.0297)
 
 set.seed(290875)
 it_m_s <- independence_test(as.table(cardiac),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "scalar")
 stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 
 set.seed(290875)
 it_m_q <- independence_test(as.table(cardiac),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "quad")
 stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -239,7 +239,7 @@ stopifnot(isequal(midpvalue(it_e_q), midpvalue(ct_e)))
 ### Additional results: Monte Carlo
 set.seed(290875)
 ct_m <- chisq_test(as.table(exfoliative),
-                   distribution = approximate(B = 10000))
+                   distribution = approximate(nresample = 10000))
 (p <- pvalue(ct_m))
 pci <- attr(p, "conf.int")
 stopifnot(pci[1] < 0.0629 & pci[2] > 0.0629)
@@ -249,14 +249,14 @@ stopifnot(mpci[1] < 0.0447 & mpci[2] > 0.0447)
 
 set.seed(290875)
 it_m_s <- independence_test(as.table(exfoliative),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "scalar")
 stopifnot(isequal(pvalue(it_m_s), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_s), midpvalue(ct_m)))
 
 set.seed(290875)
 it_m_q <- independence_test(as.table(exfoliative),
-                            distribution = approximate(B = 10000),
+                            distribution = approximate(nresample = 10000),
                             teststat = "quad")
 stopifnot(isequal(pvalue(it_m_q), pvalue(ct_m)))
 stopifnot(isequal(midpvalue(it_m_q), midpvalue(ct_m)))
@@ -288,7 +288,7 @@ stopifnot(isequal(midpvalue(st_e_q), midpvalue(mt_e)))
 ### Additional results: Monte Carlo
 set.seed(290875)
 mt_m <- mh_test(as.table(ahr),
-                distribution = approximate(B = 10000))
+                distribution = approximate(nresample = 10000))
 (p <- pvalue(mt_m))
 pci <- attr(p, "conf.int")
 stopifnot(pci[1] < 0.0703 & pci[2] > 0.0703)
@@ -298,14 +298,14 @@ stopifnot(mpci[1] < 0.0391 & mpci[2] > 0.0391)
 
 set.seed(290875)
 st_m_s <- symmetry_test(as.table(ahr),
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         teststat = "scalar")
 stopifnot(isequal(pvalue(st_m_s), pvalue(mt_m)))
 stopifnot(isequal(midpvalue(st_m_s), midpvalue(mt_m)))
 
 set.seed(290875)
 st_m_q <- symmetry_test(as.table(ahr),
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         teststat = "quad")
 stopifnot(isequal(pvalue(st_m_q), pvalue(mt_m)))
 stopifnot(isequal(midpvalue(st_m_q), midpvalue(mt_m)))
@@ -337,7 +337,7 @@ stopifnot(isequal(midpvalue(st_e_q), midpvalue(mt_e)))
 ### Additional results: Monte Carlo
 set.seed(290875)
 mt_m <- mh_test(as.table(therapy),
-                distribution = approximate(B = 10000))
+                distribution = approximate(nresample = 10000))
 (p <- pvalue(mt_m))
 pci <- attr(p, "conf.int")
 stopifnot(pci[1] < 0.0525 & pci[2] > 0.0525)
@@ -347,14 +347,14 @@ stopifnot(mpci[1] < 0.0347 & mpci[2] > 0.0347)
 
 set.seed(290875)
 st_m_s <- symmetry_test(as.table(therapy),
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         teststat = "scalar")
 stopifnot(isequal(pvalue(st_m_s), pvalue(mt_m)))
 stopifnot(isequal(midpvalue(st_m_s), midpvalue(mt_m)))
 
 set.seed(290875)
 st_m_q <- symmetry_test(as.table(therapy),
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         teststat = "quad")
 stopifnot(isequal(pvalue(st_m_q), pvalue(mt_m)))
 stopifnot(isequal(midpvalue(st_m_q), midpvalue(mt_m)))

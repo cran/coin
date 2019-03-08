@@ -2,44 +2,44 @@
 \docType{methods}
 \alias{dperm}
 \alias{dperm-methods}
-\alias{dperm,IndependenceTest-method}
 \alias{dperm,NullDistribution-method}
+\alias{dperm,IndependenceTest-method}
 \alias{pperm}
 \alias{pperm-methods}
-\alias{pperm,IndependenceTest-method}
 \alias{pperm,NullDistribution-method}
+\alias{pperm,IndependenceTest-method}
 \alias{qperm}
 \alias{qperm-methods}
-\alias{qperm,IndependenceTest-method}
 \alias{qperm,NullDistribution-method}
+\alias{qperm,IndependenceTest-method}
 \alias{rperm}
 \alias{rperm-methods}
-\alias{rperm,IndependenceTest-method}
 \alias{rperm,NullDistribution-method}
+\alias{rperm,IndependenceTest-method}
 \alias{support}
 \alias{support-methods}
-\alias{support,IndependenceTest-method}
 \alias{support,NullDistribution-method}
+\alias{support,IndependenceTest-method}
 \title{Computation of the Permutation Distribution}
 \description{
   Methods for computation of the density function, distribution function,
   quantile function, random numbers and support of the permutation distribution.
 }
 \usage{
-\S4method{dperm}{IndependenceTest}(object, x, \dots)
 \S4method{dperm}{NullDistribution}(object, x, \dots)
+\S4method{dperm}{IndependenceTest}(object, x, \dots)
 
-\S4method{pperm}{IndependenceTest}(object, q, \dots)
 \S4method{pperm}{NullDistribution}(object, q, \dots)
+\S4method{pperm}{IndependenceTest}(object, q, \dots)
 
-\S4method{qperm}{IndependenceTest}(object, p, \dots)
 \S4method{qperm}{NullDistribution}(object, p, \dots)
+\S4method{qperm}{IndependenceTest}(object, p, \dots)
 
-\S4method{rperm}{IndependenceTest}(object, n, \dots)
 \S4method{rperm}{NullDistribution}(object, n, \dots)
+\S4method{rperm}{IndependenceTest}(object, n, \dots)
 
-\S4method{support}{IndependenceTest}(object, \dots)
 \S4method{support}{NullDistribution}(object, \dots)
+\S4method{support}{IndependenceTest}(object, \dots)
 }
 \arguments{
   \item{object}{
@@ -105,7 +105,7 @@ dens <- dperm(at, x = supp)
 ## Plotting the density
 plot(supp, dens, type = "s")
 
-## 95 \% quantile
+## 95\% quantile
 qperm(at, p = 0.95)
 
 ## One-sided p-value

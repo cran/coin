@@ -807,11 +807,11 @@ stopifnot( isTRUE(is_ordered(it@statistic)))
 `%GT%` <- coin:::`%GT%`
 `%LT%` <- coin:::`%LT%`
 
-v <- 1 + sqrt(.Machine$double.eps) # v >  1 --> v >= 1
-w <- 1 +      .Machine$double.eps  # w == 1 --> w >= 1, w <= 1
+v <- 1.1                           # v >  1 --> v >= 1
+w <- 1 + sqrt(.Machine$double.eps) # w == 1 --> w >= 1, w <= 1
 x <- 1                             # x == 1 --> x >= 1, x <= 1
-y <- 1 -      .Machine$double.eps  # y == 1 --> y >= 1, y <= 1
-z <- 1 - sqrt(.Machine$double.eps) # z <  1 -->         z <= 1
+y <- 1 - sqrt(.Machine$double.eps) # y == 1 --> y >= 1, y <= 1
+z <- 0.9                           # z <  1 -->         z <= 1
 
 stopifnot(isFALSE(v %EQ% x))
 stopifnot( isTRUE(w %EQ% x))
@@ -848,3 +848,28 @@ stopifnot(isFALSE(w %LT% x))
 stopifnot(isFALSE(x %LT% x))
 stopifnot(isFALSE(y %LT% x))
 stopifnot( isTRUE(z %LT% x))
+
+
+###
+### Test the 'n_decimal_digits' function
+###
+
+n_decimal_digits <- coin:::n_decimal_digits
+
+stopifnot(identical(2L, n_decimal_digits(     -1.01 )))
+stopifnot(identical(2L, n_decimal_digits(     -0.01 )))
+stopifnot(identical(1L, n_decimal_digits(     -0.1  )))
+stopifnot(identical(0L, n_decimal_digits(     -0.0  )))
+stopifnot(identical(0L, n_decimal_digits(      0    )))
+stopifnot(identical(0L, n_decimal_digits(      0.0  )))
+stopifnot(identical(1L, n_decimal_digits(      0.1  )))
+stopifnot(identical(2L, n_decimal_digits(      0.01 )))
+stopifnot(identical(2L, n_decimal_digits(      1.01 )))
+
+stopifnot(identical(2L, n_decimal_digits(c(0, -1.01))))
+stopifnot(identical(2L, n_decimal_digits(c(0, -0.01))))
+stopifnot(identical(1L, n_decimal_digits(c(0, -0.1 ))))
+stopifnot(identical(0L, n_decimal_digits(c(0,  0   ))))
+stopifnot(identical(1L, n_decimal_digits(c(0,  0.1 ))))
+stopifnot(identical(2L, n_decimal_digits(c(0,  0.01))))
+stopifnot(identical(2L, n_decimal_digits(c(0,  1.01))))

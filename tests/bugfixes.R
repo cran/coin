@@ -1,5 +1,6 @@
 ### Regression tests for fixed bugs
 
+suppressWarnings(RNGversion("3.5.2"))
 set.seed(290875)
 library("coin")
 isequal <- coin:::isequal
@@ -26,7 +27,7 @@ try(independence_test(x4 ~ x3, data = df))           # coercion to numeric
 if (require("multcomp")) {
     df <- data.frame(x = runif(30), y = runif(30), z = gl(3, 10))
     a <- independence_test(x + y ~ z, data = df,
-         distribution = approximate(B = 19999),
+         distribution = approximate(nresample = 19999),
          xtrafo = function(data) trafo(data, factor_trafo = function(x)
              model.matrix(~x - 1) %*% t(contrMat(table(x), "Tukey"))))
     b <- independence_test(x + y ~ z, data = df,
@@ -54,7 +55,7 @@ stopifnot(isequal(sum(de), 1))
 pe <- pperm(ite, ae)
 stopifnot(isequal(cumsum(de), pe))
 ita <- independence_test(I(round(x, 1)) ~ z, data = df,
-                         dist = approximate(B = 100000))
+                         dist = approximate(nresample = 100000))
 aa <- support(ita)
 da <- dperm(ita, aa)
 stopifnot(isequal(sum(da), 1))
@@ -180,7 +181,7 @@ statistic(it, "linear")
 
 it <- independence_test(group ~ genotype,
     data = medf, weights = ~ Freq, xtrafo = g,
-    distribution = approximate(B = 49999))
+    distribution = approximate(nresample = 49999))
 pvalue(it)
 
 stopifnot(all.equal(statistic(independence_test(t(me), xtrafo = g), "linear"),
@@ -326,7 +327,7 @@ gr <- gl(2, 50)
 x1 <- rnorm(100) + (as.numeric(gr) - 1) * 0.5
 x2 <- rnorm(100) - (as.numeric(gr) - 1) * 0.5
 
-it <- independence_test(x1 + x2 ~ gr, distribution = approximate(B = 1000))
+it <- independence_test(x1 + x2 ~ gr, distribution = approximate(nresample = 1000))
 
 psd <- pvalue(it, "step-down") # wasn't monotone
 stopifnot(psd[1] == psd[2])
@@ -341,7 +342,7 @@ df <- data.frame(y1 = c(6, 7, 8, 5, 4, 3, 1, 2),
 set.seed(711109)
 it <- independence_test(y1 + y2 + y3 + y4 ~ x, data = df,
                         alternative = "greater",
-                        distribution = approximate(B = 20))
+                        distribution = approximate(nresample = 20))
 
 pss <- pvalue(it, "single-step")
 psd <- pvalue(it, "step-down")
@@ -384,6 +385,7 @@ x <- factor(rep(1:2, 15))
 id <- gl(15, 2)
 it <- independence_test(y ~ x | id, distribution = "exact") # Wrong
 wt <- wilcoxsign_test(y ~ x | id, distribution = "exact") # OK! p = 6.104e-5
+wt@distribution@name
 stopifnot(isequal(pvalue(it), pvalue(wt)))
 
 ### chisq_test standardized test statistic was wrong
@@ -495,7 +497,7 @@ exfoliative <- matrix(c( 0, 16,
                       nrow = 2, byrow = TRUE)
 set.seed(290875)
 it <- independence_test(as.table(exfoliative),
-                        distribution = approximate(B = 10000),
+                        distribution = approximate(nresample = 10000),
                         teststat = "scalar")
 stopifnot(isequal(round(dperm(it, -statistic(it)), 4), 0.0000)) # 0.0747
 
@@ -520,19 +522,6 @@ stopifnot(isequal(pperm(it, 1:3),
                   c(pperm(it, 1), pperm(it, 2), pperm(it, 3))))
 stopifnot(isequal(qperm(it, c(0.9, 0.95, 0.99)),
                   c(qperm(it, 0.9), qperm(it, 0.95), qperm(it, 0.99))))
-
-### blockwise permutations were only correct for factors ordered wrt their levels
-set.seed(36)
-.Call(coin:::R_blockperm, rep(1:4, 2))                       # was OK
-
-set.seed(36)
-.Call(coin:::R_blockperm, rep(1:4, each = 2))                # was OK
-
-set.seed(36)
-.Call(coin:::R_blockperm, c(1:4, 4:1))                       # was OK
-
-set.seed(36)
-.Call(coin:::R_blockperm, c(4L, 1L, 2L, 2L, 4L, 3L, 1L, 3L)) # wrong
 
 ### could not distinguish censored and numeric responses
 y1 <- rnorm(10)

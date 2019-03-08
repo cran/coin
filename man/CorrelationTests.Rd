@@ -108,7 +108,7 @@
 
   Koziol, J. A. and Nemec, A. F.  (1979).  On a \enc{Cramér}{Cramer}-von Mises
   type statistic for testing bivariate independence.  \emph{The Canadian Journal
-  of Statistics} \bold{7}(1), 43--52.
+  of Statistics} \bold{7}(1), 43--52.  \doi{10.2307/3315014}
 }
 \examples{
 ## Asymptotic Spearman test

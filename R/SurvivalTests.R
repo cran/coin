@@ -22,7 +22,7 @@ logrank_test.IndependenceProblem <- function(object,
              "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
     rho = NULL, gamma = NULL, ...) {
 
-    type <- match.arg(type)[1]
+    type <- match.arg(type)
 
     twosamp <- is_2sample(object)
 
@@ -38,8 +38,7 @@ logrank_test.IndependenceProblem <- function(object,
                      " does not represent a K-sample problem",
                      " (maybe the grouping variable is not a factor?)")
             if (!is_censored_y(object))
-                stop(sQuote(colnames(object@y)),
-                     " is not a censored variable")
+                stop(sQuote(colnames(object@y)), " is not a censored variable")
             TRUE
         }
     )
@@ -59,9 +58,8 @@ logrank_test.IndependenceProblem <- function(object,
     else if (twosamp) {
         object@method <- paste("Two-Sample",
                             if (type == "logrank") "Logrank" else type, "Test")
-        ## theta = lambda_2 / lambda_1
-        object@parameter <- "theta"
-        object@nullvalue <- 1 # theta = 1 => Equal hazards
+        object@parameter <- "theta" # theta = lambda_2 / lambda_1
+        object@nullvalue <- 1       # theta = 1 => Equal hazards
     } else
         object@method <- paste("K-Sample",
                             if (type == "logrank") "Logrank" else type, "Test")

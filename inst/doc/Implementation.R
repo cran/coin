@@ -1,4 +1,4 @@
-### R code from vignette source 'coin_implementation.Rnw'
+### R code from vignette source 'Implementation.Rnw'
 
 ###################################################
 ### code chunk number 1: coin-setup
@@ -209,13 +209,13 @@ independence_test(y ~ x, data = correxample, alternative = "less",
 
 
 ###################################################
-### code chunk number 23: coin_implementation.Rnw:831-832
+### code chunk number 23: Implementation.Rnw:837-838
 ###################################################
 mood_score <- function(y) (rank_trafo(y) - (sum(!is.na(y)) + 1) / 2)^2
 
 
 ###################################################
-### code chunk number 24: coin_implementation.Rnw:836-845
+### code chunk number 24: Implementation.Rnw:842-851
 ###################################################
 ip <- new("IndependenceProblem",
   y = rotarod["time"], x = rotarod["group"])
@@ -229,7 +229,7 @@ new("ScalarIndependenceTest", statistic = sits,
 
 
 ###################################################
-### code chunk number 25: coin_implementation.Rnw:849-851
+### code chunk number 25: Implementation.Rnw:855-857
 ###################################################
 independence_test(time ~ group, data = rotarod, ytrafo = mood_score,
   distribution = exact(algorithm = "split-up"))
@@ -285,7 +285,7 @@ statistic(it, type = "standardized")
 ###################################################
 ### code chunk number 32: jobsatisfaction-ordinal
 ###################################################
-it <- independence_test(js, distribution = approximate(B = 10000),
+it <- independence_test(js, distribution = approximate(nresample = 10000),
   scores = list(Job.Satisfaction = 1:4, Income = 1:4))
 pvalue(it)
 

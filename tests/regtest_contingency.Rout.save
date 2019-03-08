@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2016-11-01 r71616) -- "Unsuffered Consequences"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > ### testing the independence of a factor
 > ### 'y' and a factor factor 'x' (possibly blocked)
 > 
+> suppressWarnings(RNGversion("3.5.2"))
 > set.seed(290875)
 > library("coin")
 Loading required package: survival
@@ -56,6 +57,27 @@ Loading required package: survival
 > stopifnot(isequal(pvalue(cmh_test(y ~ x | block, data = dat)), ptwo))
 > stopifnot(isequal(pvalue(cmh_test(table(dat$y, dat$x, dat$block))), ptwo))
 > 
+> ### Linear-by-linear Test, asymptotic distribution
+> lbl_test(y ~ x | block, data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y (ordered) by x (1 < 2 < 3 < 4) 
+	 stratified by block
+Z = -0.35009, p-value = 0.7263
+alternative hypothesis: two.sided
+
+> lbl_test(table(dat$y, dat$x, dat$block))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Var2 (ordered) by
+	 Var1 (1 < 2 < 3 < 4) 
+	 stratified by Var3
+Z = -0.35009, p-value = 0.7263
+alternative hypothesis: two.sided
+
+> 
 > 
 > ### generate data: r x c x K
 > dat <- data.frame(x = gl(4, 25), y = gl(5, 20)[sample(1:100)],
@@ -69,12 +91,34 @@ Loading required package: survival
 > stopifnot(isequal(pvalue(cmh_test(y ~ x | block, data = dat)), ptwo))
 > stopifnot(isequal(pvalue(cmh_test(table(dat$y, dat$x, dat$block))), ptwo))
 > 
+> ### Linear-by-linear Test, asymptotic distribution
+> lbl_test(y ~ x | block, data = dat)
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  y (ordered) by x (1 < 2 < 3 < 4) 
+	 stratified by block
+Z = 1.1436, p-value = 0.2528
+alternative hypothesis: two.sided
+
+> lbl_test(table(dat$y, dat$x, dat$block))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  Var2 (ordered) by
+	 Var1 (1 < 2 < 3 < 4 < 5) 
+	 stratified by Var3
+Z = 1.1436, p-value = 0.2528
+alternative hypothesis: two.sided
+
+> 
 > 
 > ### 2x2 table and maxstat
 > x <- c(rep(1,51), rep(2,49))
 > y <- factor(c(rep(0,49), rep(1,51)))[sample(1:100)]
-> stopifnot(isequal(as.vector(statistic(independence_test(table(x, y)))),
-+ as.vector(statistic(maxstat_test(y ~ x )))))
+> sit <- as.vector(statistic(independence_test(table(x, y))))
+> stopifnot(isequal(as.vector(statistic(maxstat_test(y ~ x))), sit))
+> stopifnot(isequal(as.vector(statistic(maxstat_test(table(x, y)))), sit))
 > 
 > 
 > ### maxstat for multiple, ordered and unordered covariates
@@ -124,7 +168,7 @@ sample estimates:
   "best" cutpoint: {1} vs. {2, 3, 4}
 
 > est <- mt@estimates$estimate$cutpoint
-> xx <- dat$z %in% est
+> xx <- dat$z <= est
 > stopifnot(isequal(statistic(mt),
 +                   abs(statistic(independence_test(w ~ xx, data = dat)))))
 > 
@@ -143,9 +187,9 @@ sample estimates:
 > est <- mt@estimates$estimate
 > xsel <- dat[[est[[1]]]]
 > if (is.factor(xsel) && !is.ordered(xsel)) {
-+     xx <- xsel %in% est[2]
++     xx <- xsel %in% est[[2]]
 + } else {
-+     xx <- xsel <= est[2]
++     xx <- xsel <= est[[2]]
 + }
 > stopifnot(isequal(statistic(mt),
 +                   abs(statistic(independence_test(w ~ xx, data = dat)))))
@@ -164,4 +208,4 @@ sample estimates:
 > 
 > proc.time()
    user  system elapsed 
-   2.28    0.09    2.34 
+   2.20    0.12    2.31 

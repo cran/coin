@@ -38,6 +38,7 @@
   Bergmann, R., Ludbrook, J. and Spooren, W. P. J. M.  (2000).  Different
   outcomes of the Wilcoxon-Mann-Whitney test from different statistics packages.
   \emph{The American Statistician} \bold{54}(1), 72--77.
+  \doi{10.1080/00031305.2000.10474513}
 }
 \examples{
 ## One-sided exact Wilcoxon-Mann-Whitney test (p = 0.0186)

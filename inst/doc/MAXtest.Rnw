@@ -861,7 +861,7 @@ CA <- statistic(it, type = "linear")
 CAstand <- statistic(it, type = "standardized")
 pasympt <- pvalue(it, method = "single-step")
 itp <- independence_test(me, xtrafo = g,
-    distribution = approximate(B = 49999),
+    distribution = approximate(nresample = 49999),
     alternative = "greater")
 papprox <- pvalue(itp, method = "step-down")
 out <- cbind(CA, round(expectation(it), 4), round(sqrt(variance(it)), 4),
@@ -1067,7 +1067,7 @@ bCA <- statistic(bit, type = "linear")
 bCAstand <- statistic(bit, type = "standardized")
 bpasympt <- pvalue(bit, method = "single-step")
 bitp <- independence_test(Group ~ Locus | Study, data = diabetes, xtrafo = g,
-    distribution = approximate(B = 49999),
+    distribution = approximate(nresample = 49999),
     alternative = "greater")
 bpapprox <- pvalue(bitp, method = "step-down")
 out <- cbind(bCA, round(expectation(bit), 4), round(sqrt(variance(bit)), 4),
