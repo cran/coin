@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+R Under development (unstable) (2019-07-02 r76766) -- "Unsuffered Consequences"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -2100,6 +2100,40 @@ data:  elevel by alength (short, intermediate, long)
 chi-squared = 8.8302, df = 2, p-value = 0.01209
 
 > 
+> ## Asymptotic Kruskal-Wallis test using midpoint scores
+> kruskal_test(elevel ~ alength, data = alpha,
++              scores = list(alength = c(2, 7, 11)))
+
+	Asymptotic Linear-by-Linear Association Test
+
+data:  elevel by alength (short < intermediate < long)
+Z = 2.9263, p-value = 0.00343
+alternative hypothesis: two.sided
+
+> 
+> ## Asymptotic score-independent test
+> ## Winell and Lindbaeck (2018)
+> (it <- independence_test(elevel ~ alength, data = alpha,
++                          ytrafo = function(data)
++                              trafo(data, numeric_trafo = rank_trafo), 
++                          xtrafo = function(data)
++                              trafo(data, factor_trafo = function(x)
++                                  zheng_trafo(as.ordered(x)))))
+
+	Asymptotic General Independence Test
+
+data:  elevel by alength (short, intermediate, long)
+maxT = 2.9651, p-value = 0.008184
+alternative hypothesis: two.sided
+
+> 
+> ## Extract the "best" set of scores
+> ss <- statistic(it, type = "standardized")
+> idx <- which(abs(ss) == max(abs(ss)), arr.ind = TRUE)
+> ss[idx[1], idx[2], drop = FALSE]
+                               
+gamma = (0.0, 0.4, 1.0) 2.96508
+> 
 > 
 > 
 > cleanEx()
@@ -3090,7 +3124,7 @@ Right.Eye                  -3.448397
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  10.55 0.22 10.79 NA NA 
+Time elapsed:  10.51 0.22 10.73 NA NA 
 > grDevices::dev.off()
 null device 
           1 

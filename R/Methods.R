@@ -62,12 +62,13 @@ setMethod("AsymptNullDistribution",
         }
 
         p <- function(q, ...) {
-            ## NOTE: 'vapply' provide names
-            vapply(q, p_fun, NA_real_, conf.int = FALSE, ...)
+            setAttributes(vapply(q, p_fun, NA_real_, conf.int = FALSE, ...,
+                                 USE.NAMES = FALSE),
+                          attributes(q))
         }
         q <- function(p, ...) {
-            ## NOTE: 'vapply' provide names
-            vapply(p, q_fun, NA_real_, ...)
+            setAttributes(vapply(p, q_fun, NA_real_, ..., USE.NAMES = FALSE),
+                          attributes(p))
         }
         pvalue <- function(q, ...) {
             if (length(q) < 2L) {
@@ -182,16 +183,16 @@ setMethod("ApproxNullDistribution",
         }
 
         p <- function(q) {
-            ## NOTE: 'vapply' provide names
-            vapply(q, p_fun, NA_real_)
+            setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(q))
         }
         q <- function(p) {                               # implicitly vectorized
-            setNames(quantile(pls, probs = p, names = FALSE, type = 1L),
-                     nm = names(p))
+            setAttributes(quantile(pls, probs = p, names = FALSE, type = 1L),
+                          attributes(p))
         }
         d <- function(x) {
-            ## NOTE: 'vapply' provide names
-            vapply(x, d_fun, NA_real_)
+            setAttributes(vapply(x, d_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(x))
         }
         pvalue <- function(q) {
             if (length(q) < 2L)
@@ -305,16 +306,16 @@ setMethod("ApproxNullDistribution",
         }
 
         p <- function(q) {
-            ## NOTE: 'vapply' provide names
-            vapply(q, p_fun, NA_real_)
+            setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(q))
         }
         q <- function(p) {                               # implicitly vectorized
-            setNames(quantile(mpls, probs = p, names = FALSE, type = 1L),
-                     nm = names(p))
+            setAttributes(quantile(mpls, probs = p, names = FALSE, type = 1L),
+                          attributes(p))
         }
         d <- function(x) {
-            ## NOTE: 'vapply' provide names
-            vapply(x, d_fun, NA_real_)
+            setAttributes(vapply(x, d_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(x))
         }
         pvalue <- function(q) {
             if (length(q) < 2L)
@@ -411,16 +412,16 @@ setMethod("ApproxNullDistribution",
         }
 
         p <- function(q) {
-            ## NOTE: 'vapply' provide names
-            vapply(q, p_fun, NA_real_)
+            setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(q))
         }
         q <- function(p) {                               # implicitly vectorized
-            setNames(quantile(pls, probs = p, names = FALSE, type = 1L),
-                     nm = names(p))
+            setAttributes(quantile(pls, probs = p, names = FALSE, type = 1L),
+                          attributes(p))
         }
         d <- function(x) {
-            ## NOTE: 'vapply' provide names
-            vapply(x, d_fun, NA_real_)
+            setAttributes(vapply(x, d_fun, NA_real_, USE.NAMES = FALSE),
+                          attributes(x))
         }
         pvalue <- function(q) {
             if (length(q) < 2L)

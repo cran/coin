@@ -34,10 +34,9 @@ pmvn <- function(lower, upper, mean, corr, conf.int, ...) {
                      sigma = 1, ...)
     if (conf.int) {
         error <- attr(p, "error")
-        attributes(p) <- NULL
         ci <- c(max(0, p - error), min(p + error, 1))
-        attr(ci, "conf.level") <- 0.99
-        attr(p, "conf.int") <- ci
+        attributes(ci) <- list("conf.level" = 0.99)
+        attributes(p) <- list("conf.int" = ci)
     } else
         attributes(p) <- NULL
     p
@@ -79,7 +78,7 @@ copyslots <- function(source, target) {
     if (length(slots) == 0)
         stop("no common slots to copy to")
     for (s in slots)
-        eval(parse(text = paste("target@", s, " <- source@", s)))
+        eval(str2lang(paste0("target@", s, " <- source@", s)))
     target
 }
 
@@ -486,18 +485,23 @@ get_ytrans <- function(object) object@statistic@ytrans
 is_unity <- function(x)
     max(abs(x - 1.0)) < sqrt_eps
 
-setRownames <- function(object, nm) {
-    rownames(object) <- nm
+setRownames <- function(object, value) {
+    rownames(object) <- value
     object
 }
 
-setColnames <- function(object, nm) {
-    colnames(object) <- nm
+setColnames <- function(object, value) {
+    colnames(object) <- value
     object
 }
 
-setDimnames <- function(object, nm) {
-    dimnames(object) <- nm
+setDimnames <- function(object, value) {
+    dimnames(object) <- value
+    object
+}
+
+setAttributes <- function(object, value) {
+    attributes(object) <- value
     object
 }
 
@@ -509,3 +513,6 @@ n_decimal_digits <-
     nchar(sub("^-?[[:space:]]?[[:digit:]]*[.]?", "",
               format(x, digits = 15, scientific = FALSE)[1]))
 }
+
+if (getRversion() < "3.6.0")
+    str2lang <- function(s) parse(text = s, keep.source = FALSE)[[1]]

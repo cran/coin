@@ -30,14 +30,15 @@ setMethod(".confint",
         x <- sort(scores[groups > 0])
         y <- sort(scores[groups < 1])
 
-        foo <- function(x, d)
-            if (location) x - d else x / d
+        foo <- if (location) function(x, d) x - d
+               else          function(x, d) x / d
 
         ## explicitly compute all possible steps
         steps <- outer(x, y, foo)
         if (!location)
             steps <- steps[steps >= 0]
         steps <- sort(unique(steps))
+        steps <- steps[c(steps[-1L] %NE% steps[-length(steps)], TRUE)] # unique +/- eps
 
         ## computes the statistic under the alternative 'd'
         fs <- function(d)
@@ -45,9 +46,7 @@ setMethod(".confint",
 
         ## we need to compute the statistics just to the right of
         ## each step
-        ds <- diff(steps)
-        justright <- min(abs(ds[abs(ds) > sqrt_eps])) / 2
-        jumps <- vapply(steps + justright, fs, NA_real_)
+        jumps <- vapply(steps + min(diff(steps)) / 2, fs, NA_real_)
 
         ## determine if the statistics are in- or decreasing
         ## jumpsdiffs <- diff(jumps)
@@ -62,8 +61,8 @@ setMethod(".confint",
             ## the quantiles: reject iff
             ##   STATISTIC <  qlower OR
             ##   STATISTIC >= qupper
-            qlower <- drop(qperm(object2,     alpha / 2) * sigma + mu)
-            qupper <- drop(qperm(object2, 1 - alpha / 2) * sigma + mu)
+            qlower <- qperm(object2,     alpha / 2) * sigma + mu
+            qupper <- qperm(object2, 1 - alpha / 2) * sigma + mu
             ## Check if the statistic exceeds both quantiles first.
             if (qlower < min(jumps) || qupper > max(jumps)) {
                 warning("cannot compute confidence interval")
@@ -76,14 +75,14 @@ setMethod(".confint",
                 ##   STATISTICS <  qupper
                 ## but the open right interval ends with the
                 ## step with STATISTIC == qupper
-                c(min(steps[jumps %GE% qlower]), min(steps[jumps > qupper]))
+                c(min(steps[jumps %GE% qlower]), min(steps[jumps %GT% qupper]))
             } else {
                 ## do NOT reject for all steps with
                 ##   STATISTICS >= qlower AND
                 ##   STATISTICS <  qupper
                 ## but the open left interval ends with the
                 ## step with STATISTIC == qupper
-                c(min(steps[jumps %LE% qupper]), min(steps[jumps < qlower]))
+                c(min(steps[jumps %LE% qupper]), min(steps[jumps %LT% qlower]))
             }
         }
 
@@ -95,9 +94,11 @@ setMethod(".confint",
         attr(cint, "conf.level") <- level
 
         ## was: median(steps) which will not work for blocks etc.
-        sgr <- ifelse(decreasing, min(steps[jumps %LE% mu]), max(steps[jumps %LE% mu]))
-        sle <- ifelse(decreasing, min(steps[jumps < mu]), min(steps[jumps > mu]))
-        ESTIMATE <- mean(c(sle, sgr), na.rm = TRUE)
+        ESTIMATE <- if (increasing)
+                        c(min(steps[jumps %GE% mu]), min(steps[jumps %GT% mu]))
+                    else
+                        c(min(steps[jumps %LE% mu]), min(steps[jumps %LT% mu]))
+        ESTIMATE <- mean(ESTIMATE, na.rm = TRUE)
         names(ESTIMATE) <- if (location) "difference in location"
                            else          "ratio of scales"
 
@@ -131,8 +132,8 @@ setMethod(".confint",
         x <- sort(scores[groups > 0])
         y <- sort(scores[groups < 1])
 
-        foo <- function(x, d)
-            if (location) x - d else x / d
+        foo <- if (location) function(x, d) x - d
+               else          function(x, d) x / d
 
         ## approximate the steps
         ## Here we search the root of the function 'fs' on the set
@@ -153,18 +154,25 @@ setMethod(".confint",
         } else {
             srangepos <- NULL
             srangeneg <- NULL
-            if (any(x > 0) && any(y > 0))
+            if (any(xGT0 <- x %GT% 0) && any(yGT0 <- y %GT% 0)) {
+                xGT0 <- x[xGT0]
+                yGT0 <- y[yGT0]
                 srangepos <-
-                    c(min(x[x > 0], na.rm = TRUE) / max(y[y > 0], na.rm = TRUE),
-                      max(x[x > 0], na.rm = TRUE) / min(y[y > 0], na.rm = TRUE))
-            if (any(x %LE% 0) && any(y < 0))
+                    c(min(xGT0, na.rm = TRUE) / max(yGT0, na.rm = TRUE),
+                      max(xGT0, na.rm = TRUE) / min(yGT0, na.rm = TRUE))
+            }
+            if (any(xLE0 <- x %LE% 0) && any(yLT0 <- y %LT% 0)) {
+                xLE0 <- x[xLE0]
+                yLT0 <- y[yLT0]
                 srangeneg <-
-                    c(min(x[x %LE% 0], na.rm = TRUE) / max(y[y < 0], na.rm = TRUE),
-                      max(x[x %LE% 0], na.rm = TRUE) / min(y[y < 0], na.rm = TRUE))
+                    c(min(xLE0, na.rm = TRUE) / max(yLT0, na.rm = TRUE),
+                      max(xLE0, na.rm = TRUE) / min(yLT0, na.rm = TRUE))
+            }
             if (any(is.infinite(c(srangepos, srangeneg))))
                 stop("cannot compute asymptotic confidence set or estimator")
-            mumin <- range(c(srangepos, srangeneg), na.rm = FALSE)[1L]
-            mumax <- range(c(srangepos, srangeneg), na.rm = FALSE)[2L]
+            srange <- c(srangepos, srangeneg)
+            mumin <- min(srange)
+            mumax <- max(srange)
         }
 
         cci <- function(alpha) {
@@ -178,9 +186,9 @@ setMethod(".confint",
                 return(c(NA, NA))
             }
             u <- uniroot(fs, c(mumin, mumax),
-                         zq = qperm(object2,     alpha / 2), ...)$root
+                         zq = qperm(object2,     alpha / 2), tol = sqrt_eps)$root
             l <- uniroot(fs, c(mumin, mumax),
-                         zq = qperm(object2, 1 - alpha / 2), ...)$root
+                         zq = qperm(object2, 1 - alpha / 2), tol = sqrt_eps)$root
             ## The process of the statistics does not need to be
             ## increasing: sort is ok here.
             sort(c(u, l))
@@ -200,7 +208,7 @@ setMethod(".confint",
                         warning("cannot compute estimate, returning NA")
                         NA
                     } else
-                        uniroot(fs, c(mumin, mumax), zq = 0, ...)$root
+                        uniroot(fs, c(mumin, mumax), zq = 0, tol = sqrt_eps)$root
         names(ESTIMATE) <- if (location) "difference in location"
                            else          "ratio of scales"
 

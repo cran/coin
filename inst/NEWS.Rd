@@ -1,6 +1,23 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.3-1 (2019-08-22)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Precision issues in point and interval estimates associated with
+      location and scale problems.
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item The density, distribution and quantile functions now propagate any
+      attributes of the \code{x}, \code{q} and \code{p} arguments, respectively,
+      to the results.
+
+      \item Documentation updates.
+    }
+  }
+}
 \section{Changes in version 1.3-0 (2019-03-04)}{
   \subsection{New features}{
     \itemize{
@@ -104,8 +121,8 @@
 \section{Changes in version 1.2-1 (2017-07-16)}{
   \subsection{Bug fixes}{
     \itemize{
-      \item Precision problem in the quantile function of exact null
-      distributions computed by the shift algorithm.
+      \item Precision issue in the quantile function of exact null distributions
+      computed by the shift algorithm.
     }
   }
 }
@@ -121,14 +138,14 @@
   }
   \subsection{Bug fixes}{
     \itemize{
-      \item Precision problem in the density function of approximative (Monte
+      \item Precision issue in the density function of approximative (Monte
       Carlo) null distributions.  This also impacts mid-\eqn{p}-values and
       \eqn{p}-value intervals.
 
-      \item Precision problem in the support of approximative (Monte Carlo) null
+      \item Precision issue in the support of approximative (Monte Carlo) null
       distributions.
 
-      \item Precision problem in the symmetric median scores transformation.
+      \item Precision issue in the symmetric median scores transformation.
 
       \item The weighted logrank transformation returned nonsense scores when
       supplied non-right-censored input; it now results in an error.
@@ -674,13 +691,13 @@
 }
 \section{Changes in version 1.0-9 (2009-12-30)}{
   \itemize{
-    \item Again precision problems in van de Wiel algorithm: \code{qperm()}
+    \item Again precision issues in van de Wiel algorithm: \code{qperm()}
     suffered from too large tolerances of the inverted probability function.
   }
 }
 \section{Changes in version 1.0-8 (2009-10-30)}{
   \itemize{
-    \item Precision problems in van de Wiel algorithm fixed.  In rare cases,
+    \item Precision issues in van de Wiel algorithm fixed.  In rare cases,
     \eqn{P(T < t)} was returned as \eqn{p}-value instead of \eqn{P(T \le t)}.
     Two statistics are now considered equal (in all computations) when the
     difference is smaller than \code{sqrt(.Machine$double.eps)}.
@@ -773,8 +790,8 @@
 }
 \section{Changes in version 0.6-6 (2007-08-13)}{
   \itemize{
-    \item Fix precision problems with exact \eqn{p}-values (spotted by Michael
-    Fay \email{mfay@niaid.nih.gov}.
+    \item Fix precision issues with exact \eqn{p}-values (spotted by Michael Fay
+    \email{mfay@niaid.nih.gov}.
   }
 }
 \section{Changes in version 0.6-5 (2007-07-23)}{
@@ -813,7 +830,7 @@
 }
 \section{Changes in version 0.6-0 (2007-03-01)}{
   \itemize{
-    \item Rename some C source files & update doxygen documentation.
+    \item Rename some \proglang{C} source files & update doxygen documentation.
 
     \item Simplify some methods and the class structure.
 
@@ -873,7 +890,7 @@
   \itemize{
     \item Add \code{$(FLIBS)} to \file{Makevars}.
 
-    \item Include doxygen documentation for C functions.
+    \item Include doxygen documentation for \proglang{C} functions.
 
     \item Documentation updates.
   }
@@ -947,7 +964,7 @@
 }
 \section{Changes in version 0.4-4 (2006-02-03)}{
   \itemize{
-    \item Make R CMD check happy and move \file{src/README} to
+    \item Make \command{R CMD check} happy and move \file{src/README} to
     \file{inst/README}.
   }
 }
@@ -989,7 +1006,7 @@
   \itemize{
     \item Export \code{independence_test.table()}.
 
-    \item Add \code{conf.level} attribute for \code{MCp} objects when
+    \item Add \code{conf.level} attribute for \code{"MCp"} objects when
     quasi-randomized Monte Carlo procedures (from \pkg{mvtnorm}) have been used.
 
     \item Add new \code{var_trafo} argument to \code{trafo()}.
@@ -1014,9 +1031,9 @@
 }
 \section{Changes in version 0.3-6 (2005-11-17)}{
   \itemize{
-    \item Internal C function \code{R_MonteCarloIndependenceTest} returns a
-    \eqn{pq \times B}{pq x B} matrix instead of a list with B elements (the
-    linear statistic for each random permutation of the data).
+    \item Internal \proglang{C} function \code{R_MonteCarloIndependenceTest}
+    returns a \eqn{pq \times B}{pq x B} matrix instead of a list with \eqn{B}
+    elements (the linear statistic for each random permutation of the data).
 
     \item Various simplifications for the computations of adjusted
     \eqn{p}-values.
@@ -1030,17 +1047,17 @@
     \item Fix \code{print} method for marginal homogeneity tests
     (\samp{...stratified by block...}).
 
-    \item \code{R_kronecker} in C now available.
+    \item \code{R_kronecker} in \proglang{C} now available.
 
-    \item C versions of \code{nrow()} and \code{ncol()} return 1 or length for
-    vectors.
+    \item \proglang{C} versions of \code{nrow()} and \code{ncol()} return 1 or
+    length for vectors.
 
     \item Some internal optimisation.
 
-    \item C functions \code{nrow(x)} and \code{ncol(x)} return \code{LENGTH(x)}
-    or \code{1} when \code{x} has no \code{dim} attribute.
+    \item \proglang{C} functions \code{nrow(x)} and \code{ncol(x)} return
+    \code{LENGTH(x)} or \code{1} when \code{x} has no \code{dim} attribute.
 
-    \item New R-interface function \code{R_kronecker} to \code{C_kronecker}
+    \item New \R interface function \code{R_kronecker} to \code{C_kronecker}
     (which returns a _vector_!).
 
     \item Speedup of variance computations in internal functions.

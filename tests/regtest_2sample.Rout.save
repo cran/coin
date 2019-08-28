@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
+R Under development (unstable) (2019-04-29 r76439) -- "Unsuffered Consequences"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -520,7 +520,7 @@ difference in location
 > wta <- wilcox_test(y ~ x, data = location, conf.int = TRUE)
 > confint(wta)
 95 percent confidence interval:
- -7.000048 31.000073 
+ -7 31 
 sample estimates:
 difference in location 
               11.20138 
@@ -559,10 +559,10 @@ difference in location
 > nta <- normal_test(y ~ x, data = location, conf.int = TRUE)
 > confint(nta)
 95 percent confidence interval:
- -6.999981 30.000056 
+ -7 30 
 sample estimates:
 difference in location 
-              10.99993 
+                    11 
 
 > 
 > ### Median Test
@@ -602,7 +602,7 @@ difference in location
 > mta <- median_test(y ~ x, data = location, conf.int = TRUE)
 > confint(mta)
 95 percent confidence interval:
- -20.99994  41.99996 
+ -21  42 
 sample estimates:
 difference in location 
                   12.6 
@@ -645,10 +645,10 @@ difference in location
 > sta <- savage_test(y ~ x, data = location, conf.int = TRUE)
 > confint(sta)
 95 percent confidence interval:
- -6.000018 31.000020 
+ -6 31 
 sample estimates:
 difference in location 
-              12.00002 
+                    12 
 
 > 
 > 
@@ -690,7 +690,7 @@ ratio of scales
 > ata <- ansari_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
 > confint(ata)                                                  # wrong in < 1.3-0
 98.8 percent confidence interval:
-  0.147007 20.592614 
+  0.1470588 20.5925926 
 sample estimates:
 ratio of scales 
        1.236009 
@@ -733,7 +733,7 @@ ratio of scales
 > tta <- taha_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.51)
 > confint(tta)                                                  # wrong in < 1.3-0
 51 percent confidence interval:
-   4.814861 278.000000 
+   4.814815 278.000000 
 sample estimates:
 ratio of scales 
         13.7037 
@@ -776,10 +776,10 @@ ratio of scales
 > kta <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
 > confint(kta)                                                  # wrong in < 1.3-0
 98.8 percent confidence interval:
-  0.08968857 20.59270981 
+  0.08965518 20.59259260 
 sample estimates:
 ratio of scales 
-       1.275789 
+       1.275862 
 
 > 
 > ### Mood Test
@@ -819,7 +819,7 @@ ratio of scales
 > mta <- mood_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
 > confint(mta)                                                  # wrong in < 1.3-0
 98.8 percent confidence interval:
-  0.09286699 20.59252944 
+  0.09285714 20.59259259 
 sample estimates:
 ratio of scales 
        1.267119 
@@ -862,10 +862,10 @@ ratio of scales
 > fta <- fligner_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
 > confint(fta)                                                  # wrong in < 1.3-0
 98.8 percent confidence interval:
-  0.4762144 10.6875287 
+  0.4761905 10.6875000 
 sample estimates:
 ratio of scales 
-       2.290123 
+       2.290076 
 
 > 
 > ### Conover-Iman Test
@@ -905,10 +905,10 @@ ratio of scales
 > cta <- conover_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
 > confint(cta)                                                  # wrong in < 1.3-0
 98.8 percent confidence interval:
-  0.5494334 10.6575632 
+  0.5493881 10.6576087 
 sample estimates:
 ratio of scales 
-       2.455025 
+       2.455078 
 
 > 
 > 
@@ -1005,4 +1005,4 @@ Error in SR_shift_1sample(object, fact = attr(int, "fact")) :
 > 
 > proc.time()
    user  system elapsed 
-   2.04    0.15    2.18 
+   2.12    0.10    2.21 

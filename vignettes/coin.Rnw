@@ -239,7 +239,7 @@ the \pkg{coin} package is
 \begin{eqnarray*}
 P(c(\T, \mu, \Sigma) &\le& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(less)} \\
 P(c(\T, \mu, \Sigma) &\ge& c(\mathbf{t}, \mu, \Sigma)) \quad \text{(greater)}\\
-P(|c(\T, \mu, \Sigma)| &\le& |c(\mathbf{t}, \mu, \Sigma)|) \quad \text{(two-sided).}
+P(|c(\T, \mu, \Sigma)| &\ge& |c(\mathbf{t}, \mu, \Sigma)|) \quad \text{(two-sided).}
 \end{eqnarray*}
 Note that for quadratic forms only two-sided $p$-values are available
 and that in the one-sided case maximum type test statistics are replaced by

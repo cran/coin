@@ -146,16 +146,16 @@ SR_shift_2sample <- function(object, fact) {
     }
 
     p <- function(q) {
-        ## NOTE: 'vapply' provide names
-        vapply(q, p_fun, NA_real_)
+        setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(q))
     }
     q <- function(p) {
-        ## NOTE: 'vapply' provide names
-        vapply(p, q_fun, NA_real_)
+        setAttributes(vapply(p, q_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(p))
     }
     d <- function(x) {
-        ## NOTE: 'vapply' provide names
-        vapply(x, d_fun, NA_real_)
+        setAttributes(vapply(x, d_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(x))
     }
     pvalue <- function(q) {
         if (length(q) < 2L)
@@ -322,16 +322,16 @@ SR_shift_1sample <- function(object, fact) {
     }
 
     p <- function(q) {
-        ## NOTE: 'vapply' provide names
-        vapply(q, p_fun, NA_real_)
+        setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(q))
     }
     q <- function(p) {
-        ## NOTE: 'vapply' provide names
-        vapply(p, q_fun, NA_real_)
+        setAttributes(vapply(p, q_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(p))
     }
     d <- function(x) {
-        ## NOTE: 'vapply' provide names
-        vapply(x, d_fun, NA_real_)
+        setAttributes(vapply(x, d_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(x))
     }
     pvalue <- function(q) {
         if (length(q) < 2L)
@@ -446,12 +446,12 @@ vdW_split_up_2sample <- function(object) {
     }
 
     p <- function(q) {
-        ## NOTE: 'vapply' provide names
-        vapply(q, p_fun, NA_real_)
+        setAttributes(vapply(q, p_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(q))
     }
     q <- function(p) {
-        ## NOTE: 'vapply' provide names
-        vapply(p, q_fun, NA_real_)
+        setAttributes(vapply(p, q_fun, NA_real_, USE.NAMES = FALSE),
+                      attributes(p))
     }
     pvalue <- function(q) {
         if (length(q) < 2L)
