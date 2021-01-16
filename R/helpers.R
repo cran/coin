@@ -392,10 +392,17 @@ setup_args <- function(...) {
 }
 
 statnames <- function(object) {
-    nc <- ncol(object@ytrans)
-    nr <- ncol(object@xtrans)
-    dn <- list(colnames(object@xtrans),
-               colnames(object@ytrans))
+    xtrans <- object@xtrans
+    ytrans <- object@ytrans
+    block  <- object@block
+
+    nr <- ncol(xtrans)
+    nc <- ncol(ytrans)
+
+    dn <- if (nlevels(block) == 1)
+              list(colnames(xtrans), colnames(ytrans))
+          else
+              list(colnames(xtrans), colnames(ytrans), levels(block))
     if (is.null(dn[[1L]])) {
         if (nr == 1L) {
             dn[[1L]] <- ""
@@ -513,6 +520,3 @@ n_decimal_digits <-
     nchar(sub("^-?[[:space:]]?[[:digit:]]*[.]?", "",
               format(x, digits = 15, scientific = FALSE)[1]))
 }
-
-if (getRversion() < "3.6.0")
-    str2lang <- function(s) parse(text = s, keep.source = FALSE)[[1]]

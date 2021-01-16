@@ -64,8 +64,7 @@ symmetry_test.SymmetryProblem <- function(object,
 
     ## compute linear statistic, conditional expectation and
     ## conditional covariance
-    object <- new("IndependenceLinearStatistic", object, varonly = TRUE)
-###         varonly = class(distribution) == "approximate" && teststat == "maximum")
+    object <- new("IndependenceLinearStatistic", object)
 
     ## compute test statistic and corresponding null distribution
     ## return object inheriting from class "IndependenceTest"

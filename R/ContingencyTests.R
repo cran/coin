@@ -55,8 +55,8 @@ chisq_test.IndependenceProblem <- function(object, ...) {
     ## use the classical chisq statistic based on Pearson
     ## residuals (O - E)^2 / E
     ## see Th. 3.1 and its proof in Strasser & Weber (1999).
-    object <- new("IndependenceLinearStatistic", object, varonly = FALSE)
-    object@covariance <- new("CovarianceMatrix", covariance(object) * (n - 1) / n)
+    object <- new("IndependenceLinearStatistic", object)
+    object@covariance <- object@covariance * (n - 1) / n
     object <-
         if (args$teststat == "scalar") {
             object <-

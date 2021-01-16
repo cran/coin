@@ -41,8 +41,8 @@ setMethod("AsymptNullDistribution",
         if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
             runif(1L)
         seed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
-        corr <- cov2cor(covariance(object))
-        pq <- length(expectation(object))
+        corr <- cov2cor(covariance(object, partial = FALSE))
+        pq <- nrow(corr)
 
         p_fun <- function(q, conf.int, ...) {
             switch(object@alternative,
@@ -147,7 +147,8 @@ setMethod("ApproxNullDistribution",
 
         pls <- MonteCarlo(object@xtrans, object@ytrans, object@block,
                           object@weights, nresample, ...)
-        pls <- (pls - expectation(object)) / sqrt(variance(object))
+        pls <- (pls - as.vector(.expectation(object, partial = FALSE))) /
+                   sqrt(as.vector(.variance(object, partial = FALSE)))
 
         p_fun <- function(q) {
             mean(pls %LE% q)
@@ -223,9 +224,12 @@ setMethod("ApproxNullDistribution",
             }
         }
         size <- function(alpha, type) {
-            pv_fun <- if (type == "mid-p-value") midpvalue else pvalue
             spt <- support()
-            vapply(alpha, function(a) sum(d(spt[pv_fun(spt) %LE% a])), NA_real_)
+            pv <- if (type == "mid-p-value")
+                      midpvalue(spt)
+                  else
+                      pvalue(spt)
+            vapply(alpha, function(a) sum(d(spt[pv %LE% a])), NA_real_)
         }
 
         new("ApproxNullDistribution",
@@ -260,7 +264,8 @@ setMethod("ApproxNullDistribution",
 
         pls <- MonteCarlo(object@xtrans, object@ytrans, object@block,
                           object@weights, nresample, ...)
-        pls <- (pls - expectation(object)) / sqrt(variance(object))
+        pls <- (pls - as.vector(.expectation(object, partial = FALSE))) /
+                   sqrt(as.vector(.variance(object, partial = FALSE)))
 
         mpls <- switch(object@alternative,
                     "less"      = colMins(pls),
@@ -346,9 +351,12 @@ setMethod("ApproxNullDistribution",
             }
         }
         size <- function(alpha, type) {
-            pv_fun <- if (type == "mid-p-value") midpvalue else pvalue
             spt <- support()
-            vapply(alpha, function(a) sum(d(spt[pv_fun(spt) %LE% a])), NA_real_)
+            pv <- if (type == "mid-p-value")
+                      midpvalue(spt)
+                  else
+                      pvalue(spt)
+            vapply(alpha, function(a) sum(d(spt[pv %LE% a])), NA_real_)
         }
 
         new("ApproxNullDistribution",
@@ -383,8 +391,10 @@ setMethod("ApproxNullDistribution",
 
         pls <- MonteCarlo(object@xtrans, object@ytrans, object@block,
                           object@weights, nresample, ...)
-        pls <- pls - expectation(object)
-        pls <- colSums(pls * (object@covarianceplus %*% pls))
+        pls <- .Call(R_quadform,
+                     pls,
+                     .expectation(object, partial = FALSE),
+                     object@covarianceplus)
 
         p_fun <- function(q) {
             mean(pls %LE% q)
@@ -452,9 +462,12 @@ setMethod("ApproxNullDistribution",
             }
         }
         size <- function(alpha, type) {
-            pv_fun <- if (type == "mid-p-value") midpvalue else pvalue
             spt <- support()
-            vapply(alpha, function(a) sum(d(spt[pv_fun(spt) %LE% a])), NA_real_)
+            pv <- if (type == "mid-p-value")
+                      midpvalue(spt)
+                  else
+                      pvalue(spt)
+            vapply(alpha, function(a) sum(d(spt[pv %LE% a])), NA_real_)
         }
 
         new("ApproxNullDistribution",
@@ -517,6 +530,8 @@ setMethod("ExactNullDistribution",
     definition = function(object,
         algorithm = c("auto", "shift", "split-up"), ...) {
             algorithm <- match.arg(algorithm)
+            if (NCOL(object@ytrans) > 1L)
+                stop("cannot compute exact distribution with multivariate scores")
             if (object@paired) {
                 if (algorithm == "split-up")
                     stop("split-up algorithm not implemented for paired samples")

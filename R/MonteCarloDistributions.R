@@ -33,9 +33,7 @@ MonteCarlo <-
         } else {
             if (is.null(cl)) {
                 ## has a default cluster been registered?
-                ## see parallel:::defaultCluster
-                ## <FIXME> R-3.5.0 has 'getDefaultCluster()' </FIXME>
-                cl <- getNamespace("parallel")$.reg$default
+                cl <- getDefaultCluster()
                 if (is.null(cl)) {
                     ## no default cluster, so setup a PSOCK cluster
                     cl <- makePSOCKcluster(ncpus)

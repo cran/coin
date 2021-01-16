@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2019-02-27 r76167) -- "Unsuffered Consequences"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R Under development (unstable) (2020-08-20 r79057) -- "Unsuffered Consequences"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -591,8 +591,8 @@ alternative hypothesis: greater
 > 
 > ### Peto-Peto, X^2_SPP
 > lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
-+                    type = "Fleming-Harrington", rho = 1)
-> stopifnot(identical(lt@method, "K-Sample Fleming-Harrington Test"))
++                    type = "Peto-Peto")
+> stopifnot(identical(lt@method, "K-Sample Peto-Peto Test"))
 > stopifnot(all(round(-statistic(lt, "linear"), 3) == c(4.171, -2.582, -1.589)))
 > isequal(round(statistic(lt), 3), 3.527)
 [1] TRUE
@@ -631,4 +631,4 @@ alternative hypothesis: greater
 > 
 > proc.time()
    user  system elapsed 
-   1.23    0.14    1.36 
+   1.43    0.09    1.51 

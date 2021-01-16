@@ -1,3 +1,6 @@
+### <DEPRECATED>
+### Note: The "CovarianceMatrix", "Variance" and "VarCovar" classes were
+### deprecated in 1.4-0.  To be removed in 2.0-0.
 ### new("CovarianceMatrix", ...)
 setMethod("initialize",
     signature = "CovarianceMatrix",
@@ -13,6 +16,7 @@ setMethod("initialize",
         callNextMethod(.Object, variance = variance, ...)
     }
 )
+### </DEPRECATED>
 
 ### new("IndependenceProblem", ...)
 ### initialized data
@@ -88,37 +92,77 @@ setMethod("initialize",
 )
 
 ### new("IndependenceLinearStatistic", ...)
-### compute test statistics and their expectation / covariance matrix
+### compute linear statistics and their expectation / covariance matrix
 setMethod("initialize",
     signature = "IndependenceLinearStatistic",
-    definition = function(.Object, object, varonly = FALSE, ...) {
+    definition = function(.Object, object, ...) {
 
         if (!inherits(object, "IndependenceTestProblem"))
             stop(sQuote("object"), " is not of class ",
                  dQuote("IndependenceTestProblem"))
 
-        nm <- statnames(object)$names # pretty names
+        block <- object@block
+        r <- nlevels(block)
 
-        ecs <- .Call(R_ExpectationCovarianceStatistic,
-                     object@xtrans, object@ytrans, object@weights, integer(0),
-                     object@block, varonly, sqrt_eps)
+        if (r == 1) {
+            ecs <- .Call(R_ExpectationCovarianceStatistic,
+                         object@xtrans,
+                         object@ytrans,
+                         object@weights,
+                         integer(0), integer(0), 0L, sqrt_eps)
+            linearstatistic <- as.matrix(ecs$LinearStatistic)
+            expectation <-  as.matrix(ecs$Expectation)
+            covariance <- as.matrix(ecs$Covariance)
+        } else {
+            ytrans <- object@ytrans
+            xtrans <- object@xtrans
+            weights <- object@weights
+            pq <- ncol(xtrans) * ncol(ytrans)
+
+            linearstatistic <- matrix(NA_real_, nrow = pq, ncol = r)
+            expectation <- matrix(NA_real_, nrow = pq, ncol = r)
+            covariance <- matrix(NA_real_, nrow = pq * (pq + 1) / 2, ncol = r)
+
+            bl <- levels(block)
+            for (i in seq_len(r)) {
+                block_i <- block == bl[i]
+                ecs <- .Call(R_ExpectationCovarianceStatistic,
+                             xtrans[block_i,, drop = FALSE],
+                             ytrans[block_i,, drop = FALSE],
+                             weights[block_i],
+                             integer(0), integer(0), 0L, sqrt_eps)
+                linearstatistic[, i] <- ecs$LinearStatistic
+                expectation[, i] <- ecs$Expectation
+                covariance[, i] <- ecs$Covariance
+            }
+        }
 
         .Object <- copyslots(object, .Object)
-        .Object@linearstatistic <- drop(ecs$LinearStatistic)
-        .Object@expectation <- setNames(ecs$Expectation, nm)
-        .Object@covariance <-
-            if (varonly) {
-                new("Variance", setNames(drop(ecs$Variance), nm))
-            } else {
-                pq <- length(nm)
-                cov <- matrix(0, nrow = pq, ncol = pq, dimnames = list(nm, nm))
-                cov[lower.tri(cov, diag = TRUE)] <- ecs$Covariance
-                cov <- cov + t(cov)
-                diag(cov) <- diag(cov) / 2
-                new("CovarianceMatrix", cov)
-            }
+        .Object@linearstatistic <- linearstatistic
+        .Object@expectation <- expectation
+        .Object@covariance <- covariance
 
-        if (any(variance(.Object) < sqrt_eps))
+        .Object
+    }
+)
+
+### compute standardized linear statistics
+setMethod("initialize",
+    signature = "IndependenceTestStatistic",
+    definition = function(.Object, object, ...) {
+
+        if (!inherits(object, "IndependenceLinearStatistic"))
+            stop(sQuote("object"), " is not of class ",
+                 dQuote("IndependenceLinearStatistic"))
+
+        variance <- .variance(object, partial = FALSE)
+
+        .Object <- copyslots(object, .Object)
+        .Object@standardizedlinearstatistic <-
+            as.vector(.centeredlinearstatistic(object, partial = FALSE) /
+                      sqrt(variance))
+
+        if (any(variance < sqrt_eps))
             warning("The conditional covariance matrix has ",
                     "zero diagonal elements")
 
@@ -133,16 +177,8 @@ setMethod("initialize",
     definition = function(.Object, object,
         alternative = c("two.sided", "less", "greater"), paired = FALSE, ...) {
 
-        if (!inherits(object, "IndependenceLinearStatistic"))
-            stop(sQuote("object"), " is not of class ",
-                 dQuote("IndependenceLinearStatistic"))
-
-        ss <- (object@linearstatistic - expectation(object)) /
-                  sqrt(variance(object))
-
-        .Object <- copyslots(object, .Object)
-        .Object@teststatistic <- unname(ss)
-        .Object@standardizedlinearstatistic <- ss
+        .Object <- callNextMethod(.Object, object)
+        .Object@teststatistic <- .Object@standardizedlinearstatistic
         .Object@alternative <- match.arg(alternative)
         .Object@paired <- paired
 
@@ -156,21 +192,13 @@ setMethod("initialize",
     definition = function(.Object, object,
         alternative = c("two.sided", "less", "greater"), ...) {
 
-        if (!inherits(object, "IndependenceLinearStatistic"))
-            stop(sQuote("object"), " is not of class ",
-                 dQuote("IndependenceLinearStatistic"))
-
-        ss <- (object@linearstatistic - expectation(object)) /
-                  sqrt(variance(object))
-
-        .Object <- copyslots(object, .Object)
+        .Object <- callNextMethod(.Object, object)
         .Object@teststatistic <-
             switch(alternative,
-                "less"      = min(ss),
-                "greater"   = max(ss),
-                "two.sided" = max(abs(ss))
+                "less"      = min(.Object@standardizedlinearstatistic),
+                "greater"   = max(.Object@standardizedlinearstatistic),
+                "two.sided" = max(abs(.Object@standardizedlinearstatistic))
             )
-        .Object@standardizedlinearstatistic <- ss
         .Object@alternative <- match.arg(alternative)
 
         .Object
@@ -182,18 +210,16 @@ setMethod("initialize",
     signature = "QuadTypeIndependenceTestStatistic",
     definition = function(.Object, object, paired = FALSE, ...) {
 
-        if (!inherits(object, "IndependenceLinearStatistic"))
-            stop(sQuote("object"), " is not of class ",
-                 dQuote("IndependenceLinearStatistic"))
+        covarianceplus <- .covariance(object, invert = TRUE, partial = FALSE)
 
-        cs <- object@linearstatistic - expectation(object)
-        mp <- MPinv(covariance(object), ...)
-
-        .Object <- copyslots(object, .Object)
-        .Object@teststatistic <- drop(cs %*% mp$MPinv %*% cs)
-        .Object@standardizedlinearstatistic <- cs / sqrt(variance(object))
-        .Object@covarianceplus <- mp$MPinv
-        .Object@df <- mp$rank
+        .Object <- callNextMethod(.Object, object)
+        .Object@teststatistic <-
+            .Call(R_quadform,
+                  .linearstatistic(object, partial = FALSE),
+                  .expectation(object, partial = FALSE),
+                  covarianceplus)
+        .Object@df <- attr(covarianceplus, "rank")
+        .Object@covarianceplus <- as.vector(covarianceplus)
         .Object@paired <- paired
 
         .Object

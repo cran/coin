@@ -4,6 +4,7 @@
 \alias{MaxTypeIndependenceTestStatistic-class}
 \alias{QuadTypeIndependenceTestStatistic-class}
 \alias{ScalarIndependenceTestStatistic-class}
+\alias{initialize,IndependenceTestStatistic-method}
 \alias{initialize,MaxTypeIndependenceTestStatistic-method}
 \alias{initialize,QuadTypeIndependenceTestStatistic-method}
 \alias{initialize,ScalarIndependenceTestStatistic-method}
@@ -47,15 +48,15 @@
       Object of class \code{"numeric"}.  The standardized linear statistic.
     }
     \item{\code{linearstatistic}:}{
-      Object of class \code{"numeric"}.  The linear statistic.
+      Object of class \code{"matrix"}.  The linear statistic for each block.
     }
     \item{\code{expectation}:}{
-      Object of class \code{"numeric"}.  The expectation of the linear
-      statistic.
+      Object of class \code{"matrix"}.  The expectation of the linear statistic
+      for each block.
     }
     \item{\code{covariance}:}{
-      Object of class \code{"\linkS4class{VarCovar}"}.  The covariance or
-      variance of the linear statistic.
+      Object of class \code{"matrix"}.  The lower triangular elements of the
+      covariance of the linear statistic for each block.
     }
     \item{\code{xtrans}:}{
       Object of class \code{"matrix"}.  The transformed \code{x}.
@@ -93,8 +94,8 @@
   Additionally, for objects of class \code{"QuadTypeIndependenceTest"}:
   \describe{
     \item{\code{covarianceplus}:}{
-      Object of class \code{"matrix"}.  The Moore-Penrose inverse of the
-      covariance matrix.
+      Object of class \code{"numeric"}.  The lower triangular elements of the
+      Moore-Penrose inverse of the covariance of the linear statistic.
     }
     \item{\code{df}:}{
       Object of class \code{"numeric"}.  The rank of the covariance matrix.
@@ -167,6 +168,15 @@
     \item{ExactNullDistribution}{
       \code{signature(object = "ScalarIndependenceTestStatistic")}: See the
       documentation for \code{\link{ExactNullDistribution}} for details.
+    }
+    \item{covariance}{
+      \code{signature(object = "QuadTypeIndependenceTestStatistic")}: See the
+      documentation for \code{\link{covariance}} for details.
+    }
+    \item{initialize}{
+      \code{signature(.Object = "IndependenceTestStatistic")}: See the
+      documentation for \code{\link[methods:new]{initialize}} (in package
+      \pkg{methods}) for details.
     }
     \item{initialize}{
       \code{signature(.Object = "MaxTypeIndependenceTestStatistic")}: See the

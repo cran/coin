@@ -17,7 +17,7 @@ logrank_test.formula <- function(formula, data = list(), subset = NULL,
 
 logrank_test.IndependenceProblem <- function(object,
     ties.method = c("mid-ranks", "Hothorn-Lausen", "average-scores"),
-    type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
+    type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Peto-Peto", "Prentice",
              "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
              "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
     rho = NULL, gamma = NULL, ...) {

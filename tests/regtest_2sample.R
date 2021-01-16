@@ -413,8 +413,8 @@ isequal(round(pvalue(lt), 4), 0.0500)
 
 ### Peto-Peto
 lt <- logrank_test(Surv(time, event) ~ group, data = prostatic,
-                   type = "Fleming-Harrington", rho = 1)
-stopifnot(identical(lt@method, "Two-Sample Fleming-Harrington Test"))
+                   type = "Peto-Peto")
+stopifnot(identical(lt@method, "Two-Sample Peto-Peto Test"))
 isequal(round(statistic(lt)^2, 4), 4.0657)
 isequal(round(pvalue(lt), 4), 0.0438)
 

@@ -23,8 +23,9 @@
 \method{logrank_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
 \method{logrank_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "Hothorn-Lausen",
                                      "average-scores"),
-             type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
-                      "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
+             type = c("logrank", "Gehan-Breslow", "Tarone-Ware",
+                      "Peto-Peto", "Prentice", "Prentice-Marek",
+                      "Andersen-Borgan-Gill-Keiding",
                       "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
              rho = NULL, gamma = NULL, \dots)
 }
@@ -58,9 +59,10 @@
   }
   \item{type}{
     a character, the type of test: either \code{"logrank"} (default),
-    \code{"Gehan-Breslow"}, \code{"Tarone-Ware"}, \code{"Prentice"},
-    \code{"Prentice-Marek"}, \code{"Andersen-Borgan-Gill-Keiding"},
-    \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
+    \code{"Gehan-Breslow"}, \code{"Tarone-Ware"}, \code{"Peto-Peto"},
+    \code{"Prentice"}, \code{"Prentice-Marek"},
+    \code{"Andersen-Borgan-Gill-Keiding"}, \code{"Fleming-Harrington"},
+    \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
     \sQuote{Details}.
   }
   \item{rho}{
@@ -83,11 +85,12 @@
   linear rank test.  The family of weighted logrank tests encompasses a large
   collection of tests commonly used in the analysis of survival data including,
   but not limited to, the standard (unweighted) logrank test, the Gehan-Breslow
-  test, the Tarone-Ware class of tests, the Prentice test, the Prentice-Marek
-  test, the Andersen-Borgan-Gill-Keiding test, the Fleming-Harrington class of
-  tests and the Self class of tests.  A general description of these methods is
-  given by Klein and Moeschberger (2003, Ch. 7).  See \enc{Letón}{Leton} and
-  Zuluaga (2001) for the linear rank test formulation.
+  test, the Tarone-Ware class of tests, the Peto-Peto test, the Prentice test,
+  the Prentice-Marek test, the Andersen-Borgan-Gill-Keiding test, the
+  Fleming-Harrington class of tests, the Gaugler-Kim-Liao class of tests and the
+  Self class of tests.  A general description of these methods is given by Klein
+  and Moeschberger (2003, Ch. 7).  See \enc{Letón}{Leton} and Zuluaga (2001) for
+  the linear rank test formulation.
 
   The null hypothesis of equality, or conditional equality given \code{block},
   of the survival distribution of \code{y} in the groups defined by \code{x} is
@@ -182,13 +185,22 @@
   Tarone and Ware (1977) has \eqn{w_k = n_k^\rho}, where \eqn{\rho} is a
   constant; \eqn{\rho = 0.5} (default) was suggested by Tarone and Ware (1977),
   but note that \eqn{\rho = 0} and \eqn{\rho = 1} lead to the the standard
-  logrank test and Gehan-Breslow test respectively.  The Prentice test
-  (\code{"Prentice"}) is another generalization of the Wilcoxon rank-sum test
-  proposed by Prentice (1978), where
+  logrank test and Gehan-Breslow test respectively.  The Peto-Peto test
+  (\code{"Peto-Peto"}) suggested by Peto and Peto (1972) is another
+  generalization of the Wilcoxon rank-sum test, where
+  \deqn{
+    w_k = \hat{S}_k = \prod_{j = 0}^{k - 1} \frac{n_j - d_j}{n_j}
+  }{
+    w_k = Shat_k = prod(j = 0, \dots, k - 1) (n_j - d_j) / n_j
+  }
+  is the \emph{left-continuous} Kaplan-Meier estimator of the survival function,
+  \eqn{n_0 \equiv n}{n_0 := n} and \eqn{d_0 \equiv 0}{d_0 := 0}.  The Prentice
+  test (\code{"Prentice"}) is also a generalization of the Wilcoxon rank-sum
+  test proposed by Prentice (1978), where
   \deqn{
     w_k = \prod_{j = 1}^k \frac{n_j}{n_j + d_j}.
   }{
-    w_k = prod(j = 1, \dots, k) n_j / n_j + d_j).
+    w_k = prod(j = 1, \dots, k) n_j / (n_j + d_j).
   }
   The Prentice-Marek test (\code{"Prentice-Marek"}) is yet another
   generalization of the Wilcoxon rank-sum test discussed by Prentice and Marek
@@ -202,40 +214,32 @@
   suggested by Andersen \emph{et al.} (1982) is a modified version of the
   Prentice-Marek test using
   \deqn{
-    w_k = \frac{n_k}{n_k + 1}
-            \prod_{j = 0}^{k - 1} \frac{n_j + 1 - d_j}{n_j + 1}
+    w_k = \frac{n_k}{n_k + 1} \prod_{j = 0}^{k - 1} \frac{n_j + 1 - d_j}{n_j + 1},
   }{
-    w_k = (n_k / (n_k + 1)) prod(j = 0, \dots, k - 1) (n_j + 1 - d_j) / (n_j + 1)
+    w_k = (n_k / (n_k + 1)) prod(j = 0, \dots, k - 1) (n_j + 1 - d_j) / (n_j + 1),
   }
-  where \eqn{n_0 \equiv n}{n_0 := n} and \eqn{d_0 \equiv 0}{d_0 := 0}.  The
-  Fleming-Harrington class of tests (\code{"Fleming-Harrington"}) proposed by
-  Fleming and Harrington (1991) uses \eqn{w_k = \hat{S}_k^\rho (1 -
+  where, again, \eqn{n_0 \equiv n}{n_0 := n} and \eqn{d_0 \equiv 0}{d_0 := 0}.
+  The Fleming-Harrington class of tests (\code{"Fleming-Harrington"}) proposed
+  by Fleming and Harrington (1991) uses \eqn{w_k = \hat{S}_k^\rho (1 -
     \hat{S}_k)^\gamma}{w_k = Shat_k^rho * (1 - Shat_k)^gamma}, where \eqn{\rho}
-  and \eqn{\gamma} are constants and
-  \deqn{
-    \hat{S}_k = \prod_{j = 0}^{k - 1} \frac{n_j - d_j}{n_j},
-    \quad
-    \hat{S}_0 \equiv 1
-  }{
-    Shat_k = prod(j = 0, \dots, k - 1) (n_j - d_j) / n_j,   Shat_0 := 1
-  }
-  is the \emph{left-continuous} Kaplan-Meier estimator of the survival function;
-  \eqn{\rho = 0} and \eqn{\gamma = 0} lead to the standard logrank test.  The
-  Gaugler-Kim-Liao class of tests (\code{"Gaugler-Kim-Liao"}) discussed by
-  Gaugler \emph{et al.} (2007) is a modified version of the Fleming-Harrington
-  class of tests, replacing \eqn{\hat{S}_k}{Shat_k} with
-  \eqn{\tilde{S}_k}{Stilde_k} so that \eqn{w_k = \tilde{S}_k^\rho (1 -
-    \tilde{S}_k)^\gamma}{w_k = Stilde_k^rho * (1 - Stilde_k)^gamma}, where
-  \eqn{\rho} and \eqn{\gamma} are constants; \eqn{\rho = 0} and \eqn{\gamma = 0}
-  lead to the standard logrank test.  The Self class of tests (\code{"Self"})
-  suggested by Self (1991) has \eqn{w_k = v_k^\rho (1 - v_k)^\gamma}{w_k =
-    v_k^rho * (1 - v_k)^gamma}, where
+  and \eqn{\gamma} are constants; \eqn{\rho = 0} and \eqn{\gamma = 0} lead to
+  the standard logrank test, while \eqn{\rho = 1} and \eqn{\gamma = 0} result in
+  the Peto-Peto test.  The Gaugler-Kim-Liao class of tests
+  (\code{"Gaugler-Kim-Liao"}) discussed by Gaugler \emph{et al.} (2007) is a
+  modified version of the Fleming-Harrington class of tests, replacing
+  \eqn{\hat{S}_k}{Shat_k} with \eqn{\tilde{S}_k}{Stilde_k} so that \eqn{w_k =
+    \tilde{S}_k^\rho (1 - \tilde{S}_k)^\gamma}{w_k = Stilde_k^rho * (1 -
+    Stilde_k)^gamma}, where \eqn{\rho} and \eqn{\gamma} are constants; \eqn{\rho
+    = 0} and \eqn{\gamma = 0} lead to the standard logrank test, whereas
+  \eqn{\rho = 1} and \eqn{\gamma = 0} result in the Prentice-Marek test.  The
+  Self class of tests (\code{"Self"}) suggested by Self (1991) has \eqn{w_k =
+    v_k^\rho (1 - v_k)^\gamma}{w_k = v_k^rho * (1 - v_k)^gamma}, where
   \deqn{
     v_k = \frac{1}{2} \frac{t_{(k-1)} + t_{(k)}}{t_{(m)}},
     \quad
     t_{(0)} \equiv 0
   }{
-    v_k = 1 / 2 * (t_(k - 1) + t_(k)) / t_(m),   t_(0) := 1
+    v_k = 1 / 2 * (t_(k - 1) + t_(k)) / t_(m),   t_(0) := 0
   }
   is the standardized mid-point between the \eqn{(k - 1)}th and the \eqn{k}th
   event time.  (This is a slight generalization of Self's original proposal in
@@ -301,6 +305,7 @@
 
   Cox, D. R. (1972).  Regression models and life-tables (with discussion).
   \emph{Journal of the Royal Statistical Society} B \bold{34}(2), 187--220.
+  \doi{10.1111/j.2517-6161.1972.tb00899.x}
 
   Fleming, T. R. and Harrington, D. P.  (1991).  \emph{Counting Processes and
     Survival Analysis}.  New York: John Wiley & Sons.

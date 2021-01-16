@@ -265,8 +265,8 @@ isequal(round(pvalue(lt), 4), 0.1643)
 
 ### Peto-Peto, X^2_SPP
 lt <- logrank_test(Surv(time, event) ~ group, data = leukemia,
-                   type = "Fleming-Harrington", rho = 1)
-stopifnot(identical(lt@method, "K-Sample Fleming-Harrington Test"))
+                   type = "Peto-Peto")
+stopifnot(identical(lt@method, "K-Sample Peto-Peto Test"))
 stopifnot(all(round(-statistic(lt, "linear"), 3) == c(4.171, -2.582, -1.589)))
 isequal(round(statistic(lt), 3), 3.527)
 isequal(round(pvalue(lt), 4), 0.1715)

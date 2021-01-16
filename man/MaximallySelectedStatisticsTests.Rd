@@ -101,8 +101,8 @@
   If both, say, \code{y1} and \code{x1} are ordered factors, a linear-by-linear
   association test is computed and the direction of the alternative hypothesis
   can be specified using the \code{alternative} argument.  The particular
-  extension to the case of a univariable binary factor response and a
-  univariable ordered covariate was given by Betensky and Rabinowitz (1999) and
+  extension to the case of a univariable ordered response and a univariable
+  numeric covariate was given by Betensky and Rabinowitz (1999) and
   is known as maximally selected Cochran-Armitage statistics.
 
   The conditional null distribution of the test statistic is used to obtain

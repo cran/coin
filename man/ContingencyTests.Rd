@@ -272,7 +272,13 @@ statistic(ct)^2 # chi_0^2 = 5.26
 ## Agresti (2002, p. 288, Tab. 7.8)
 
 ## Asymptotic generalized Cochran-Mantel-Haenszel test (Agresti, p. 297)
-cmh_test(jobsatisfaction) # CMH = 10.2001
+(ct <- cmh_test(jobsatisfaction)) # CMH = 10.2001
+
+## The standardized linear statistic
+statistic(ct, type = "standardized")
+
+## The standardized linear statistic for each block
+statistic(ct, type = "standardized", partial = TRUE)
 
 ## Asymptotic generalized Cochran-Mantel-Haenszel test (Agresti, p. 297)
 ## Note: 'Job.Satisfaction' as ordinal
@@ -285,5 +291,11 @@ cmh_test(jobsatisfaction,
                 scores = list("Job.Satisfaction" = c(1, 3, 4, 5),
                               "Income" = c(3, 10, 20, 35))))
 statistic(lt)^2 # M^2 = 6.1563
+
+## The standardized linear statistic
+statistic(lt, type = "standardized")
+
+## The standardized linear statistic for each block
+statistic(lt, type = "standardized", partial = TRUE)
 }
 \keyword{htest}

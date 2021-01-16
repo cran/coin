@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2019-04-29 r76439) -- "Unsuffered Consequences"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R Under development (unstable) (2020-12-20 r79658) -- "Unsuffered Consequences"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -179,8 +179,11 @@ Error in validObject(.Object) :
 +     ytrafo = function(data) trafo(data, numeric_trafo = rank_trafo),
 +     teststat = "quad")
 > expectation(it)
-  I  II III  IV 
-205 205 205 205 
+       
+I   205
+II  205
+III 205
+IV  205
 > covariance(it)
             I        II       III        IV
 I   1019.0385 -339.6795 -339.6795 -339.6795
@@ -194,8 +197,8 @@ IV  -339.6795 -339.6795 -339.6795 1019.0385
           x         y
 1 -2.066068 0.3292961
 > expectation(it)
-       1:x        1:y 
--1.6340021 -0.9750075 
+          x          y
+1 -1.634002 -0.9750075
 > covariance(it)
            1:x        1:y
 1:x  0.4417981 -0.8139286
@@ -986,6 +989,18 @@ Error in logrank_trafo(y) :
 5                 0
 6                 0
 > 
+> ### 'statistic(*, "standardized")' didn't work for "IndependenceLinearStatistic"
+> ils <- new("IndependenceLinearStatistic", it2@statistic)
+> statistic(ils, type = "standardized")
+          
+ -3.779645
+> 
+> ### exact appeared to work for multivariate quadratic two-sample tests
+> tab <- as.table(matrix(c(5, 14, 8, 4, 25, 5, 32, 6), nrow = 2))
+> try(independence_test(tab, distr = exact(), teststat = "quad"))
+Error in .local(object, ...) : 
+  cannot compute exact distribution with multivariate scores
+> 
 > proc.time()
    user  system elapsed 
-   1.98    0.21    2.18 
+   2.39    0.12    2.57 

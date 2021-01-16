@@ -312,11 +312,11 @@ logrank_trafo <-
 
 ### some popular logrank weights
 logrank_weight <-
-    function(time, n.risk, n.event,
-             type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Prentice",
-                      "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
-                      "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
-             rho = NULL, gamma = NULL)
+function(time, n.risk, n.event,
+         type = c("logrank", "Gehan-Breslow", "Tarone-Ware", "Peto-Peto",
+                  "Prentice", "Prentice-Marek", "Andersen-Borgan-Gill-Keiding",
+                  "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
+         rho = NULL, gamma = NULL)
 {
     type <- match.arg(type)
 
@@ -332,6 +332,10 @@ logrank_weight <-
             "Tarone-Ware" = { # Tarone and Ware (1977)
                 n.risk^rho
             },
+            "Peto-Peto" = { # Peto and Peto (1972), Leton and Zuluaga (2001)
+                S <- cumprod(1 - n.event / n.risk) # S(t), Kaplan-Meier
+                c(1, S[-length(S)]) # S(t-)
+            },
             "Prentice" = { # Prentice (1978), Leton and Zuluaga (2001)
                 cumprod(n.risk / (n.risk + n.event)) # S(t)
             },
@@ -339,17 +343,17 @@ logrank_weight <-
                 cumprod(1 - n.event / (n.risk + 1)) # S(t)
             },
             "Andersen-Borgan-Gill-Keiding" = { # Andersen et al (1982)
-                surv <- cumprod(1 - n.event / (n.risk + 1)) # S(t)
-                c(1, surv[-length(surv)]) * n.risk / (n.risk + 1) # S(t-), pred.
+                S <- cumprod(1 - n.event / (n.risk + 1)) # S(t)
+                c(1, S[-length(S)]) * n.risk / (n.risk + 1) # S(t-), pred.
             },
             "Fleming-Harrington" = { # Fleming and Harrington (1991)
-                surv <- cumprod(1 - n.event / n.risk) # S(t), Kaplan-Meier
-                surv <- c(1, surv[-length(surv)]) # S(t-)
-                surv^rho * (1 - surv)^gamma
+                S <- cumprod(1 - n.event / n.risk) # S(t), Kaplan-Meier
+                S <- c(1, S[-length(S)]) # S(t-)
+                S^rho * (1 - S)^gamma
             },
             "Gaugler-Kim-Liao" = { # Gaugler et al (2007)
-                surv <- cumprod(1 - n.event / (n.risk + 1)) # S(t)
-                surv^rho * (1 - surv)^gamma
+                S <- cumprod(1 - n.event / (n.risk + 1)) # S(t)
+                S^rho * (1 - S)^gamma
             },
             "Self" = { # Self (1991)
                 ## NOTE: this allows for arbitrary follow-up times

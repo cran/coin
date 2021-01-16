@@ -5,43 +5,53 @@
 \alias{statistic,IndependenceLinearStatistic-method}
 \alias{statistic,IndependenceTestStatistic-method}
 \alias{statistic,IndependenceTest-method}
-\title{Extraction of the Test Statistic and Linear Statistic}
+\title{Extraction of the Test Statistic and the Linear Statistic}
 \description{
-  Methods for extraction of the test statistic and linear statistic.
+  Methods for extraction of the test statistic and the linear statistic.
 }
+% NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\S4method{statistic}{IndependenceLinearStatistic}(object, type = c("test", "linear", "centered", "standardized"), \dots)
-\S4method{statistic}{IndependenceTestStatistic}(object, type = c("test", "linear", "centered", "standardized"), \dots)
-\S4method{statistic}{IndependenceTest}(object, type = c("test", "linear", "centered", "standardized"), \dots)
+\S4method{statistic}{IndependenceLinearStatistic}(object, type = c("test", "linear", "centered", "standardized"),
+          partial = FALSE, \dots)
+\S4method{statistic}{IndependenceTestStatistic}(object, type = c("test", "linear", "centered", "standardized"),
+          partial = FALSE, \dots)
+\S4method{statistic}{IndependenceTest}(object, type = c("test", "linear", "centered", "standardized"),
+          partial = FALSE, \dots)
 }
 \arguments{
   \item{object}{
-    an object from which the test statistic or linear statistic can be
+    an object from which the test statistic or the linear statistic can be
     extracted.
   }
   \item{type}{
-    a character, the type of statistic: either \code{"test"} (default) for the
-    test statistic, \code{"linear"} for the unstandardized linear statistic
-    \code{"centered"} for the centered linear statistic or \code{"standardized"}
-    for the standardized linear statistic.
+    a character string indicating the type of statistic: either \code{"test"}
+    (default) for the test statistic, \code{"linear"} for the unstandardized
+    linear statistic, \code{"centered"} for the centered linear statistic or
+    \code{"standardized"} for the standardized linear statistic.
+  }
+  \item{partial}{
+    a logical indicating that the partial linear statistic for each block should
+    be extracted.  Defaults to \code{FALSE}.
   }
   \item{\dots}{
     further arguments (currently ignored).
   }
 }
 \details{
-  The method \code{statistic} extracts the test statistic or the, possibly
-  multivariate, linear statistic in its unstandardized, centered or
+  The method \code{statistic} extracts the univariate test statistic or the,
+  possibly multivariate, linear statistic in its unstandardized, centered or
   standardized form.
 
   The test statistic (\code{type = "test"}) is returned by default.  The
   unstandardized, centered or standardized linear statistic is obtained by
   setting \code{type} to \code{"linear"}, \code{"centered"} or
-  \code{"standardized"} respectively.
+  \code{"standardized"}, respectively.  For tests of conditional independence
+  within blocks, the partial linear statistic for each block is obtained by
+  setting \code{partial = TRUE}.
 }
 \value{
   The test statistic or the unstandardized, centered or standardized linear
-  statistic extracted from \code{object}.  A numeric vector or matrix.
+  statistic extracted from \code{object}.  A numeric vector, matrix or array.
 }
 \examples{
 ## Example data

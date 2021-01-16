@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2019-07-02 r76766) -- "Unsuffered Consequences"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R Under development (unstable) (2020-08-20 r79057) -- "Unsuffered Consequences"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -336,7 +336,7 @@ alternative hypothesis: two.sided
 > ## Agresti (2002, p. 288, Tab. 7.8)
 > 
 > ## Asymptotic generalized Cochran-Mantel-Haenszel test (Agresti, p. 297)
-> cmh_test(jobsatisfaction) # CMH = 10.2001
+> (ct <- cmh_test(jobsatisfaction)) # CMH = 10.2001
 
 	Asymptotic Generalized Cochran-Mantel-Haenszel Test
 
@@ -344,6 +344,48 @@ data:  Job.Satisfaction by
 	 Income (<5000, 5000-15000, 15000-25000, >25000) 
 	 stratified by Gender
 chi-squared = 10.2, df = 9, p-value = 0.3345
+
+> 
+> ## The standardized linear statistic
+> statistic(ct, type = "standardized")
+            Very Dissatisfied A Little Satisfied Moderately Satisfied
+<5000               1.3112789         0.69201053           -0.2478705
+5000-15000          0.6481783         0.83462550            0.5175755
+15000-25000        -1.0958361        -1.50130926            0.2361231
+>25000             -1.0377629        -0.08983052           -0.5946119
+            Very Satisfied
+<5000           -0.9293458
+5000-15000      -1.6257547
+15000-25000      1.4614123
+>25000           1.2031648
+> 
+> ## The standardized linear statistic for each block
+> statistic(ct, type = "standardized", partial = TRUE)
+, , Female
+
+            Very Dissatisfied A Little Satisfied Moderately Satisfied
+<5000               0.2698452          0.4922196            0.2175066
+5000-15000          0.9959059         -0.3770330            0.7219631
+15000-25000        -0.9314188         -0.8360078           -0.4647580
+>25000             -0.6652991          0.9438798           -0.7745967
+            Very Satisfied
+<5000           -0.8543153
+5000-15000      -1.0990044
+15000-25000      1.8254610
+>25000           0.4803845
+
+, , Male
+
+            Very Dissatisfied A Little Satisfied Moderately Satisfied
+<5000               2.6457513          0.5352855           -0.8355894
+5000-15000         -0.5388159          2.1196904           -0.1323549
+15000-25000        -0.5773503         -1.3627703            0.9117028
+>25000             -0.8164966         -0.9636241           -0.1289343
+            Very Satisfied
+<5000           -0.3964690
+5000-15000      -1.2350566
+15000-25000      0.2018721
+>25000           1.1419611
 
 > 
 > ## Asymptotic generalized Cochran-Mantel-Haenszel test (Agresti, p. 297)
@@ -375,6 +417,24 @@ alternative hypothesis: two.sided
 
 > statistic(lt)^2 # M^2 = 6.1563
 [1] 6.156301
+> 
+> ## The standardized linear statistic
+> statistic(lt, type = "standardized")
+        
+ 2.48119
+> 
+> ## The standardized linear statistic for each block
+> statistic(lt, type = "standardized", partial = TRUE)
+, , Female
+
+         
+ 1.271093
+
+, , Male
+
+         
+ 2.317108
+
 > 
 > 
 > 
@@ -662,8 +722,8 @@ difference in location
 > 
 > ## Expectation, variance, two-sided pvalue and confidence interval
 > expectation(wt)
-12-26 Weeks 
-         40 
+              
+12-26 Weeks 40
 > covariance(wt)
             12-26 Weeks
 12-26 Weeks    66.66667
@@ -1638,7 +1698,7 @@ pos 40
 > ## Comparison with R's wilcox.test() function
 > wilcox.test(y1, y2, paired = TRUE, alternative = "greater")
 
-	Wilcoxon signed rank test
+	Wilcoxon signed rank exact test
 
 data:  y1 and y2
 V = 40, p-value = 0.01953
@@ -2249,6 +2309,7 @@ attr(,"conf.level")
 > ###   variance,IndependenceTest-method covariance covariance-methods
 > ###   covariance,CovarianceMatrix-method
 > ###   covariance,IndependenceLinearStatistic-method
+> ###   covariance,QuadTypeIndependenceTestStatistic-method
 > ###   covariance,IndependenceTest-method
 > ### Keywords: methods
 > 
@@ -2266,21 +2327,28 @@ attr(,"conf.level")
 > ct <- cmh_test(y ~ x, data = dta)
 > 
 > ## The linear statistic, i.e., the contingency table...
-> (l <- statistic(ct, type = "linear"))
+> (T <- statistic(ct, type = "linear"))
   1 2 3
 1 1 0 1
 2 0 2 0
 3 1 0 1
 > 
 > ## ...and its expectation...
-> (El <- expectation(ct))
-      1:1       2:1       3:1       1:2       2:2       3:2       1:3       2:3 
-0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 0.6666667 
-      3:3 
-0.6666667 
+> (mu <- expectation(ct))
+          1         2         3
+1 0.6666667 0.6666667 0.6666667
+2 0.6666667 0.6666667 0.6666667
+3 0.6666667 0.6666667 0.6666667
 > 
-> ## ...and covariance
-> (Vl <- covariance(ct))
+> ## ...and variance...
+> (sigma <- variance(ct))
+          1         2         3
+1 0.3555556 0.3555556 0.3555556
+2 0.3555556 0.3555556 0.3555556
+3 0.3555556 0.3555556 0.3555556
+> 
+> ## ...and covariance...
+> (Sigma <- covariance(ct))
             1:1         2:1         3:1         1:2         2:2         3:2
 1:1  0.35555556 -0.17777778 -0.17777778 -0.17777778  0.08888889  0.08888889
 2:1 -0.17777778  0.35555556 -0.17777778  0.08888889 -0.17777778  0.08888889
@@ -2302,8 +2370,31 @@ attr(,"conf.level")
 2:3 -0.17777778  0.35555556 -0.17777778
 3:3 -0.17777778 -0.17777778  0.35555556
 > 
+> ## ...and its inverse
+> (SigmaPlus <- covariance(ct, invert = TRUE))
+           1:1        2:1        3:1        1:2        2:2        3:2
+1:1  0.5555556 -0.2777778 -0.2777778 -0.2777778  0.1388889  0.1388889
+2:1 -0.2777778  0.5555556 -0.2777778  0.1388889 -0.2777778  0.1388889
+3:1 -0.2777778 -0.2777778  0.5555556  0.1388889  0.1388889 -0.2777778
+1:2 -0.2777778  0.1388889  0.1388889  0.5555556 -0.2777778 -0.2777778
+2:2  0.1388889 -0.2777778  0.1388889 -0.2777778  0.5555556 -0.2777778
+3:2  0.1388889  0.1388889 -0.2777778 -0.2777778 -0.2777778  0.5555556
+1:3 -0.2777778  0.1388889  0.1388889 -0.2777778  0.1388889  0.1388889
+2:3  0.1388889 -0.2777778  0.1388889  0.1388889 -0.2777778  0.1388889
+3:3  0.1388889  0.1388889 -0.2777778  0.1388889  0.1388889 -0.2777778
+           1:3        2:3        3:3
+1:1 -0.2777778  0.1388889  0.1388889
+2:1  0.1388889 -0.2777778  0.1388889
+3:1  0.1388889  0.1388889 -0.2777778
+1:2 -0.2777778  0.1388889  0.1388889
+2:2  0.1388889 -0.2777778  0.1388889
+3:2  0.1388889  0.1388889 -0.2777778
+1:3  0.5555556 -0.2777778 -0.2777778
+2:3 -0.2777778  0.5555556 -0.2777778
+3:3 -0.2777778 -0.2777778  0.5555556
+> 
 > ## The standardized contingency table...
-> (l - El) / sqrt(variance(ct))
+> (T - mu) / sqrt(sigma)
           1         2         3
 1  0.559017 -1.118034  0.559017
 2 -1.118034  2.236068 -1.118034
@@ -2315,6 +2406,16 @@ attr(,"conf.level")
 1  0.559017 -1.118034  0.559017
 2 -1.118034  2.236068 -1.118034
 3  0.559017 -1.118034  0.559017
+> 
+> ## The quadratic form...
+> U <- as.vector(T - mu)
+> U %*% SigmaPlus %*% U
+     [,1]
+[1,]    5
+> 
+> ## ...is identical to the test statistic
+> statistic(ct, type = "test")
+[1] 5
 > 
 > 
 > 
@@ -2575,14 +2676,14 @@ control -237
 > 
 > ## Expectation
 > expectation(poset)
-control 
-      0 
+         
+control 0
 > 
 > ## Variance
 > ## Note: typo in Rosenbaum (1994, p. 371, Sec. 2, last paragraph)
 > variance(poset)
- control 
-3097.954 
+                
+control 3097.954
 > 
 > ## Standardized statistic
 > statistic(poset)
@@ -2960,7 +3061,7 @@ alternative hypothesis: true mu is not equal to 0
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: statistic-methods
-> ### Title: Extraction of the Test Statistic and Linear Statistic
+> ### Title: Extraction of the Test Statistic and the Linear Statistic
 > ### Aliases: statistic statistic-methods
 > ###   statistic,IndependenceLinearStatistic-method
 > ###   statistic,IndependenceTestStatistic-method
@@ -3124,7 +3225,7 @@ Right.Eye                  -3.448397
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  10.51 0.22 10.73 NA NA 
+Time elapsed:  11.08 0.26 11.36 NA NA 
 > grDevices::dev.off()
 null device 
           1 

@@ -1,6 +1,65 @@
 \name{NEWS}
 \encoding{UTF-8}
 \title{News for Package \pkg{coin}}
+\section{Changes in version 1.4-0 (2021-01-15)}{
+  \subsection{New features}{
+    \itemize{
+      \item The Peto-Peto test for right-censored data is now available (see
+      \code{?logrank_test} and \code{?logrank_weight}).
+
+      \item The Moore-Penrose inverse of the conditional covariance matrix can
+      now be extracted (see \code{?covariance}).
+
+      \item For tests of conditional independence within blocks, the partial
+      linear statistic for each block and its conditional expectation and
+      variance as well as its conditional covariance and corresponding
+      Moore-Penrose inverse can now be extracted (see \code{?statistic},
+      \code{?expectation}, \code{?variance} and \code{?covariance}).
+    }
+  }
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Exact multivariate two-sample tests with quadratic test statistics
+      appeared to work but returned nonsense \eqn{p}-values; it now results in
+      an error.
+
+      \item Extraction of the standardized linear statistic from objects of
+      class \code{"IndependenceLinearStatistic"} resulted in an error.
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item Extraction of the conditional expectation or variance now returns a
+      matrix instead of a vector (for consistency with linear statistics and
+      \eqn{p}-values).
+
+      \item The test size is now computed more efficiently.
+
+      \item Documentation updates.
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item The internal storage of the linear statistic and its conditional
+      expectation and covariance, i.e., slots \code{linearstatistic},
+      \code{expectation} and \code{covariance} in classes inheriting from
+      \code{"IndependenceLinearStatistic"}, as well as the Moore-Penrose inverse
+      of the conditional covariance, i.e., slot \code{covarianceplus} in classes
+      inheriting from \code{"QuadTypeIndependenceTestStatistic"}, has been
+      changed.  In particular, the conditional covariance and its Moore-Penrose
+      inverse now use a memory-efficient packed format.
+
+      \item \R \eqn{\ge}{>=}3.6.0 and package \pkg{libcoin} \eqn{\ge}{>=}1.0-5
+      are now required.
+    }
+  }
+  \subsection{Deprecated and defunct}{
+    \itemize{
+      \item Classes \code{"Variance"}, \code{"CovarianceMatrix"} and
+      \code{"VarCovar"} are now deprecated.
+    }
+  }
+}
 \section{Changes in version 1.3-1 (2019-08-22)}{
   \subsection{Bug fixes}{
     \itemize{
@@ -90,13 +149,11 @@
   \subsection{Other changes}{
     \itemize{
       \item The linear statistic, its conditional expectation and covariance,
-      and permuted linear statistics are now computed by package \pkg{libcoin}.%% ;
-      %% asymptotic and exact \eqn{p}-values are not affected by this change, but
-      %% approximate \eqn{p}-values will differ within random variation.
+      and permuted linear statistics are now computed by package \pkg{libcoin}.
 
-      \item \code{confint()} is now an S4 method.
+      \item \code{confint()} is now an \proglang{S4} method.
 
-      \item \R version \eqn{\ge}{>=}3.4.0 and packages \pkg{stats4} and
+      \item \R \eqn{\ge}{>=}3.4.0 and packages \pkg{stats4} and
       \pkg{matrixStats} are now required.
     }
   }
@@ -206,7 +263,7 @@
   }
   \subsection{Other changes}{
     \itemize{
-      \item Version 1.0-5 of the \pkg{mvtnorm} package is now required.
+      \item Package \pkg{mvtnorm} \eqn{\ge}{>=}1.0-5 is now required.
     }
   }
 }
@@ -750,7 +807,7 @@
 }
 \section{Changes in version 1.0-0 (2008-11-06)}{
   \itemize{
-    \item JSS paper \url{http://www.jstatsoft.org/v28/i08/} documents version
+    \item JSS paper \url{https://www.jstatsoft.org/v28/i08/} documents version
     1.0-0.
 
     \item Set default for \code{<IndependenceTest>@method} to
@@ -1039,7 +1096,7 @@
     \eqn{p}-values.
 
     \item \code{I()} in \code{formula}e could still cause trouble with class
-    \code{AsIs}, now fixed.
+    \code{"AsIs"}, now fixed.
 
     \item Logical variables are now allowed in \code{formula}e (and are treated
     like \code{factor}s).
@@ -1099,7 +1156,7 @@
 }
 \section{Changes in version 0.2-13 (2005-07-11)}{
   \itemize{
-    \item \code{I()} in \code{formula}e returns objects of class \code{AsIs}
+    \item \code{I()} in \code{formula}e returns objects of class \code{"AsIs"}
     which caused troubles in \code{trafo()}.
   }
 }

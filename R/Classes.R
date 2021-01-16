@@ -1,4 +1,6 @@
-
+### <DEPRECATED>
+### Note: The "CovarianceMatrix", "Variance" and "VarCovar" classes were
+### deprecated in 1.4-0.  To be removed in 2.0-0.
 ### Covariance matrix
 setClass("CovarianceMatrix",
     slots = c(
@@ -17,6 +19,7 @@ setClass("Variance",
 setClassUnion("VarCovar",
     members = c("CovarianceMatrix", "Variance")
 )
+### </DEPRECATED>
 
 ### Class for raw data: a set of 'x' variables and a set of 'y' variables,
 ### possibly blocked and with weights
@@ -59,9 +62,9 @@ setClass("IndependenceTestProblem",
 setClass("IndependenceLinearStatistic",
     contains = "IndependenceTestProblem",
     slots = c(
-        linearstatistic = "numeric",
-        expectation     = "numeric",
-        covariance      = "VarCovar"
+        linearstatistic = "matrix",
+        expectation     = "matrix",
+        covariance      = "matrix"
     )
 )
 
@@ -99,7 +102,7 @@ setClass("MaxTypeIndependenceTestStatistic",
 setClass("QuadTypeIndependenceTestStatistic",
     contains = "IndependenceTestStatistic",
     slots = c(
-        covarianceplus = "matrix",
+        covarianceplus = "numeric",
         df             = "numeric",
         paired         = "logical"
     )

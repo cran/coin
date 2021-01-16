@@ -23,8 +23,8 @@ setMethod(".confint",
         scores <- object1@y[[1L]]
         groups <- object1@xtrans[, 1L]
         ytrafo <- object1@ytrafo
-        mu <- expectation(object1)
-        sigma <- sqrt(variance(object1))
+        mu <- as.vector(expectation(object1))
+        sigma <- sqrt(as.vector(variance(object1)))
 
         ## raw data
         x <- sort(scores[groups > 0])
@@ -125,8 +125,8 @@ setMethod(".confint",
         scores <- object1@y[[1L]]
         groups <- object1@xtrans[, 1L]
         ytrafo <- object1@ytrafo
-        mu <- expectation(object1)
-        sigma <- sqrt(variance(object1))
+        mu <- as.vector(expectation(object1))
+        sigma <- sqrt(as.vector(variance(object1)))
 
         ## raw data
         x <- sort(scores[groups > 0])

@@ -22,10 +22,31 @@ extern SEXP R_PermutedLinearStatistic
     SEXP nresample
 );
 
+extern SEXP R_quadform
+(
+    SEXP linstat,
+    SEXP expect,
+    SEXP MPinv_sym
+);
+
 extern SEXP R_kronecker
 (
     SEXP A,
     SEXP B
+);
+
+extern SEXP R_MPinv_sym
+(
+    SEXP x,
+    SEXP n,
+    SEXP tol
+);
+
+extern SEXP R_unpack_sym
+(
+    SEXP x,
+    SEXP names,
+    SEXP diagonal
 );
 
 extern SEXP R_maxstattrafo

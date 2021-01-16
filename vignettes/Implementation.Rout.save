@@ -75,9 +75,9 @@ Slot & Class \\ \hline
 \multicolumn{2}{l}{Contains \Rclass{IndependenceTestProblem}} \\
  & \\
 Slot & Class \\ \hline 
-\code{linearstatistic} & \Rclass{numeric} \\
-\code{expectation} & \Rclass{numeric} \\
-\code{covariance} & \Rclass{VarCovar} \\
+\code{linearstatistic} & \Rclass{matrix} \\
+\code{expectation} & \Rclass{matrix} \\
+\code{covariance} & \Rclass{matrix} \\
 \hline
 \end{tabular}
 \end{center}
@@ -89,12 +89,12 @@ Slot & Class \\ \hline
 control 180
 
 > expectation(ils)
-control 
-    150 
+           
+control 150
 
 > variance(ils)
- control 
-151.3043 
+                
+control 151.3043
 
 > toLatex(c2t("IndependenceTestStatistic"))
 \begin{center}
@@ -148,7 +148,7 @@ Slot & Class \\ \hline
 \multicolumn{2}{l}{Contains \Rclass{IndependenceTestStatistic}} \\
  & \\
 Slot & Class \\ \hline 
-\code{covarianceplus} & \Rclass{matrix} \\
+\code{covarianceplus} & \Rclass{numeric} \\
 \code{df} & \Rclass{numeric} \\
 \code{paired} & \Rclass{logical} \\
 \hline
@@ -361,4 +361,4 @@ alternative hypothesis: two.sided
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   2.42    0.10    2.56 
+   2.40    0.18    2.64 

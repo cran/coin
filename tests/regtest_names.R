@@ -16,8 +16,8 @@ x <- gl(2, 10, labels = c("A", "B"))
 asy_scl <- independence_test(y1 ~ x, distr = "asymptotic", teststat = "scalar")
 s <- statistic(asy_scl)
 
-stopifnot(identical(   names(    expectation(asy_scl)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(asy_scl)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(asy_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(asy_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(asy_scl)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(asy_scl, type = "test")                                          )                  )) # named in < 1.3-0
 stopifnot(identical(dimnames(      statistic(asy_scl, type = "linear")                                        ), list("A", "")   ))
@@ -50,8 +50,8 @@ rm(asy_scl, s)
 asy_qdr_u <- independence_test(y1 ~ x, distr = "asymptotic", teststat = "quadratic")
 s <- statistic(asy_qdr_u)
 
-stopifnot(identical(   names(    expectation(asy_qdr_u)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(asy_qdr_u)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(asy_qdr_u)                                                         ), list("A" , "")  )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(asy_qdr_u)                                                         ), list("A" , "")  )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(asy_qdr_u)                                                         ), list("A" , "A") ))
 stopifnot(  is.null(   names(      statistic(asy_qdr_u, type = "test")                                          )                  ))
 stopifnot(identical(dimnames(      statistic(asy_qdr_u, type = "linear")                                        ), list("A" , "")  ))
@@ -84,8 +84,8 @@ rm(asy_qdr_u, s)
 asy_mxm <- independence_test(y1 + y2 ~ x, distribution = "asymptotic", teststat = "maximum")
 s <- statistic(asy_mxm)
 
-stopifnot(identical(   names(    expectation(asy_mxm)                                                         ), c("A:y1", "A:y2")                          ))
-stopifnot(identical(   names(       variance(asy_mxm)                                                         ), c("A:y1", "A:y2")                          ))
+stopifnot(identical(dimnames(    expectation(asy_mxm)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(asy_mxm)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(asy_mxm)                                                         ), list(c("A:y1", "A:y2"), c("A:y1", "A:y2")) ))
 stopifnot(  is.null(   names(      statistic(asy_mxm, type = "test")                                          )                                             ))
 stopifnot(identical(dimnames(      statistic(asy_mxm, type = "linear")                                        ), list("A", c("y1", "y2"))                   ))
@@ -118,8 +118,8 @@ rm(asy_mxm, s)
 asy_qdr_m <- independence_test(y1 + y2 ~ x, distr = "asymptotic", teststat = "quadratic")
 s <- statistic(asy_qdr_m)
 
-stopifnot(identical(   names(    expectation(asy_qdr_m)                                                         ), c("A:y1", "A:y2")                          ))
-stopifnot(identical(   names(       variance(asy_qdr_m)                                                         ), c("A:y1", "A:y2")                          ))
+stopifnot(identical(dimnames(    expectation(asy_qdr_m)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(asy_qdr_m)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(asy_qdr_m)                                                         ), list(c("A:y1", "A:y2"), c("A:y1", "A:y2")) ))
 stopifnot(  is.null(   names(      statistic(asy_qdr_m, type = "test")                                          )                                             ))
 stopifnot(identical(dimnames(      statistic(asy_qdr_m, type = "linear")                                        ), list("A", c("y1", "y2"))                   ))
@@ -157,8 +157,8 @@ rm(asy_qdr_m, s)
 app_scl <- independence_test(y1 ~ x, distr = "approximate")
 s <- statistic(app_scl)
 
-stopifnot(identical(   names(    expectation(app_scl)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(app_scl)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(app_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(app_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(app_scl)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(app_scl, type = "test")                                          )                  )) # named in < 1.3-0
 stopifnot(identical(dimnames(      statistic(app_scl, type = "linear")                                        ), list("A", "")   ))
@@ -191,8 +191,8 @@ rm(app_scl, s)
 app_qdr_u <- independence_test(y1 ~ x, distr = "approximate", teststat = "quadratic")
 s <- statistic(app_qdr_u)
 
-stopifnot(identical(   names(    expectation(app_qdr_u)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(app_qdr_u)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(app_qdr_u)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(app_qdr_u)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(app_qdr_u)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(app_qdr_u, type = "test")                                          )                  ))
 stopifnot(identical(dimnames(      statistic(app_qdr_u, type = "linear")                                        ), list("A", "")   ))
@@ -225,8 +225,8 @@ rm(app_qdr_u, s)
 app_mxm <- independence_test(y1 + y2 ~ x, distr = "approximate", teststat = "maximum")
 s <- statistic(app_mxm)
 
-stopifnot(identical(   names(    expectation(app_mxm)                                                         ), c("A:y1", "A:y2")                          ))
-stopifnot(identical(   names(       variance(app_mxm)                                                         ), c("A:y1", "A:y2")                          ))
+stopifnot(identical(dimnames(    expectation(app_mxm)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(app_mxm)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(app_mxm)                                                         ), list(c("A:y1", "A:y2"), c("A:y1", "A:y2")) ))
 stopifnot(  is.null(   names(      statistic(app_mxm, type = "test")                                          )                                             ))
 stopifnot(identical(dimnames(      statistic(app_mxm, type = "linear")                                        ), list("A", c("y1", "y2"))                   ))
@@ -259,8 +259,8 @@ rm(app_mxm, s)
 app_qdr_m <- independence_test(y1 + y2 ~ x, distr = "approximate", teststat = "quadratic")
 s <- statistic(app_qdr_m)
 
-stopifnot(identical(   names(    expectation(app_qdr_m)                                                         ), c("A:y1", "A:y2")                          ))
-stopifnot(identical(   names(       variance(app_qdr_m)                                                         ), c("A:y1", "A:y2")                          ))
+stopifnot(identical(dimnames(    expectation(app_qdr_m)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(app_qdr_m)                                                         ), list("A", c("y1", "y2"))                   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(app_qdr_m)                                                         ), list(c("A:y1", "A:y2"), c("A:y1", "A:y2")) ))
 stopifnot(  is.null(   names(      statistic(app_qdr_m, type = "test")                                          )                                             ))
 stopifnot(identical(dimnames(      statistic(app_qdr_m, type = "linear")                                        ), list("A", c("y1", "y2"))                   ))
@@ -298,8 +298,8 @@ rm(app_qdr_m, s)
 shf_scl <- independence_test(y1 ~ x, distr = exact(algo = "shift"))
 s <- statistic(shf_scl)
 
-stopifnot(identical(   names(    expectation(shf_scl)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(shf_scl)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(shf_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(shf_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(shf_scl)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(shf_scl, type = "test")                                          )                  )) # named in < 1.3-0
 stopifnot(identical(dimnames(      statistic(shf_scl, type = "linear")                                        ), list("A", "")   ))
@@ -332,8 +332,8 @@ rm(shf_scl, s)
 shf_qdr_u <- independence_test(y1 ~ x, distr = exact(algo = "shift"), teststat = "quadratic")
 s <- statistic(shf_qdr_u)
 
-stopifnot(identical(   names(    expectation(shf_qdr_u)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(shf_qdr_u)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(shf_qdr_u)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(shf_qdr_u)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(shf_qdr_u)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(shf_qdr_u, type = "test")                                          )                  ))
 stopifnot(identical(dimnames(      statistic(shf_qdr_u, type = "linear")                                        ), list("A", "")   ))
@@ -371,8 +371,8 @@ rm(shf_qdr_u, s)
 spl_scl <- independence_test(y1 ~ x, distr = exact(algo = "split"))
 s <- statistic(spl_scl)
 
-stopifnot(identical(   names(    expectation(spl_scl)                                                         ), "A"             ))
-stopifnot(identical(   names(       variance(spl_scl)                                                         ), "A"             ))
+stopifnot(identical(dimnames(    expectation(spl_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
+stopifnot(identical(dimnames(       variance(spl_scl)                                                         ), list("A", "")   )) # non-matrix in < 1.4-0
 stopifnot(identical(dimnames(     covariance(spl_scl)                                                         ), list("A", "A")  ))
 stopifnot(  is.null(   names(      statistic(spl_scl, type = "test")                                          )                  )) # named in < 1.3-0
 stopifnot(identical(dimnames(      statistic(spl_scl, type = "linear")                                        ), list("A", "")   ))

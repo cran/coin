@@ -98,7 +98,7 @@
 
   Birch, M. W.  (1965).  The detection of partial association, II: The general
   case.  \emph{Journal of the Royal Statistical Society} B \bold{27}(1),
-  111--124.
+  111--124.  \doi{10.1111/j.2517-6161.1965.tb00593.x}
 
   Cochran, W. G.  (1950).  The comparison of percentages in matched
   samples.  \emph{Biometrika} \bold{37}(3/4), 256--266.

@@ -4,8 +4,6 @@ set.seed(290875)
 library("coin")
 isequal <- coin:::isequal
 options(useFancyQuotes = FALSE)
-if (getRversion() < "3.5.0")
-    isFALSE <- function(x) identical(FALSE, x)
 
 
 ###
