@@ -586,17 +586,17 @@ it2 <- independence_test(y ~ x,  scores = list(x = 2:1)) # wrong sign
 stopifnot(identical(statistic(it1), -statistic(it2)))
 
 ### 'of_trafo' didn't return normalized scores in 2-level cases using 'scores'
-x <- gl(2, 1, ordered = TRUE)
-stopifnot(identical(of_trafo(x),                            # was OK
+of <- gl(2, 1, ordered = TRUE)
+stopifnot(identical(of_trafo(of),                            # was OK
                     matrix(c(0, 1), dimnames = list(1:2))))
-stopifnot(identical(of_trafo(x, scores = 1:2),              # was 1:2
+stopifnot(identical(of_trafo(of, scores = 1:2),              # was 1:2
                     matrix(c(0, 1), dimnames = list(1:2))))
-stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
+stopifnot(identical(of_trafo(of, scores = 2:1),              # was 2:1
                     matrix(c(1, 0), dimnames = list(1:2))))
 
 ### 'logrank_trafo' didn't make sure input was right-censored
-y <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
-try(logrank_trafo(y))
+s <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
+try(logrank_trafo(s))
 
 ### 'ofmaxstat_trafo' had the labeling wrong
 of <- ordered(c(1, 1, 2, 3, 3, 4))
@@ -609,3 +609,6 @@ statistic(ils, type = "standardized")
 ### exact appeared to work for multivariate quadratic two-sample tests
 tab <- as.table(matrix(c(5, 14, 8, 4, 25, 5, 32, 6), nrow = 2))
 try(independence_test(tab, distr = exact(), teststat = "quad"))
+
+### partial matching of teststat
+it <- independence_test(y ~ x, test = "quadratic")

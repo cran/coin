@@ -70,29 +70,29 @@ setMethod("pvalue",
                 callNextMethod(object, ...)
             else if (method == "single-step") {
                 if (distribution == "joint")
-                    joint(object, stepdown = FALSE, ...)
+                    .joint(object, stepdown = FALSE, ...)
                 else {
                     if (type == "Bonferroni")
-                        marginal(object, stepdown = FALSE,
-                                 bonferroni = TRUE, ...)
+                        .marginal(object, stepdown = FALSE,
+                                  bonferroni = TRUE, ...)
                     else
-                        marginal(object, stepdown = FALSE,
-                                 bonferroni = FALSE, ...)
+                        .marginal(object, stepdown = FALSE,
+                                  bonferroni = FALSE, ...)
                 }
             } else if (method == "step-down") {
                 if (distribution == "joint")
-                    joint(object, stepdown = TRUE, ...)
+                    .joint(object, stepdown = TRUE, ...)
                 else {
                     if (type == "Bonferroni")
-                        marginal(object, stepdown = TRUE,
-                                 bonferroni = TRUE, ...)
+                        .marginal(object, stepdown = TRUE,
+                                  bonferroni = TRUE, ...)
                     else
-                        marginal(object, stepdown = TRUE,
-                                 bonferroni = FALSE, ...)
+                        .marginal(object, stepdown = TRUE,
+                                  bonferroni = FALSE, ...)
                 }
             }
             else
-                unadjusted(object, ...)
+                .unadjusted(object, ...)
     }
 )
 

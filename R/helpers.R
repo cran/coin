@@ -82,8 +82,8 @@ copyslots <- function(source, target) {
     target
 }
 
-ft <- function(test, class, formula, data = list(), subset = NULL,
-    weights = NULL, ...) {
+ft <- function(name, class, formula, data = list(), subset = NULL,
+               weights = NULL, ...) {
 
     object <- formula2data(formula, data, subset, weights = weights, ...)
     object <- new(class, x = object$x, y = object$y, block = object$block,
@@ -92,11 +92,11 @@ ft <- function(test, class, formula, data = list(), subset = NULL,
     args$frame <- NULL
 
     ## warn users of weighted rank tests
-    if (test %in% ranktests && !is.null(object@weights) &&
+    if (name %in% ranktests && !is.null(object@weights) &&
         !is_unity(object@weights))
         warning("rank transformation doesn't take weights into account")
 
-    do.call(test, c(list(object = object), args))
+    do.call(name, c(list(object = object), args))
 }
 
 ranktests <-

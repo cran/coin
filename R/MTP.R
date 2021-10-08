@@ -1,12 +1,12 @@
-### joint distribution-based max-T multiple testing procedures
-### (Westfall and Young, 1993)
-setGeneric("joint",
+### *internal* methods for computing adjusted p-values based on the joint
+### distribution of standardized test statistics (Westfall and Young, 1993)
+setGeneric(".joint",
     function(object1, object2, ...) {
-        standardGeneric("joint")
+        standardGeneric(".joint")
     }
 )
 
-setMethod("joint",
+setMethod(".joint",
     signature = list("MaxTypeIndependenceTestStatistic", "NullDistribution"),
     definition = function(object1, object2, stepdown, ...) {
         if (!stepdown) {
@@ -41,7 +41,7 @@ setMethod("joint",
     }
 )
 
-setMethod("joint",
+setMethod(".joint",
     signature = list("MaxTypeIndependenceTestStatistic", "AsymptNullDistribution"),
     definition = function(object1, object2, stepdown, ...) {
         if (!stepdown) {
@@ -92,7 +92,7 @@ setMethod("joint",
     }
 )
 
-setMethod("joint",
+setMethod(".joint",
     signature = list("MaxTypeIndependenceTestStatistic", "ApproxNullDistribution"),
     definition = function(object1, object2, stepdown, ...) {
         if (!stepdown) {
@@ -133,7 +133,7 @@ setMethod("joint",
     }
 )
 
-setMethod("joint",
+setMethod(".joint",
     signature = list("MaxTypeIndependenceTest", "missing"),
     definition = function(object1, object2, stepdown, ...) {
         callGeneric(object1@statistic, object1@distribution, stepdown, ...)
@@ -141,15 +141,16 @@ setMethod("joint",
 )
 
 
-### marginal distribution-based max-T multiple testing procedures
-### (Westfall and Wolfinger, 1997; Westfall and Troendle, 2008)
-setGeneric("marginal",
+### *internal* methods for computing adjusted p-values using the marginal
+### distributions of standardized test statistics (Westfall and Wolfinger, 1997;
+### Westfall and Troendle, 2008)
+setGeneric(".marginal",
     function(object1, object2, ...) {
-        standardGeneric("marginal")
+        standardGeneric(".marginal")
     }
 )
 
-setMethod("marginal",
+setMethod(".marginal",
     signature = list("MaxTypeIndependenceTestStatistic", "AsymptNullDistribution"),
     definition = function(object1, object2, stepdown, bonferroni, ...) {
         ## unadjusted p-values
@@ -182,7 +183,7 @@ setMethod("marginal",
     }
 )
 
-setMethod("marginal",
+setMethod(".marginal",
     signature = list("MaxTypeIndependenceTestStatistic", "ApproxNullDistribution"),
     definition = function(object1, object2, stepdown, bonferroni, ...) {
         switch(object1@alternative,
@@ -238,7 +239,7 @@ setMethod("marginal",
     }
 )
 
-setMethod("marginal",
+setMethod(".marginal",
     signature = list("MaxTypeIndependenceTest", "missing"),
     definition = function(object1, object2, stepdown, bonferroni, ...) {
         callGeneric(object1@statistic, object1@distribution, stepdown, bonferroni, ...)
@@ -246,14 +247,14 @@ setMethod("marginal",
 )
 
 
-### unadjusted p-values
-setGeneric("unadjusted",
+### *internal* methods for computing unadjusted p-values
+setGeneric(".unadjusted",
     function(object1, object2, ...) {
-        standardGeneric("unadjusted")
+        standardGeneric(".unadjusted")
     }
 )
 
-setMethod("unadjusted",
+setMethod(".unadjusted",
     signature = list("MaxTypeIndependenceTestStatistic", "AsymptNullDistribution"),
     definition = function(object1, object2, ...) {
         z <- statistic(object1, type = "standardized")
@@ -270,7 +271,7 @@ setMethod("unadjusted",
     }
 )
 
-setMethod("unadjusted",
+setMethod(".unadjusted",
     signature = list("MaxTypeIndependenceTestStatistic", "ApproxNullDistribution"),
     definition = function(object1, object2, ...) {
         ## standardized observed and permuted test statistics
@@ -300,7 +301,7 @@ setMethod("unadjusted",
     }
 )
 
-setMethod("unadjusted",
+setMethod(".unadjusted",
     signature = list("MaxTypeIndependenceTest", "missing"),
     definition = function(object1, object2, ...) {
         callGeneric(object1@statistic, object1@distribution, ...)
@@ -308,7 +309,11 @@ setMethod("unadjusted",
 )
 
 
-### compute p-values under subset pivotality (Westfall, 1997)
+###
+### Currently unused
+###
+
+### compute adjusted p-values under subset pivotality (Westfall, 1997)
 npmcp <- function(object) {
 
     ## extract from object

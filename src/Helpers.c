@@ -2,7 +2,7 @@
     Some additional functionality for package 'coin'
     *\file Helpers.c
     *\author $Author: hnilsson $
-    *\date $Date: 2019-12-03 16:58:07 +0100 (Tue, 03 Dec 2019) $
+    *\date $Date: 2021-03-24 23:09:35 +0100 (Wed, 24 Mar 2021) $
 */
 
 #include "coin_common.h"
@@ -30,20 +30,11 @@ SEXP R_kronecker(SEXP A, SEXP B) {
 }
 
 SEXP R_MPinv_sym(SEXP x, SEXP n, SEXP tol) {
-    SEXP m;
-
-    PROTECT(m = allocVector(INTSXP, 1));
-    if (INTEGER(n)[0] > 0)
-        INTEGER(m)[0] = INTEGER(n)[0];
-    else
-        INTEGER(m)[0] = (sqrt(1 + 8 * LENGTH(x)) - 1) / 2;
-
-    UNPROTECT(1);
-    return(libcoin_R_MPinv_sym(x, m, tol));
+    return(libcoin_R_MPinv_sym(x, n, tol));
 }
 
 SEXP R_unpack_sym(SEXP x, SEXP names, SEXP diagonly) {
-    return(libcoin_R_unpack_sym( x,  names,  diagonly));
+    return(libcoin_R_unpack_sym(x, names, diagonly));
 }
 
 int nrow(SEXP x) {

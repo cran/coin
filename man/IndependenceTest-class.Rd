@@ -12,7 +12,7 @@
 \alias{show,QuadTypeIndependenceTest-method}
 \alias{show,ScalarIndependenceTest-method}
 \alias{show,ScalarIndependenceTestConfint-method}
-\title{Class \code{"IndependenceTest"} and its subclasses}
+\title{Class \code{"IndependenceTest"} and Its Subclasses}
 \description{
   Objects of class \code{"IndependenceTest"} and its subclasses
   \code{"MaxTypeIndependenceTest"}, \code{"QuadTypeIndependenceTest"},

@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2020-12-20 r79658) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
+R Under development (unstable) (2021-03-22 r80104) -- "Unsuffered Consequences"
+Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -964,19 +964,19 @@ Error in quade_test.SymmetryProblem(object = new("SymmetryProblem", x = structur
 > stopifnot(identical(statistic(it1), -statistic(it2)))
 > 
 > ### 'of_trafo' didn't return normalized scores in 2-level cases using 'scores'
-> x <- gl(2, 1, ordered = TRUE)
-> stopifnot(identical(of_trafo(x),                            # was OK
+> of <- gl(2, 1, ordered = TRUE)
+> stopifnot(identical(of_trafo(of),                            # was OK
 +                     matrix(c(0, 1), dimnames = list(1:2))))
-> stopifnot(identical(of_trafo(x, scores = 1:2),              # was 1:2
+> stopifnot(identical(of_trafo(of, scores = 1:2),              # was 1:2
 +                     matrix(c(0, 1), dimnames = list(1:2))))
-> stopifnot(identical(of_trafo(x, scores = 2:1),              # was 2:1
+> stopifnot(identical(of_trafo(of, scores = 2:1),              # was 2:1
 +                     matrix(c(1, 0), dimnames = list(1:2))))
 > 
 > ### 'logrank_trafo' didn't make sure input was right-censored
-> y <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
-> try(logrank_trafo(y))
-Error in logrank_trafo(y) : 
-  'y' is not of class "Surv" representing right-censored data
+> s <- Surv(1:5, event = c(1, 0, 1, 0, 1), type = "left")
+> try(logrank_trafo(s))
+Error in logrank_trafo(s) : 
+  's' is not of class "Surv" representing right-censored data
 > 
 > ### 'ofmaxstat_trafo' had the labeling wrong
 > of <- ordered(c(1, 1, 2, 3, 3, 4))
@@ -1001,6 +1001,9 @@ Error in logrank_trafo(y) :
 Error in .local(object, ...) : 
   cannot compute exact distribution with multivariate scores
 > 
+> ### partial matching of teststat
+> it <- independence_test(y ~ x, test = "quadratic")
+> 
 > proc.time()
    user  system elapsed 
-   2.39    0.12    2.57 
+   2.75    0.20    2.93 

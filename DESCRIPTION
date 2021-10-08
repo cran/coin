@@ -1,6 +1,6 @@
 Package: coin
-Version: 1.4-1
-Date: 2021-02-08
+Version: 1.4-2
+Date: 2021-10-07
 Title: Conditional Inference Procedures in a Permutation Test Framework
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org",
@@ -14,21 +14,21 @@ Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
              person("Achim", "Zeileis", role = "aut",
                     comment = c(ORCID = "0000-0003-0918-3766")))
 Description: Conditional inference procedures for the general independence
-  problem including two-sample, K-sample (non-parametric ANOVA), correlation,
-  censored, ordered and multivariate problems described in
-  <doi:10.18637/jss.v028.i08>.
+             problem including two-sample, K-sample (non-parametric ANOVA),
+             correlation, censored, ordered and multivariate problems described
+             in <doi:10.18637/jss.v028.i08>.
 Depends: R (>= 3.6.0), survival
-Imports: methods, parallel, stats, stats4, utils, libcoin (>= 1.0-5),
+Imports: methods, parallel, stats, stats4, utils, libcoin (>= 1.0-9),
         matrixStats (>= 0.54.0), modeltools (>= 0.2-9), mvtnorm (>=
         1.0-5), multcomp
 Suggests: xtable, e1071, vcd, TH.data (>= 1.0-7)
-LinkingTo: libcoin (>= 1.0-5)
+LinkingTo: libcoin (>= 1.0-9)
 LazyData: yes
 NeedsCompilation: yes
 ByteCompile: yes
 License: GPL-2
 URL: http://coin.r-forge.r-project.org
-Packaged: 2021-02-08 08:53:25 UTC; hothorn
+Packaged: 2021-10-07 13:52:08 UTC; hothorn
 Author: Torsten Hothorn [aut, cre] (<https://orcid.org/0000-0001-8301-0471>),
   Henric Winell [aut] (<https://orcid.org/0000-0001-7995-3047>),
   Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>),
@@ -36,4 +36,4 @@ Author: Torsten Hothorn [aut, cre] (<https://orcid.org/0000-0001-8301-0471>),
   Achim Zeileis [aut] (<https://orcid.org/0000-0003-0918-3766>)
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Repository: CRAN
-Date/Publication: 2021-02-08 16:50:07 UTC
+Date/Publication: 2021-10-08 08:40:15 UTC

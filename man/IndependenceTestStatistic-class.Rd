@@ -8,7 +8,7 @@
 \alias{initialize,MaxTypeIndependenceTestStatistic-method}
 \alias{initialize,QuadTypeIndependenceTestStatistic-method}
 \alias{initialize,ScalarIndependenceTestStatistic-method}
-\title{Class \code{"IndependenceTestStatistic"} and its subclasses}
+\title{Class \code{"IndependenceTestStatistic"} and Its Subclasses}
 \description{
   Objects of class \code{"IndependenceTestStatistic"} and its subclasses
   \code{"MaxTypeIndependenceTestStatistic"},

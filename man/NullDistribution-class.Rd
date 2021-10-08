@@ -4,7 +4,7 @@
 \alias{ApproxNullDistribution-class}
 \alias{AsymptNullDistribution-class}
 \alias{ExactNullDistribution-class}
-\title{Class \code{"NullDistribution"} and its subclasses}
+\title{Class \code{"NullDistribution"} and Its Subclasses}
 \description{
   Objects of class \code{"NullDistribution"} and its subclasses
   \code{"ApproxNullDistribution"}, \code{"AsymptNullDistribution"} and
