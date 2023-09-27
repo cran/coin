@@ -1,7 +1,6 @@
 \name{alpha}
 \docType{data}
 \alias{alpha}
-\encoding{UTF-8}
 \title{Genetic Components of Alcoholism}
 \description{
   Levels of expressed alpha synuclein mRNA in three groups of allele lengths of

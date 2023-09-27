@@ -12,7 +12,7 @@ setMethod("pvalue",
     signature = "PValue",
     definition = function(object, q, ...) {
         RET <- object@pvalue(q)
-        class(RET) <- "pvalue"
+        class(RET) <- c("pvalue", class(RET))
         RET
     }
 )
@@ -22,7 +22,7 @@ setMethod("pvalue",
     signature = "NullDistribution",
     definition = function(object, q, ...) {
         RET <- object@pvalue(q)
-        class(RET) <- c("pvalue", "numeric")
+        class(RET) <- c("pvalue", class(RET))
         RET
     }
 )
@@ -108,7 +108,7 @@ setMethod("midpvalue",
     signature = "NullDistribution",
     definition = function(object, q, ...) {
         RET <- object@midpvalue(q)
-        class(RET) <- c("pvalue", "numeric")
+        class(RET) <- c("pvalue", class(RET))
         RET
     }
 )
@@ -462,7 +462,8 @@ setMethod(".covariance",
             if (invert) {
                 mp_rank <- integer(r)
                 for (i in seq_len(r)) {
-                    mp <- .Call(R_MPinv_sym, RET[, i], 0L, sqrt_eps)
+                    mp <- .Call(R_MPinv_sym,
+                                x = RET[, i], n = 0L, tol = sqrt_eps)
                     RET[, i] <- mp$MPinv
                     mp_rank[i] <- mp$rank
                 }
@@ -472,7 +473,8 @@ setMethod(".covariance",
             if (r > 1)
                 RET <- rowSums(RET)
             if (invert) {
-                mp <- .Call(R_MPinv_sym, RET, 0L, sqrt_eps)
+                mp <- .Call(R_MPinv_sym,
+                            x = RET, n = 0L, tol = sqrt_eps)
                 RET <- mp$MPinv
                 mp_rank <- mp$rank
             }
@@ -512,7 +514,8 @@ setMethod("covariance",
         r <- ncol(RET)
         nm <- statnames(object)
         RET <- unlist(lapply(seq_len(r), function(i)
-            .Call(R_unpack_sym, RET[, i], NULL, 0L)))
+            .Call(R_unpack_sym,
+                  x = RET[, i], names = NULL, diagonly = 0L)))
         if (r > 1 && partial)
             setAttributes(RET, list(dim = c(pq, pq, r),
                                     dimnames = list(nm$names, nm$names,
@@ -528,7 +531,8 @@ setMethod("covariance",
     definition = function(object, invert = FALSE, partial = FALSE, ...) {
         nm <- statnames(object)$names
         if (invert && !partial) {
-            .Call(R_unpack_sym, object@covarianceplus, nm, 0L)
+            .Call(R_unpack_sym,
+                  x = object@covarianceplus, names = nm, diagonly = 0L)
         } else
             callNextMethod(object, invert, partial, ...)
     }
@@ -554,8 +558,9 @@ setMethod(".variance",
     definition = function(object, partial, ...) {
         RET <- object@covariance
         r <- ncol(RET)
-        RET <- do.call("cbind", lapply(seq_len(r), function(i)
-            .Call(R_unpack_sym, RET[, i], NULL, 1L)))
+        RET <- do.call(cbind, lapply(seq_len(r), function(i)
+            .Call(R_unpack_sym,
+                  x = RET[, i], names = NULL, diagonly = 1L)))
         if (r > 1 && !partial)
             RET <- as.matrix(rowSums(RET))
         RET

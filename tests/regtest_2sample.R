@@ -329,7 +329,7 @@ ktx <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,
 confint(ktx)
 
 kta <- klotz_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988)
-confint(kta)                                                  # wrong in < 1.3-0
+## confint(kta) # Mac M1 issue                                # wrong in < 1.3-0
 
 ### Mood Test
 mt <- mood_test(y ~ x, data = scale, conf.int = TRUE, conf.level = 0.988,

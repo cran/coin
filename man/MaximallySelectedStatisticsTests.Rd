@@ -4,7 +4,6 @@
 \alias{maxstat_test.table}
 \alias{maxstat_test.IndependenceProblem}
 \concept{Generalized maximally selected statistics}
-\encoding{UTF-8}
 \title{Generalized Maximally Selected Statistics}
 \description{
   Testing the independence of two sets of variables measured on arbitrary scales
@@ -12,18 +11,18 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\method{maxstat_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{maxstat_test}{table}(object, \dots)
+\method{maxstat_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{maxstat_test}{table}(object, ...)
 \method{maxstat_test}{IndependenceProblem}(object, teststat = c("maximum", "quadratic"),
              distribution = c("asymptotic", "approximate", "none"),
-             minprob = 0.1, maxprob = 1 - minprob, \dots)
+             minprob = 0.1, maxprob = 1 - minprob, ...)
 }
 \arguments{
   \item{formula}{
     a formula of the form \code{y1 + ... + yq ~ x1 + ... + xp | block} where
-    \code{y1}, \dots, \code{yq} and \code{x1}, \dots, \code{xp} are measured on
-    arbitrary scales (nominal, ordinal or continuous with or without censoring)
-    and \code{block} is an optional factor for stratification.
+    \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots, \code{xp} are measured
+    on arbitrary scales (nominal, ordinal or continuous with or without
+    censoring) and \code{block} is an optional factor for stratification.
   }
   \item{data}{
     an optional data frame containing the variables in the model formula.
@@ -57,19 +56,19 @@
   \item{minprob}{
     a numeric, a fraction between 0 and 0.5 specifying that cutpoints only
     greater than the \code{minprob} \eqn{\cdot}{*} 100\% quantile of \code{x1},
-    \dots, \code{xp} are considered.  Defaults to \code{0.1}.
+    \ldots, \code{xp} are considered.  Defaults to \code{0.1}.
   }
   \item{maxprob}{
     a numeric, a fraction between 0.5 and 1 specifying that cutpoints only
     smaller than the \code{maxprob} \eqn{\cdot}{*} 100\% quantile of \code{x1},
-    \dots, \code{xp} are considered.  Defaults to \code{1 - minprob}.
+    \ldots, \code{xp} are considered.  Defaults to \code{1 - minprob}.
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{independence_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{independence_test}()}.
   }
 }
 \details{
-  \code{maxstat_test} provides generalized maximally selected statistics.  The
+  \code{maxstat_test()} provides generalized maximally selected statistics.  The
   family of maximally selected statistics encompasses a large collection of
   procedures used for the estimation of simple cutpoint models including, but
   not limited to, maximally selected \eqn{\chi^2}{chi^2} statistics, maximally
@@ -78,9 +77,9 @@
   of these methods is given by Hothorn and Zeileis (2008).
 
   The null hypothesis of independence, or conditional independence given
-  \code{block}, between \code{y1}, \dots, \code{yq} and \code{x1}, \dots,
+  \code{block}, between \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots,
   \code{xp} is tested against cutpoint alternatives.  All possible partitions
-  into two groups are evaluated for each unordered covariate \code{x1}, \dots,
+  into two groups are evaluated for each unordered covariate \code{x1}, \ldots,
   \code{xp}, whereas only order-preserving binary partitions are evaluated for
   ordered or numeric covariates.  The cutpoint is then a set of levels defining
   one of the two groups.
@@ -92,11 +91,11 @@
   is a rank transformed numeric variable and \code{x1} is a numeric variable
   (Lausen and Schumacher, 1992).  Lausen \emph{et al.} (2004) introduced
   maximally selected statistics for a univariable numeric response and multiple
-  numeric covariates \code{x1}, \dots, \code{xp}.
+  numeric covariates \code{x1}, \ldots, \code{xp}.
 
   If, say, \code{y1} and/or \code{x1} are ordered factors, the default scores,
-  \code{1:nlevels(y1)} and \code{1:nlevels(x1)} respectively, can be altered
-  using the \code{scores} argument (see \code{\link{independence_test}}); this
+  \code{1:nlevels(y1)} and \code{1:nlevels(x1)}, respectively, can be altered
+  using the \code{scores} argument (see \code{\link{independence_test}()}); this
   argument can also be used to coerce nominal factors to class \code{"ordered"}.
   If both, say, \code{y1} and \code{x1} are ordered factors, a linear-by-linear
   association test is computed and the direction of the alternative hypothesis
@@ -109,8 +108,8 @@
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling by setting
-  \code{distribution} to \code{"approximate"}.  See \code{\link{asymptotic}} and
-  \code{\link{approximate}} for details.
+  \code{distribution} to \code{"approximate"}.  See \code{\link{asymptotic}()}
+  and \code{\link{approximate}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
@@ -118,7 +117,7 @@
 \note{
   Starting with \pkg{coin} version 1.1-0, maximum statistics and quadratic forms
   can no longer be specified using \code{teststat = "maxtype"} and
-  \code{teststat = "quadtype"} respectively (as was used in versions prior to
+  \code{teststat = "quadtype"}, respectively (as was used in versions prior to
   0.4-5).
 }
 \references{

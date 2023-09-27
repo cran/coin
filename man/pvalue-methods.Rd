@@ -20,7 +20,6 @@
 \alias{size-methods}
 \alias{size,NullDistribution-method}
 \alias{size,IndependenceTest-method}
-\encoding{UTF-8}
 \title{Computation of the \eqn{p}-Value, Mid-\eqn{p}-Value, \eqn{p}-Value
   Interval and Test Size}
 \description{
@@ -29,24 +28,24 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\S4method{pvalue}{PValue}(object, q, \dots)
-\S4method{pvalue}{NullDistribution}(object, q, \dots)
-\S4method{pvalue}{ApproxNullDistribution}(object, q, \dots)
-\S4method{pvalue}{IndependenceTest}(object, \dots)
+\S4method{pvalue}{PValue}(object, q, ...)
+\S4method{pvalue}{NullDistribution}(object, q, ...)
+\S4method{pvalue}{ApproxNullDistribution}(object, q, ...)
+\S4method{pvalue}{IndependenceTest}(object, ...)
 \S4method{pvalue}{MaxTypeIndependenceTest}(object, method = c("global", "single-step",
                           "step-down", "unadjusted"),
        distribution = c("joint", "marginal"),
-       type = c("Bonferroni", "Sidak"), \dots)
+       type = c("Bonferroni", "Sidak"), ...)
 
-\S4method{midpvalue}{NullDistribution}(object, q, \dots)
-\S4method{midpvalue}{ApproxNullDistribution}(object, q, \dots)
-\S4method{midpvalue}{IndependenceTest}(object, \dots)
+\S4method{midpvalue}{NullDistribution}(object, q, ...)
+\S4method{midpvalue}{ApproxNullDistribution}(object, q, ...)
+\S4method{midpvalue}{IndependenceTest}(object, ...)
 
-\S4method{pvalue_interval}{NullDistribution}(object, q, \dots)
-\S4method{pvalue_interval}{IndependenceTest}(object, \dots)
+\S4method{pvalue_interval}{NullDistribution}(object, q, ...)
+\S4method{pvalue_interval}{IndependenceTest}(object, ...)
 
-\S4method{size}{NullDistribution}(object, alpha, type = c("p-value", "mid-p-value"), \dots)
-\S4method{size}{IndependenceTest}(object, alpha, type = c("p-value", "mid-p-value"), \dots)
+\S4method{size}{NullDistribution}(object, alpha, type = c("p-value", "mid-p-value"), ...)
+\S4method{size}{IndependenceTest}(object, alpha, type = c("p-value", "mid-p-value"), ...)
 }
 \arguments{
   \item{object}{
@@ -78,16 +77,16 @@
     a numeric, the nominal significance level \eqn{\alpha} at which the test size
     is computed.
   }
-  \item{\dots}{
+  \item{...}{
     further arguments (currently ignored).
   }
 }
 \details{
   The methods \code{pvalue}, \code{midpvalue}, \code{pvalue_interval} and
   \code{size} compute the \eqn{p}-value, mid-\eqn{p}-value, \eqn{p}-value
-  interval and test size respectively.
+  interval and test size, respectively.
 
-  For \code{pvalue}, the global \eqn{p}-value (\code{method = "global"}) is
+  For \code{pvalue()}, the global \eqn{p}-value (\code{method = "global"}) is
   returned by default and is given with an associated 99\% confidence interval
   when resampling is used to determine the null distribution (which for maximum
   statistics may be true even in the asymptotic case).
@@ -106,13 +105,13 @@
 
   Assuming \emph{subset pivotality}, single-step or \emph{free} step-down
   adjusted \eqn{p}-values using max-\eqn{T} procedures are obtained by setting
-  \code{method} to \code{"single-step"} or \code{"step-down"} respectively.  In
+  \code{method} to \code{"single-step"} or \code{"step-down"}, respectively.  In
   both cases, the \code{distribution} argument specifies whether the adjustment
   is based on the joint distribution (\code{"joint"}) or the marginal
   distributions (\code{"marginal"}) of the test statistics.  For procedures
   based on the marginal distributions, Bonferroni- or \enc{Šidák}{Sidak}-type
   adjustment can be specified through the \code{type} argument by setting it to
-  \code{"Bonferroni"} or \code{"Sidak"} respectively.
+  \code{"Bonferroni"} or \code{"Sidak"}, respectively.
 
   The \eqn{p}-value adjustment procedures based on the joint distribution of the
   test statistics fully utilizes distributional characteristics, such as
@@ -121,7 +120,7 @@
   distribution-based procedures are typically more powerful.  Details regarding
   the single-step and \emph{free} step-down procedures based on the joint
   distribution can be found in Westfall and Young (1993); in particular, this
-  implementation uses Equation 2.8 with Algorithm 2.5 and 2.8 respectively.
+  implementation uses Equation 2.8 with Algorithm 2.5 and 2.8, respectively.
   Westfall and Wolfinger (1997) provide details of the marginal
   distributions-based single-step and \emph{free} step-down procedures.  The
   generalization of Westfall and Wolfinger (1997) to arbitrary test statistics,
@@ -129,22 +128,22 @@
 
   Unadjusted \eqn{p}-values are obtained using \code{method = "unadjusted"}.
 
-  For \code{midpvalue}, the global mid-\eqn{p}-value is given with an associated
-  99\% mid-\eqn{p} confidence interval when resampling is used to determine the
-  null distribution.  The two-sided mid-\eqn{p}-value is computed according to
-  the minimum likelihood method (Hirji \emph{et al.}, 1991).
+  For \code{midpvalue()}, the global mid-\eqn{p}-value is given with an
+  associated 99\% mid-\eqn{p} confidence interval when resampling is used to
+  determine the null distribution.  The two-sided mid-\eqn{p}-value is computed
+  according to the minimum likelihood method (Hirji \emph{et al.}, 1991).
 
-  The \eqn{p}-value interval \eqn{(p_0, p_1]} obtained by \code{pvalue_interval}
-  was proposed by Berger (2000, 2001), where the upper endpoint \eqn{p_1} is the
-  conventional \eqn{p}-value and the mid-point, i.e., \eqn{p_{0.5}}{p_0.5}, is
-  the mid-\eqn{p}-value.  The lower endpoint \eqn{p_0} is the smallest
-  \eqn{p}-value attainable if no conservatism attributable to the discreteness
-  of the null distribution is present.  The length of the \eqn{p}-value interval
-  is the null probability of the observed outcome and provides a data-dependent
-  measure of conservatism that is completely independent of the nominal
-  significance level.
+  The \eqn{p}-value interval \eqn{(p_0, p_1]} obtained by
+  \code{pvalue_interval()} was proposed by Berger (2000, 2001), where the upper
+  endpoint \eqn{p_1} is the conventional \eqn{p}-value and the mid-point, i.e.,
+  \eqn{p_{0.5}}{p_0.5}, is the mid-\eqn{p}-value.  The lower endpoint \eqn{p_0}
+  is the smallest \eqn{p}-value attainable if no conservatism attributable to
+  the discreteness of the null distribution is present.  The length of the
+  \eqn{p}-value interval is the null probability of the observed outcome and
+  provides a data-dependent measure of conservatism that is completely
+  independent of the nominal significance level.
 
-  For \code{size}, the test size, i.e., the actual significance level, at the
+  For \code{size()}, the test size, i.e., the actual significance level, at the
   nominal significance level \eqn{\alpha} is computed using either the rejection
   region corresponding to the \eqn{p}-value (\code{type = "p-value"}, default)
   or the mid-\eqn{p}-value (\code{type = "mid-p-value"}).  The test size is, in
@@ -163,13 +162,13 @@
 \note{
   The mid-\eqn{p}-value, \eqn{p}-value interval and test size of asymptotic
   permutation distributions or exact permutation distributions obtained by the
-  split-up algoritm is reported as \code{NA}.
+  split-up algorithm is reported as \code{NA}.
 
   In versions of \pkg{coin} prior to 1.1-0, a min-\eqn{P} procedure computing
   \enc{Šidák}{Sidak} single-step adjusted \eqn{p}-values accounting for
-  discreteness was available when specifying \code{method = "discrete"}.
-  \strong{This is now deprecated and will be removed in a future release} due to
-  the introduction of a more general max-\eqn{T} version of the same algorithm.
+  discreteness was available when specifying \code{method = "discrete"}.  This
+  was made \strong{defunct} in version 1.2-0 due to the introduction of a more
+  general max-\eqn{T} version of the same algorithm.
 }
 \references{
   Berger, V. W.  (2000).  Pros and cons of permutation tests in clinical trials.

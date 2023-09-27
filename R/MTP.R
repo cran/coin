@@ -32,7 +32,7 @@ setMethod(".joint",
 
             RET <- matrix(RET[order(o)], nrow = nrow(z), ncol = ncol(z),
                           dimnames = dimnames(z))
-            class(RET) <- c("pvalue", "matrix")
+            class(RET) <- c("pvalue", class(RET))
             RET
         } else {
             stop("cannot compute step-down adjusted p-values for objects of class ",
@@ -86,7 +86,7 @@ setMethod(".joint",
 
             RET <- matrix(RET[order(o)], nrow = nrow(z), ncol = ncol(z),
                           dimnames = dimnames(z))
-            class(RET) <- c("pvalue", "matrix")
+            class(RET) <- c("pvalue", class(RET))
             RET
         }
     }
@@ -125,7 +125,7 @@ setMethod(".joint",
 
             RET <- matrix(RET[order(o)], nrow = nrow(z), ncol = ncol(z),
                           dimnames = dimnames(z))
-            class(RET) <- c("pvalue", "matrix")
+            class(RET) <- c("pvalue", class(RET))
         }
 
         attr(RET, "nresample") <- object2@nresample
@@ -178,7 +178,7 @@ setMethod(".marginal",
 
         RET <- matrix(RET, nrow = nrow(z), ncol = ncol(z),
                       dimnames = dimnames(z))
-        class(RET) <- c("pvalue", "matrix")
+        class(RET) <- c("pvalue", class(RET))
         RET
     }
 )
@@ -233,7 +233,7 @@ setMethod(".marginal",
             RET <- cummax(RET)[order(o)] # enforce monotonicity
 
         attributes(RET) <- a # set dim and dimnames
-        class(RET) <- c("pvalue", "matrix")
+        class(RET) <- c("pvalue", class(RET))
         attr(RET, "nresample") <- object2@nresample
         RET
     }
@@ -266,7 +266,7 @@ setMethod(".unadjusted",
 
         RET <- matrix(RET, nrow = nrow(z), ncol = ncol(z),
                       dimnames = dimnames(z))
-        class(RET) <- c("pvalue", "matrix")
+        class(RET) <- c("pvalue", class(RET))
         RET
     }
 )
@@ -295,7 +295,7 @@ setMethod(".unadjusted",
 
         RET <- matrix(RET, nrow = nrow(z), ncol = ncol(z),
                       dimnames = dimnames(z))
-        class(RET) <- c("pvalue", "matrix")
+        class(RET) <- c("pvalue", class(RET))
         attr(RET, "nresample") <- object2@nresample
         RET
     }

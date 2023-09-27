@@ -1,7 +1,6 @@
 \name{ocarcinoma}
 \docType{data}
 \alias{ocarcinoma}
-\encoding{UTF-8}
 \title{Ovarian Carcinoma}
 \description{
   Survival times of 35 women suffering from ovarian carcinoma at stadium II and

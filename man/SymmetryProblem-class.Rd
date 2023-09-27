@@ -9,9 +9,9 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \section{Objects from the Class}{
-  Objects can be created by calls of the form \preformatted{     new("SymmetryProblem", x, y, block = NULL, weights = NULL, \dots)}
+  Objects can be created by calls of the form \preformatted{     new("SymmetryProblem", x, y, block = NULL, weights = NULL, ...)}
   where \code{x} and \code{y} are data frames containing the variables
-  \eqn{\mathbf{X}}{X} and \eqn{\mathbf{Y}}{Y} respectively, \code{block} is an
+  \eqn{\mathbf{X}}{X} and \eqn{\mathbf{Y}}{Y}, respectively, \code{block} is an
   optional factor representing the block structure \eqn{b} and \code{weights} is
   an optional integer vector corresponding to the case weights \eqn{w}.
 }
@@ -27,7 +27,8 @@
       Object of class \code{"factor"}.  The block structure.
     }
     \item{\code{weights}:}{
-      Object of class \code{"numeric"}.  The case weights.
+      Object of class \code{"numeric"}.  The case weights.  (Not yet
+      implemented!)
     }
   }
 }
@@ -38,7 +39,7 @@
   \describe{
     \item{initialize}{
       \code{signature(.Object = "SymmetryProblem")}: See the documentation for
-      \code{\link[methods:new]{initialize}} (in package \pkg{methods}) for
+      \code{\link[methods:new]{initialize}()} (in package \pkg{methods}) for
       details.
     }
   }

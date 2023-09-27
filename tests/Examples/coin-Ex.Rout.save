@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2020-08-20 r79057) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R Under development (unstable) (2023-07-23 r84741 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -1915,7 +1915,7 @@ Quade F = 8.3765, num df = 2, denom df = 12, p-value = 0.005284
 > 
 > ## quade.test() uses an F-statistic
 > b <- nlevels(qt@statistic@block)
-> A <- sum(qt@statistic@y^2)
+> A <- sum(qt@statistic@ytrans^2)
 > B <- sum(statistic(qt, type = "linear")^2) / b
 > (b - 1) * B / (A - B) # F = 8.3765
 [1] 8.376528
@@ -2314,9 +2314,7 @@ attr(,"conf.level")
 > ### Keywords: methods
 > 
 > ### ** Examples
-> ## Don't show: 
-> suppressWarnings(RNGversion("3.5.2")); set.seed(711109)
-> ## End(Don't show)
+> 
 > ## Example data
 > dta <- data.frame(
 +     y = gl(3, 2),
@@ -2330,8 +2328,8 @@ attr(,"conf.level")
 > (T <- statistic(ct, type = "linear"))
   1 2 3
 1 1 0 1
-2 0 2 0
-3 1 0 1
+2 1 1 0
+3 0 1 1
 > 
 > ## ...and its expectation...
 > (mu <- expectation(ct))
@@ -2397,25 +2395,25 @@ attr(,"conf.level")
 > (T - mu) / sqrt(sigma)
           1         2         3
 1  0.559017 -1.118034  0.559017
-2 -1.118034  2.236068 -1.118034
-3  0.559017 -1.118034  0.559017
+2  0.559017  0.559017 -1.118034
+3 -1.118034  0.559017  0.559017
 > 
 > ## ...is identical to the standardized linear statistic
 > statistic(ct, type = "standardized")
           1         2         3
 1  0.559017 -1.118034  0.559017
-2 -1.118034  2.236068 -1.118034
-3  0.559017 -1.118034  0.559017
+2  0.559017  0.559017 -1.118034
+3 -1.118034  0.559017  0.559017
 > 
 > ## The quadratic form...
 > U <- as.vector(T - mu)
 > U %*% SigmaPlus %*% U
      [,1]
-[1,]    5
+[1,]  2.5
 > 
 > ## ...is identical to the test statistic
 > statistic(ct, type = "test")
-[1] 5
+[1] 2.5
 > 
 > 
 > 
@@ -3225,7 +3223,7 @@ Right.Eye                  -3.448397
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  11.08 0.26 11.36 NA NA 
+Time elapsed:  13.18 1.39 14.58 NA NA 
 > grDevices::dev.off()
 null device 
           1 

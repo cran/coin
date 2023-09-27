@@ -1,7 +1,6 @@
 \name{treepipit}
 \docType{data}
 \alias{treepipit}
-\encoding{UTF-8}
 \title{Tree Pipits in Franconian Oak Forests}
 \description{
   Data on the population density of tree pipits, \emph{Anthus trivialis}, in

@@ -15,27 +15,26 @@
 \concept{Fisher-Yates correlation test}
 \concept{Quadrant test}
 \concept{Koziol-Nemec test}
-\encoding{UTF-8}
 \title{Correlation Tests}
 \description{
   Testing the independence of two numeric variables.
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\method{spearman_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{spearman_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"), \dots)
+\method{spearman_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{spearman_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"), ...)
 
-\method{fisyat_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{fisyat_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{fisyat_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
-            ties.method = c("mid-ranks", "average-scores"), \dots)
+            ties.method = c("mid-ranks", "average-scores"), ...)
 
-\method{quadrant_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{quadrant_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{quadrant_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
-              mid.score = c("0", "0.5", "1"), \dots)
+              mid.score = c("0", "0.5", "1"), ...)
 
-\method{koziol_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{koziol_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{koziol_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
-            ties.method = c("mid-ranks", "average-scores"), \dots)
+            ties.method = c("mid-ranks", "average-scores"), ...)
 }
 \arguments{
   \item{formula}{
@@ -73,15 +72,15 @@
   \item{mid.score}{
     a character, the score assigned to observations exactly equal to the median:
     either 0 (\code{"0"}, default), 0.5 (\code{"0.5"}) or 1 (\code{"1"}); see
-    \code{\link{median_test}}.
+    \code{\link{median_test}()}.
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{independence_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{independence_test}()}.
   }
 }
 \details{
-  \code{spearman_test}, \code{fisyat_test}, \code{quadrant_test} and
-  \code{koziol_test} provide the Spearman correlation test, the Fisher-Yates
+  \code{spearman_test()}, \code{fisyat_test()}, \code{quadrant_test()} and
+  \code{koziol_test()} provide the Spearman correlation test, the Fisher-Yates
   correlation test using van der Waerden scores, the quadrant test and the
   Koziol-Nemec test.  A general description of these methods is given by
   \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen (1999, Sec. 4.6).  The
@@ -96,8 +95,8 @@
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling by setting
-  \code{distribution} to \code{"approximate"}.  See \code{\link{asymptotic}} and
-  \code{\link{approximate}} for details.
+  \code{distribution} to \code{"approximate"}.  See \code{\link{asymptotic}()}
+  and \code{\link{approximate}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.

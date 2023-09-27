@@ -51,7 +51,7 @@ logrank_test.IndependenceProblem <- function(object,
     args$teststat <- if (is_ordered_x(object) || twosamp) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"

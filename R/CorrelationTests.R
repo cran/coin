@@ -28,7 +28,7 @@ spearman_test.IndependenceProblem <- function(object,
         }
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "Spearman Correlation Test"
     object@parameter <- "rho"
@@ -71,7 +71,7 @@ fisyat_test.IndependenceProblem <- function(object,
         }
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "Fisher-Yates (Normal Quantile) Correlation Test"
     object@parameter <- "rho"
@@ -117,7 +117,7 @@ quadrant_test.IndependenceProblem <- function(object,
         }
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "Quadrant Test"
     object@parameter <- "rho"
@@ -160,7 +160,7 @@ koziol_test.IndependenceProblem <- function(object,
         }
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "Koziol-Nemec Test"
     object@parameter <- "rho"

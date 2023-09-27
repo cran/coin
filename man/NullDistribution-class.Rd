@@ -12,12 +12,12 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \section{Objects from the Class}{
-  Objects can be created by calls of the form \preformatted{     new("NullDistribution", \dots),
+  Objects can be created by calls of the form \preformatted{     new("NullDistribution", ...),
 
-     new("ApproxNullDistribution", \dots),
+     new("ApproxNullDistribution", ...),
 
-     new("AsymptNullDistribution", \dots)}
-  and \preformatted{     new("ExactNullDistribution", \dots).}
+     new("AsymptNullDistribution", ...)}
+  and \preformatted{     new("ExactNullDistribution", ...).}
 }
 \section{Slots}{
   For objects of classes \code{"NullDistribution"},
@@ -99,47 +99,47 @@
   \describe{
     \item{dperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{dperm}} for details.
+      \code{\link{dperm}()} for details.
     }
     \item{midpvalue}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{midpvalue}} for details.
+      \code{\link{midpvalue}()} for details.
     }
     \item{midpvalue}{
       \code{signature(object = "ApproxNullDistribution")}: See the documentation
-      for \code{\link{midpvalue}} for details.
+      for \code{\link{midpvalue}()} for details.
     }
     \item{pperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{pperm}} for details.
+      \code{\link{pperm}()} for details.
     }
     \item{pvalue}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{pvalue}} for details.
+      \code{\link{pvalue}()} for details.
     }
     \item{pvalue}{
       \code{signature(object = "ApproxNullDistribution")}: See the documentation
-      for \code{\link{pvalue}} for details.
+      for \code{\link{pvalue}()} for details.
     }
     \item{pvalue_interval}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{pvalue_interval}} for details.
+      \code{\link{pvalue_interval}()} for details.
     }
     \item{qperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{qperm}} for details.
+      \code{\link{qperm}()} for details.
     }
     \item{rperm}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{rperm}} for details.
+      \code{\link{rperm}()} for details.
     }
     \item{size}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{size}} for details.
+      \code{\link{size}()} for details.
     }
     \item{support}{
       \code{signature(object = "NullDistribution")}: See the documentation for
-      \code{\link{support}} for details.
+      \code{\link{support}()} for details.
     }
   }
 }

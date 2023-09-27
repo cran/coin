@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2021-03-22 r80104) -- "Unsuffered Consequences"
-Copyright (C) 2021 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R Under development (unstable) (2023-07-23 r84741 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -481,11 +481,11 @@ alternative hypothesis: true mu is not equal to 0
 
 > 
 > ### no observations left after removing NAs
-> x <- c(NA, NA)
+> x <- c(NA_real_, NA_real_)
 > y <- c(1, 1)
 > try(wilcoxsign_test(x ~ y))
-Error in validObject(.Object) : 
-  invalid class "SymmetryProblem" object: FALSE
+Error in wilcoxsign_test.SymmetryProblem(object = new("SymmetryProblem",  : 
+  all pairwise differences equal zero
 In addition: Warning message:
 In max(abs(object@weights - floor(object@weights))) :
   no non-missing arguments to max; returning -Inf
@@ -733,17 +733,9 @@ Error in validityMethod(object) :
   'object' is not a an unreplicated complete block design
 > 
 > ### friedman_test didn't warn on weights
-> friedman_test(y ~ x | b, data = dta,  weights = ~ w)
-
-	Asymptotic Friedman Test
-
-data:  y by x (1, 2, 3, 4) 
-	 stratified by b
-chi-squared = 4.76, df = 3, p-value = 0.1902
-
-Warning message:
-In ft("friedman_test", "SymmetryProblem", formula, data, subset,  :
-  rank transformation doesn't take weights into account
+> try(friedman_test(y ~ x | b, data = dta,  weights = ~ w))
+Error in validityMethod(object) : 
+  class "SymmetryProblem" does not (yet) support weights
 > 
 > ### chisq_test ignored xtrafo and ytrafo
 > chisq_test(as.table(jobsatisfaction[, , "Female"]),
@@ -895,38 +887,37 @@ Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(ansari_test(Surv(y1) ~ x))
 Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(fligner_test(Surv(y1) ~ x))
-Error in fligner_test.IndependenceProblem(object = new("IndependenceProblem",  : 
-  'Surv(y1)' is not a numeric variable
+Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(conover_test(Surv(y1) ~ x))
-Error in conover_test.IndependenceProblem(object = new("IndependenceProblem",  : 
-  'Surv(y1)' is not a numeric variable
+Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(sign_test(Surv(y1) ~ x | b))
 Error in sign_test.SymmetryProblem(object = new("SymmetryProblem", x = structure(list( : 
-  'y' is not a numeric variable
+  'Surv(y1)' is not a numeric variable
 > try(sign_test(Surv(y1) ~ Surv(y2)))
 Error in sign_test.formula(Surv(y1) ~ Surv(y2)) : 
-  'y' is not a numeric variable
+  'Surv(y1)' is not a numeric variable
 > try(sign_test(Surv(y1) ~ y2))
-Error in sign_test.formula(Surv(y1) ~ y2) : 'y' is not a numeric variable
+Error in sign_test.formula(Surv(y1) ~ y2) : 
+  'Surv(y1)' is not a numeric variable
 > try(sign_test(y1 ~ Surv(y2)))
-Error in sign_test.formula(y1 ~ Surv(y2)) : 'x' is not a numeric variable
+Error in sign_test.formula(y1 ~ Surv(y2)) : 
+  'Surv(y2)' is not a numeric variable
 > try(wilcoxsign_test(Surv(y1) ~ x | b))
 Error in wilcoxsign_test.SymmetryProblem(object = new("SymmetryProblem",  : 
-  'y' is not a numeric variable
+  'Surv(y1)' is not a numeric variable
 > try(wilcoxsign_test(Surv(y1) ~ Surv(y2)))
 Error in wilcoxsign_test.formula(Surv(y1) ~ Surv(y2)) : 
-  'y' is not a numeric variable
+  'Surv(y1)' is not a numeric variable
 > try(wilcoxsign_test(Surv(y1) ~ y2))
 Error in wilcoxsign_test.formula(Surv(y1) ~ y2) : 
-  'y' is not a numeric variable
+  'Surv(y1)' is not a numeric variable
 > try(wilcoxsign_test(y1 ~ Surv(y2)))
 Error in wilcoxsign_test.formula(y1 ~ Surv(y2)) : 
-  'x' is not a numeric variable
+  'Surv(y2)' is not a numeric variable
 > try(friedman_test(Surv(y1) ~ x))
 Error in check(object) : 'Surv(y1)' is not a numeric variable
 > try(quade_test(Surv(y1) ~ x))
-Error in quade_test.SymmetryProblem(object = new("SymmetryProblem", x = structure(list( : 
-  'Surv(y1)' is not a numeric variable
+Error in check(object) : 'Surv(y1)' is not a numeric variable
 > 
 > ### exact two-sample tests with scores gave wrong p-value
 > y <- 1:20
@@ -1006,4 +997,4 @@ Error in .local(object, ...) :
 > 
 > proc.time()
    user  system elapsed 
-   2.75    0.20    2.93 
+   3.17    0.35    3.53 

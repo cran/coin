@@ -41,7 +41,7 @@
 
   The main interest is testing the global null hypothesis of no treatment effect
   with respect to survival time, time to first tumor and number of tumors.
-  (Molefe \emph{et al.}, 2005, also analysed the detection time of tumors, but
+  (Molefe \emph{et al.}, 2005, also analyzed the detection time of tumors, but
   that data is not given here.)  In case the global null hypothesis can be
   rejected, the deviations from the partial null hypotheses are of special
   interest.

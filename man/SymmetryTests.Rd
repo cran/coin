@@ -22,17 +22,17 @@
   block design.
 }
 \usage{
-\method{sign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{sign_test}{SymmetryProblem}(object, \dots)
+\method{sign_test}{formula}(formula, data, subset = NULL, ...)
+\method{sign_test}{SymmetryProblem}(object, ...)
 
-\method{wilcoxsign_test}{formula}(formula, data, subset = NULL, \dots)
-\method{wilcoxsign_test}{SymmetryProblem}(object, zero.method = c("Pratt", "Wilcoxon"), \dots)
+\method{wilcoxsign_test}{formula}(formula, data, subset = NULL, ...)
+\method{wilcoxsign_test}{SymmetryProblem}(object, zero.method = c("Pratt", "Wilcoxon"), ...)
 
-\method{friedman_test}{formula}(formula, data, subset = NULL, \dots)
-\method{friedman_test}{SymmetryProblem}(object, \dots)
+\method{friedman_test}{formula}(formula, data, subset = NULL, ...)
+\method{friedman_test}{SymmetryProblem}(object, ...)
 
-\method{quade_test}{formula}(formula, data, subset = NULL, \dots)
-\method{quade_test}{SymmetryProblem}(object, \dots)
+\method{quade_test}{formula}(formula, data, subset = NULL, ...)
+\method{quade_test}{SymmetryProblem}(object, ...)
 }
 \arguments{
   \item{formula}{
@@ -55,13 +55,13 @@
     a character, the method used to handle zeros: either \code{"Pratt"}
     (default) or \code{"Wilcoxon"}; see \sQuote{Details}.
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{symmetry_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{symmetry_test}()}.
   }
 }
 \details{
-  \code{sign_test}, \code{wilcoxsign_test}, \code{friedman_test} and
-  \code{quade_test} provide the sign test, the Wilcoxon signed-rank test, the
+  \code{sign_test()}, \code{wilcoxsign_test()}, \code{friedman_test()} and
+  \code{quade_test()} provide the sign test, the Wilcoxon signed-rank test, the
   Friedman test, the Page test and the Quade test.  A general description of
   these methods is given by Hollander and Wolfe (1999).
 
@@ -74,14 +74,14 @@
   measurement on the same subject.
 
   If \code{x} is an ordered factor, the default scores, \code{1:nlevels(x)}, can
-  be altered using the \code{scores} argument (see \code{\link{symmetry_test}});
+  be altered using the \code{scores} argument (see \code{\link{symmetry_test}()});
   this argument can also be used to coerce nominal factors to class
   \code{"ordered"}.  In this case, a linear-by-linear association test is
   computed and the direction of the alternative hypothesis can be specified
   using the \code{alternative} argument.  For the Friedman test, this extension
   was given by Page (1963) and is known as the Page test.
 
-  For \code{wilcoxsign_test}, the default method of handling zeros
+  For \code{wilcoxsign_test()}, the default method of handling zeros
   (\code{zero.method = "Pratt"}), due to Pratt (1959), first rank-transforms the
   absolute differences (including zeros) and then discards the ranks
   corresponding to the zero-differences.  The proposal by Wilcoxon (1949, p. 6)
@@ -93,9 +93,9 @@
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling or computed
   exactly for univariate two-sample problems by setting \code{distribution} to
-  \code{"approximate"} or \code{"exact"} respectively.  See
-  \code{\link{asymptotic}}, \code{\link{approximate}} and \code{\link{exact}}
-  for details.
+  \code{"approximate"} or \code{"exact"}, respectively.  See
+  \code{\link{asymptotic}()}, \code{\link{approximate}()} and
+  \code{\link{exact}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
@@ -263,7 +263,7 @@ quade.test(y ~ x | b, data = dta)
 
 ## quade.test() uses an F-statistic
 b <- nlevels(qt@statistic@block)
-A <- sum(qt@statistic@y^2)
+A <- sum(qt@statistic@ytrans^2)
 B <- sum(statistic(qt, type = "linear")^2) / b
 (b - 1) * B / (A - B) # F = 8.3765
 }

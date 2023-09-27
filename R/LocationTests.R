@@ -32,7 +32,7 @@ oneway_test.IndependenceProblem <- function(object, ...) {
     args$teststat <- if (is_ordered_x(object) || twosamp) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"
@@ -74,7 +74,7 @@ wilcox_test.IndependenceProblem <- function(object,
         }
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "Wilcoxon-Mann-Whitney Test"
     object@nullvalue <- 0
@@ -123,7 +123,7 @@ kruskal_test.IndependenceProblem <- function(object, ...) {
     args$teststat <- if (is_ordered_x(object)) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"
@@ -173,7 +173,7 @@ normal_test.IndependenceProblem <- function(object,
     args$teststat <- if (is_ordered_x(object) || twosamp) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"
@@ -231,7 +231,7 @@ median_test.IndependenceProblem <- function(object,
     args$teststat <- if (is_ordered_x(object) || twosamp) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"
@@ -289,7 +289,7 @@ savage_test.IndependenceProblem <- function(object,
     args$teststat <- if (is_ordered_x(object) || twosamp) "scalar"
                      else "quadratic"
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     if (is_ordered_x(object@statistic))
         object@method <- "Linear-by-Linear Association Test"

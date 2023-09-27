@@ -10,8 +10,8 @@ independence_test.formula <- function(formula, data = list(), subset = NULL,
 
 independence_test.table <- function(object, ...) {
 
-    do.call("independence_test",
-            c(list(object = table2IndependenceProblem(object)), list(...)))
+    do.call(independence_test,
+            c(object = table2IndependenceProblem(object), list(...)))
 }
 
 independence_test.IndependenceProblem <- function(object,
@@ -21,10 +21,9 @@ independence_test.IndependenceProblem <- function(object,
     xtrafo = trafo, ytrafo = trafo, scores = NULL, check = NULL,
     ...) {
 
-    addargs <- list(...)
-    if (length(addargs) > 0L)
+    if (...length() > 0L)
         warning("additional arguments ",
-                paste0(names(addargs), collapse = ", "),
+                paste0(sQuote(...names()), collapse = ", "),
                 " will be ignored")
 
     teststat <- match.arg(teststat)

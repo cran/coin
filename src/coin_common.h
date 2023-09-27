@@ -1,7 +1,5 @@
 /* include R header files */
 
+#define STRICT_R_HEADERS
 #include <R.h>
-#include <Rmath.h>
 #include <Rinternals.h>
-#include <Rdefines.h>
-#include <R_ext/Applic.h> /* for dgemm */

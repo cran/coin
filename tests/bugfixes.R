@@ -291,7 +291,7 @@ y <- c(2, 4, NA, 3)
 wilcoxsign_test(x ~ y)
 
 ### no observations left after removing NAs
-x <- c(NA, NA)
+x <- c(NA_real_, NA_real_)
 y <- c(1, 1)
 try(wilcoxsign_test(x ~ y))
 
@@ -443,7 +443,7 @@ try(friedman_test(y ~ x + x2 | b, data = dta))
 try(friedman_test(y ~ x2 | b, data = dta)) # was ok
 
 ### friedman_test didn't warn on weights
-friedman_test(y ~ x | b, data = dta,  weights = ~ w)
+try(friedman_test(y ~ x | b, data = dta,  weights = ~ w))
 
 ### chisq_test ignored xtrafo and ytrafo
 chisq_test(as.table(jobsatisfaction[, , "Female"]),

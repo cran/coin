@@ -23,7 +23,6 @@
 \concept{van der Waerden test}
 \concept{Brown-Mood median test}
 \concept{Savage test}
-\encoding{UTF-8}
 \title{Two- and \eqn{K}-Sample Location Tests}
 \description{
   Testing the equality of the distributions of a numeric response variable in
@@ -31,26 +30,26 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\method{oneway_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{oneway_test}{IndependenceProblem}(object, \dots)
+\method{oneway_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{oneway_test}{IndependenceProblem}(object, ...)
 
-\method{wilcox_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{wilcox_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, \dots)
+\method{wilcox_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{wilcox_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{kruskal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{kruskal_test}{IndependenceProblem}(object, \dots)
+\method{kruskal_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{kruskal_test}{IndependenceProblem}(object, ...)
 
-\method{normal_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{normal_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{normal_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-            conf.int = FALSE, conf.level = 0.95, \dots)
+            conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{median_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{median_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{median_test}{IndependenceProblem}(object, mid.score = c("0", "0.5", "1"),
-            conf.int = FALSE, conf.level = 0.95, \dots)
+            conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{savage_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{savage_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{savage_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-            conf.int = FALSE, conf.level = 0.95, \dots)
+            conf.int = FALSE, conf.level = 0.95, ...)
 }
 \arguments{
   \item{formula}{
@@ -90,14 +89,14 @@
     either 0 (\code{"0"}, default), 0.5 (\code{"0.5"}) or 1 (\code{"1"}); see
     \sQuote{Details}.
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{independence_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{independence_test}()}.
   }
 }
 \details{
-  \code{oneway_test}, \code{wilcox_test}, \code{kruskal_test},
-  \code{normal_test}, \code{median_test} and \code{savage_test} provide the
-  Fisher-Pitman permutation test, the Wilcoxon-Mann-Whitney test, the
+  \code{oneway_test()}, \code{wilcox_test()}, \code{kruskal_test()},
+  \code{normal_test()}, \code{median_test()} and \code{savage_test()} provide
+  the Fisher-Pitman permutation test, the Wilcoxon-Mann-Whitney test, the
   Kruskal-Wallis test, the van der Waerden test, the Brown-Mood median test and
   the Savage test.  A general description of these methods is given by Hollander
   and Wolfe (1999). For the adjustment of scores for tied values see
@@ -111,12 +110,12 @@
   \code{alternative = "less"}, the null hypothesis is \eqn{H_0\!: \mu \ge
     0}{H_0: mu >= 0}.  When \code{alternative = "greater"}, the null hypothesis
   is \eqn{H_0\!: \mu \le 0}{H_0: mu <= 0}.  Confidence intervals for the
-  difference in location are available (except for \code{oneway_test}) and
+  difference in location are available (except for \code{oneway_test()}) and
   computed according to Bauer (1972).
 
   If \code{x} is an ordered factor, the default scores, \code{1:nlevels(x)}, can
   be altered using the \code{scores} argument (see
-  \code{\link{independence_test}}); this argument can also be used to coerce
+  \code{\link{independence_test}()}); this argument can also be used to coerce
   nominal factors to class \code{"ordered"}.  In this case, a linear-by-linear
   association test is computed and the direction of the alternative hypothesis
   can be specified using the \code{alternative} argument.
@@ -139,18 +138,19 @@
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling or computed
   exactly for univariate two-sample problems by setting \code{distribution} to
-  \code{"approximate"} or \code{"exact"} respectively.  See
-  \code{\link{asymptotic}}, \code{\link{approximate}} and \code{\link{exact}}
-  for details.
+  \code{"approximate"} or \code{"exact"}, respectively.  See
+  \code{\link{asymptotic}()}, \code{\link{approximate}()} and
+  \code{\link{exact}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
-  Confidence intervals can be extracted by \link[stats]{confint}.
+  Confidence intervals can be extracted by \code{\link[stats]{confint}()}.
 }
 \note{
-  Starting with version 1.1-0, \code{oneway_test} no longer allows the test
-  statistic to be specified; a quadratic form is now used in the \eqn{K}-sample
-  case.  Please use \code{\link{independence_test}} if more control is desired.
+  Starting with \pkg{coin} version 1.1-0, \code{oneway_test()} no longer allows
+  the test statistic to be specified; a quadratic form is now used in the
+  \eqn{K}-sample case.  Please use \code{\link{independence_test}()} if more
+  control is desired.
 }
 \references{
   Bauer, D. F.  (1972).  Constructing confidence sets using rank statistics.

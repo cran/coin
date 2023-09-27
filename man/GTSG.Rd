@@ -1,7 +1,6 @@
 \name{GTSG}
 \docType{data}
 \alias{GTSG}
-\encoding{UTF-8}
 \title{Gastrointestinal Tumor Study Group}
 \description{
   A randomized clinical trial in gastric cancer.

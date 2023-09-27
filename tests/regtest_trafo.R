@@ -48,8 +48,8 @@ koziol_trafo(x)
 koziol_trafo(x[cc])
 koziol_trafo(x, j = 2)
 koziol_trafo(x[cc], j = 2)
-koziol_trafo(x, ties.method = "average-scores")
-koziol_trafo(x[cc], ties.method = "average-scores")
+round(koziol_trafo(x, ties.method = "average-scores"), 7)     # Mac M1 issue
+round(koziol_trafo(x[cc], ties.method = "average-scores"), 7) # Mac M1 issue
 koziol_trafo(x, ties.method = "average-scores", j = 2)
 koziol_trafo(x[cc], ties.method = "average-scores", j = 2)
 

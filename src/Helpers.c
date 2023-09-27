@@ -1,8 +1,7 @@
 /**
     Some additional functionality for package 'coin'
+
     *\file Helpers.c
-    *\author $Author: hnilsson $
-    *\date $Date: 2021-03-24 23:09:35 +0100 (Wed, 24 Mar 2021) $
 */
 
 #include "coin_common.h"
@@ -44,7 +43,7 @@ int nrow(SEXP x) {
     if (a == R_NilValue) {
         return(LENGTH(x));
     } else {
-        return(INTEGER(getAttrib(x, R_DimSymbol))[0]);
+        return(INTEGER(a)[0]);
     }
 }
 
@@ -55,13 +54,13 @@ int ncol(SEXP x) {
     if (a == R_NilValue) {
         return(1);
     } else {
-        return(INTEGER(getAttrib(x, R_DimSymbol))[1]);
+        return(INTEGER(a)[1]);
     }
 }
 
 SEXP R_maxstattrafo(SEXP x, SEXP cutpoints) {
 
-    int i, j, n, nc, jn;
+    int n, nc, jn;
     SEXP ans;
     double *dans, *dx, *dcutpoints, cj;
 
@@ -75,10 +74,10 @@ SEXP R_maxstattrafo(SEXP x, SEXP cutpoints) {
     dx = REAL(x);
     dcutpoints = REAL(cutpoints);
 
-    for (j = 0; j < nc; j++) {
+    for (int j = 0; j < nc; j++) {
         jn = j * n;
         cj = dcutpoints[j];
-        for (i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             if (ISNAN(dx[i])) {
                 dans[jn + i] = dx[i];
             } else if (dx[i] > cj) {
@@ -104,20 +103,20 @@ SEXP R_maxstattrafo(SEXP x, SEXP cutpoints) {
 */
 
 void C_outersum (const double *A, const int m, const int n,
-                  const double *B, const int r, const int s,
-                  double *ans) {
+                 const double *B, const int r, const int s,
+                 double *ans) {
 
-    int i, j, k, l, mr, js, ir;
+    int mr, js, ir;
     double y;
 
     mr = m * r;
-    for (i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
         ir = i * r;
-        for (j = 0; j < n; j++) {
+        for (int j = 0; j < n; j++) {
             js = j * s;
             y = A[j*m + i];
-            for (k = 0; k < r; k++) {
-                for (l = 0; l < s; l++) {
+            for (int k = 0; k < r; k++) {
+                for (int l = 0; l < s; l++) {
                     ans[(js + l) * mr + ir + k] = y + B[l * r + k];
                 }
             }

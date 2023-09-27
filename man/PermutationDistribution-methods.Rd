@@ -26,20 +26,20 @@
   quantile function, random numbers and support of the permutation distribution.
 }
 \usage{
-\S4method{dperm}{NullDistribution}(object, x, \dots)
-\S4method{dperm}{IndependenceTest}(object, x, \dots)
+\S4method{dperm}{NullDistribution}(object, x, ...)
+\S4method{dperm}{IndependenceTest}(object, x, ...)
 
-\S4method{pperm}{NullDistribution}(object, q, \dots)
-\S4method{pperm}{IndependenceTest}(object, q, \dots)
+\S4method{pperm}{NullDistribution}(object, q, ...)
+\S4method{pperm}{IndependenceTest}(object, q, ...)
 
-\S4method{qperm}{NullDistribution}(object, p, \dots)
-\S4method{qperm}{IndependenceTest}(object, p, \dots)
+\S4method{qperm}{NullDistribution}(object, p, ...)
+\S4method{qperm}{IndependenceTest}(object, p, ...)
 
-\S4method{rperm}{NullDistribution}(object, n, \dots)
-\S4method{rperm}{IndependenceTest}(object, n, \dots)
+\S4method{rperm}{NullDistribution}(object, n, ...)
+\S4method{rperm}{IndependenceTest}(object, n, ...)
 
-\S4method{support}{NullDistribution}(object, \dots)
-\S4method{support}{IndependenceTest}(object, \dots)
+\S4method{support}{NullDistribution}(object, ...)
+\S4method{support}{IndependenceTest}(object, ...)
 }
 \arguments{
   \item{object}{
@@ -59,7 +59,7 @@
     a numeric vector, the number of observations.  If \code{length(n) > 1}, the
     length is taken to be the number required.
   }
-  \item{\dots}{
+  \item{...}{
     further arguments to be passed to methods.
   }
 }
@@ -76,7 +76,7 @@
 }
 \note{
   The density of asymptotic permutation distributions for maximum-type tests or
-  exact permutation distributions obtained by the split-up algoritm is reported
+  exact permutation distributions obtained by the split-up algorithm is reported
   as \code{NA}.  The quantile function of asymptotic permutation distributions
   for maximum-type tests cannot be computed for \code{p} less than 0.5, due to
   limitations in the \pkg{mvtnorm} package.  The support of exact permutation

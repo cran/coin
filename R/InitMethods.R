@@ -58,9 +58,9 @@ setMethod("initialize",
                              block
                          }
         .Object@weights <- if (is.null(weights))
-                               rep.int(1.0, nrow(x))
+                               rep.int(1L, nrow(x))
                            else
-                               as.double(weights)
+                               weights
 
         if (!validObject(.Object))
             stop("not a valid object of class ", dQuote("IndependenceProblem"))
@@ -106,10 +106,11 @@ setMethod("initialize",
 
         if (r == 1) {
             ecs <- .Call(R_ExpectationCovarianceStatistic,
-                         object@xtrans,
-                         object@ytrans,
-                         object@weights,
-                         integer(0), integer(0), 0L, sqrt_eps)
+                         x = object@xtrans,
+                         y = object@ytrans,
+                         weights = object@weights,
+                         subset = integer(0), block = integer(0),
+                         varonly = 0L, tol = sqrt_eps)
             linearstatistic <- as.matrix(ecs$LinearStatistic)
             expectation <-  as.matrix(ecs$Expectation)
             covariance <- as.matrix(ecs$Covariance)
@@ -127,10 +128,11 @@ setMethod("initialize",
             for (i in seq_len(r)) {
                 block_i <- block == bl[i]
                 ecs <- .Call(R_ExpectationCovarianceStatistic,
-                             xtrans[block_i,, drop = FALSE],
-                             ytrans[block_i,, drop = FALSE],
-                             weights[block_i],
-                             integer(0), integer(0), 0L, sqrt_eps)
+                             x = xtrans[block_i,, drop = FALSE],
+                             y = ytrans[block_i,, drop = FALSE],
+                             weights = weights[block_i],
+                             subset = integer(0), block = integer(0),
+                             varonly = 0L, tol = sqrt_eps)
                 linearstatistic[, i] <- ecs$LinearStatistic
                 expectation[, i] <- ecs$Expectation
                 covariance[, i] <- ecs$Covariance
@@ -215,9 +217,9 @@ setMethod("initialize",
         .Object <- callNextMethod(.Object, object)
         .Object@teststatistic <-
             .Call(R_quadform,
-                  .linearstatistic(object, partial = FALSE),
-                  .expectation(object, partial = FALSE),
-                  covarianceplus)
+                  linstat = .linearstatistic(object, partial = FALSE),
+                  expect = .expectation(object, partial = FALSE),
+                  MPinv_sym = covarianceplus)
         .Object@df <- attr(covarianceplus, "rank")
         .Object@covarianceplus <- as.vector(covarianceplus)
         .Object@paired <- paired
@@ -249,9 +251,9 @@ setMethod("initialize",
                          else
                              block
         .Object@weights <- if (is.null(weights))
-                               rep.int(1.0, nrow(x))
+                               rep.int(1L, nrow(x))
                            else
-                               as.double(weights)
+                               weights
 
         if (!validObject(.Object))
             stop("not a valid object of class ", sQuote("SymmetryProblem"))

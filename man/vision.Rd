@@ -1,7 +1,6 @@
 \name{vision}
 \docType{data}
 \alias{vision}
-\encoding{UTF-8}
 \title{Unaided Distance Vision}
 \description{
   Assessment of unaided distance vision of women in Britain.

@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2020-08-20 r79057) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R Under development (unstable) (2023-07-23 r84741 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -75,8 +75,8 @@ Error in .local(.Object, ...) : 'block' is not a factor
 > 
 > ### sanity checks
 > try(fligner_test(x ~ y, data = dat))
-Error in fligner_test.IndependenceProblem(object = new("IndependenceProblem",  : 
-  'x' is not a numeric variable
+Error in check(object) : 
+  'object' does not represent a K-sample problem (maybe the grouping variable is not a factor?)
 > try(fligner_test(x ~ y | y, data = dat))
 Error in .local(.Object, ...) : 'block' is not a factor
 > 
@@ -631,4 +631,4 @@ alternative hypothesis: greater
 > 
 > proc.time()
    user  system elapsed 
-   1.43    0.09    1.51 
+   1.78    0.17    1.92 

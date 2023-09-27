@@ -23,7 +23,6 @@
 \concept{Ansari-Bradley test}
 \concept{Fligner-Killeen test}
 \concept{Conover-Iman test}
-\encoding{UTF-8}
 \title{Two- and \eqn{K}-Sample Scale Tests}
 \description{
   Testing the equality of the distributions of a numeric response variable in
@@ -31,27 +30,27 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\method{taha_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{taha_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, \dots)
+\method{taha_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{taha_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{klotz_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{klotz_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{klotz_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-           conf.int = FALSE, conf.level = 0.95, \dots)
+           conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{mood_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{mood_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{mood_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-          conf.int = FALSE, conf.level = 0.95, \dots)
+          conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{ansari_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{ansari_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{ansari_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-            conf.int = FALSE, conf.level = 0.95, \dots)
+            conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{fligner_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
+\method{fligner_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{fligner_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
-             conf.int = FALSE, conf.level = 0.95, \dots)
+             conf.int = FALSE, conf.level = 0.95, ...)
 
-\method{conover_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{conover_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, \dots)
+\method{conover_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{conover_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 
 }
 \arguments{
@@ -87,18 +86,18 @@
     either uses mid-ranks (\code{"mid-ranks"}, default) or averages the scores
     of randomly broken ties (\code{"average-scores"}).
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{independence_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{independence_test}()}.
   }
 }
 \details{
-  \code{taha_test}, \code{klotz_test}, \code{mood_test}, \code{ansari_test},
-  \code{fligner_test} and \code{conover_test} provide the Taha test, the Klotz
-  test, the Mood test, the Ansari-Bradley test, the Fligner-Killeen test and the
-  Conover-Iman test.  A general description of these methods is given by
-  Hollander and Wolfe (1999).  For the adjustment of scores for tied
-  values see \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen (1999,
-  pp. 133--135).
+  \code{taha_test()}, \code{klotz_test()}, \code{mood_test()},
+  \code{ansari_test()}, \code{fligner_test()} and \code{conover_test()} provide
+  the Taha test, the Klotz test, the Mood test, the Ansari-Bradley test, the
+  Fligner-Killeen test and the Conover-Iman test.  A general description of
+  these methods is given by Hollander and Wolfe (1999).  For the adjustment of
+  scores for tied values see \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen
+  (1999, pp. 133--135).
 
   The null hypothesis of equality, or conditional equality given \code{block},
   of the distribution of \code{y} in the groups defined by \code{x} is tested
@@ -121,13 +120,13 @@
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling or computed
   exactly for univariate two-sample problems by setting \code{distribution} to
-  \code{"approximate"} or \code{"exact"} respectively.  See
-  \code{\link{asymptotic}}, \code{\link{approximate}} and \code{\link{exact}}
-  for details.
+  \code{"approximate"} or \code{"exact"}, respectively.  See
+  \code{\link{asymptotic}()}, \code{\link{approximate}()} and
+  \code{\link{exact}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
-  Confidence intervals can be extracted by \link[stats]{confint}.
+  Confidence intervals can be extracted by \code{\link[stats]{confint}()}.
 }
 \note{
   In the two-sample case, a \emph{large} value of the Ansari-Bradley

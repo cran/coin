@@ -10,8 +10,8 @@ symmetry_test.formula <- function(formula, data = list(), subset = NULL,
 
 symmetry_test.table <- function(object, ...) {
 
-    do.call("symmetry_test",
-            c(list(object = table2SymmetryProblem(object)), list(...)))
+    do.call(symmetry_test,
+            c(object = table2SymmetryProblem(object), list(...)))
 }
 
 symmetry_test.SymmetryProblem <- function(object,
@@ -21,10 +21,9 @@ symmetry_test.SymmetryProblem <- function(object,
     xtrafo = trafo, ytrafo = trafo, scores = NULL, check = NULL, paired = FALSE,
     ...) {
 
-    addargs <- list(...)
-    if (length(addargs) > 0L)
+    if (...length() > 0L)
         warning("additional arguments ",
-                paste0(names(addargs), collapse = ", "),
+                paste0(sQuote(...names()), collapse = ", "),
                 " will be ignored")
 
     teststat <- match.arg(teststat)

@@ -1,7 +1,6 @@
 \name{malformations}
 \docType{data}
 \alias{malformations}
-\encoding{UTF-8}
 \title{Maternal Drinking and Congenital Sex Organ Malformation}
 \description{
   A subset of data from a study on the relationship between maternal alcohol

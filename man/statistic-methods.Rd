@@ -12,11 +12,11 @@
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
 \S4method{statistic}{IndependenceLinearStatistic}(object, type = c("test", "linear", "centered", "standardized"),
-          partial = FALSE, \dots)
+          partial = FALSE, ...)
 \S4method{statistic}{IndependenceTestStatistic}(object, type = c("test", "linear", "centered", "standardized"),
-          partial = FALSE, \dots)
+          partial = FALSE, ...)
 \S4method{statistic}{IndependenceTest}(object, type = c("test", "linear", "centered", "standardized"),
-          partial = FALSE, \dots)
+          partial = FALSE, ...)
 }
 \arguments{
   \item{object}{
@@ -33,7 +33,7 @@
     a logical indicating that the partial linear statistic for each block should
     be extracted.  Defaults to \code{FALSE}.
   }
-  \item{\dots}{
+  \item{...}{
     further arguments (currently ignored).
   }
 }

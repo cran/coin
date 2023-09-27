@@ -1,7 +1,6 @@
 \name{asat}
 \docType{data}
 \alias{asat}
-\encoding{UTF-8}
 \title{Toxicological Study on Female Wistar Rats}
 \description{
   Measurements of the liver enzyme aspartate aminotransferase (ASAT) for a new

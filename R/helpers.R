@@ -73,12 +73,11 @@ MPinv <- function (X, tol = sqrt_eps)
 }
 
 copyslots <- function(source, target) {
-    slots <- names(getSlots(class(source)))
-    slots <- slots[(slots %in% names(getSlots(class(target))))]
+    slots <- slotNames(source)
+    slots <- slots[slots %in% slotNames(target)]
     if (length(slots) == 0)
         stop("no common slots to copy to")
-    for (s in slots)
-        eval(str2lang(paste0("target@", s, " <- source@", s)))
+    eval(str2expression(paste0("target@", slots, " <- source@", slots)))
     target
 }
 
@@ -96,7 +95,7 @@ ft <- function(name, class, formula, data = list(), subset = NULL,
         !is_unity(object@weights))
         warning("rank transformation doesn't take weights into account")
 
-    do.call(name, c(list(object = object), args))
+    do.call(name, c(object = object, args))
 }
 
 ranktests <-
@@ -460,7 +459,7 @@ varnames <- function(object) {
         xnames <- paste(xnames, paste("\n\t stratified by", bn))
     }
 
-    if (nchar(xnames) > options("width")$width / 2)
+    if (nchar(xnames) > getOption("width") / 2)
         paste(ynames, "by\n\t", xnames, collapse = "")
     else
         paste(ynames, "by", xnames, collapse = "")
@@ -519,4 +518,11 @@ n_decimal_digits <-
 {
     nchar(sub("^-?[[:space:]]?[[:digit:]]*[.]?", "",
               format(x, digits = 15, scientific = FALSE)[1]))
+}
+
+### Back-compatibility
+if (getRversion() < "4.1.0") {
+    ...names <- function() {
+        eval(quote(names(list(...))), envir = parent.frame())
+    }
 }

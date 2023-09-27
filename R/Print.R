@@ -148,7 +148,7 @@ print.htest2 <-
         tol <- if (is.null(nresample <- attr(x$p.value, "nresample"))) eps
                else 1 / nresample
         fp <- format.pval(x$p.value, digits = max(1L, digits - 3L), eps = tol)
-        out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == "<") fp
+        out <- c(out, paste("p-value", if (startsWith(fp, "<")) fp
                                        else paste("=", fp)))
     }
     cat(strwrap(paste(out, collapse = ", ")), sep = "\n")

@@ -1,4 +1,4 @@
-### Streitberg-Roehmel algorithm for two independent samples
+### Streitberg-Röhmel shift algorithm for two independent samples
 SR_shift_2sample <- function(object, fact) {
     teststat <-
         if (inherits(object, "ScalarIndependenceTestStatistic"))
@@ -32,7 +32,7 @@ SR_shift_2sample <- function(object, fact) {
     ## first block
     block_1 <- (block == lev[1L])
     scores <- ytrans[block_1]
-    m <- sum(xtrans[block_1] == 1L)
+    m <- sum(xtrans[block_1])
 
     ## compute T and density
     if (m == 0L)
@@ -52,7 +52,7 @@ SR_shift_2sample <- function(object, fact) {
         for (i in seq_len(nb)[-1L]) {
             block_i <- (block == lev[i])
             scores <- ytrans[block_i]
-            m <- sum(xtrans[block_i] == 1L)
+            m <- sum(xtrans[block_i])
 
             ## compute T and density
             if (m == 0L)
@@ -65,7 +65,7 @@ SR_shift_2sample <- function(object, fact) {
                 stop("cannot compute exact distribution")
 
             ## update T
-            T <- .Call(R_outersum, dens$T, T)
+            T <- .Call(R_outersum, A = dens$T, B = T)
 
             ## make sure T is ordered and distinct
             n <- length(T)
@@ -75,7 +75,7 @@ SR_shift_2sample <- function(object, fact) {
             T <- T[idx]
 
             ### update density (use C_kronecker from libcoin)
-            Prob <- .Call(R_kronecker, dens$Prob, Prob)
+            Prob <- .Call(R_kronecker, A = dens$Prob, B = Prob)
             Prob <- vapply(split(Prob[o],
                                  rep.int(seq_along(idx), diff(c(0L, idx)))),
                            sum, NA_real_, USE.NAMES = FALSE)
@@ -207,23 +207,20 @@ cSR_shift_2sample <- function(scores, m, fact) {
         stop("not a two sample problem")
 
     ## integer scores with sum(scores) minimal
-    scores <- round(scores * fact)
+    scores <- sort(round(scores * fact))
     storage.mode(scores) <- "integer"
     add <- min(scores - 1L)
     scores <- scores - add
     storage.mode(m) <- "integer"
-    m_b <- sum(sort(scores)[(n + 1L - m):n])
 
-    Prob <- .Call(R_cpermdist2,
-                  score_a = rep.int(1L, n), score_b = scores,
-                  m_a = m, m_b = m_b, retProb = TRUE)
+    Prob <- .Call(R_cpermdist2, score_b = scores, m_a = m)
     T <- which(Prob != 0)
 
     list(T = (T + add * m) / fact, Prob = Prob[T])
 }
 
 
-### Streitberg-Roehmel algorithm for two paired samples
+### Streitberg-Röhmel shift algorithm for two paired samples
 SR_shift_1sample <- function(object, fact) {
     teststat <-
         if (inherits(object, "ScalarIndependenceTestStatistic"))
@@ -257,7 +254,7 @@ SR_shift_1sample <- function(object, fact) {
         s[s != 0] # remove zeros
     }, NA_real_)
     storage.mode(scores) <- "integer"
-    Prob <- .Call(R_cpermdist1, scores)
+    Prob <- .Call(R_cpermdist1, scores = scores)
     T <- which(Prob != 0)
     Prob <- Prob[T]
     ## 0 is possible
@@ -415,7 +412,8 @@ vdW_split_up_2sample <- function(object) {
     p_fun <- function(q) {
         T <- q * sqrt(.variance(object, partial = FALSE)) +
             .expectation(object, partial = FALSE)
-        .Call(R_split_up_2sample, scores, m, T, sqrt_eps)
+        .Call(R_split_up_2sample,
+              scores = scores, m = m, obs = T, tol = sqrt_eps)
     }
     q_fun <- function(p) {
         f <- function(x) p_fun(x) - p

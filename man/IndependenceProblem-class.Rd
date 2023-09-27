@@ -9,9 +9,9 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \section{Objects from the Class}{
-  Objects can be created by calls of the form \preformatted{     new("IndependenceProblem", x, y, block = NULL, weights = NULL, \dots)}
+  Objects can be created by calls of the form \preformatted{     new("IndependenceProblem", x, y, block = NULL, weights = NULL, ...)}
   where \code{x} and \code{y} are data frames containing the variables
-  \eqn{\mathbf{X}}{X} and \eqn{\mathbf{Y}}{Y} respectively, \code{block} is an
+  \eqn{\mathbf{X}}{X} and \eqn{\mathbf{Y}}{Y}, respectively, \code{block} is an
   optional factor representing the block structure \eqn{b} and \code{weights} is
   an optional integer vector corresponding to the case weights \eqn{w}.
 }
@@ -49,7 +49,7 @@
   \describe{
     \item{initialize}{
       \code{signature(.Object = "IndependenceProblem")}: See the documentation
-      for \code{\link[methods:new]{initialize}} (in package \pkg{methods}) for
+      for \code{\link[methods:new]{initialize}()} (in package \pkg{methods}) for
       details.
     }
   }

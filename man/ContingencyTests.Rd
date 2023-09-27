@@ -20,17 +20,17 @@
   Testing the independence of two nominal or ordered factors.
 }
 \usage{
-\method{chisq_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{chisq_test}{table}(object, \dots)
-\method{chisq_test}{IndependenceProblem}(object, \dots)
+\method{chisq_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{chisq_test}{table}(object, ...)
+\method{chisq_test}{IndependenceProblem}(object, ...)
 
-\method{cmh_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{cmh_test}{table}(object, \dots)
-\method{cmh_test}{IndependenceProblem}(object, \dots)
+\method{cmh_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{cmh_test}{table}(object, ...)
+\method{cmh_test}{IndependenceProblem}(object, ...)
 
-\method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{lbl_test}{table}(object, \dots)
-\method{lbl_test}{IndependenceProblem}(object, \dots)
+\method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{lbl_test}{table}(object, ...)
+\method{lbl_test}{IndependenceProblem}(object, ...)
 }
 \arguments{
   \item{formula}{
@@ -53,13 +53,13 @@
     an object inheriting from classes \code{"table"} or
     \code{"\linkS4class{IndependenceProblem}"}.
   }
-  \item{\dots}{
-    further arguments to be passed to \code{\link{independence_test}}.
+  \item{...}{
+    further arguments to be passed to \code{\link{independence_test}()}.
   }
 }
 \details{
-  \code{chisq_test}, \code{cmh_test} and \code{lbl_test} provide the Pearson
-  chi-squared test, the generalized Cochran-Mantel-Haenszel test and the
+  \code{chisq_test()}, \code{cmh_test()} and \code{lbl_test()} provide the
+  Pearson chi-squared test, the generalized Cochran-Mantel-Haenszel test and the
   linear-by-linear association test.  A general description of these methods is
   given by Agresti (2002).
 
@@ -67,10 +67,10 @@
   \code{block}, between \code{y} and \code{x} is tested.
 
   If \code{y} and/or \code{x} are ordered factors, the default scores,
-  \code{1:nlevels(y)} and \code{1:nlevels(x)} respectively, can be altered using
-  the \code{scores} argument (see \code{\link{independence_test}}); this
+  \code{1:nlevels(y)} and \code{1:nlevels(x)}, respectively, can be altered
+  using the \code{scores} argument (see \code{\link{independence_test}()}); this
   argument can also be used to coerce nominal factors to class \code{"ordered"}.
-  (\code{lbl_test} coerces to class \code{"ordered"} under any circumstances.)
+  (\code{lbl_test()} coerces to class \code{"ordered"} under any circumstances.)
   If both \code{y} and \code{x} are ordered factors, a linear-by-linear
   association test is computed and the direction of the alternative hypothesis
   can be specified using the \code{alternative} argument.  For the Pearson
@@ -86,9 +86,9 @@
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling or computed
   exactly for univariate two-sample problems by setting \code{distribution} to
-  \code{"approximate"} or \code{"exact"} respectively.  See
-  \code{\link{asymptotic}}, \code{\link{approximate}} and \code{\link{exact}}
-  for details.
+  \code{"approximate"} or \code{"exact"}, respectively.  See
+  \code{\link{asymptotic}()}, \code{\link{approximate}()} and
+  \code{\link{exact}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.

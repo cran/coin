@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2018-03-15 r74406) -- "Unsuffered Consequences"
-Copyright (C) 2018 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R Under development (unstable) (2023-09-21 r85196 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -139,12 +139,11 @@ Loading required package: survival
 [8]  0.8817477         NA
 > koziol_trafo(x[cc], j = 2)
 [1]  0.8817477 -0.3146921 -1.4142136 -1.4142136 -0.3146921  0.8817477
-> koziol_trafo(x, ties.method = "average-scores")
-[1]  1.274162e+00  8.817477e-01            NA  5.551115e-17  5.551115e-17
-[6]            NA -8.817477e-01 -1.274162e+00            NA
-> koziol_trafo(x[cc], ties.method = "average-scores")
-[1]  1.274162e+00  8.817477e-01  5.551115e-17  5.551115e-17 -8.817477e-01
-[6] -1.274162e+00
+> round(koziol_trafo(x, ties.method = "average-scores"), 7)     # Mac M1 issue
+[1]  1.2741624  0.8817477         NA  0.0000000  0.0000000         NA -0.8817477
+[8] -1.2741624         NA
+> round(koziol_trafo(x[cc], ties.method = "average-scores"), 7) # Mac M1 issue
+[1]  1.2741624  0.8817477  0.0000000  0.0000000 -0.8817477 -1.2741624
 > koziol_trafo(x, ties.method = "average-scores", j = 2)
 [1]  0.8817477 -0.3146921         NA -1.2741624 -1.2741624         NA -0.3146921
 [8]  0.8817477         NA
@@ -1225,4 +1224,4 @@ IV - III  0  0  -1  1
 > 
 > proc.time()
    user  system elapsed 
-   0.98    0.07    1.00 
+   1.10    0.31    1.39 

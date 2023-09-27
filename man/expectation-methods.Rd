@@ -23,18 +23,18 @@
   linear statistic.
 }
 \usage{
-\S4method{expectation}{IndependenceLinearStatistic}(object, partial = FALSE, \dots)
-\S4method{expectation}{IndependenceTest}(object, partial = FALSE, \dots)
+\S4method{expectation}{IndependenceLinearStatistic}(object, partial = FALSE, ...)
+\S4method{expectation}{IndependenceTest}(object, partial = FALSE, ...)
 
-\S4method{variance}{Variance}(object, \dots)
-\S4method{variance}{CovarianceMatrix}(object, \dots)
-\S4method{variance}{IndependenceLinearStatistic}(object, partial = FALSE, \dots)
-\S4method{variance}{IndependenceTest}(object, partial = FALSE, \dots)
+\S4method{variance}{Variance}(object, ...)
+\S4method{variance}{CovarianceMatrix}(object, ...)
+\S4method{variance}{IndependenceLinearStatistic}(object, partial = FALSE, ...)
+\S4method{variance}{IndependenceTest}(object, partial = FALSE, ...)
 
-\S4method{covariance}{CovarianceMatrix}(object, \dots)
-\S4method{covariance}{IndependenceLinearStatistic}(object, invert = FALSE, partial = FALSE, \dots)
-\S4method{covariance}{QuadTypeIndependenceTestStatistic}(object, invert = FALSE, partial = FALSE, \dots)
-\S4method{covariance}{IndependenceTest}(object, invert = FALSE, partial = FALSE, \dots)
+\S4method{covariance}{CovarianceMatrix}(object, ...)
+\S4method{covariance}{IndependenceLinearStatistic}(object, invert = FALSE, partial = FALSE, ...)
+\S4method{covariance}{QuadTypeIndependenceTestStatistic}(object, invert = FALSE, partial = FALSE, ...)
+\S4method{covariance}{IndependenceTest}(object, invert = FALSE, partial = FALSE, ...)
 }
 \arguments{
   \item{object}{
@@ -49,7 +49,7 @@
     a logical indicating that the Moore-Penrose inverse of the covariance should
     be extracted.  Defaults to \code{FALSE}.
   }
-  \item{\dots}{
+  \item{...}{
     further arguments (currently ignored).
   }
 }
@@ -65,7 +65,7 @@
   The expectation, variance or covariance of the linear statistic extracted from
   \code{object}.  A matrix or array.
 }
-\examples{\dontshow{suppressWarnings(RNGversion("3.5.2")); set.seed(711109)}
+\examples{
 ## Example data
 dta <- data.frame(
     y = gl(3, 2),

@@ -38,7 +38,7 @@ ansari_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 fligner_trafo(x, ties.method = c("mid-ranks", "average-scores"))
 logrank_trafo(x, ties.method = c("mid-ranks", "Hothorn-Lausen",
                                  "average-scores"),
-              weight = logrank_weight, \dots)
+              weight = logrank_weight, ...)
 logrank_weight(time, n.risk, n.event,
                type = c("logrank", "Gehan-Breslow", "Tarone-Ware",
                         "Peto-Peto", "Prentice", "Prentice-Marek",
@@ -54,7 +54,7 @@ ofmaxstat_trafo(x, minprob = 0.1, maxprob = 1 - minprob)
 trafo(data, numeric_trafo = id_trafo, factor_trafo = f_trafo,
       ordered_trafo = of_trafo, surv_trafo = logrank_trafo,
       var_trafo = NULL, block = NULL)
-mcp_trafo(\dots)
+mcp_trafo(...)
 }
 \arguments{
   \item{x}{
@@ -64,16 +64,16 @@ mcp_trafo(\dots)
   \item{ties.method}{
     a character, the method used to handle ties.  The score generating function
     either uses the mid-ranks (\code{"mid-ranks"}, default) or, in the case of
-    \code{rank_trafo}, randomly broken ties (\code{"random"}).  Alternatively,
+    \code{rank_trafo()}, randomly broken ties (\code{"random"}).  Alternatively,
     the average of the scores resulting from applying the score generating
     function to randomly broken ties are used (\code{"average-scores"}).  See
-    \code{\link{logrank_test}} for a detailed description of the methods used in
-    \code{logrank_trafo}.
+    \code{\link{logrank_test}()} for a detailed description of the methods used
+    in \code{logrank_trafo()}.
   }
   \item{mid.score}{
     a character, the score assigned to observations exactly equal to the median:
     either 0 (\code{"0"}, default), 0.5 (\code{"0.5"}) or 1 (\code{"1"}); see
-    \code{\link{median_test}}.
+    \code{\link{median_test}()}.
   }
   \item{a}{
     a numeric vector, the values taken as the constant \eqn{a} in the
@@ -104,18 +104,19 @@ mcp_trafo(\dots)
     \code{"Tarone-Ware"}, \code{"Peto-Peto"}, \code{"Prentice"},
     \code{"Prentice-Marek"}, \code{"Andersen-Borgan-Gill-Keiding"},
     \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
-    \code{\link{logrank_test}}.
+    \code{\link{logrank_test}()}.
   }
   \item{rho}{
     a numeric vector, the \eqn{\rho} constant when \code{type} is
     \code{"Tarone-Ware"}, \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"}
-    or \code{"Self"}; see \code{\link{logrank_test}}.  Defaults to \code{NULL},
-    implying \code{0.5} for \code{type = "Tarone-Ware"} and \code{0} otherwise.
+    or \code{"Self"}; see \code{\link{logrank_test}()}.  Defaults to
+    \code{NULL}, implying \code{0.5} for \code{type = "Tarone-Ware"} and
+    \code{0} otherwise.
   }
   \item{gamma}{
     a numeric vector, the \eqn{\gamma} constant when \code{type} is
     \code{"Fleming-Harrington"}, \code{"Gaugler-Kim-Liao"} or \code{"Self"}; see
-    \code{\link{logrank_test}}.  Defaults to \code{NULL}, implying \code{0}.
+    \code{\link{logrank_test}()}.  Defaults to \code{NULL}, implying \code{0}.
   }
   \item{scores}{
     a numeric vector or list, the scores corresponding to each level of an
@@ -127,11 +128,11 @@ mcp_trafo(\dots)
     \code{0.1}.
   }
   \item{minprob}{
-    a numeric, a fraction between 0 and 0.5; see \code{\link{maxstat_test}}.
+    a numeric, a fraction between 0 and 0.5; see \code{\link{maxstat_test}()}.
     Defaults to \code{0.1}.
   }
   \item{maxprob}{
-    a numeric, a fraction between 0.5 and 1; see \code{\link{maxstat_test}}.
+    a numeric, a fraction between 0.5 and 1; see \code{\link{maxstat_test}()}.
     Defaults to \code{1 - minprob}.
   }
   \item{data}{
@@ -165,12 +166,12 @@ mcp_trafo(\dots)
     an optional factor whose levels are interpreted as blocks.  \code{trafo} is
     applied to each level of \code{block} separately.  Defaults to \code{NULL}.
   }
-  \item{\dots}{
+  \item{...}{
     \code{logrank_trafo()}: further arguments to be passed to \code{weight}.
     % NOTE: this line is necessary for correct rendering
     \code{mcp_trafo()}: factor name and contrast matrix (as matrix or character)
     in a \samp{tag = value} format for multiple comparisons based on a single
-    unordered factor; see \code{\link[multcomp:glht]{mcp}} in package
+    unordered factor; see \code{\link[multcomp:glht]{mcp}()} in package
     \pkg{multcomp}.
   }
 }
@@ -178,50 +179,50 @@ mcp_trafo(\dots)
   The utility functions documented here are used to define specialized test
   procedures.
 
-  \code{id_trafo} is the identity transformation.
+  \code{id_trafo()} is the identity transformation.
 
-  \code{rank_trafo}, \code{normal_trafo}, \code{median_trafo},
-  \code{savage_trafo}, \code{consal_trafo} and \code{koziol_trafo} compute rank
-  scores, normal scores, median scores, Savage scores, Conover-Salsburg scores
-  (see \code{\link{neuropathy}}) and Koziol-Nemec scores, respectively, for
-  location problems.
+  \code{rank_trafo()}, \code{normal_trafo()}, \code{median_trafo()},
+  \code{savage_trafo()}, \code{consal_trafo()} and \code{koziol_trafo()} compute
+  rank (Wilcoxon) scores, normal (van der Waerden) scores, median (Mood-Brown)
+  scores, Savage scores, Conover-Salsburg scores (see \code{\link{neuropathy}})
+  and Koziol-Nemec scores, respectively, for location problems.
 
-  \code{klotz_trafo}, \code{mood_trafo}, \code{ansari_trafo} and
-  \code{fligner_trafo} compute Klotz scores, Mood scores, Ansari-Bradley scores
-  and Fligner-Killeen scores, respectively, for scale problems.
+  \code{klotz_trafo()}, \code{mood_trafo()}, \code{ansari_trafo()} and
+  \code{fligner_trafo()} compute Klotz scores, Mood scores, Ansari-Bradley
+  scores and Fligner-Killeen scores, respectively, for scale problems.
 
-  \code{logrank_trafo} computes weighted logrank scores for right-censored data,
-  allowing for a user-defined weight function through the \code{weight} argument
-  (see \code{\link{GTSG}}).
+  \code{logrank_trafo()} computes weighted logrank scores for right-censored
+  data, allowing for a user-defined weight function through the \code{weight}
+  argument (see \code{\link{GTSG}}).
 
-  \code{f_trafo} computes dummy matrices for factors and \code{of_trafo} assigns
-  scores to ordered factors.  For ordered factors with two levels, the scores
-  are normalized to the \eqn{[0, 1]} range.  \code{zheng_trafo} computes a
-  finite collection of order-restricted scores for ordered factors (see
-  \code{\link{jobsatisfaction}}, \code{\link{malformations}} and
+  \code{f_trafo()} computes dummy matrices for factors and \code{of_trafo()}
+  assigns scores to ordered factors.  For ordered factors with two levels, the
+  scores are normalized to the \eqn{[0, 1]} range.  \code{zheng_trafo()}
+  computes a finite collection of order-restricted scores for ordered factors
+  (see \code{\link{jobsatisfaction}}, \code{\link{malformations}} and
   \code{\link{vision}}).
 
-  \code{maxstat_trafo}, \code{fmaxstat_trafo} and \code{ofmaxstat_trafo} compute
-  scores for cutpoint problems (see \code{\link{maxstat_test}}).
+  \code{maxstat_trafo()}, \code{fmaxstat_trafo()} and \code{ofmaxstat_trafo()}
+  compute scores for cutpoint problems (see \code{\link{maxstat_test}()}).
 
-  \code{trafo} applies its arguments to the elements of \code{data} according to
-  the classes of the elements.  A \code{trafo} function with modified default
-  arguments is usually supplied to \code{\link{independence_test}} via the
-  \code{xtrafo} or \code{ytrafo} arguments.  Fine tuning, i.e., different
+  \code{trafo()} applies its arguments to the elements of \code{data} according
+  to the classes of the elements.  A \code{trafo()} function with modified
+  default arguments is usually supplied to \code{\link{independence_test}()} via
+  the \code{xtrafo} or \code{ytrafo} arguments.  Fine tuning, i.e., different
   transformations for different variables, is possible by supplying a named list
   of functions to the \code{var_trafo} argument.
 
-  \code{mcp_trafo} computes contrast matrices for factors.
+  \code{mcp_trafo()} computes contrast matrices for factors.
 }
 \value{
   A numeric vector or matrix with \code{nrow(x)} rows and an arbitrary number of
-  columns.  For \code{trafo}, a named matrix with \code{nrow(data)} rows and an
+  columns.  For \code{trafo()}, a named matrix with \code{nrow(data)} rows and an
   arbitrary number of columns.
 }
 \note{
   Starting with \pkg{coin} version 1.1-0, all transformation functions are now
   passing through missing values (i.e., \code{\link[base]{NA}}s).  Furthermore,
-  \code{median_trafo} and \code{logrank_trafo} are now \emph{increasing}
+  \code{median_trafo()} and \code{logrank_trafo()} are now \emph{increasing}
   functions (in conformity with most other transformations in this package).
 }
 \examples{

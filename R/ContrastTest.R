@@ -30,7 +30,7 @@ contrast_test.IndependenceProblem <- function(object,
             trafo(data) %*% cmatrix
     )
 
-    object <- do.call("independence_test", c(list(object = object), args))
+    object <- do.call(independence_test, c(object = object, args))
 
     object@method <- "General Contrast Test"
 

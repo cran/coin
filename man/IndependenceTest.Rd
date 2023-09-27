@@ -9,21 +9,21 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
-\method{independence_test}{formula}(formula, data, subset = NULL, weights = NULL, \dots)
-\method{independence_test}{table}(object, \dots)
+\method{independence_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
+\method{independence_test}{table}(object, ...)
 \method{independence_test}{IndependenceProblem}(object, teststat = c("maximum", "quadratic", "scalar"),
                   distribution = c("asymptotic", "approximate",
                                    "exact", "none"),
                   alternative = c("two.sided", "less", "greater"),
                   xtrafo = trafo, ytrafo = trafo, scores = NULL,
-                  check = NULL, \dots)
+                  check = NULL, ...)
 }
 \arguments{
   \item{formula}{
     a formula of the form \code{y1 + ... + yq ~ x1 + ... + xp | block} where
-    \code{y1}, \dots, \code{yq} and \code{x1}, \dots, \code{xp} are measured on
-    arbitrary scales (nominal, ordinal or continuous with or without censoring)
-    and \code{block} is an optional factor for stratification.
+    \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots, \code{xp} are measured
+    on arbitrary scales (nominal, ordinal or continuous with or without
+    censoring) and \code{block} is an optional factor for stratification.
   }
   \item{data}{
     an optional data frame containing the variables in the model formula.
@@ -64,13 +64,13 @@
   }
   \item{xtrafo}{
     a function of transformations to be applied to the variables \code{x1},
-    \dots, \code{xp} supplied in \code{formula}; see \sQuote{Details}.  Defaults
-    to \code{\link{trafo}}.
+    \ldots, \code{xp} supplied in \code{formula}; see \sQuote{Details}.
+    Defaults to \code{\link{trafo}()}.
   }
   \item{ytrafo}{
     a function of transformations to be applied to the variables \code{y1},
-    \dots, \code{yq} supplied in \code{formula}; see \sQuote{Details}.  Defaults
-    to \code{\link{trafo}}.
+    \ldots, \code{yq} supplied in \code{formula}; see \sQuote{Details}.
+    Defaults to \code{\link{trafo}()}.
   }
   \item{scores}{
     a named list of scores to be attached to ordered factors; see
@@ -81,28 +81,28 @@
     \code{"\linkS4class{IndependenceTest}"} in order to check for specific
     properties of the data.  Defaults to \code{NULL}.
   }
-  \item{\dots}{
+  \item{...}{
     further arguments to be passed to or from other methods (currently ignored).
   }
 }
 \details{
-  \code{independence_test} provides a general independence test for two sets of
-  variables measured on arbitrary scales.  This function is based on the general
-  framework for conditional inference procedures proposed by Strasser and Weber
-  (1999).  The salient parts of the Strasser-Weber framework are elucidated by
-  Hothorn \emph{et al.} (2006) and a thorough description of the software
-  implementation is given by Hothorn \emph{et al.} (2008).
+  \code{independence_test()} provides a general independence test for two sets
+  of variables measured on arbitrary scales.  This function is based on the
+  general framework for conditional inference procedures proposed by Strasser
+  and Weber (1999).  The salient parts of the Strasser-Weber framework are
+  elucidated by Hothorn \emph{et al.} (2006) and a thorough description of the
+  software implementation is given by Hothorn \emph{et al.} (2008).
 
   The null hypothesis of independence, or conditional independence given
-  \code{block}, between \code{y1}, \dots, \code{yq} and \code{x1}, \dots,
+  \code{block}, between \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots,
   \code{xp} is tested.
 
   A vector of case weights, e.g., observation counts, can be supplied through
   the \code{weights} argument and the type of test statistic is specified by the
   \code{teststat} argument.  Influence and regression functions, i.e.,
-  transformations of \code{y1}, \dots, \code{yq} and \code{x1}, \dots,
-  \code{xp}, are specified by the \code{ytrafo} and \code{xtrafo} arguments
-  respectively; see \code{\link{trafo}} for the collection of transformation
+  transformations of \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots,
+  \code{xp}, are specified by the \code{ytrafo} and \code{xtrafo} arguments,
+  respectively; see \code{\link{trafo}()} for the collection of transformation
   functions currently available.  This allows for implementation of both novel
   and familiar test statistics, e.g., the Pearson \eqn{\chi^2} test, the
   generalized Cochran-Mantel-Haenszel test, the Spearman correlation test, the
@@ -113,13 +113,13 @@
   effort (see \sQuote{Examples}).
 
   If, say, \code{y1} and/or \code{x1} are ordered factors, the default scores,
-  \code{1:nlevels(y1)} and \code{1:nlevels(x1)} respectively, can be altered
+  \code{1:nlevels(y1)} and \code{1:nlevels(x1)}, respectively, can be altered
   using the \code{scores} argument; this argument can also be used to coerce
   nominal factors to class \code{"ordered"}.  For example, when \code{y1} is an
   ordered factor with four levels and \code{x1} is a nominal factor with three
   levels, \code{scores = list(y1 = c(1, 3:5), x1 = c(1:2, 4))} supplies the
   scores to be used.  For ordered alternatives the scores must be monotonic, but
-  non-montonic scores are also allowed for testing against, e.g., umbrella
+  non-monotonic scores are also allowed for testing against, e.g., umbrella
   alternatives.  The length of the score vector must be equal to the number of
   factor levels.
 
@@ -128,9 +128,9 @@
   used by default (\code{distribution = "asymptotic"}).  Alternatively, the
   distribution can be approximated via Monte Carlo resampling or computed
   exactly for univariate two-sample problems by setting \code{distribution} to
-  \code{"approximate"} or \code{"exact"} respectively.  See
-  \code{\link{asymptotic}}, \code{\link{approximate}} and \code{\link{exact}}
-  for details.
+  \code{"approximate"} or \code{"exact"}, respectively.  See
+  \code{\link{asymptotic}()}, \code{\link{approximate}()} and
+  \code{\link{exact}()} for details.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
@@ -138,7 +138,7 @@
 \note{
   Starting with \pkg{coin} version 1.1-0, maximum statistics and quadratic forms
   can no longer be specified using \code{teststat = "maxtype"} and
-  \code{teststat = "quadtype"} respectively (as was used in versions prior to
+  \code{teststat = "quadtype"}, respectively (as was used in versions prior to
   0.4-5).
 }
 \references{

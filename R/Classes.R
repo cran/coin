@@ -216,11 +216,14 @@ setClass("QuadTypeIndependenceTest",
 setClass("SymmetryProblem",
     contains = "IndependenceProblem",
     validity = function(object) {
-        if (ncol(object@x) != 1L || !is.factor(object@x[[1L]]))
+        x <- object@x
+        if (ncol(x) != 1L || !is.factor(x[[1L]]))
             stop(sQuote("x"), " slot does not contain a single factor")
         if (!is_completeblock(object))
             stop(sQuote("object"),
                  " is not a an unreplicated complete block design")
+        if (any(object@weights != 1))
+            stop("class ", dQuote("SymmetryProblem"), " does not (yet) support weights")
         TRUE
     }
 )

@@ -1,7 +1,6 @@
 \name{jobsatisfaction}
 \docType{data}
 \alias{jobsatisfaction}
-\encoding{UTF-8}
 \title{Income and Job Satisfaction}
 \description{
   Income and job satisfaction by gender.
