@@ -22,16 +22,16 @@
   block design.
 }
 \usage{
-\method{sign_test}{formula}(formula, data, subset = NULL, ...)
+\method{sign_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{sign_test}{SymmetryProblem}(object, ...)
 
-\method{wilcoxsign_test}{formula}(formula, data, subset = NULL, ...)
+\method{wilcoxsign_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{wilcoxsign_test}{SymmetryProblem}(object, zero.method = c("Pratt", "Wilcoxon"), ...)
 
-\method{friedman_test}{formula}(formula, data, subset = NULL, ...)
+\method{friedman_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{friedman_test}{SymmetryProblem}(object, ...)
 
-\method{quade_test}{formula}(formula, data, subset = NULL, ...)
+\method{quade_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{quade_test}{SymmetryProblem}(object, ...)
 }
 \arguments{
@@ -48,6 +48,11 @@
     an optional vector specifying a subset of observations to be used.  Defaults
     to \code{NULL}.
   }
+  \item{weights}{
+    an optional formula of the form \code{~ w} defining integer valued case
+    weights for each observation.  Defaults to \code{NULL}, implying equal
+    weight for all observations.  (Not yet implemented!)
+  }
   \item{object}{
     an object inheriting from class \code{"\linkS4class{SymmetryProblem}"}.
   }
@@ -62,8 +67,9 @@
 \details{
   \code{sign_test()}, \code{wilcoxsign_test()}, \code{friedman_test()} and
   \code{quade_test()} provide the sign test, the Wilcoxon signed-rank test, the
-  Friedman test, the Page test and the Quade test.  A general description of
-  these methods is given by Hollander and Wolfe (1999).
+  Friedman test, the Page test and the Quade test
+  \bibcitet{coin::quade_1979}.  A general description of
+  these methods is given by \bibcitet{coin::hollanderwolfe1999}.
 
   The null hypothesis of symmetry is tested.  The response variable and the
   measurement conditions are given by \code{y} and \code{x}, respectively, and
@@ -79,12 +85,13 @@
   \code{"ordered"}.  In this case, a linear-by-linear association test is
   computed and the direction of the alternative hypothesis can be specified
   using the \code{alternative} argument.  For the Friedman test, this extension
-  was given by Page (1963) and is known as the Page test.
+  was given by \bibcitet{coin::page_1963} and is known as the Page test.
 
   For \code{wilcoxsign_test()}, the default method of handling zeros
-  (\code{zero.method = "Pratt"}), due to Pratt (1959), first rank-transforms the
+  (\code{zero.method = "Pratt"}), due to \bibcitet{coin::pratt_1959}, first rank-transforms the
   absolute differences (including zeros) and then discards the ranks
-  corresponding to the zero-differences.  The proposal by Wilcoxon (1949, p. 6)
+  corresponding to the zero-differences.  The proposal by
+  \bibcitet{|coin::Wilcoxon_1949|p. 6}
   first discards the zero-differences and then rank-transforms the remaining
   absolute differences (\code{zero.method = "Wilcoxon"}).
 
@@ -101,31 +108,13 @@
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
 }
 \note{
-  Starting with \pkg{coin} version 1.0-16, the \code{zero.method} argument
-  replaced the (now removed) \code{ties.method} argument.  The current default
-  is \code{zero.method = "Pratt"} whereas earlier versions had
+  Starting with version 1.0-16, the \code{zero.method} argument replaced the
+  (now removed) \code{ties.method} argument.  The current default is
+  \code{zero.method = "Pratt"} whereas earlier versions had
   \code{ties.method = "HollanderWolfe"}, which is equivalent to
   \code{zero.method = "Wilcoxon"}.
 }
-\references{
-  Hollander, M. and Wolfe, D. A.  (1999).  \emph{Nonparametric Statistical
-    Methods}, Second Edition.  New York: John Wiley & Sons.
-
-  Page, E. B.  (1963).  Ordered hypotheses for multiple treatments: a
-  significance test for linear ranks.  \emph{Journal of the American Statistical
-    Association} \bold{58}(301), 216--230.  \doi{10.1080/01621459.1963.10500843}
-
-  Pratt, J. W.  (1959).  Remarks on zeros and ties in the Wilcoxon signed rank
-  procedures.  \emph{Journal of the American Statistical Association}
-  \bold{54}(287), 655--667.  \doi{10.1080/01621459.1959.10501526}
-
-  Quade, D.  (1979).  Using weighted rankings in the analysis of complete blocks
-  with additive block effects.  \emph{Journal of the American Statistical
-    Association} \bold{74}(367), 680--683.  \doi{10.1080/01621459.1979.10481670}
-
-  Wilcoxon, F.  (1949).  \emph{Some Rapid Approximate Statistical Procedures}.
-  New York: American Cyanamid Company.
-}
+\references{\bibshow{*}}
 \examples{
 ## Example data from ?wilcox.test
 y1 <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)

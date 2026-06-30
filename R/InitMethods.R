@@ -1,6 +1,6 @@
 ### <DEPRECATED>
-### Note: The "CovarianceMatrix", "Variance" and "VarCovar" classes were
-### deprecated in 1.4-0.  To be removed in 2.0-0.
+### Classes "CovarianceMatrix", "Variance" and "VarCovar" were deprecated in
+### 1.4-0.  To be removed in 2.0-0.
 ### new("CovarianceMatrix", ...)
 setMethod("initialize",
     signature = "CovarianceMatrix",
@@ -256,7 +256,7 @@ setMethod("initialize",
                                weights
 
         if (!validObject(.Object))
-            stop("not a valid object of class ", sQuote("SymmetryProblem"))
+            stop("not a valid object of class ", dQuote("SymmetryProblem"))
 
         .Object
     }

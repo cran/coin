@@ -62,7 +62,7 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
   respectively.
 
   The asymptotic reference distribution is computed using a randomised
-  quasi-Monte Carlo method (Genz and Bretz, 2009) and is applicable to arbitrary
+  quasi-Monte Carlo method \bibcitep{coin::Genz_Bretz_2009} and is applicable to arbitrary
   covariance structures with dimensions up to 1000.  See
   \code{\link[mvtnorm:algorithms]{GenzBretz}()} in package \pkg{mvtnorm} for
   details on \code{maxpts}, \code{abseps} and \code{releps}.
@@ -70,7 +70,8 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
   The approximative (Monte Carlo) reference distribution is obtained by a
   conditional Monte Carlo procedure, i.e., by computing the test statistic for
   \code{nresample} random samples from all admissible permutations of the
-  response \eqn{\bf{Y}}{Y} within each block (Hothorn \emph{et al.}, 2008).  By
+  response \eqn{\bf{Y}}{Y} within each block
+  \bibcitep{coin::hothorn+hornik+vandewiel:2008}.  By
   default, the distribution is computed using serial operation
   (\code{parallel = "no"}).  The use of parallel operation is specified by
   setting \code{parallel} to either \code{"multicore"} (not available for MS
@@ -85,8 +86,9 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
 
   The exact reference distribution, currently available for univariate
   two-sample problems only, is computed using either the shift algorithm
-  (Streitberg and \enc{Röhmel}{Roehmel}, 1984, 1986, 1987) or the split-up
-  algorithm (van de Wiel, 2001).  The shift algorithm handles blocks pertaining
+  \bibcitep{coin::streitberg_1984,coin::axact-dist:1986,coin::exakte-ver:1987}
+  or the split-up
+  algorithm \bibcitep{coin::vdwiel2001}.  The shift algorithm handles blocks pertaining
   to, e.g., pre- and post-stratification, but can only be used with positive
   integer-valued scores \eqn{h(\bf{Y})}{h(Y)}.  The split-up algorithm can be
   used with non-integer scores, but does not handle blocks.  By default, an
@@ -95,42 +97,19 @@ exact(algorithm = c("auto", "shift", "split-up"), fact = NULL)
   \code{"shift"} or \code{"split-up"}, respectively.
 }
 \note{
-  Starting with \pkg{coin} version 1.1-0, the default for \code{algorithm} is
+  Starting with version 1.1-0, the default for \code{algorithm} is
   \code{"auto"}, having identical behaviour to \code{"shift"} in previous
   versions.  In earlier versions of the package, \code{algorithm = "shift"}
   silently switched to the split-up algorithm if non-integer scores were
   detected, whereas the current version exits with a warning.
 
-  In versions of \pkg{coin} prior to 1.3-0, the number of Monte Carlo replicates
-  in \code{approximate()} was specified using the now deprecated \code{B}
-  argument.  \strong{This will be made defunct and removed in a future release.}
-  It has been replaced by the \code{nresample} argument (for conformity with the
+  In versions prior to 1.3-0, the number of Monte Carlo replicates in
+  \code{approximate()} was specified using the now deprecated \code{B} argument.
+  \strong{This will be made defunct and removed in a future release.}  It has
+  been replaced by the \code{nresample} argument (for consistency with the
   \pkg{libcoin}, \pkg{party} and \pkg{partykit} packages).
 }
-\references{
-  Genz, A. and Bretz, F.  (2009).  \emph{Computation of Multivariate Normal and
-    t Probabilities}.  Heidelberg: Springer-Verlag.
-
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2008).
-  Implementing a class of permutation tests: The coin package.  \emph{Journal of
-    Statistical Software} \bold{28}(8), 1--23.  \doi{10.18637/jss.v028.i08}
-
-  Streitberg, B. and \enc{Röhmel}{Roehmel}, J.  (1984).  Exact nonparametrics
-  in APL.  \emph{APL Quote Quad} \bold{14}(4), 313--325.
-  \doi{10.1145/384283.801115}
-
-  Streitberg, B. and \enc{Röhmel}{Roehmel}, J.  (1986).  Exact distributions
-  for permutations and rank tests: an introduction to some recently published
-  algorithms.  \emph{Statistical Software Newsletter} \bold{12}(1), 10--17.
-
-  Streitberg, B. and \enc{Röhmel}{Roehmel}, J.  (1987).  Exakte verteilungen
-  \enc{für}{fuer} rang- und randomisierungstests im allgemeinen
-  c-stichprobenfall.  \emph{EDV in Medizin und Biologie} \bold{18}(1), 12--19.
-
-  van de Wiel, M. A.  (2001).  The split-up algorithm: a fast symbolic method
-  for computing p-values of distribution-free statistics.  \emph{Computational
-    Statistics} \bold{16}(4), 519--538.  \doi{10.1007/s180-001-8328-6}
-}
+\references{\bibshow{*}}
 \examples{
 ## Approximative (Monte Carlo) Cochran-Mantel-Haenszel test
 

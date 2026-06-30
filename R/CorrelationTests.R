@@ -24,6 +24,8 @@ spearman_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -67,6 +69,8 @@ fisyat_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -156,6 +160,8 @@ koziol_test.IndependenceProblem <- function(object,
             if (!is_corr(object))
                 stop(sQuote("object"),
                      " does not represent a univariate correlation problem")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )

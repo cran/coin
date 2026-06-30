@@ -1,7 +1,7 @@
 ### <DEFUNCT>
 surv_test <- function(object, ...) {
-    .Defunct(msg = paste(sQuote("surv_test"), "is defunct.  Use",
-                         sQuote("logrank_test"), "instead."))
+    .Defunct(msg = paste(sQuote("surv_test()"), "is defunct; use",
+                         sQuote("logrank_test()"), "instead"))
 }
 ### </DEFUNCT>
 
@@ -39,6 +39,8 @@ logrank_test.IndependenceProblem <- function(object,
                      " (maybe the grouping variable is not a factor?)")
             if (!is_censored_y(object))
                 stop(sQuote(colnames(object@y)), " is not a censored variable")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )

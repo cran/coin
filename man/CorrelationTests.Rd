@@ -83,10 +83,9 @@
   \code{koziol_test()} provide the Spearman correlation test, the Fisher-Yates
   correlation test using van der Waerden scores, the quadrant test and the
   Koziol-Nemec test.  A general description of these methods is given by
-  \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen (1999, Sec. 4.6).  The
-  Koziol-Nemec test was suggested by Koziol and Nemec (1979).  For the
-  adjustment of scores for tied values see \enc{Hájek}{Hajek},
-  \enc{Šidák}{Sidak} and Sen (1999, pp. 133--135).
+  \bibcitet{|coin::theory-of-:-1999|Sec. 4.6}.  The
+  Koziol-Nemec test was suggested by \bibcitet{coin::koziol_1979}.  For the
+  adjustment of scores for tied values see \bibcitet{|coin::theory-of-:-1999|pp. 133--135}.
 
   The null hypothesis of independence, or conditional independence given
   \code{block}, between \code{y} and \code{x} is tested.
@@ -101,14 +100,7 @@
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
 }
-\references{
-  \enc{Hájek}{Hajek}, J., \enc{Šidák}{Sidak}, Z. and Sen, P. K.  (1999).
-  \emph{Theory of Rank Tests}, Second Edition.  San Diego: Academic Press.
-
-  Koziol, J. A. and Nemec, A. F.  (1979).  On a \enc{Cramér}{Cramer}-von Mises
-  type statistic for testing bivariate independence.  \emph{The Canadian Journal
-  of Statistics} \bold{7}(1), 43--52.  \doi{10.2307/3315014}
-}
+\references{\bibshow{*}}
 \examples{
 ## Asymptotic Spearman test
 spearman_test(CONT ~ INTG, data = USJudgeRatings)

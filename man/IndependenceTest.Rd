@@ -88,10 +88,10 @@
 \details{
   \code{independence_test()} provides a general independence test for two sets
   of variables measured on arbitrary scales.  This function is based on the
-  general framework for conditional inference procedures proposed by Strasser
-  and Weber (1999).  The salient parts of the Strasser-Weber framework are
-  elucidated by Hothorn \emph{et al.} (2006) and a thorough description of the
-  software implementation is given by Hothorn \emph{et al.} (2008).
+  general framework for conditional inference procedures proposed by 
+  \bibcitet{coin::strasserweber1999}.  The salient parts of the Strasser-Weber framework are
+  elucidated by \bibcitet{coin::hothorn:2006:amstat} and a thorough description of the
+  software implementation is given by \bibcitet{coin::hothorn+hornik+vandewiel:2008}.
 
   The null hypothesis of independence, or conditional independence given
   \code{block}, between \code{y1}, \ldots, \code{yq} and \code{x1}, \ldots,
@@ -109,7 +109,7 @@
   Fisher-Pitman permutation test, the Wilcoxon-Mann-Whitney test, the
   Kruskal-Wallis test and the family of weighted logrank tests for censored
   data.  Furthermore, multivariate extensions such as the multivariate
-  Kruskal-Wallis test (Puri and Sen, 1966, 1971) can be implemented without much
+  Kruskal-Wallis test \bibcitep{coin::Puri+Sen:1966,Puri+Sen:1971} can be implemented without much
   effort (see \sQuote{Examples}).
 
   If, say, \code{y1} and/or \code{x1} are ordered factors, the default scores,
@@ -131,39 +131,19 @@
   \code{"approximate"} or \code{"exact"}, respectively.  See
   \code{\link{asymptotic}()}, \code{\link{approximate}()} and
   \code{\link{exact}()} for details.
+
+  The example section uses data presented by \bibcitet{coin::Johnson_1993}.
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
 }
 \note{
-  Starting with \pkg{coin} version 1.1-0, maximum statistics and quadratic forms
-  can no longer be specified using \code{teststat = "maxtype"} and
+  Starting with version 1.1-0, maximum statistics and quadratic forms can no
+  longer be specified using \code{teststat = "maxtype"} and
   \code{teststat = "quadtype"}, respectively (as was used in versions prior to
   0.4-5).
 }
-\references{
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
-  system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
-
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2008).
-  Implementing a class of permutation tests: The coin package.  \emph{Journal of
-    Statistical Software} \bold{28}(8), 1--23.  \doi{10.18637/jss.v028.i08}
-
-  Johnson, W. D., Mercante, D. E. and May, W. L.  (1993).  A computer package
-  for the multivariate nonparametric rank test in completely randomized
-  experimental designs.  \emph{Computer Methods and Programs in Biomedicine}
-  \bold{40}(3), 217--225.  \doi{10.1016/0169-2607(93)90059-T}
-
-  Puri, M. L. and Sen, P. K.  (1966).  On a class of multivariate multisample
-  rank order tests.  \emph{Sankhya} A \bold{28}(4), 353--376.
-
-  Puri, M. L. and Sen, P. K.  (1971).  \emph{Nonparametric Methods in
-    Multivariate Analysis}.  New York: John Wiley & Sons.
-
-  Strasser, H. and Weber, C.  (1999).  On the asymptotic theory of permutation
-  statistics.  \emph{Mathematical Methods of Statistics} \bold{8}(2), 220--250.
-}
+\references{\bibshow{*}}
 \examples{
 ## One-sided exact van der Waerden (normal scores) test...
 independence_test(asat ~ group, data = asat,

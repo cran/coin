@@ -1,18 +1,24 @@
 ### <DEPRECATED>
-### Note: The "CovarianceMatrix", "Variance" and "VarCovar" classes were
-### deprecated in 1.4-0.  To be removed in 2.0-0.
+### Classes "CovarianceMatrix", "Variance" and "VarCovar" were deprecated in
+### 1.4-0.  To be removed in 2.0-0.
 ### Covariance matrix
 setClass("CovarianceMatrix",
     slots = c(
         covariance = "matrix"
-    )
+    ),
+    validity = function(object)
+        .Deprecated(msg = paste("class", dQuote("CovarianceMatrix"),
+                                "is deprecated"))
 )
 
 ### Variance only
 setClass("Variance",
     slots = c(
         variance = "numeric"
-    )
+    ),
+    validity = function(object)
+        .Deprecated(msg = paste("class", dQuote("Variance"),
+                                "is deprecated"))
 )
 
 ### Virtual class for covariance and variance
@@ -108,6 +114,8 @@ setClass("QuadTypeIndependenceTestStatistic",
     )
 )
 
+### <DEPRECATED>
+### Class "PValue" was deprecated in 1.3-0.  To be removed in 2.0-0.
 ### p-values
 setClass("PValue",
     slots = c(
@@ -121,6 +129,7 @@ setClass("PValue",
         name   = NA_character_
     )
 )
+### </DEPRECATED>
 
 ### Null distribution
 setClass("NullDistribution",

@@ -10,7 +10,11 @@
 %%\usepackage[nolists]{endfloat}
 %%\usepackage{Sweave}
 
+%% hyperlinked dois in jss refstyle
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\normalfont\texttt{\@doi{#1}}}}
+
 %%\VignetteIndexEntry{A Lego System for Conditional Inference}
+%\VignetteDepends{coin}
 
 \newcommand{\Rpackage}[1]{{\normalfont\fontseries{b}\selectfont #1}}
 \newcommand{\Robject}[1]{\texttt{#1}}
@@ -117,7 +121,7 @@ anonymous <- FALSE
 \footnote{This is a preprint of an article published in
 The American Statistician, Volume 60, Number 3, Pages 257--263.
 Copyright \copyright{} 2006 American Statistical Association; available online at
-\url{http://www.amstat.org/publications/tas/}.}}
+\url{https://doi.org/10.1198/000313006X118430}.}}
 
 
 <<authors, echo = FALSE, results = tex>>=
@@ -960,7 +964,20 @@ adequate Lego bricks.
 %%\setlength{\bibsep}{2mm}
 
 \bibliographystyle{jss}
-\bibliography{LegoCondInf}
+
+<<bib, echo = FALSE>>=
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}
+@
+\bibliography{\Sexpr{bibfile}}
+
 
 \clearpage
 

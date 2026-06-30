@@ -92,7 +92,6 @@
   Ludwigstra{\ss}e 33\\
   DE-80539 M\"unchen, Germany \\
   E-mail: \email{Torsten.Hothorn@R-project.org}\\
-  URL: \url{http://www.stat.uni-muenchen.de/~hothorn/}\\
 
   Kurt Hornik, Achim Zeileis\\
   Department of Statistics and Mathematics\\
@@ -1157,7 +1156,18 @@ Henric Winell provided clarification and examples for the Stuart-Maxwell test an
 identifying bugs. The work of Torsten Hothorn was supported by Deutsche Forschungsgemeinschaft (DFG)
 under grant HO 3242/1-3.
 
-\bibliography{coin}
+<<bib, echo = FALSE>>=
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}
+@
+\bibliography{\Sexpr{bibfile}}
 
 \begin{appendix}
 

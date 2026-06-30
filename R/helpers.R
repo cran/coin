@@ -7,9 +7,10 @@ asymptotic <- function(maxpts = 25000, abseps = 0.001, releps = 0) {
 approximate <- function(nresample = 10000L, parallel = c("no", "multicore", "snow"),
                         ncpus = 1L, cl = NULL, B) {
     ## <DEPRECATED>
+    ## Argument 'B' was deprecated in 1.3-0.  To be removed in 2.0-0.
     if (!missing(B)) {
-        warning(sQuote("B"), " is deprecated; use ", sQuote("nresample"),
-                " instead")
+        .Deprecated(msg = paste(sQuote("B"), "is deprecated; use",
+                                sQuote("nresample"), "instead"))
         nresample <- B
     }
     ## </DEPRECATED>
@@ -90,20 +91,8 @@ ft <- function(name, class, formula, data = list(), subset = NULL,
     args <- list(...)
     args$frame <- NULL
 
-    ## warn users of weighted rank tests
-    if (name %in% ranktests && !is.null(object@weights) &&
-        !is_unity(object@weights))
-        warning("rank transformation doesn't take weights into account")
-
     do.call(name, c(object = object, args))
 }
-
-ranktests <-
-    c("wilcox_test", "kruskal_test", "normal_test", "median_test",
-      "savage_test", "taha_test", "klotz_test", "mood_test", "ansari_test",
-      "fligner_test", "conover_test", "logrank_test", "quade_test",
-      "friedman_test", "wilcoxsign_test", "spearman_test", "fisyat_test",
-      "quadrant_test", "koziol_test")
 
 formula2data <- function(formula, data, subset, weights = NULL, ...) {
     no_weights <- is.null(weights)
@@ -513,12 +502,9 @@ setAttributes <- function(object, value) {
 
 ### heuristic for determining the printed number of decimal digits
 ### note that, e.g., 1.00 --> 0, 1.10 --> 1, 1.01 --> 2
-n_decimal_digits <-
-    function(x)
-{
-    nchar(sub("^-?[[:space:]]?[[:digit:]]*[.]?", "",
-              format(x, digits = 15, scientific = FALSE)[1]))
-}
+.ndecimals <-
+function(x)
+    nchar(sub("^[^.]*\\.?", "", format(x, digits = 15, scientific = FALSE)[1]))
 
 ### Back-compatibility
 if (getRversion() < "4.1.0") {

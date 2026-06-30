@@ -139,8 +139,8 @@ setMethod("ApproxNullDistribution",
     definition = function(object, nresample = 10000L, B, ...) {
         ## <DEPRECATED>
         if (!missing(B)) {
-            warning(sQuote("B"), " is deprecated; use ", sQuote("nresample"),
-                    " instead")
+            .Deprecated(msg = paste(sQuote("B"), "is deprecated; use",
+                                    sQuote("nresample"), "instead"))
             nresample <- B
         }
         ## </DEPRECATED>
@@ -258,8 +258,8 @@ setMethod("ApproxNullDistribution",
     definition = function(object, nresample = 10000L, B, ...) {
         ## <DEPRECATED>
         if (!missing(B)) {
-            warning(sQuote("B"), " is deprecated; use ", sQuote("nresample"),
-                    " instead")
+            .Deprecated(msg = paste(sQuote("B"), "is deprecated; use",
+                                    sQuote("nresample"), "instead"))
             nresample <- B
         }
         ## </DEPRECATED>
@@ -387,8 +387,8 @@ setMethod("ApproxNullDistribution",
     definition = function(object, nresample = 10000L, B, ...) {
         ## <DEPRECATED>
         if (!missing(B)) {
-            warning(sQuote("B"), " is deprecated; use ", sQuote("nresample"),
-                    " instead")
+            .Deprecated(msg = paste(sQuote("B"), "is deprecated; use",
+                                    sQuote("nresample"), "instead"))
             nresample <- B
         }
         ## </DEPRECATED>

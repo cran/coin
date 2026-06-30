@@ -38,45 +38,26 @@
 \details{
   Coarse woody debris (CWD, dead wood greater than 10 cm in diameter) is
   a large stock of carbon in tropical forests, yet the flux of carbon
-  out of this pool, via respiration, is poorly resolved (Chambers,
-  Schimel and Nobre, 2001).  The heterotrophic process involved in CWD
+  out of this pool, via respiration, is poorly resolved
+  \bibcitep{coin::chambers_2001}.  The heterotrophic process involved in CWD
   respiration should respond to reductions in moisture availability,
-  which occurs during dry season (Chambers, Schimel and Nobre, 2001).
+  which occurs during dry season \bibcitep{coin::chambers_2001}.
 
   CWD respiration measurements were taken in a tropical forest in west French
-  Guiana, which experiences extreme contrasts in wet and dry season (Bonal
-  \emph{et al.}, 2008).  An infrared gas analyzer and a clear chamber sealed to
+  Guiana, which experiences extreme contrasts in wet and dry season
+  \bibcitep{coin::bonal_2008}. An infrared gas analyzer and a clear chamber sealed to
   the wood surface were used to measure the flux of carbon out of the wood
-  (Stahl \emph{et al.}, 2011).  Measurements were repeated 13 times, from July
+  \bibcitep{coin::stahl_2011}.  Measurements were repeated 13 times, from July
   to November 2011, on six pieces of wood during the transition into and out of
   the dry season.  The aim is to assess if there were shifts in the CWD
   respiration of any of the pieces in response to the transition into (early
   August) and out of (late October) the dry season.
 
-  Zeileis and Hothorn (2013) investigated the six-variate series of CO\eqn{_2}
+  \bibcitet{coin::Zeileis_Hothorn_2013} investigated the six-variate series of CO\eqn{_2}
   reflux, aiming to find out whether the reflux had changed over the sampling
   period in at least one of the six wood pieces.
 }
-\references{
-  Bonal, D., Bosc, A., Ponton, S., Goret, J.-Y., Burban, B., Gross, P.,
-  Bonnefond, J.-M., Elbers, J., Longdoz, B., Epron, D., Guehl, J.-M. and
-  Granier, A.  (2008).  Impact of severe dry season on net ecosystem exchange in
-  the Neotropical rainforest of French Guiana.  \emph{Global Change Biology}
-  \bold{14}(8), 1917--1933.  \doi{10.1111/j.1365-2486.2008.01610.x}
-
-  Chambers, J. Q., Schimel, J. P. and Nobre, A. D.  (2001).  Respiration from
-  coarse wood litter in central Amazon forests.  \emph{Biogeochemistry}
-  \bold{52}(2), 115--131.  \doi{10.1023/A:1006473530673}
-
-  Stahl, C., Burban, B., Goret, J.-Y. and Bonal, D.  (2011).  Seasonal
-  variations in stem CO\eqn{\mathrm{_2}} efflux in the Neotropical rainforest of
-  French Guiana.  \emph{Annals of Forest Science} \bold{68}(4), 771--782.
-  \doi{10.1007/s13595-011-0074-2}
-
-  Zeileis, A. and Hothorn, T.  (2013).  A toolbox of permutation tests for
-  structural change.  \emph{Statistical Papers} \bold{54}(4), 931--954.
-  \doi{10.1007/s00362-013-0503-4}
-}
+\references{\bibshow{*}}
 \source{
   The coarse woody debris respiration data were kindly provided by Lucy Rowland
   (School of GeoSciences, University of Edinburgh).

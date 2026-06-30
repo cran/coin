@@ -37,27 +37,16 @@
   exposure (group A: topical vehicle and 600 Robertson--Berger units of UVR,
   group B: no topical vehicle and 600 Robertson--Berger units of UVR and group
   C: no topical vehicle and 1200 Robertson--Berger units of UVR).  The data are
-  taken from Tables 1 to 3 in Molefe \emph{et al.} (2005).
+  taken from Tables 1 to 3 in \bibcitet{coin::Molefe_2005}.
 
   The main interest is testing the global null hypothesis of no treatment effect
   with respect to survival time, time to first tumor and number of tumors.
-  (Molefe \emph{et al.}, 2005, also analyzed the detection time of tumors, but
-  that data is not given here.)  In case the global null hypothesis can be
+  \bibcitet{coin::Molefe_2005} also analyzed the detection time of tumors, but
+  that data is not given here.  In case the global null hypothesis can be
   rejected, the deviations from the partial null hypotheses are of special
   interest.
 }
-\source{
-  Molefe, D. F., Chen, J. J., Howard, P. C., Miller, B. J., Sambuco, C. P.,
-  Forbes, P. D. and Kodell, R. L.  (2005).  Tests for effects on tumor frequency
-  and latency in multiple dosing photococarcinogenicity experiments.
-  \emph{Journal of Statistical Planning and Inference} \bold{129}(1--2), 39--58.
-  \doi{10.1016/j.jspi.2004.06.038}
-}
-\references{
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
-  system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
-}
+\source{\bibshow{*}}
 \examples{
 ## Plotting data
 op <- par(no.readonly = TRUE) # save current settings

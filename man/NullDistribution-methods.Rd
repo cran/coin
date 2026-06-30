@@ -59,11 +59,11 @@
   Carlo) and exact reference distribution, respectively.
 }
 \note{
-  In versions of \pkg{coin} prior to 1.3-0, the number of Monte Carlo replicates
-  in \code{ApproxNullDistribution()} was specified using the now deprecated
+  In versions prior to 1.3-0, the number of Monte Carlo replicates in
+  \code{ApproxNullDistribution()} was specified using the now deprecated
   \code{B} argument.  \strong{This will be made defunct and removed in a future
-  release.}  It has been replaced by the \code{nresample} argument (for
-  conformity with the \pkg{libcoin}, \pkg{party} and \pkg{partykit} packages).
+    release.}  It has been replaced by the \code{nresample} argument (for
+  consistency with the \pkg{libcoin}, \pkg{party} and \pkg{partykit} packages).
 }
 \value{
   An object of class \code{"\linkS4class{AsymptNullDistribution}"},

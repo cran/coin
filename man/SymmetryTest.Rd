@@ -5,8 +5,8 @@
 \alias{symmetry_test.SymmetryProblem}
 \title{General Symmetry Test}
 \description{
-  Testing the symmetry of set of repeated measurements variables measured on
-  arbitrary scales in a complete block design.
+  Testing the symmetry of a set of variables measured on arbitrary scales in a
+  complete block design.
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
@@ -94,10 +94,11 @@
 \details{
   \code{symmetry_test()} provides a general symmetry test for a set of variables
   measured on arbitrary scales.  This function is based on the general framework
-  for conditional inference procedures proposed by Strasser and Weber (1999).
-  The salient parts of the Strasser-Weber framework are elucidated by Hothorn
-  \emph{et al.} (2006) and a thorough description of the software implementation
-  is given by Hothorn \emph{et al.} (2008).
+  for conditional inference procedures proposed by
+  \bibcitet{coin::strasserweber1999}.
+  The salient parts of the Strasser-Weber framework are elucidated by
+  \bibcitet{coin::hothorn:2006:amstat} and a thorough description of the software implementation
+  is given by \bibcitet{coin::hothorn+hornik+vandewiel:2008}.
 
   The null hypothesis of symmetry is tested.  The response variables and the
   measurement conditions are given by \code{y1}, \ldots, \code{yq} and \code{x},
@@ -113,7 +114,8 @@
   available.  This allows for implementation of both novel and familiar test
   statistics, e.g., the McNemar test, the Cochran \eqn{Q} test, the Wilcoxon
   signed-rank test and the Friedman test.  Furthermore, multivariate extensions
-  such as the multivariate Friedman test (Gerig, 1969; Puri and Sen, 1971) can
+  such as the multivariate Friedman test
+  \bibcitep{coin::gerig_1969,Puri+Sen:1971} can
   be implemented without much effort (see \sQuote{Examples}).
 
   If, say, \code{y1} and/or \code{x} are ordered factors, the default scores,
@@ -140,31 +142,12 @@
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
 }
 \note{
-  Starting with \pkg{coin} version 1.1-0, maximum statistics and quadratic forms
-  can no longer be specified using \code{teststat = "maxtype"} and
+  Starting with version 1.1-0, maximum statistics and quadratic forms can no
+  longer be specified using \code{teststat = "maxtype"} and
   \code{teststat = "quadtype"} respectively (as was used in versions prior to
   0.4-5).
 }
-\references{
-  Gerig, T.  (1969).  A multivariate extension of Friedman's
-  \eqn{\chi^2_r}{chi^2_r}-test.  \emph{Journal of the American Statistical
-    Association} \bold{64}(328), 1595--1608.
-  \doi{10.1080/01621459.1969.10501079}
-
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
-  system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
-
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2008).
-  Implementing a class of permutation tests: The coin package.  \emph{Journal of
-    Statistical Software} \bold{28}(8), 1--23.  \doi{10.18637/jss.v028.i08}
-
-  Puri, M. L. and Sen, P. K.  (1971).  \emph{Nonparametric Methods in
-    Multivariate Analysis}.  New York: John Wiley & Sons.
-
-  Strasser, H. and Weber, C.  (1999).  On the asymptotic theory of permutation
-  statistics.  \emph{Mathematical Methods of Statistics} \bold{8}(2), 220--250.
-}
+\references{\bibshow{*}}
 \examples{
 ## One-sided exact Fisher-Pitman test for paired observations
 y1 <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)

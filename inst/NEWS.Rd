@@ -1,12 +1,43 @@
+\newcommand{\C}{\ifelse{latex}{\out{\textsf{C}}}{C}}
+
 \name{NEWS}
 \title{News for Package \pkg{coin}}
+
+\section{Changes in version 1.4-4 (2026-06-29)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item \code{zheng_trafo()} using \code{increment = 1} failed to print in
+            \R \eqn{\ge}{>=}4.2.0 (due to changes in \code{base::format()}).
+
+      \item Supplying case weights to the sign and Wilcoxon signed-rank tests
+            appeared to work, but were not taken into account; it now results in
+            an error.
+
+      \item Fix \code{rchk} warning in internal \C routines.
+    }
+  }
+  \subsection{User-visible changes}{
+    \itemize{
+      \item Documentation updates.
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item Clarifying comments and more reasonable argument names
+            in \file{coin/src/StreitbergRoehmel.c}.
+
+      \item Bibliographic citations and references now use
+            \file{inst/REFERENCES.bib}.
+    }
+  }
+}
 
 \section{Changes in version 1.4-3 (2023-09-26)}{
   \subsection{Bug fixes}{
     \itemize{
       \item Supplying case weights to tests for marginal homogeneity or symmetry
-            hypotheses appeared to work, but returned incorrect test statistics
-            and \eqn{p}-values; it now results in an error.
+            hypotheses appeared to work, but were not taken into account; it now
+            results in an error.
     }
   }
   \subsection{User-visible changes}{

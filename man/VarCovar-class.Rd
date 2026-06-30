@@ -73,7 +73,7 @@
   }
 }
 \note{
-  Starting with \pkg{coin} version 1.4-0, this class is deprecated.  \strong{It
-    will be made defunct and removed in a future release.}
+  Starting with version 1.4-0, this class is deprecated.  \strong{It will be
+    made defunct and removed in a future release.}
 }
 \keyword{classes}

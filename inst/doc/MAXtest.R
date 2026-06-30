@@ -518,7 +518,21 @@ for (i in 1:nrow(out))
 
 
 ###################################################
-### code chunk number 14: Ame-tab
+### code chunk number 14: bib
+###################################################
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}
+
+
+###################################################
+### code chunk number 15: Ame-tab
 ###################################################
 me <- as.table(matrix(c( 6,  8, 10,
                32, 47, 20), byrow = TRUE, nrow = 2,
@@ -529,7 +543,7 @@ me
 
 
 ###################################################
-### code chunk number 15: Ag
+### code chunk number 16: Ag
 ###################################################
 add <- c(0, 1, 2)
 dom <- c(0, 1, 1)
@@ -541,7 +555,7 @@ g <- function(x) {
 
 
 ###################################################
-### code chunk number 16: AMAX
+### code chunk number 17: AMAX
 ###################################################
 library("coin")
 it <- independence_test(me, xtrafo = g, alternative = "greater")
@@ -549,19 +563,19 @@ it
 
 
 ###################################################
-### code chunk number 17: Ap (eval = FALSE)
+### code chunk number 18: Ap (eval = FALSE)
 ###################################################
 ## pvalue(it, method = "single-step")
 
 
 ###################################################
-### code chunk number 18: Ap
+### code chunk number 19: Ap
 ###################################################
 drop(pvalue(it, method = "single-step"))
 
 
 ###################################################
-### code chunk number 19: Zheng-g
+### code chunk number 20: Zheng-g
 ###################################################
 gZheng <- function(x) {
     x <- unlist(x)
@@ -575,19 +589,19 @@ itZ
 
 
 ###################################################
-### code chunk number 20: pZheng (eval = FALSE)
+### code chunk number 21: pZheng (eval = FALSE)
 ###################################################
 ## pvalue(itZ, method = "single-step")
 
 
 ###################################################
-### code chunk number 21: pZheng
+### code chunk number 22: pZheng
 ###################################################
 drop(pvalue(itZ, method = "single-step"))
 
 
 ###################################################
-### code chunk number 22: Simulations (eval = FALSE)
+### code chunk number 23: Simulations (eval = FALSE)
 ###################################################
 ## library("coin")
 ## 
@@ -722,5 +736,3 @@ drop(pvalue(itZ, method = "single-step"))
 ## SIMG(sims=10000,R=100,S=300,p=0.5,f0=0.1,f1=0.187,  f2=0.187)
 ## SIMG(sims=10000,R=100,S=300,p=0.5,f0=0.1,f1=0.15, f2=0.2)
 ## SIMG(sims=10000,R=100,S=300,p=0.5,f0=0.1,f1=0.1,  f2=0.175)
-
-

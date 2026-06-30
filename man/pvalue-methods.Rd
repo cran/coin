@@ -96,11 +96,13 @@
   adjusted \eqn{p}-value is valid without further assumptions.  Control of the
   FWER under any partial configuration of the null hypotheses, i.e., in the
   \emph{strong} sense, as is typically desired for multiple tests and
-  comparisons, requires that the \emph{subset pivotality} condition holds
-  (Westfall and Young, 1993, pp. 42--43; Bretz, Hothorn and Westfall, 2011,
-  pp. 136--137).  In addition, for methods based on the joint distribution of
-  the test statistics, failure of the \emph{joint exchangeability} assumption
-  (Westfall and Troendle, 2008; Bretz, Hothorn and Westfall, 2011, pp. 129--130)
+  comparisons, requires that the \emph{subset pivotality} condition holds,
+  see \bibcitet{|coin::westfallyoung1993|pp. 42--43} and 
+  \bibcitet{|coin::Bretz+Hothorn+Westfall_2010|pp. 136--137}.
+  In addition, for methods based on the joint distribution of
+  the test statistics, failure of the \emph{joint exchangeability}
+  assumption, explained by \bibcitet{coin::westfall_2008} and in
+   \bibcitet{|coin::Bretz+Hothorn+Westfall_2010|pp. 129--130},
   may cause excess Type I errors.
 
   Assuming \emph{subset pivotality}, single-step or \emph{free} step-down
@@ -119,22 +121,23 @@
   distributions only incorporate discreteness.  Hence, the joint
   distribution-based procedures are typically more powerful.  Details regarding
   the single-step and \emph{free} step-down procedures based on the joint
-  distribution can be found in Westfall and Young (1993); in particular, this
+  distribution can be found in \bibcitet{coin::westfallyoung1993} in particular, this
   implementation uses Equation 2.8 with Algorithm 2.5 and 2.8, respectively.
-  Westfall and Wolfinger (1997) provide details of the marginal
+  \bibcitet{coin::westfall_1997} provide details of the marginal
   distributions-based single-step and \emph{free} step-down procedures.  The
-  generalization of Westfall and Wolfinger (1997) to arbitrary test statistics,
-  as implemented here, is given by Westfall and Troendle (2008).
+  generalization of \bibcitet{coin::westfall_1997} to arbitrary test statistics,
+  as implemented here, is given \bibcitet{coin::westfall_2008}.
 
   Unadjusted \eqn{p}-values are obtained using \code{method = "unadjusted"}.
 
   For \code{midpvalue()}, the global mid-\eqn{p}-value is given with an
   associated 99\% mid-\eqn{p} confidence interval when resampling is used to
   determine the null distribution.  The two-sided mid-\eqn{p}-value is computed
-  according to the minimum likelihood method (Hirji \emph{et al.}, 1991).
+  according to the minimum likelihood method \bibcitep{coin::hirji_1991}.
 
   The \eqn{p}-value interval \eqn{(p_0, p_1]} obtained by
-  \code{pvalue_interval()} was proposed by Berger (2000, 2001), where the upper
+  \code{pvalue_interval()} was proposed by
+  \bibcitet{coin::pros-and-c:2000,coin::berger_2001}, where the upper
   endpoint \eqn{p_1} is the conventional \eqn{p}-value and the mid-point, i.e.,
   \eqn{p_{0.5}}{p_0.5}, is the mid-\eqn{p}-value.  The lower endpoint \eqn{p_0}
   is the smallest \eqn{p}-value attainable if no conservatism attributable to
@@ -151,8 +154,8 @@
   conservatism that depends on the nominal significance level.  A test size
   smaller or larger than the nominal significance level indicates that the test
   procedure is conservative or anti-conservative, respectively, at that
-  particular nominal significance level.  However, as pointed out by Berger
-  (2001), even when the actual and nominal significance levels are identical,
+  particular nominal significance level.  However, as pointed out by 
+  \bibcitet{coin::berger_2001}, even when the actual and nominal significance levels are identical,
   conservatism may still affect the \eqn{p}-value.
 }
 \value{
@@ -164,39 +167,13 @@
   permutation distributions or exact permutation distributions obtained by the
   split-up algorithm is reported as \code{NA}.
 
-  In versions of \pkg{coin} prior to 1.1-0, a min-\eqn{P} procedure computing
+  In versions prior to 1.1-0, a min-\eqn{P} procedure computing
   \enc{Šidák}{Sidak} single-step adjusted \eqn{p}-values accounting for
   discreteness was available when specifying \code{method = "discrete"}.  This
   was made \strong{defunct} in version 1.2-0 due to the introduction of a more
   general max-\eqn{T} version of the same algorithm.
 }
-\references{
-  Berger, V. W.  (2000).  Pros and cons of permutation tests in clinical trials.
-  \emph{Statistics in Medicine} \bold{19}(10), 1319--1328.
-  \doi{10.1002/(SICI)1097-0258(20000530)19:10<1319::AID-SIM490>3.0.CO;2-0}
-
-  Berger, V. W.  (2001).  The \eqn{p}-value interval as an inferential tool.
-  \emph{The Statistician} \bold{50}(1), 79--85.  \doi{10.1111/1467-9884.00262}
-
-  Bretz, F., Hothorn, T. and Westfall, P.  (2011).  \emph{Multiple Comparisons
-    Using R}.  Boca Raton: CRC Press.
-
-  Hirji, K. F., Tan, S.-J. and Elashoff, R. M.  (1991).  A quasi-exact test for
-  comparing two binomial proportions.  \emph{Statistics in Medicine}
-  \bold{10}(7), 1137--1153.  \doi{10.1002/sim.4780100713}
-
-  Westfall, P. H. and Troendle, J. F.  (2008).  Multiple testing with minimal
-  assumptions.  \emph{Biometrical Journal} \bold{50}(5), 745--755.
-  \doi{10.1002/bimj.200710456}
-
-  Westfall, P. H. and Wolfinger, R. D.  (1997).  Multiple tests with discrete
-  distributions.  \emph{The American Statistician} \bold{51}(1), 3--8.
-  \doi{10.1080/00031305.1997.10473577}
-
-  Westfall, P. H. and Young, S. S.  (1993).  \emph{Resampling-Based Multiple
-    Testing: Examples and Methods for \eqn{p}-Value Adjustment}.  New York: John
-  Wiley & Sons.
-}
+\references{\bibshow{*}}
 \examples{
 ## Two-sample problem
 dta <- data.frame(

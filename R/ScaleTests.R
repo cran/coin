@@ -26,6 +26,8 @@ taha_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -79,6 +81,8 @@ klotz_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -132,6 +136,8 @@ mood_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -185,6 +191,8 @@ ansari_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -252,6 +260,8 @@ fligner_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )
@@ -306,6 +316,8 @@ conover_test.IndependenceProblem <- function(object,
                 stop(sQuote(colnames(object@y)), " is not a numeric variable")
             if (is_ordered_x(object))
                 stop(sQuote(colnames(object@x)), " is an ordered factor")
+            if (!is_unity(object@weights))
+                warning("rank transformation doesn't take weights into account")
             TRUE
         }
     )

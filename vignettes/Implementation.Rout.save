@@ -358,7 +358,16 @@ alternative hypothesis: two.sided
 15000-25000 0.9659953 0.8034534 0.9999999 0.8267981
 >25000      0.9761900 1.0000000 0.9996381 0.9394962
 
+> thisdir <- getwd()
+
+> bibfile <- system.file("REFERENCES.bib", package = "coin")
+
+> if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
++     bibfile <- "REFERENCES.bib"
++ } else {
++     bibfile <- file.path("..", "inst", "REF ..." ... [TRUNCATED] 
+
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   2.40    0.18    2.64 
+  1.219   0.052   1.269 

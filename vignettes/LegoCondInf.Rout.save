@@ -307,7 +307,16 @@ C          <0.00001          <0.00001 0.99859
 
 > lines(site, pita, lty = 3)
 
+> thisdir <- getwd()
+
+> bibfile <- system.file("REFERENCES.bib", package = "coin")
+
+> if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
++     bibfile <- "REFERENCES.bib"
++ } else {
++     bibfile <- file.path("..", "inst", "REF ..." ... [TRUNCATED] 
+
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   2.87    0.14    3.09 
+  1.408   0.046   1.447 

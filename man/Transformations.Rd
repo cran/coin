@@ -220,10 +220,10 @@ mcp_trafo(...)
   arbitrary number of columns.
 }
 \note{
-  Starting with \pkg{coin} version 1.1-0, all transformation functions are now
-  passing through missing values (i.e., \code{\link[base]{NA}}s).  Furthermore,
+  Starting with version 1.1-0, all transformation functions are now passing
+  through missing values (i.e., \code{\link[base]{NA}}s).  Furthermore,
   \code{median_trafo()} and \code{logrank_trafo()} are now \emph{increasing}
-  functions (in conformity with most other transformations in this package).
+  functions (for consistency with most other transformations in this package).
 }
 \examples{
 ## Dummy matrix, two-sample problem (only one column)

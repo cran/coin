@@ -213,7 +213,7 @@ cSR_shift_2sample <- function(scores, m, fact) {
     scores <- scores - add
     storage.mode(m) <- "integer"
 
-    Prob <- .Call(R_cpermdist2, score_b = scores, m_a = m)
+    Prob <- .Call(R_dpermdist2, score_b = scores, m_a = m)
     T <- which(Prob != 0)
 
     list(T = (T + add * m) / fact, Prob = Prob[T])
@@ -254,7 +254,7 @@ SR_shift_1sample <- function(object, fact) {
         s[s != 0] # remove zeros
     }, NA_real_)
     storage.mode(scores) <- "integer"
-    Prob <- .Call(R_cpermdist1, scores = scores)
+    Prob <- .Call(R_dpermdist1, scores = scores)
     T <- which(Prob != 0)
     Prob <- Prob[T]
     ## 0 is possible

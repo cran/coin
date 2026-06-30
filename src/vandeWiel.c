@@ -295,8 +295,9 @@ double numbersmall(int c, int b, double ob, celW **W1, celW **W2, double tol) {
     return(tot);
 }
 
-SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
-    /* R interface to the split-up algorithm.  'scores' is a REAL vector giving
+SEXP R_split_up_2sample(SEXP x, SEXP m, SEXP obs, SEXP tol) {
+
+    /* R interface to the split-up algorithm.  'x' is a REAL vector giving
        the scores of the total sample, 'm' is a scalar integer with the sample
        size of one group and 'obs' is the scalar observed test statistic, i.e.,
        the sum of the 'm' scores measured in one group. */
@@ -307,10 +308,10 @@ SEXP R_split_up_2sample(SEXP scores, SEXP m, SEXP obs, SEXP tol) {
     celW **W1, **W2;
     double *rs;
 
-    b = LENGTH(scores);
+    b = LENGTH(x);
     bp = (b + 1) / 2;
     be = b / 2;
-    rs = REAL(scores);
+    rs = REAL(x);
     c = INTEGER(m)[0];
     ob = REAL(obs)[0];
 

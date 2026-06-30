@@ -200,18 +200,21 @@ print.ci <- function(x, ...) {
 }
 
 format.pvalue <-
-    function(x, digits = getOption("digits"), ...)
+function(x, digits = getOption("digits"), ...)
 {
-    frmt <- function(x, tol) {
+    frmt <-
+    function(x, tol)
+    {
         idx <- x < tol
-        ndd <- n_decimal_digits(x)
-        ## ndd is > 0 unless p-value = 0 (or 1)
-        x[idx] <- if (ndd > 0) max(tol, 10^-ndd) else tol
+        nd <- .ndecimals(x)
+        ## nd is > 0 unless p-value = 0 (or 1)
+        x[idx] <- if (nd > 0) max(tol, 10^-nd) else tol
         ## flag p-values below tolerance
         x <- format(x, digits = digits)
         x[idx] <- paste0("<", x[idx])
         x
     }
+
     ## set tolerance to either machine or resampling precision
     tol <- attr(x, "nresample") # non-NULL for approximate p-values
     tol <- if (is.null(tol)) eps else 1 / tol

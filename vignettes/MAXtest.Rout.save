@@ -160,6 +160,15 @@ dominant  &  337 & 320.4287 & 7.0531 & 2.3495 & 0.0207 & 0.0112 \\
 additive  &  438 & 404.0265 & 10.1618 & 3.3433 & 0.0012 & 0.001 \\ 
 recessive  &  101 & 83.5979 & 5.2912 & 3.2889 & 0.0012 & 0.0013 \\ 
 
+> thisdir <- getwd()
+
+> bibfile <- system.file("REFERENCES.bib", package = "coin")
+
+> if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
++     bibfile <- "REFERENCES.bib"
++ } else {
++     bibfile <- file.path("..", "inst", "REF ..." ... [TRUNCATED] 
+
 > me <- as.table(matrix(c(6, 8, 10, 32, 47, 20), byrow = TRUE, 
 +     nrow = 2, dimnames = list(Group = c("In situ", "Control"), 
 +         Genotype = .... [TRUNCATED] 
@@ -253,4 +262,4 @@ alternative hypothesis: greater
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  11.07    0.14   11.28 
+  7.856   0.082   7.933 

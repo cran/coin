@@ -28,28 +28,17 @@
 }
 \details{
   Control subjects (\code{"control"}) and subjects who ate contaminated fish for
-  more than three years (\code{"exposed"}) are under study.
+  more than three years (\code{"exposed"}) are under study
+  \bibcitep{coin::Skerfving_1974}.
 
-  Rosenbaum (1994) proposed a coherence criterion defining a partial ordering,
+  \bibcitet{coin::rosenbaum_1994} proposed a coherence criterion defining a partial ordering,
   i.e., an observation is smaller than another when all responses are smaller,
   and a score reflecting the \dQuote{ranking} is attached to each observation.
   The corresponding partially ordered set (POSET) test can be used to test if
   the distribution of the scores differ between the groups.  Alternatively, a
-  multivariate test can be applied.
+  multivariate test can be applied \bibcitep{coin::hothorn:2006:amstat}.
 }
-\source{
-  Skerfving, S., Hansson, K., Mangs, C., Lindsten, J. and Ryman, N.  (1974).
-  Methylmercury-induced chromosome damage in men.  \emph{Environmental Research}
-  \bold{7}(1), 83--98.  \doi{10.1016/0013-9351(74)90078-4}
-}
-\references{
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
-  system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
-
-  Rosenbaum, P. R. (1994).  Coherence in observational studies.
-  \emph{Biometrics} \bold{50}(2), 368--374.  \doi{10.2307/2533380}
-}
+\references{\bibshow{*}}
 \examples{
 ## Coherence criterion
 coherence <- function(data) {

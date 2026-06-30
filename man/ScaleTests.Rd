@@ -94,10 +94,9 @@
   \code{taha_test()}, \code{klotz_test()}, \code{mood_test()},
   \code{ansari_test()}, \code{fligner_test()} and \code{conover_test()} provide
   the Taha test, the Klotz test, the Mood test, the Ansari-Bradley test, the
-  Fligner-Killeen test and the Conover-Iman test.  A general description of
-  these methods is given by Hollander and Wolfe (1999).  For the adjustment of
-  scores for tied values see \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen
-  (1999, pp. 133--135).
+  Fligner-Killeen test and the Conover-Iman test. A general description of these methods is given by
+  \bibcitet{coin::hollanderwolfe1999}.For the adjustment of scores for tied values see
+  \bibcitet{|coin::theory-of-:-1999|pp. 133--135}.
 
   The null hypothesis of equality, or conditional equality given \code{block},
   of the distribution of \code{y} in the groups defined by \code{x} is tested
@@ -108,11 +107,12 @@
     / V(Y_2) \ge 1}{H_0: V(Y_1) / V(Y_2) >= 1}.  When
   \code{alternative = "greater"}, the null hypothesis is \eqn{H_0\!: V(Y_1) /
     V(Y_2) \le 1}{H_0: V(Y_1) / V(Y_2) <= 1}.  Confidence intervals for the
-  ratio of scales are available and computed according to Bauer (1972).
+  ratio of scales are available and computed according to
+  \bibcitet{coin::bauer_1972}.
 
   The Fligner-Killeen test uses median centering in each of the samples, as
-  suggested by Conover, Johnson and Johnson (1981), whereas the Conover-Iman
-  test, following Conover and Iman (1978), uses mean centering in each of the
+  suggested by \bibcitet{coin::conover_1981}, whereas the Conover-Iman
+  test, following \bibcitet{coin::conover_1978}, uses mean centering in each of the
   samples.
 
   The conditional null distribution of the test statistic is used to obtain
@@ -123,6 +123,9 @@
   \code{"approximate"} or \code{"exact"}, respectively.  See
   \code{\link{asymptotic}()}, \code{\link{approximate}()} and
   \code{\link{exact}()} for details.
+
+  The example section uses data from \bibcitet{coin::hollanderwolfe1999}.
+
 }
 \value{
   An object inheriting from class \code{"\linkS4class{IndependenceTest}"}.
@@ -135,26 +138,7 @@
   Mood, Fligner-Killeen, and Conover-Iman indicate that sample 1 is
   \emph{more} variable than sample 2.
 }
-\references{
-  Bauer, D. F.  (1972).  Constructing confidence sets using rank statistics.
-  \emph{Journal of the American Statistical Association} \bold{67}(339),
-  687--690.  \doi{10.1080/01621459.1972.10481279}
-
-  Conover, W. J. and Iman, R. L.  (1978).  Some exact tables for the squared
-  ranks test.  \emph{Communications in Statistics -- Simulation and Computation}
-  \bold{7}(5), 491--513.  \doi{10.1080/03610917808812093}
-
-  Conover, W. J., Johnson, M. E. and Johnson, M. M.  (1981).  A comparative
-  study of tests for homogeneity of variances, with applications to the outer
-  continental shelf bidding data.  \emph{Technometrics} \bold{23}(4), 351--361.
-  \doi{10.1080/00401706.1981.10487680}
-
-  \enc{Hájek}{Hajek}, J., \enc{Šidák}{Sidak}, Z. and Sen, P. K.  (1999).
-  \emph{Theory of Rank Tests}, Second Edition.  San Diego: Academic Press.
-
-  Hollander, M. and Wolfe, D. A.  (1999).  \emph{Nonparametric Statistical
-  Methods}, Second Edition.   York: John Wiley & Sons.
-}
+\references{\bibshow{*}}
 \examples{
 ## Serum Iron Determination Using Hyland Control Sera
 ## Hollander and Wolfe (1999, p. 147, Tab 5.1)

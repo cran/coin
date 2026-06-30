@@ -13,7 +13,7 @@
   complete block design.
 }
 \usage{
-\method{mh_test}{formula}(formula, data, subset = NULL, ...)
+\method{mh_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{mh_test}{table}(object, ...)
 \method{mh_test}{SymmetryProblem}(object, ...)
 }
@@ -30,6 +30,11 @@
     an optional vector specifying a subset of observations to be used.  Defaults
     to \code{NULL}.
   }
+  \item{weights}{
+    an optional formula of the form \code{~ w} defining integer valued case
+    weights for each observation.  Defaults to \code{NULL}, implying equal
+    weight for all observations.  (Not yet implemented!)
+  }
   \item{object}{
     an object inheriting from classes \code{"table"} (with identical
     \code{dimnames} components) or \code{"\linkS4class{SymmetryProblem}"}.
@@ -41,19 +46,22 @@
 \details{
   \code{mh_test()} provides the McNemar test, the Cochran \eqn{Q} test, the
   Stuart(-Maxwell) test and the Madansky test of interchangeability.  A general
-  description of these methods is given by Agresti (2002).
+  description of these methods is given by \bibcitet{coin::agresti2002}.
 
   The null hypothesis of marginal homogeneity is tested.  The response variable
   and the measurement conditions are given by \code{y} and \code{x},
   respectively, and \code{block} is a factor where each level corresponds to
   exactly one subject with repeated measurements.
 
-  This procedure is known as the McNemar test (McNemar, 1947) when both \code{y}
-  and \code{x} are binary factors, as the Cochran \eqn{Q} test (Cochran, 1950)
+  This procedure is known as the McNemar test \bibcitep{coin::mcnemar_1947} when both \code{y}
+  and \code{x} are binary factors, as the Cochran \eqn{Q} test
+  \bibcitep{coin::cochran_1954}
   when \code{y} is a binary factor and \code{x} is a factor with an arbitrary
-  number of levels, as the Stuart(-Maxwell) test (Stuart, 1955; Maxwell, 1970)
+  number of levels, as the Stuart(-Maxwell) test
+  \bibcitep{coin::stuart_1955,maxwell_1970}
   when \code{y} is a factor with an arbitrary number of levels and \code{x} is a
-  binary factor, and as the Madansky test of interchangeability (Madansky, 1963),
+  binary factor, and as the Madansky test of interchangeability
+  \bibcitep{coin::madansky_1963},
   which implies marginal homogeneity, when both \code{y} and \code{x} are
   factors with an arbitrary number of levels.
   %% See also Bhapkar (1966) for a more powerful Wald-type test.  (As noted by
@@ -68,9 +76,9 @@
   If both \code{y} and \code{x} are ordered factors, a linear-by-linear
   association test is computed and the direction of the alternative hypothesis
   can be specified using the \code{alternative} argument.  This extension was
-  given by Birch (1965) who also discussed the situation when either the
-  response or the measurement condition is an ordered factor; see also White,
-  Landis and Cooper (1982).
+  given by \bibcitet{coin::birch_1965} who also discussed the situation when either the
+  response or the measurement condition is an ordered factor; see also
+  \bibcitet{coin::white_1982}.
 
   The conditional null distribution of the test statistic is used to obtain
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
@@ -88,48 +96,7 @@
   This function is currently computationally inefficient for data with a large
   number of pairs or sets.
 }
-\references{
-  Agresti, A.  (2002).  \emph{Categorical Data Analysis}, Second Edition.
-  Hoboken, New Jersey: John Wiley & Sons.
-
-  %% Bhapkar, V. P.  (1966).  A note on the equivalence of two test criteria for
-  %% hypotheses in categorical data.  \emph{Journal of the American Statistical
-  %% Association} \bold{61}(313), 228--235.  \doi{10.1080/01621459.1966.10502021}
-
-  Birch, M. W.  (1965).  The detection of partial association, II: The general
-  case.  \emph{Journal of the Royal Statistical Society} B \bold{27}(1),
-  111--124.  \doi{10.1111/j.2517-6161.1965.tb00593.x}
-
-  Cochran, W. G.  (1950).  The comparison of percentages in matched
-  samples.  \emph{Biometrika} \bold{37}(3/4), 256--266.
-  \doi{10.1093/biomet/37.3-4.256}
-
-  %% Ireland, C. T., Ku, H. H. and Kullback, S.  (1969).  Symmetry and marginal
-  %% homogeneity of an \eqn{r \times r} contingency table.  \emph{Journal of the
-  %% American Statistical Association} \bold{64}(328), 1323--1341.
-  %% \doi{10.1080/01621459.1969.10501059}
-
-  Madansky, A.  (1963).  Tests of homogeneity for correlated samples.
-  \emph{Journal of the American Statistical Association} \bold{58}(301),
-  97--119.  \doi{10.1080/01621459.1963.10500835}
-
-  Maxwell, A. E.  (1970).  Comparing the classification of subjects by two
-  independent judges.  \emph{British Journal of Psychiatry} \bold{116}(535),
-  651--655.  \doi{10.1192/bjp.116.535.651}
-
-  McNemar, Q.  (1947).  Note on the sampling error of the difference between
-  correlated proportions or percentages.  \emph{Psychometrika} \bold{12}(2),
-  153--157.  \doi{10.1007/BF02295996}
-
-  Stuart, A.  (1955).  A test for homogeneity of the marginal distributions in a
-  two-way classification.  \emph{Biometrika} \bold{42}(3/4), 412--416.
-  \doi{10.1093/biomet/42.3-4.412}
-
-  White, A. A., Landis, J. R. and Cooper, M. M.  (1982).  A note on the
-  equivalence of several marginal homogeneity test criteria for categorical
-  data.  \emph{International Statistical Review} \bold{50}(1), 27--34.
-  \doi{10.2307/1402457}
-}
+\references{\bibshow{*}}
 \examples{
 ## Performance of prime minister
 ## Agresti (2002, p. 409)

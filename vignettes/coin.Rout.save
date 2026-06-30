@@ -186,8 +186,7 @@ alternative hypothesis: two.sided
 
 > pvalue(it, method = "single-step")
 Warning in .local(object, ...) :
-  p-values may be incorrect due to violation
-  of the subset pivotality condition
+  p-values may be incorrect due to violation of the subset pivotality condition
                
 II - I   0.6618
 III - I  0.0399
@@ -196,7 +195,16 @@ III - II 0.0001
 IV - II  0.0001
 IV - III 0.9989
 
+> thisdir <- getwd()
+
+> bibfile <- system.file("REFERENCES.bib", package = "coin")
+
+> if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
++     bibfile <- "REFERENCES.bib"
++ } else {
++     bibfile <- file.path("..", "inst", "REF ..." ... [TRUNCATED] 
+
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.28    0.10    1.43 
+  0.784   0.090   0.867 

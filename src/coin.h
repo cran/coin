@@ -63,22 +63,22 @@ extern SEXP R_outersum
 
 
 /* StreitbergRoehmel.c */
-extern SEXP R_cpermdist2
+extern SEXP R_dpermdist2
 (
-    SEXP score_b,
-    SEXP m_a
+    SEXP x,
+    SEXP m
 );
 
-extern SEXP R_cpermdist1
+extern SEXP R_dpermdist1
 (
-    SEXP scores
+    SEXP x
 );
 
 
 /* vandeWiel.c */
 extern SEXP R_split_up_2sample
 (
-    SEXP scores,
+    SEXP x,
     SEXP m,
     SEXP obs,
     SEXP tol

@@ -35,8 +35,8 @@
   }
 }
 \note{
-  Starting with \pkg{coin} version 1.3-0, this class is deprecated and will be
-  replaced by class \code{"NullDistribution"}.  \strong{It will be made defunct
-    and removed in a future release.}
+  Starting with version 1.3-0, this class is deprecated and will be replaced by
+  class \code{"NullDistribution"}.  \strong{It will be made defunct and removed
+    in a future release.}
 }
 \keyword{classes}

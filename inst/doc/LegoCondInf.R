@@ -299,3 +299,15 @@ plot(site, pite, type = "S", ylab = "Probability", xlab = "Standardized Statisti
 lines(site, pita, lty = 3)
 
 
+###################################################
+### code chunk number 32: bib
+###################################################
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}

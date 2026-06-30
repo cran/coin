@@ -443,7 +443,7 @@ try(friedman_test(y ~ x + x2 | b, data = dta))
 try(friedman_test(y ~ x2 | b, data = dta)) # was ok
 
 ### friedman_test didn't warn on weights
-try(friedman_test(y ~ x | b, data = dta,  weights = ~ w))
+try(friedman_test(y ~ x | b, data = dta, weights = ~ w))
 
 ### chisq_test ignored xtrafo and ytrafo
 chisq_test(as.table(jobsatisfaction[, , "Female"]),
@@ -612,3 +612,25 @@ try(independence_test(tab, distr = exact(), teststat = "quad"))
 
 ### partial matching of teststat
 it <- independence_test(y ~ x, test = "quadratic")
+
+### failed to print in R >= 4.2.0
+zheng_trafo(gl(3, 1, ordered = TRUE), increment = 1)
+
+### weights appeared to work for the sign and Wilcoxon signed-rank tests
+y1 <- rnorm(5)
+y2 <- rnorm(5)
+w1 <- rep(2, length(y1))
+w2 <- rep(2, 2 * length(y1))
+try(sign_test(y1 ~ y2, weights = ~ w1))
+try(sign_test(y1 ~ y2, weights = ~ w2))
+try(wilcoxsign_test(y1 ~ y2, weights = ~ w1))
+try(wilcoxsign_test(y1 ~ y2, weights = ~ w2))
+
+dta <- data.frame(y = c(y1, y2), x = gl(2, length(y1)),
+                  block = factor(rep(seq_along(y1), 2)))
+try(sign_test(y ~ x | block, data = dta, weights = ~ w1))
+try(sign_test(y ~ x | block, data = dta, weights = ~ w2))
+try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w1))
+try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w2))
+
+

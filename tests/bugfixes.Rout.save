@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2023-07-23 r84741 ucrt) -- "Unsuffered Consequences"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64
+R version 4.6.1 (2026-06-24) -- "Happy Hop"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -486,9 +486,10 @@ alternative hypothesis: true mu is not equal to 0
 > try(wilcoxsign_test(x ~ y))
 Error in wilcoxsign_test.SymmetryProblem(object = new("SymmetryProblem",  : 
   all pairwise differences equal zero
-In addition: Warning message:
-In max(abs(object@weights - floor(object@weights))) :
+In addition: Warning messages:
+1: In max(abs(object@weights - floor(object@weights))) :
   no non-missing arguments to max; returning -Inf
+2: In max(abs(x - 1)) : no non-missing arguments to max; returning -Inf
 > 
 > ### problem in coin 1.0-12 fixed
 > x <- c(1, 2, 3)
@@ -733,7 +734,7 @@ Error in validityMethod(object) :
   'object' is not a an unreplicated complete block design
 > 
 > ### friedman_test didn't warn on weights
-> try(friedman_test(y ~ x | b, data = dta,  weights = ~ w))
+> try(friedman_test(y ~ x | b, data = dta, weights = ~ w))
 Error in validityMethod(object) : 
   class "SymmetryProblem" does not (yet) support weights
 > 
@@ -995,6 +996,54 @@ Error in .local(object, ...) :
 > ### partial matching of teststat
 > it <- independence_test(y ~ x, test = "quadratic")
 > 
+> ### failed to print in R >= 4.2.0
+> zheng_trafo(gl(3, 1, ordered = TRUE), increment = 1)
+  gamma = (0, 0, 1) gamma = (0, 1, 1)
+1                 0                 0
+2                 0                 1
+3                 1                 1
+> 
+> ### weights appeared to work for the sign and Wilcoxon signed-rank tests
+> y1 <- rnorm(5)
+> y2 <- rnorm(5)
+> w1 <- rep(2, length(y1))
+> w2 <- rep(2, 2 * length(y1))
+> try(sign_test(y1 ~ y2, weights = ~ w1))
+Error in validObject(.Object) : 
+  invalid class "SymmetryProblem" object: FALSE
+> try(sign_test(y1 ~ y2, weights = ~ w2))
+Error in validityMethod(object) : 
+  class "SymmetryProblem" does not (yet) support weights
+In addition: Warning message:
+In (function (..., row.names = NULL, check.rows = FALSE, check.names = TRUE,  :
+  row names were found from a short variable and have been discarded
+> try(wilcoxsign_test(y1 ~ y2, weights = ~ w1))
+Error in validObject(.Object) : 
+  invalid class "SymmetryProblem" object: FALSE
+> try(wilcoxsign_test(y1 ~ y2, weights = ~ w2))
+Error in validityMethod(object) : 
+  class "SymmetryProblem" does not (yet) support weights
+In addition: Warning message:
+In (function (..., row.names = NULL, check.rows = FALSE, check.names = TRUE,  :
+  row names were found from a short variable and have been discarded
+> 
+> dta <- data.frame(y = c(y1, y2), x = gl(2, length(y1)),
++                   block = factor(rep(seq_along(y1), 2)))
+> try(sign_test(y ~ x | block, data = dta, weights = ~ w1))
+Error in validObject(.Object) : 
+  invalid class "SymmetryProblem" object: FALSE
+> try(sign_test(y ~ x | block, data = dta, weights = ~ w2))
+Error in validityMethod(object) : 
+  class "SymmetryProblem" does not (yet) support weights
+> try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w1))
+Error in validObject(.Object) : 
+  invalid class "SymmetryProblem" object: FALSE
+> try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w2))
+Error in validityMethod(object) : 
+  class "SymmetryProblem" does not (yet) support weights
+> 
+> 
+> 
 > proc.time()
    user  system elapsed 
-   3.17    0.35    3.53 
+  1.350   0.068   1.416 

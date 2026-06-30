@@ -48,7 +48,7 @@
   }
 }
 \details{
-  This study is based on fieldwork conducted in three lowland oak forests in the
+  This study \bibcitep{coin::Mueller:2004:EurJForRes} is based on fieldwork conducted in three lowland oak forests in the
   Franconian region of northern Bavaria close to Uffenheim, Germany.  Diurnal
   breeding birds were sampled five times, from March to June 2002, using a
   quantitative grid mapping.  Each grid was a one-hectare square.  In total, 86
@@ -57,13 +57,7 @@
   with a stop in the centre.  Environmental factors were measured for each
   grid.
 }
-\references{
-  \enc{Müller}{Mueller}, J. and Hothorn, T.  (2004).  Maximally selected
-  two-sample statistics as a new tool for the identification and assessment of
-  habitat factors with an application to breeding bird communities in oak
-  forests.  \emph{European Journal of Forest Research} \bold{123}(3), 219--228.
-  \doi{10.1007/s10342-004-0035-5}
-}
+\source{\bibshow{*}}
 \examples{
 ## Asymptotic maximally selected statistics
 maxstat_test(counts ~ age + coverstorey + coverregen + meanregen +

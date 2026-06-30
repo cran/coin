@@ -9,6 +9,9 @@
 \let\proglang=\textsf
 \newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
 
+%% hyperlinked dois in jss refstyle
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\normalfont\texttt{\@doi{#1}}}}
+
 
 \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
@@ -506,6 +509,18 @@ We would like to thank Helmut Strasser for discussions on the theoretical framew
 Henric Winell provided clarification and examples for the Stuart-Maxwell test.
 
 \bibliographystyle{jss}
-\bibliography{coin}
+
+<<bib, echo = FALSE>>=
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}
+@
+\bibliography{\Sexpr{bibfile}}
 
 \end{document}

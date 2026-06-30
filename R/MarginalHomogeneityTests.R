@@ -1,9 +1,10 @@
 ### marginal homogeneity test
 mh_test <- function(object, ...) UseMethod("mh_test")
 
-mh_test.formula <- function(formula, data = list(), subset = NULL, ...) {
+mh_test.formula <- function(formula, data = list(), subset = NULL,
+    weights = NULL, ...) {
 
-    ft("mh_test", "SymmetryProblem", formula, data, subset,
+    ft("mh_test", "SymmetryProblem", formula, data, subset, weights,
        frame = parent.frame(), ...)
 }
 

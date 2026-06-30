@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2023-07-23 r84741 ucrt) -- "Unsuffered Consequences"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64
+R version 4.6.1 (2026-06-24) -- "Happy Hop"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -20,7 +20,6 @@ Type 'q()' to quit R.
 > pkgname <- "coin"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
-> options(pager = "console")
 > library('coin')
 Loading required package: survival
 > 
@@ -872,8 +871,7 @@ chi-squared = 22.852, p-value < 1e-04
 > ## Sites (I = II) != (III = IV) at alpha = 0.01 (p. 244)
 > pvalue(it, method = "single-step") # subset pivotality is violated
 Warning in .local(object, ...) :
-  p-values may be incorrect due to violation
-  of the subset pivotality condition
+  p-values may be incorrect due to violation of the subset pivotality condition
                 
 II - I   0.94868
 III - I  0.00876
@@ -1151,11 +1149,13 @@ sample estimates:
 > 
 > ## Breast cancer data (Hothorn and Lausen, 2003, Sec. 7.3)
 > ## Asymptotic maximally selected statistics
-> data("sphase", package = "TH.data")
-> maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
-+              ytrafo = function(data)
-+                  trafo(data, surv_trafo = function(y)
-+                      logrank_trafo(y, ties.method = "Hothorn-Lausen")))
+> if (requireNamespace("TH.data")) {
++   data("sphase", package = "TH.data")
++   maxstat_test(Surv(RFS, event) ~  SPF, data = sphase,
++                ytrafo = function(data)
++                    trafo(data, surv_trafo = function(y)
++                        logrank_trafo(y, ties.method = "Hothorn-Lausen")))
++ }
 
 	Asymptotic Generalized Maximally Selected Statistics
 
@@ -1822,8 +1822,7 @@ alternative hypothesis: two.sided
 > ## Wide Angle vs. Round Out differ (Hollander and Wolfe, 1999, p. 296)
 > pvalue(st, method = "single-step") # subset pivotality is violated
 Warning in .local(object, ...) :
-  p-values may be incorrect due to violation
-  of the subset pivotality condition
+  p-values may be incorrect due to violation of the subset pivotality condition
                                      
 Narrow Angle - Round Out  0.623934656
 Wide Angle - Round Out    0.003358314
@@ -2994,8 +2993,7 @@ alternative hypothesis: two.sided
 > ## Joint distribution step-down p-values
 > pvalue(it, method = "step-down") # subset pivotality is violated
 Warning in .local(object, ...) :
-  p-values may be incorrect due to violation
-  of the subset pivotality condition
+  p-values may be incorrect due to violation of the subset pivotality condition
                
 II - I   0.4284
 III - I  0.0213
@@ -3223,7 +3221,7 @@ Right.Eye                  -3.448397
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  13.18 1.39 14.58 NA NA 
+Time elapsed:  5.724 0.616 6.347 0 0 
 > grDevices::dev.off()
 null device 
           1 

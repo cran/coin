@@ -82,9 +82,9 @@
   limitations in the \pkg{mvtnorm} package.  The support of exact permutation
   distributions obtained by the split-up algorithm is reported as \code{NA}.
 
-  In versions of \pkg{coin} prior to 1.1-0, the support of asymptotic
-  permutation distributions was given as an interval containing 99.999 \% of the
-  probability mass.  It is now reported as \code{NA}.
+  In versions prior to 1.1-0, the support of asymptotic permutation
+  distributions was given as an interval containing 99.999 \% of the probability
+  mass.  It is now reported as \code{NA}.
 }
 \examples{
 ## Two-sample problem

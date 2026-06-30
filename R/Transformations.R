@@ -456,7 +456,7 @@ zheng_trafo <- function(x, increment = 0.1) {
     scores <- rbind(0, .ordered_scores(r, seq.int(0, 1, increment)), 1)
 
     ## compute colnames
-    cn <- format(scores, digits = min(n_decimal_digits(increment), 4),
+    cn <- format(scores, digits = max(1, min(.ndecimals(increment), 4)),
                  scientific = FALSE)
     cn <- vapply(seq_len(ncol(cn)), function(i)
                      paste0(if (is_ytrafo()) "eta" else "gamma",

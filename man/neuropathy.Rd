@@ -19,14 +19,9 @@
   }
 }
 \details{
-  Data from Conover and Salsburg (1988, Tab. 1).
+  Data from \bibcitet{|coin::Conover_1988|Tab. 1}.
 }
-\source{
-  Conover, W. J. and Salsburg, D. S.  (1988).  Locally most powerful tests for
-  detecting treatment effects when only a subset of patients can be expected to
-  \dQuote{respond} to treatment.  \emph{Biometrics} \bold{44}(1), 189--196.
-  \doi{10.2307/2531906}
-}
+\source{\bibshow{*}}
 \examples{
 ## Conover and Salsburg (1988, Tab. 2)
 

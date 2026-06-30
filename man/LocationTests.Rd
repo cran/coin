@@ -98,9 +98,9 @@
   \code{normal_test()}, \code{median_test()} and \code{savage_test()} provide
   the Fisher-Pitman permutation test, the Wilcoxon-Mann-Whitney test, the
   Kruskal-Wallis test, the van der Waerden test, the Brown-Mood median test and
-  the Savage test.  A general description of these methods is given by Hollander
-  and Wolfe (1999). For the adjustment of scores for tied values see
-  \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak} and Sen (1999, pp. 133--135).
+  the Savage test.  A general description of these methods is given by
+  \bibcitet{coin::hollanderwolfe1999}.For the adjustment of scores for tied values see
+  \bibcitet{|coin::theory-of-:-1999|pp. 133--135}.
 
   The null hypothesis of equality, or conditional equality given \code{block},
   of the distribution of \code{y} in the groups defined by \code{x} is tested
@@ -111,7 +111,7 @@
     0}{H_0: mu >= 0}.  When \code{alternative = "greater"}, the null hypothesis
   is \eqn{H_0\!: \mu \le 0}{H_0: mu <= 0}.  Confidence intervals for the
   difference in location are available (except for \code{oneway_test()}) and
-  computed according to Bauer (1972).
+  computed according to \bibcitet{coin::bauer_1972}.
 
   If \code{x} is an ordered factor, the default scores, \code{1:nlevels(x)}, can
   be altered using the \code{scores} argument (see
@@ -130,8 +130,7 @@
   pooled sample.  If \code{mid-score = "0.5"} is selected, the linear test
   statistic is the mean of the test statistics corresponding to the first and
   last alternatives and has a symmetric distribution, or at least approximately
-  so, under the null hypothesis (see \enc{Hájek}{Hajek}, \enc{Šidák}{Sidak}
-  and Sen, 1999, pp. 97--98).
+  so, under the null hypothesis \bibcitep{see|coin::theory-of-:-1999|pp. 97--98}.
 
   The conditional null distribution of the test statistic is used to obtain
   \eqn{p}-values and an asymptotic approximation of the exact distribution is
@@ -147,22 +146,12 @@
   Confidence intervals can be extracted by \code{\link[stats]{confint}()}.
 }
 \note{
-  Starting with \pkg{coin} version 1.1-0, \code{oneway_test()} no longer allows
-  the test statistic to be specified; a quadratic form is now used in the
-  \eqn{K}-sample case.  Please use \code{\link{independence_test}()} if more
-  control is desired.
+  Starting with version 1.1-0, \code{oneway_test()} no longer allows the test
+  statistic to be specified; a quadratic form is now used in the \eqn{K}-sample
+  case.  Please use \code{\link{independence_test}()} if more control is
+  desired.
 }
-\references{
-  Bauer, D. F.  (1972).  Constructing confidence sets using rank statistics.
-  \emph{Journal of the American Statistical Association} \bold{67}(339),
-  687--690.  \doi{10.1080/01621459.1972.10481279}
-
-  \enc{Hájek}{Hajek}, J., \enc{Šidák}{Sidak}, Z. and Sen, P. K.  (1999).
-  \emph{Theory of Rank Tests}, Second Edition.  San Diego: Academic Press.
-
-  Hollander, M. and Wolfe, D. A.  (1999).  \emph{Nonparametric Statistical
-    Methods}, Second Edition.  New York: John Wiley & Sons.
-}
+\references{\bibshow{*}}
 \examples{\dontshow{options(useFancyQuotes = FALSE)}
 ## Tritiated Water Diffusion Across Human Chorioamnion
 ## Hollander and Wolfe (1999, p. 110, Tab. 4.1)

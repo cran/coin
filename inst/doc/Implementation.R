@@ -210,13 +210,13 @@ independence_test(y ~ x, data = correxample, alternative = "less",
 
 
 ###################################################
-### code chunk number 23: Implementation.Rnw:867-868
+### code chunk number 23: Implementation.Rnw:866-867
 ###################################################
 mood_score <- function(y) (rank_trafo(y) - (sum(!is.na(y)) + 1) / 2)^2
 
 
 ###################################################
-### code chunk number 24: Implementation.Rnw:872-881
+### code chunk number 24: Implementation.Rnw:871-880
 ###################################################
 ip <- new("IndependenceProblem",
   y = rotarod["time"], x = rotarod["group"])
@@ -230,7 +230,7 @@ new("ScalarIndependenceTest", statistic = sits,
 
 
 ###################################################
-### code chunk number 25: Implementation.Rnw:885-887
+### code chunk number 25: Implementation.Rnw:884-886
 ###################################################
 independence_test(time ~ group, data = rotarod, ytrafo = mood_score,
   distribution = exact(algorithm = "split-up"))
@@ -311,3 +311,15 @@ pvalue(independence_test(js, teststat = "maximum"),
 ##   package = "coin"))
 
 
+###################################################
+### code chunk number 36: bib
+###################################################
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "coin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}

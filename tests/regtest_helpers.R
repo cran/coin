@@ -849,25 +849,25 @@ stopifnot( isTRUE(z %LT% x))
 
 
 ###
-### Test the 'n_decimal_digits' function
+### Test the '.ndecimals' function
 ###
 
-n_decimal_digits <- coin:::n_decimal_digits
+.ndecimals <- coin:::.ndecimals
 
-stopifnot(identical(2L, n_decimal_digits(     -1.01 )))
-stopifnot(identical(2L, n_decimal_digits(     -0.01 )))
-stopifnot(identical(1L, n_decimal_digits(     -0.1  )))
-stopifnot(identical(0L, n_decimal_digits(     -0.0  )))
-stopifnot(identical(0L, n_decimal_digits(      0    )))
-stopifnot(identical(0L, n_decimal_digits(      0.0  )))
-stopifnot(identical(1L, n_decimal_digits(      0.1  )))
-stopifnot(identical(2L, n_decimal_digits(      0.01 )))
-stopifnot(identical(2L, n_decimal_digits(      1.01 )))
+stopifnot(identical(2L, .ndecimals(     -1.01 )))
+stopifnot(identical(2L, .ndecimals(     -0.01 )))
+stopifnot(identical(1L, .ndecimals(     -0.1  )))
+stopifnot(identical(0L, .ndecimals(     -0.0  )))
+stopifnot(identical(0L, .ndecimals(      0    )))
+stopifnot(identical(0L, .ndecimals(      0.0  )))
+stopifnot(identical(1L, .ndecimals(      0.1  )))
+stopifnot(identical(2L, .ndecimals(      0.01 )))
+stopifnot(identical(2L, .ndecimals(      1.01 )))
 
-stopifnot(identical(2L, n_decimal_digits(c(0, -1.01))))
-stopifnot(identical(2L, n_decimal_digits(c(0, -0.01))))
-stopifnot(identical(1L, n_decimal_digits(c(0, -0.1 ))))
-stopifnot(identical(0L, n_decimal_digits(c(0,  0   ))))
-stopifnot(identical(1L, n_decimal_digits(c(0,  0.1 ))))
-stopifnot(identical(2L, n_decimal_digits(c(0,  0.01))))
-stopifnot(identical(2L, n_decimal_digits(c(0,  1.01))))
+stopifnot(identical(2L, .ndecimals(c(0, -1.01))))
+stopifnot(identical(2L, .ndecimals(c(0, -0.01))))
+stopifnot(identical(1L, .ndecimals(c(0, -0.1 ))))
+stopifnot(identical(0L, .ndecimals(c(0,  0   ))))
+stopifnot(identical(1L, .ndecimals(c(0,  0.1 ))))
+stopifnot(identical(2L, .ndecimals(c(0,  0.01))))
+stopifnot(identical(2L, .ndecimals(c(0,  1.01))))

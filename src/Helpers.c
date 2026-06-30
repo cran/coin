@@ -36,26 +36,32 @@ SEXP R_unpack_sym(SEXP x, SEXP names, SEXP diagonly) {
     return(libcoin_R_unpack_sym(x, names, diagonly));
 }
 
-int nrow(SEXP x) {
+R_xlen_t NROW(SEXP x) {
     SEXP a;
+    R_xlen_t ret;
 
-    a = getAttrib(x, R_DimSymbol);
+    PROTECT(a = getAttrib(x, R_DimSymbol));  // rchk warning
     if (a == R_NilValue) {
-        return(LENGTH(x));
-    } else {
-        return(INTEGER(a)[0]);
+        UNPROTECT(1);
+        return(XLENGTH(x));
     }
+    ret = (R_xlen_t) INTEGER(a)[0];
+    UNPROTECT(1);
+    return ret;
 }
 
-int ncol(SEXP x) {
+int NCOL(SEXP x) {
     SEXP a;
+    int ret;
 
-    a = getAttrib(x, R_DimSymbol);
+    PROTECT(a = getAttrib(x, R_DimSymbol));  // rchk warning
     if (a == R_NilValue) {
-        return(1);
-    } else {
-        return(INTEGER(a)[1]);
+        UNPROTECT(1);
+        return 1;
     }
+    ret = INTEGER(a)[1];
+    UNPROTECT(1);
+    return ret;
 }
 
 SEXP R_maxstattrafo(SEXP x, SEXP cutpoints) {
@@ -139,12 +145,12 @@ SEXP R_outersum(SEXP A, SEXP B) {
     if (!isReal(A) || !isReal(B))
         error("R_outersum: A and / or B are not of type REALSXP");
 
-    m = nrow(A);
-    n = ncol(A);
-    r = nrow(B);
-    s = ncol(B);
+    m = NROW(A);
+    n = NCOL(A);
+    r = NROW(B);
+    s = NCOL(B);
 
-    PROTECT(ans = allocVector(REALSXP, m * n * r * s));
+    PROTECT(ans = allocMatrix(REALSXP, m * n, r * s));
     C_outersum(REAL(A), m, n, REAL(B), r, s, REAL(ans));
     UNPROTECT(1);
     return(ans);

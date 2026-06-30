@@ -24,20 +24,10 @@
 }
 \details{
   Subjects with Alzheimer's disease are compared to two different control groups
-  with respect to smoking history.  The data are given in Salib and Hillier
-  (1997, Tab. 4).
+  with respect to smoking history.  The data are given in
+  \bibcitet{|salibhillier1997|Tab. 4}.
 }
-\source{
-  Salib, E. and Hillier, V.  (1997).  A case-control study of smoking and
-  Alzheimer's disease.  \emph{International Journal of Geriatric Psychiatry}
-  \bold{12}(3), 295--300.
-  \doi{10.1002/(SICI)1099-1166(199703)12:3<295::AID-GPS476>3.0.CO;2-3}
-}
-\references{
-  Hothorn, T., Hornik, K., van de Wiel, M. A. and Zeileis, A.  (2006).  A Lego
-  system for conditional inference.  \emph{The American Statistician}
-  \bold{60}(3), 257--263.  \doi{10.1198/000313006X118430}
-}
+\source{\bibshow{*}}
 \examples{
 ## Spineplots
 op <- par(no.readonly = TRUE) # save current settings

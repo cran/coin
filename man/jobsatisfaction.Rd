@@ -24,19 +24,11 @@
   }
 }
 \details{
-  This data set was given in Agresti (2002, p. 288, Tab. 7.8).  Winell and
-  \enc{Lindbäck}{Lindbaeck} (2018) used the data to demonstrate a
+  This data set was given in \bibcitet{|coin::agresti2002|Tab. 7.8 on p. 288}.  
+  \bibcitet{coin::winell_2018} used the data to demonstrate a
   score-independent test for ordered categorical data.
 }
-\source{
-  Agresti, A.  (2002).  \emph{Categorical Data Analysis}, Second Edition.
-  Hoboken, New Jersey: John Wiley & Sons.
-}
-\references{
-  Winell, H. and \enc{Lindbäck}{Lindbaeck}, J.  (2018).  A general
-  score-independent test for order-restricted inference.  \emph{Statistics in
-    Medicine} \bold{37}(21), 3078--3090.  \doi{10.1002/sim.7690}
-}
+\references{\bibshow{*}}
 \examples{
 ## Approximative (Monte Carlo) linear-by-linear association test
 lbl_test(jobsatisfaction, distribution = approximate(nresample = 10000))
