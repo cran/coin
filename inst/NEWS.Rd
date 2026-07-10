@@ -3,6 +3,20 @@
 \name{NEWS}
 \title{News for Package \pkg{coin}}
 
+\section{Changes in version 1.4-5 (2026-07-10)}{
+  \subsection{Bug fixes}{
+    \itemize{
+      \item Fix bibtex issues reported by Sebastian Meyer.
+      \item Update \code{structure} calls.
+    }
+  }
+  \subsection{Other changes}{
+    \itemize{
+      \item Update \code{structure} calls.
+    }
+  }
+}
+
 \section{Changes in version 1.4-4 (2026-06-29)}{
   \subsection{Bug fixes}{
     \itemize{

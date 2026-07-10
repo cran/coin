@@ -787,7 +787,7 @@ and logrank scores---have been employed.
 In the fourth application, we will show how the Lego system can be used
 to construct new bricks and implement a newly invented test procedure.
 
-\cite{Rosenbaum1994a} proposed to compare groups by means of a
+\cite{Rosenbaum_1994} proposed to compare groups by means of a
 \textit{coherence criterion} and studied a data set of subjects
 who ate contaminated fish for more than three years in
 the `exposed' group ($n = 23$) and a control group ($n = 16$).

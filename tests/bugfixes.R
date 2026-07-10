@@ -219,7 +219,7 @@ wilcoxsign_test(x ~ y, alternative = "greater",
 ### inconsistencies with confidence intervals
 ### spotted by Fritz Scholz <fscholz@u.washington.edu>
 Route = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L,
-2L, 2L, 2L), .Label = c("A", "B"), class = "factor")
+2L, 2L, 2L), levels = c("A", "B"), class = "factor")
 Route.Time = c(5.8, 5.8, 5.9, 6, 6, 6, 6.3, 6.3, 6.4, 6.5, 6.5, 6.5,
 6.8, 7.1, 7.3, 10.2)
 Route2 <- factor(as.character(Route), levels = c("B", "A"))

@@ -1,5 +1,5 @@
 
-R version 4.6.1 (2026-06-24) -- "Happy Hop"
+R Under development (unstable) (2026-07-10 r90226) -- "Unsuffered Consequences"
 Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu
 
@@ -316,7 +316,7 @@ alternative hypothesis: true mu is greater than 0
 > ### inconsistencies with confidence intervals
 > ### spotted by Fritz Scholz <fscholz@u.washington.edu>
 > Route = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L,
-+ 2L, 2L, 2L), .Label = c("A", "B"), class = "factor")
++ 2L, 2L, 2L), levels = c("A", "B"), class = "factor")
 > Route.Time = c(5.8, 5.8, 5.9, 6, 6, 6, 6.3, 6.3, 6.4, 6.5, 6.5, 6.5,
 + 6.8, 7.1, 7.3, 10.2)
 > Route2 <- factor(as.character(Route), levels = c("B", "A"))
@@ -1046,4 +1046,4 @@ Error in validityMethod(object) :
 > 
 > proc.time()
    user  system elapsed 
-  1.350   0.068   1.416 
+  1.309   0.106   1.397 
