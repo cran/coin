@@ -10,6 +10,7 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+symmetry_test(object, ...)
 \method{symmetry_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{symmetry_test}{table}(object, ...)
 \method{symmetry_test}{SymmetryProblem}(object, teststat = c("maximum", "quadratic", "scalar"),

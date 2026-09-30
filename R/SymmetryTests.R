@@ -50,9 +50,11 @@ sign_test.SymmetryProblem <- function(object, ...) {
     diffs <- diffs[abs_diffs > 0]
     n <- length(diffs)
 
-    object@x <- data.frame(x = gl(2, 1, 2 * n, labels = c("pos", "neg")))
-    object@y <- data.frame(y = as.numeric(rbind(diffs > 0, diffs < 0)))
-    object@block <- gl(n, 2)
+    ### <FIXME> ignores (yet nonexistent weights) </FIXME>
+    object <- new("SymmetryProblem", 
+        x = data.frame(x = gl(2, 1, 2 * n, labels = c("pos", "neg"))),
+        y = data.frame(y = as.numeric(rbind(diffs > 0, diffs < 0))),
+        block = gl(n, 2))
 
     args <- setup_args(teststat = "scalar", paired = TRUE)
 
@@ -131,9 +133,11 @@ wilcoxsign_test.SymmetryProblem <- function(object,
     neg <- rank_abs_diffs * (diffs < 0)
     n <- length(pos)
 
-    object@x <- data.frame(x = gl(2, 1, 2 * n, labels = c("pos", "neg")))
-    object@y <- data.frame(y = as.vector(rbind(pos, neg)))
-    object@block <- gl(n, 2)
+    ### <FIXME> ignores (yet nonexistent weights) </FIXME>
+    object <- new("SymmetryProblem", 
+        x = data.frame(x = gl(2, 1, 2 * n, labels = c("pos", "neg"))),
+        y = data.frame(y = as.vector(rbind(pos, neg))),
+        block = gl(n, 2))
 
     args <- setup_args(teststat = "scalar", paired = TRUE)
 

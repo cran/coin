@@ -21,17 +21,21 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+spearman_test(object, ...)
 \method{spearman_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{spearman_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"), ...)
 
+fisyat_test(object, ...)
 \method{fisyat_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{fisyat_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
             ties.method = c("mid-ranks", "average-scores"), ...)
 
+quadrant_test(object, ...)
 \method{quadrant_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{quadrant_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
               mid.score = c("0", "0.5", "1"), ...)
 
+koziol_test(object, ...)
 \method{koziol_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{koziol_test}{IndependenceProblem}(object, distribution = c("asymptotic", "approximate", "none"),
             ties.method = c("mid-ranks", "average-scores"), ...)

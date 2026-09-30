@@ -20,14 +20,17 @@
   Testing the independence of two nominal or ordered factors.
 }
 \usage{
+chisq_test(object, ...)
 \method{chisq_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{chisq_test}{table}(object, ...)
 \method{chisq_test}{IndependenceProblem}(object, ...)
 
+cmh_test(object, ...)
 \method{cmh_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{cmh_test}{table}(object, ...)
 \method{cmh_test}{IndependenceProblem}(object, ...)
 
+lbl_test(object, ...)
 \method{lbl_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{lbl_test}{table}(object, ...)
 \method{lbl_test}{IndependenceProblem}(object, ...)

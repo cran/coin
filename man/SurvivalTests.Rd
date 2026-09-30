@@ -20,6 +20,7 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+logrank_test(object, ...)
 \method{logrank_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{logrank_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "Hothorn-Lausen",
                                      "average-scores"),
@@ -28,6 +29,7 @@
                       "Andersen-Borgan-Gill-Keiding",
                       "Fleming-Harrington", "Gaugler-Kim-Liao", "Self"),
              rho = NULL, gamma = NULL, ...)
+surv_test(object, ...)
 }
 \arguments{
   \item{formula}{

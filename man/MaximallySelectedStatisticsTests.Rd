@@ -11,6 +11,7 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+maxstat_test(object, ...)
 \method{maxstat_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{maxstat_test}{table}(object, ...)
 \method{maxstat_test}{IndependenceProblem}(object, teststat = c("maximum", "quadratic"),

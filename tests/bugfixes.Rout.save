@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2026-07-10 r90226) -- "Unsuffered Consequences"
+R Under development (unstable) (2026-09-29 r90592) -- "Unsuffered Consequences"
 Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu
 
@@ -1009,8 +1009,7 @@ Error in .local(object, ...) :
 > w1 <- rep(2, length(y1))
 > w2 <- rep(2, 2 * length(y1))
 > try(sign_test(y1 ~ y2, weights = ~ w1))
-Error in validObject(.Object) : 
-  invalid class "SymmetryProblem" object: FALSE
+Error in .local(.Object, ...) : 'weights' has incorrect length
 > try(sign_test(y1 ~ y2, weights = ~ w2))
 Error in validityMethod(object) : 
   class "SymmetryProblem" does not (yet) support weights
@@ -1018,8 +1017,7 @@ In addition: Warning message:
 In (function (..., row.names = NULL, check.rows = FALSE, check.names = TRUE,  :
   row names were found from a short variable and have been discarded
 > try(wilcoxsign_test(y1 ~ y2, weights = ~ w1))
-Error in validObject(.Object) : 
-  invalid class "SymmetryProblem" object: FALSE
+Error in .local(.Object, ...) : 'weights' has incorrect length
 > try(wilcoxsign_test(y1 ~ y2, weights = ~ w2))
 Error in validityMethod(object) : 
   class "SymmetryProblem" does not (yet) support weights
@@ -1030,14 +1028,12 @@ In (function (..., row.names = NULL, check.rows = FALSE, check.names = TRUE,  :
 > dta <- data.frame(y = c(y1, y2), x = gl(2, length(y1)),
 +                   block = factor(rep(seq_along(y1), 2)))
 > try(sign_test(y ~ x | block, data = dta, weights = ~ w1))
-Error in validObject(.Object) : 
-  invalid class "SymmetryProblem" object: FALSE
+Error in .local(.Object, ...) : 'weights' has incorrect length
 > try(sign_test(y ~ x | block, data = dta, weights = ~ w2))
 Error in validityMethod(object) : 
   class "SymmetryProblem" does not (yet) support weights
 > try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w1))
-Error in validObject(.Object) : 
-  invalid class "SymmetryProblem" object: FALSE
+Error in .local(.Object, ...) : 'weights' has incorrect length
 > try(wilcoxsign_test(y ~ x | block, data = dta, weights = ~ w2))
 Error in validityMethod(object) : 
   class "SymmetryProblem" does not (yet) support weights
@@ -1046,4 +1042,4 @@ Error in validityMethod(object) :
 > 
 > proc.time()
    user  system elapsed 
-  1.309   0.106   1.397 
+  2.535   0.086   1.533 

@@ -16,6 +16,14 @@ for f in ./man/*~; do
     rm -f $f
 done
 
+for f in ./inst/*~; do
+    rm -f $f
+done
+
+for f in ./vignettes/*~; do
+    rm -f $f
+done
+
 for f in *~; do
     rm -f $f
 done

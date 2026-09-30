@@ -1,5 +1,5 @@
 Package: coin
-Version: 1.4-5
+Version: 1.4-6
 Title: Conditional Inference Procedures in a Permutation Test Framework
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org",
@@ -29,7 +29,7 @@ Encoding: UTF-8
 License: GPL-2
 URL: https://codeberg.org/thothorn/coin/
 BugReports: https://codeberg.org/thothorn/coin/issues
-Packaged: 2026-07-10 09:05:13 UTC; hothorn
+Packaged: 2026-09-29 16:27:33 UTC; hothorn
 Author: Torsten Hothorn [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-8301-0471>),
   Henric Winell [aut] (ORCID: <https://orcid.org/0000-0001-7995-3047>),
@@ -39,4 +39,4 @@ Author: Torsten Hothorn [aut, cre] (ORCID:
   Achim Zeileis [aut] (ORCID: <https://orcid.org/0000-0003-0918-3766>)
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Repository: CRAN
-Date/Publication: 2026-07-10 12:00:13 UTC
+Date/Publication: 2026-09-30 20:30:08 UTC

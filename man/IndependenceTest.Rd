@@ -9,6 +9,7 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+independence_test(object, ...)
 \method{independence_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{independence_test}{table}(object, ...)
 \method{independence_test}{IndependenceProblem}(object, teststat = c("maximum", "quadratic", "scalar"),

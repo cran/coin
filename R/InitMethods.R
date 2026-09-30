@@ -36,12 +36,21 @@ setMethod("initialize",
             stop(sQuote("x"), " contains missing values")
         if (anyNA(y))
             stop(sQuote("y"), " contains missing values")
-        if (!is.null(block) && !is.factor(block))
-            stop(sQuote("block"), " is not a factor")
-        if (!is.null(block) && anyNA(block))
-            stop(sQuote("block"), " contains missing values")
-        if (!is.null(weights) && anyNA(weights))
-            stop(sQuote("weights"), " contains missing values")
+        if (!is.null(block)) {
+            if (!is.factor(block))
+                stop(sQuote("block"), " is not a factor")
+            if (length(block) != NROW(y))
+                stop(sQuote("block"), " has incorrect length")
+            if (anyNA(block))
+                stop(sQuote("block"), " contains missing values")
+        }
+        if (!is.null(weights)) {
+            if (anyNA(weights))
+                stop(sQuote("weights"), " contains missing values")
+            if (length(weights) != NROW(y))
+                stop(sQuote("weights"), " has incorrect length")
+        }
+
 
         .Object@x <- droplevels(x)
         .Object@y <- droplevels(y)
@@ -240,8 +249,20 @@ setMethod("initialize",
             stop(sQuote("x"), " is not a balanced factor")
         if (anyNA(y))
             stop(sQuote("y"), " contains missing values")
-        if (!is.null(block) && anyNA(y))
-            stop(sQuote("block"), " contains missing values")
+        if (!is.null(block)) {
+            if (!is.factor(block))
+                stop(sQuote("block"), " is not a factor")
+            if (length(block) != NROW(y))
+                stop(sQuote("block"), " has incorrect length")
+            if (anyNA(block))
+                stop(sQuote("block"), " contains missing values")
+        }
+        if (!is.null(weights)) {
+            if (anyNA(weights))
+                stop(sQuote("weights"), " contains missing values")
+            if (length(weights) != NROW(y))
+                stop(sQuote("weights"), " has incorrect length")
+        }
 
         .Object@x <- x
         .Object@y <- y

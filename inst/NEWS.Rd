@@ -3,11 +3,19 @@
 \name{NEWS}
 \title{News for Package \pkg{coin}}
 
+\section{Changes in version 1.4-6 (2026-09-29)}{
+  \subsection{Other changes}{
+    \itemize{
+      \item Add checks for length of \code{weights}.
+      \item Avoid non-existing weights in symmetry problems.
+    }
+  }
+}
+
 \section{Changes in version 1.4-5 (2026-07-10)}{
   \subsection{Bug fixes}{
     \itemize{
       \item Fix bibtex issues reported by Sebastian Meyer.
-      \item Update \code{structure} calls.
     }
   }
   \subsection{Other changes}{

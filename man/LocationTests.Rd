@@ -30,23 +30,29 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+oneway_test(object, ...)
 \method{oneway_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{oneway_test}{IndependenceProblem}(object, ...)
 
+wilcox_test(object, ...)
 \method{wilcox_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{wilcox_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 
+kruskal_test(object, ...)
 \method{kruskal_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{kruskal_test}{IndependenceProblem}(object, ...)
 
+normal_test(object, ...)
 \method{normal_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{normal_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
             conf.int = FALSE, conf.level = 0.95, ...)
 
+median_test(object, ...)
 \method{median_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{median_test}{IndependenceProblem}(object, mid.score = c("0", "0.5", "1"),
             conf.int = FALSE, conf.level = 0.95, ...)
 
+savage_test(object, ...)
 \method{savage_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{savage_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
             conf.int = FALSE, conf.level = 0.95, ...)

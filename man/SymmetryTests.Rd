@@ -22,15 +22,19 @@
   block design.
 }
 \usage{
+sign_test(object, ...)
 \method{sign_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{sign_test}{SymmetryProblem}(object, ...)
 
+wilcoxsign_test(object, ...)
 \method{wilcoxsign_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{wilcoxsign_test}{SymmetryProblem}(object, zero.method = c("Pratt", "Wilcoxon"), ...)
 
+friedman_test(object, ...)
 \method{friedman_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{friedman_test}{SymmetryProblem}(object, ...)
 
+quade_test(object, ...)
 \method{quade_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{quade_test}{SymmetryProblem}(object, ...)
 }

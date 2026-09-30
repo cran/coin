@@ -30,25 +30,31 @@
 }
 % NOTE: the markup in the following section is necessary for correct rendering
 \usage{
+taha_test(object, ...)
 \method{taha_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{taha_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 
+klotz_test(object, ...)
 \method{klotz_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{klotz_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
            conf.int = FALSE, conf.level = 0.95, ...)
 
+mood_test(object, ...)
 \method{mood_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{mood_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
           conf.int = FALSE, conf.level = 0.95, ...)
 
+ansari_test(object, ...)
 \method{ansari_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{ansari_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
             conf.int = FALSE, conf.level = 0.95, ...)
 
+fligner_test(object, ...)
 \method{fligner_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{fligner_test}{IndependenceProblem}(object, ties.method = c("mid-ranks", "average-scores"),
              conf.int = FALSE, conf.level = 0.95, ...)
 
+conover_test(object, ...)
 \method{conover_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{conover_test}{IndependenceProblem}(object, conf.int = FALSE, conf.level = 0.95, ...)
 

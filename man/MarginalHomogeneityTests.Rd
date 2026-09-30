@@ -13,6 +13,7 @@
   complete block design.
 }
 \usage{
+mh_test(object, ...)
 \method{mh_test}{formula}(formula, data, subset = NULL, weights = NULL, ...)
 \method{mh_test}{table}(object, ...)
 \method{mh_test}{SymmetryProblem}(object, ...)
